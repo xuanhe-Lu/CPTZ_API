@@ -216,6 +216,8 @@ public class OnUserCat extends Action {
             e.printStackTrace();
             json.addError("系统错误，请稍后再试");
         }
+
+
         return JSON;
     }
 
