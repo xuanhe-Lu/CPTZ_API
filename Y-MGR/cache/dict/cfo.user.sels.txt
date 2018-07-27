@@ -1,0 +1,1 @@
+[{"ID":297,"SNO":"cfo.user.sels","SORTID":1,"REFID":"1","REFVALUE":"UID","DEFCHECK":"0"},{"ID":298,"SNO":"cfo.user.sels","SORTID":2,"REFID":"2","REFVALUE":"姓名","DEFCHECK":"0"},{"ID":299,"SNO":"cfo.user.sels","SORTID":3,"REFID":"3","REFVALUE":"手机号","DEFCHECK":"0"}]

@@ -1,0 +1,345 @@
+﻿Ext.namespace("Ext.order.info.manage");
+Ext.order.info.manage.g_url="mts/order_manage.do";
+Ext.order.info.manage.exportWindow=Ext.extend(Ext.Window,{
+	params:{},
+	constructor:function(){
+		this.form=new Ext.FormPanel({
+			cls:"x-panel-mc",
+			autoHeight:true,
+			border:false,
+			bodyStyle:"padding:5px;",
+			labelWidth:65,
+			items:[{xtype:"fjs-store-radio",name:"Suffix",fieldLabel:"${file.msg.type}",dictId:"system.export.excel",groupcfg:{name:"Suffix"}}]
+		});
+		Ext.order.info.manage.exportWindow.superclass.constructor.call(this,{
+			iconCls:"btn-excel",
+			title:"${file.msg.excel}",
+			width:320,
+			autoHeight:true,
+			border:false,
+			closable:true, 
+			closeAction:"hide",
+			modal:true,
+			plain:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-accept1",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	window_submit:function(){
+		this.params.action="export";
+		this.form.getForm().submit(Ext.fjs.loadAction({url:Ext.order.info.manage.g_url,params:this.params,success:this.apply_success,scope:this}));
+	},
+	apply_success:function(form,opts){
+		Ext.fjs.download("/down.php?filename="+opts.result.message);
+		this.window_close();
+	}
+});
+Ext.order.info.manage.modWindow=Ext.extend(Ext.Window,{
+	constructor:function(grid){
+		this.grid=grid;
+		this.form=new Ext.form.FormPanel({
+			cls:"x-panel-mc",
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"mts/line_form.tpl"},
+			style:"padding-top:0px",
+			items:[
+				{xtype:"displayfield",name:"UID"},
+				{xtype:"displayfield",name:"PHONE"},
+				{xtype:"textfield",fieldLabel:"tags",name:"TAGS",allowBlank:false,boldLabel:true,width:245,maxLength:150},
+				{xtype:"fjs-store-combo",name:"AT",hiddenName:"AT",allowBlank:false,allrec:false,dictId:"mts.line.tops",width:97},
+				{xtype:"fjs-store-combo",hiddenName:"TID",allowBlank:false,allrec:false,dictUrl:"mts/type_line.do?action=tree",width:97},
+				{xtype:"fjs-tree-combo",fieldLabel:"code",name:"CODE",allowBlank:false,allowUnLeafClick:true,boldLabel:true,width:185,listWidth:185,tP:{rootVisible:false,root:{id:"0",text:"${fzm.msg.district}"},sync:false,url:"fjs/dict_region.do?action=tree&tj=3"}},
+				{xtype:"textfield",fieldLabel:"AA",name:"AA",allowBlank:false,boldLabel:true,width:245,maxLength:150},
+				{xtype:"textfield",fieldLabel:"AV",name:"AV",allowBlank:true,boldLabel:true,width:245,maxLength:150},
+				{xtype:"textfield",fieldLabel:"Addr",name:"ADDR",allowBlank:false,boldLabel:true,width:245,maxLength:150},
+				{xtype:"numberfield",fieldLabel:"AI",name:"AI",allowBlank:true,boldLabel:true,width:80,minValue:0,maxValue:200000},
+				{xtype:"numberfield",fieldLabel:"AJ",name:"AJ",allowBlank:true,boldLabel:true,width:80,minValue:0,maxValue:100000},
+				{xtype:"numberfield",fieldLabel:"AK",name:"AK",allowBlank:true,boldLabel:true,width:80,minValue:0,maxValue:200000},
+				{xtype:"numberfield",fieldLabel:"AZ",name:"AZ",allowBlank:false,boldLabel:true,width:80,minValue:0,maxValue:99},
+				{xtype:"textarea",fieldLabel:"AB",name:"AB",boldLabel:true,emptyText:"",maxLength:500,width:500,height:55},
+				{xtype:"textarea",fieldLabel:"AR",name:"AR",boldLabel:true,emptyText:"",maxLength:3000,width:500,height:55},
+				{xtype:"textarea",fieldLabel:"AU",name:"AU",boldLabel:true,emptyText:"",maxLength:1500,width:500,height:63}
+			]
+		});
+		Ext.order.info.manage.modWindow.superclass.constructor.call(this,{
+			iconCls:"btn-edit",
+			title:"${info.msg.edit}",
+			width:680,
+			autoHeight:true,
+			autoScroll:true,
+			border:false,
+			closable:true,
+			closeAction:"hide",
+			plain:true,
+			modal:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-save",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.form.getForm().reset();
+		this.hide();
+	},
+	window_submit:function(){
+		if(Ext.fjs.checkValid(this.form)){
+			this.form.getForm().submit(Ext.fjs.saveAction({url:Ext.order.info.manage.g_url,params:{action:"save",sid:this.sid},success:this.apply_success,scope:this}));
+		}
+	},
+	apply_success:function(from,opts){
+		this.window_close();
+		this.grid.refresh();
+	},
+	loader_success:function(form,opts){
+		var d=opts.result.data;this.show();
+		var f=form.findField("CODE");f.rsetValue(d.CODE);f.setValue(d.CITY);
+	},
+	open:function(sid){
+		this.sid=sid;
+		this.form.getForm().load(Ext.fjs.loadAction({url:Ext.order.info.manage.g_url,params:{action:"getInfo",sid:sid},success:this.loader_success,scope:this}));
+	}
+});
+Ext.order.info.manage.refWindow=Ext.extend(Ext.Window,{
+	constructor:function(){
+		this.form=new Ext.form.FormPanel({
+			cls:"x-panel-mc",
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"mts/line_refuse.tpl"},
+			style:"padding-top:0px",
+			items:[
+				{xtype:"displayfield",name:"AA"},
+				{xtype:"fjs-store-combo",name:"TID",hiddenName:"TID",allowBlank:false,allrec:false,dictId:"mts.line.refuse",width:245},
+				{xtype:"textarea",fieldLabel:"stext",name:"STEXT",boldLabel:true,emptyText:"",maxLength:500,width:245,height:60}
+			]
+		});
+		Ext.order.info.manage.refWindow.superclass.constructor.call(this,{
+			iconCls:"btn-delete",
+			title:"${info.msg.refuse}",
+			width:400,
+			autoHeight:true,
+			autoScroll:true,
+			border:false,
+			closable:true,
+			closeAction:"hide",
+			plain:true,
+			modal:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-save",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	window_submit:function(){
+		if(Ext.fjs.checkValid(this.form)){
+			this.form.getForm().submit(Ext.fjs.saveAction({url:Ext.order.info.manage.g_url,params:{action:"refuse",sid:this.sid},success:this.apply_success,scope:this}));
+		}
+	},
+	apply_success:function(from,opts){
+		var rs=opts.result,r=this.grid.getSelectionModel().getSelected();
+		try{r.set("STATE",rs.state);r.set("STEXT",rs.stext);r.commit()}catch(e){}
+		this.hide();
+	},
+	open:function(g,btn){
+		var get=Ext.fjs.getPKId;this.grid=g;this.sid=get(g,"SID");
+		this.form.getForm().setValues({AA:get(g,"AA"),AB:get(g,"AB"),STEXT:get(g,"STEXT")});
+		this.show(btn.id);
+	}
+});
+Ext.order.info.manage.ListBar=Ext.extend(Ext.grid.GridPanel,{
+	constructor:function(){
+		this.code=0;
+		this.showBtn=new Ext.Button({iconCls:"btn-detail1",text:"${fzm.btn.view}",tooltip:"${fzm.msg.select}",disabled:true,handler:this.show_onclick,scope:this});
+		this.modBtn=new Ext.Button({iconCls:"btn-edit",text:"${fzm.btn.modify}",tooltip:"${fzm.msg.select}",disabled:true,handler:this.mod_onclick,scope:this});
+		this.extBtn=new Ext.Button({iconCls:"btn-excel",text:"${fzm.btn.export}",tooltip:"${fzm.btn.export}",disabled:false,handler:this.export_onclick,scope:this});
+		var sm=new Ext.grid.CheckboxSelectionModel();
+		var cm=new Ext.grid.ColumnModel([
+			sm,new Ext.grid.RowNumber()<s:header id="order.info.manage"/>
+		]);
+		this.store=new Ext.fjs.PageStore({
+			url:Ext.order.info.manage.g_url,
+			baseParams:{action:"list"},
+			fields:[<s:fields id="order.info.manage"/>]
+		});
+		this.store.load({params:{start:0,limit:Ext.fjs.defPSize}});
+		Ext.order.info.manage.ListBar.superclass.constructor.call(this,{
+			region:"center",
+			store:this.store,
+			stripeRows:true,
+			autoScroll:true,
+			boldHeader:true,
+			border:false,
+			closable:true,
+			columnLines:true,
+			containerScroll:true,
+			loadMask:true,
+			cm:cm,sm:sm,
+			style:"border-left:1px solid #8db2e3;",
+			tbar:[
+				this.stat=new Ext.fjs.form.StoreComboBox({xtype:"fjs-store-combo",hiddenName:"fsel",dictId:"order.info.stato",allowBlank:false,allrec:false,width:90}),{xtype:"tbspacer",width:5},
+				this.fsel=new Ext.fjs.form.StoreComboBox({xtype:"fjs-store-combo",hiddenName:"fsel",dictId:"order.info.sels",allowBlank:false,allrec:false,width:90}),{xtype:"tbspacer",width:5},
+				this.fkey=new Ext.form.TextField({xtype:"textfield",name:"fkey",width:100,maxLength:50}),{xtype:"tbspacer",width:5},{iconCls:"btn-search",tooltip:"${fzm.msg.search}",handler:this.search_onclick,scope:this},
+				"->",this.showBtn,"-",this.modBtn,"-",this.extBtn
+			],
+			bbar:Ext.fjs.PageToolBar({store:this.store})
+		});
+		this.getSelectionModel().on("selectionchange",this.evt_selection,this);
+		this.on("rowdblclick",this.mod_onclick,this);
+	},
+	evt_selection:function(sm){
+		var len=sm.getCount();
+		if(len==1){
+			this.showBtn.enable();
+			this.modBtn.enable();
+		}else{
+			this.showBtn.disable();
+			this.modBtn.disable();
+		}
+	},
+	refresh:function(){
+		this.getBottomToolbar().doRefresh();
+	},
+	reload:function(code){
+		if(this.code!=code){
+			this.code=code;
+			var s=this.store;
+			s.setBaseParam("Code",code);
+			s.load({params:{start:0,limit:this.getBottomToolbar().pageSize}});
+		}
+	},
+	search_onclick:function(){
+		var s=this.store;
+		s.setBaseParam("SEL",this.fsel.getValue());
+		s.setBaseParam("KEY",this.fkey.getValue());
+		s.setBaseParam("STATE",this.stat.getValue());
+		s.load({params:{start:0,limit:this.getBottomToolbar().pageSize}});
+	},
+	getParams:function(){
+		var b={};
+		b.SEL=this.fsel.getValue();
+		b.KEY=this.fkey.getValue();
+		b.STATE=this.stat.getValue();
+		b.code=this.code;
+		return b;
+	},
+	getSid:function(){
+		return Ext.fjs.getPKId(this,"ID");
+	},
+	show_onclick:function(btn){
+		alert(this.getSid());
+	},
+	mod_onclick:function(btn){
+		var w=this.modWin;
+		if(!w){
+			this.modWin=w=new Ext.order.info.manage.modWindow(this);
+		}
+		w.open(this.getSid());
+	},
+	ref_onclick:function(btn){
+		var w=this.refWin;
+		if(!w){
+			this.refWin=w=new Ext.order.info.manage.refWindow();
+		}
+		w.open(this,btn);
+	},
+	state_onclick:function(t){
+		Ext.msg.confirm(Ext.fjs.NOTICE,"${mter.msg.101}",this.state_confirm,this);
+	},
+	state_confirm:function(btn){
+		if(btn=="yes"){Ext.fjs.post({url:Ext.order.info.manage.g_url,params:{action:"state",ids:this.getSid(),state:0},success:this.apply_success,scope:this})}
+	},
+	apply_success:function(res,opts){
+		var rs=Ext.decode(res.responseText);
+		if(rs.success){
+			this.refresh();
+		}else{
+			Ext.fjs.showError(rs.message);
+		}
+	},
+	export_onclick:function(btn){
+		var w=this.extWin;
+		if(!w){
+			this.extWin=w=new Ext.order.info.manage.exportWindow();
+		}
+		w.params=this.getParams();
+		w.show(btn.id);
+	},
+	beforeDestroy:function(){
+		if(this.modWin)Ext.destroy(this.modWin);
+		if(this.refWin)Ext.destroy(this.refWin);
+		if(this.extWin)Ext.destroy(this.extWin);
+		Ext.order.info.manage.ListBar.superclass.beforeDestroy.call(this);
+	}
+});
+Ext.order.info.manage.TreeBar=Ext.extend(Ext.tree.TreePanel,{
+	constructor:function(grid){
+		this.grid=grid;
+		Ext.order.info.manage.TreeBar.superclass.constructor.call(this,{
+			region:"west",
+			width:200,
+			minSize:200,
+			maxSize:300,
+			animate:true,
+			animCollapse:false,
+			autoScroll:true,
+			border:false,
+			collapseFirst:false,
+			collapseMode:"mini",
+			collapsible:false,
+			enableDD:false,
+			split:true,
+			style:"border-right:1px solid #8db2e3;",
+			useArrows:true,
+			rootVisible:true,
+			root:{id:"0",text:"${fzm.msg.district}",nodeType:"async",expanded:true},
+			loader:new Ext.tree.TreeLoader(),
+			tbar:[
+				{iconCls:"btn-refresh",text:"${fzm.btn.refresh}",tooltip:"${fzm.msg.refresh}",handler:this.refresh_onclick,scope:this},"-",
+				{iconCls:"btn-collapse",text:"${fzm.btn.collapse}",tooltip:"${fzm.msg.collapse}",handler:this.collapseAll,scope:this}
+			]
+		});
+		this.on("beforeload",this.evt_beforeload,this);
+		this.on("click",this.evt_click,this);
+		this.on("contextmenu",this.show_contextmenu,this);
+	},
+	evt_beforeload:function(n){
+		this.loader.dataUrl="fjs/dict_region.do?action=tree&tj=2";
+	},
+	evt_click:function(node){
+		this.grid.reload(node.id);
+		if(node.isLeaf()){
+		}else if(node.isExpanded()){
+			node.collapse();
+		}else{
+			node.expand();
+		}
+	},
+	refresh_onclick:function(){
+		this.getSelectionModel().clearSelections();
+		this.root.reload();
+	}
+});
+Ext.order.info.manage.MainPanel=Ext.extend(Ext.Panel,{
+	constructor:function(){
+		this.list=new Ext.order.info.manage.ListBar();
+		this.tree=new Ext.order.info.manage.TreeBar(this.list);
+		Ext.order.info.manage.MainPanel.superclass.constructor.call(this,{
+			closable:true,
+			layout:"border",
+			items:[this.tree,this.list]
+		});
+	},
+	beforeDestroy:function(){
+		Ext.destroy(this.list);
+		Ext.destroy(this.tree);
+		Ext.order.info.manage.MainPanel.superclass.beforeDestroy.call(this);
+	}
+});

@@ -1,0 +1,6 @@
+﻿Ext.namespace('Ext.fjs.oa.desktop.personal');
+Ext.fjs.oa.desktop.personal.MainPanel=Ext.extend(Ext.parm.portal.desktop.DeskTopPanel,{
+	constructor:function(){
+		Ext.fjs.oa.desktop.personal.MainPanel.superclass.constructor.call(this,{title: '汇总数据',templateId: 'TP0001',parameter:{deptId:'3'}})
+	}
+});

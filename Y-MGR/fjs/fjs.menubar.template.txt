@@ -1,0 +1,184 @@
+﻿Ext.namespace("Ext.fjs.menubar.template");
+Ext.fjs.menubar.template.g_url="fjs/menubar_temp.do";
+Ext.fjs.menubar.template.FormBar=Ext.extend(Ext.form.FormPanel,{
+	constructor:function(tree){
+		this.tree=tree;
+		this.combo=new Ext.fjs.form.StoreComboBox({fieldLabel:"${template.msg.check}",hiddenName:"MTID",boldLabel:true,width:250,dictId:"fjs.menubar.template",alltext:"${template.msg.add}",allvalue:"-1",listeners:{select:{fn:this.evt_comboBox,scope:this}}});
+		Ext.fjs.menubar.template.FormBar.superclass.constructor.call(this,{
+			cls:"x-panel-mc",
+			defaultType:"textfield",
+			labelWidth:95,
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"fjs/menu_role.tpl",topmargin:1,rigtmargin:1,bottommargin:1,leftmargin:1},
+			style:"padding-top:0px;",
+			items:[this.combo,{xtype:"hidden",name:"MIDS"},
+				{xtype:"textfield",fieldLabel:"${template.msg.name}",name:"TNAME",allowBlank:false,boldLabel:true,width:250,maxLength:50,validator:function(a){if(a=="${template.msg.add}"){return "${template.msg.note}".replace("{0}",a)}return true}},
+				{xtype:"textarea",fieldLabel:"${template.msg.desc}",name:"TDESC",boldLabel:true,width:250,height:150,maxLength:50}
+			],
+			buttonAlign:"center",
+			buttons:[
+				this.saveBtn=new Ext.Button({iconCls:"btn-save",text:"${fzm.btn.save}",disabled:true,handler:this.save_onclick,scope:this}),
+				this.deleteBtn=new Ext.Button({iconCls:"btn-delete",text:"${fzm.btn.delete}",disabled:true,handler:this.delete_onclick,scope:this})
+			]
+		});
+	},
+	evt_comboBox:function(combo,record,index){
+		var tid=combo.getValue() ;
+		if(tid=="-1"){
+			tid="";
+			Ext.fjs.setFieldValue(this,"TNAME","");
+			Ext.fjs.setFieldValue(this,"TDESC","");
+			this.deleteBtn.disable();
+		}else{
+			this.getForm().load(Ext.fjs.loadAction({url:Ext.fjs.menubar.template.g_url,params:{action:"getTemplate",tid:tid},scope:this}));
+			this.deleteBtn.enable();
+		}
+		this.saveBtn.enable();
+		this.tree.enable();
+		this.tree.loadTree(tid);
+	},
+	save_onclick:function(){
+		if(!Ext.fjs.checkValid(this)) return;
+		var ids=this.tree.getChecked("id");
+		if(ids==""){
+			Ext.fjs.showInfo("${menu.msg.none}");
+		}else{
+			this.getForm().findField("MIDS").setValue(ids);
+			this.getForm().submit(Ext.fjs.saveAction({url:Ext.fjs.menubar.template.g_url,params:{action:"save"},success:this.save_success,scope:this}));
+		}
+	},
+	save_success:function(form,opts){
+		Ext.fjs.showInfo(opts.result.message);
+		this.combo.store.reload();
+		this.getForm().reset();
+		this.deleteBtn.disable();
+		this.saveBtn.disable();
+		this.tree.disable();
+	},
+	delete_onclick:function(){
+		Ext.msg.confirm(Ext.fjs.NOTICE,Ext.fjs.del_confirm,this.delConfirm,this);
+	},
+	delConfirm:function(btn){
+		if(btn=="yes"){
+			Ext.fjs.post({url:Ext.fjs.menubar.template.g_url,params:{action:"delete",tid:this.combo.getValue()},success:this.del_success,scope:this});
+		}
+	},
+	del_success:function(res,opts){
+		var rs=Ext.decode(res.responseText);
+		if(rs.success){
+			this.getForm().reset();
+			this.combo.store.reload();
+			this.deleteBtn.disable();
+			this.saveBtn.disable();
+			this.tree.disable();
+		}else{
+			Ext.fjs.showError(rs.message);
+		}
+	}
+});
+Ext.fjs.menubar.template.ToolBar=Ext.extend(Ext.Toolbar,{
+	constructor:function(tree){
+		this.tree=tree;
+		this.refreshBtn=new Ext.Button({iconCls:"btn-refresh",text:"${fzm.btn.refresh}",tooltip:"${fzm.msg.refresh}",handler:this.refresh_onclick,scope:this});
+		this.expandBtn=new Ext.Button({iconCls:"btn-expand",text:"${fzm.btn.expand}",tooltip:"${fzm.msg.expand}",handler:this.expand_onclick,scope:this});
+		this.collapseBtn=new Ext.Button({iconCls:"btn-collapse",text:"${fzm.btn.collapse}",tooltip:"${fzm.msg.collapse}",handler:this.collapse_onclick ,scope:this});
+		this.selectBtn=new Ext.Button({iconCls:"btn-add",text:"${fzm.btn.check1}",tooltip:"${fzm.msg.check1}",handler:this.selectAll_onclick,scope:this});
+		this.clearBtn=new Ext.Button({iconCls:"btn-delete",text:"${fzm.btn.check2}",tooltip:"${fzm.msg.check2}",handler:this.clearAll_onclick,scope:this});
+		Ext.fjs.menubar.template.ToolBar.superclass.constructor.call(this,{buttonAlign:"left",items:[this.refreshBtn,'-',this.expandBtn,'-',this.collapseBtn,'-',this.selectBtn,'-',this.clearBtn]});
+	},
+	refresh_onclick:function(){
+		this.clearBtn.enable();
+		this.selectBtn.enable();
+		if(this.tree){this.tree.root.reload();}
+	},
+	expand_onclick:function(){
+		if(this.tree){this.tree.expandAll();}
+	},
+	collapse_onclick:function(){
+		if(this.tree){this.tree.collapseAll();}
+	},
+	selectAll_onclick:function(){
+		this.clearBtn.enable();
+		this.selectBtn.disable();
+		if(this.tree){this.tree.selectAllNode(this.tree.root);}
+	},
+	clearAll_onclick:function(){
+		this.clearBtn.disable();
+		this.selectBtn.enable();
+		if(this.tree){this.tree.clearAllNode(this.tree.root);}
+	}
+});
+Ext.fjs.menubar.template.TreeBar=Ext.extend(Ext.tree.TreePanel,{
+	constructor:function(){
+		this.tool=new Ext.fjs.menubar.template.ToolBar(this);
+		Ext.fjs.menubar.template.TreeBar.superclass.constructor.call(this,{
+			region:"center",
+			autoScroll:true,
+			border:false,
+			containerScroll:true,
+			lines:false,
+			style:"border-left:1px solid #8db2e3;",
+			tbar:this.tool,
+			root:{id:"rootid",text:"${menu.msg.info}"},
+			loader:new Ext.tree.TreeLoader({preloadChildren:true}),
+			listeners:{checkchange:{fn:this.evt_checkchange,scope:this}}
+		});
+	},
+	loadTree:function(tid){
+		this.setRootNode({id:"rootid",text:"${menu.msg.info}"});
+		this.loader.dataUrl=Ext.fjs.menubar.template.g_url+"?action=getChildrens&tid="+tid;
+		this.expandAll();
+	},
+	evt_checkchange:function(node,checked){
+		if(checked){this.checkParent(node)}else{this.checkChildren(node)}
+	},
+	checkParent:function(node){
+		if(node.parentNode==null) return;
+		node.parentNode.getUI().toggleCheck(true);
+		this.checkParent(node.parentNode);
+	},
+	checkChildren:function(node){
+		if(!node.hasChildNodes()) return;
+		for(var i=0,j=node.childNodes.length;i<j;i++){
+			var c=node.childNodes[i];
+			c.getUI().toggleCheck(false);
+			this.checkChildren(c);
+		}
+	},
+	selectAllNode:function(node){
+		if(!node.hasChildNodes()) return;
+		for(var i=0,j=node.childNodes.length;i<j;i++){
+			var c=node.childNodes[i];
+			c.getUI().toggleCheck(true);
+			this.selectAllNode(c);
+		}
+	},
+	clearAllNode:function(node){
+		if(!node.hasChildNodes()) return;
+		for(var i=0,j=node.childNodes.length;i<j;i++){
+			var c=node.childNodes[i];
+			c.getUI().toggleCheck(false);
+			this.clearAllNode(c);
+		}
+	}
+});
+Ext.fjs.menubar.template.MainPanel=Ext.extend(Ext.Panel,{
+	constructor:function(){
+		this.tree=new Ext.fjs.menubar.template.TreeBar();
+		this.form=new Ext.fjs.menubar.template.FormBar(this.tree);
+		Ext.fjs.menubar.template.MainPanel.superclass.constructor.call(this,{
+			closable:true,
+			layout:"border",
+			items:[{iconCls:"mnu-application_edit",title:"${menu.msg.temp}",region:"west",layout:"fit",width:"450",margins:"0 5 0 0",border:false,style:"border-right:1px solid #8db2e3;",items:[this.form]},this.tree]
+		});
+		this.tree.on("afterlayout",this.evt_afterlayout,this,{single:true});
+	},
+	evt_afterlayout:function(){
+		this.tree.disable();
+	},
+	beforeDestroy:function(){
+		Ext.destroy(this.form);
+		Ext.destroy(this.tree);
+		Ext.fjs.menubar.template.MainPanel.superclass.beforeDestroy.call(this);
+	}
+});

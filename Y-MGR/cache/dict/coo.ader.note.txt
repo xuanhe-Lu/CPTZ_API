@@ -1,0 +1,1 @@
+[{"ID":269,"SNO":"coo.ader.note","SORTID":1,"REFID":"1","REFVALUE":"普通模板","DEFCHECK":"0"},{"ID":270,"SNO":"coo.ader.note","SORTID":2,"REFID":"2","REFVALUE":"公告模板","DEFCHECK":"0"}]

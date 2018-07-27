@@ -1,0 +1,1 @@
+[{"REFID":"101","REFVALUE":"系统管理员"},{"REFID":"102","REFVALUE":"内容运营"},{"REFID":"103","REFVALUE":"渠道运营"},{"REFID":"104","REFVALUE":"财务专员"},{"REFID":"105","REFVALUE":"客服菜单"},{"REFID":"106","REFVALUE":"资产"}]

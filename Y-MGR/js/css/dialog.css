@@ -1,0 +1,8 @@
+.qz_dialog_layer{position:absolute;border:1px solid #999;box-shadow:0 0 5px #535658;border-radius:5px;font-size:12px}
+.qz_dialog_layer_no_border{border:0 none;box-shadow:none}
+.qz_dialog_layer_main{overflow:hidden;width:100%;height:100%;background-color:#FFF;border-radius:5px}
+.qz_dialog_layer_title{height:31px;border-bottom:1px solid #E5E5E5;background:#F3F3F3;border-top-left-radius:5px;border-top-right-radius:5px}
+.qz_dialog_layer_title h3{float:left;height:31px;color:#4C4C4C;font-size:12px;line-height:31px;overflow:hidden;margin:0;padding-left:10px;font-weight:bold;text-shadow:0 1px 1px #FFF}
+.qz_dialog_layer_title .qz_dialog_btn_close{background-color:transparent;background-image:url(js/css/img/sprite.png);background-position:10px 11px;background-repeat:no-repeat;border:0 none;cursor:pointer;float:right;font-size:0;height:28px;line-height:100px;width:30px;position:relative}
+.qz_dialog_layer_title .qz_dialog_btn_close:hover{background-position:-11px 11px}
+.qz_dialog_layer_ft{width:100%;height:27px;padding:5px 0;border-top:1px solid #E5E5E5;background:#F3F3F3;text-align:center;}

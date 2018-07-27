@@ -1,0 +1,1 @@
+[{"ID":257,"SNO":"asset.prod.repay","SORTID":1,"REFID":"0","REFVALUE":"默认方式","DEFCHECK":"1"},{"ID":258,"SNO":"asset.prod.repay","SORTID":2,"REFID":"1","REFVALUE":"先息后本","DEFCHECK":"2"},{"ID":259,"SNO":"asset.prod.repay","SORTID":3,"REFID":"2","REFVALUE":"等额本金","DEFCHECK":"2"}]

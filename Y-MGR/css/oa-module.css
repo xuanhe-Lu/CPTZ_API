@@ -1,0 +1,1281 @@
+﻿.ico-altermsg {
+    background-image: url("/images/ico-altermsg.png") !important;
+    background-repeat: no-repeat;
+}
+
+.ico-folder {
+    background-image: url("/images/ico-folder.gif") !important;
+    background-repeat: no-repeat;
+}
+
+.ico-newstop {
+    background-image: url("/images/publicinfo/ico-newstop.gif") !important;
+    background-repeat: no-repeat;
+}
+
+.ico-newsall {
+    background-image: url("/images/publicinfo/ico-newsall.gif") !important;
+    background-repeat: no-repeat;
+}
+
+.ico-fav {
+    background-image: url("/images/ico-favorites.gif") !important;
+    background-repeat: no-repeat;
+}
+
+.ico-myinfo-comment {
+    background-image: url("/images/publicinfo/ico-myinfo-comment.gif") !important;
+    background-repeat: no-repeat;
+}
+
+.ico-myinfo-fav {
+    background-image: url("/images/publicinfo/ico-myinfo-fav.jpg") !important;
+    background-repeat: no-repeat;
+}
+
+/* oa taskplan start */
+.ico-taskplan-plan{
+	background-image: url(/images/taskplan/ico-plan.gif) !important; 
+	background-repeat: no-repeat;
+}
+.ico-taskplan-task{
+	background-image: url(/images/taskplan/ico-task.gif) !important; 
+	background-repeat: no-repeat;
+}
+.ico-taskplan-log{
+	background-image: url(/images/taskplan/ico-log.gif) !important; 
+	background-repeat: no-repeat;
+}
+.ico-taskplan-comments{
+	background-image: url(/images/taskplan/ico-comments.gif) !important; 
+	background-repeat: no-repeat;
+}
+.ico-taskplan-member{
+	background-image: url(/images/taskplan/ico-member.gif) !important; 
+	background-repeat: no-repeat;
+}
+.ico-taskplan-progress{
+	background-image: url(/images/taskplan/ico-progress.gif) !important; 
+	background-repeat: no-repeat;
+}
+.ico-taskplan-concern{
+	background-image: url(/images/taskplan/ico-concern.gif) !important; 
+	background-repeat: no-repeat;
+}
+.ico-taskplan-check{
+	background-image: url(/images/taskplan/ico-check.gif) !important; 
+	background-repeat: no-repeat;
+}
+
+
+.ibtn-taskplan-comments-add{
+	background-image: url(/images/taskplan/btn-comments-add.gif) !important; 
+	background-repeat: no-repeat;
+}
+.ibtn-taskplan-eye-off{
+	background-image: url(/images/taskplan/btn-eye-off.gif) !important; 
+	background-repeat: no-repeat;
+}
+.ibtn-taskplan-eye-on{
+	background-image: url(/images/taskplan/btn-eye-on.gif) !important; 
+	background-repeat: no-repeat;
+}
+.ibtn-taskplan-progress{
+	background-image: url(/images/taskplan/btn-progress.gif) !important; 
+	background-repeat: no-repeat;
+}
+.ibtn-taskplan-status{
+	background-image: url(/images/taskplan/btn-status.gif) !important; 
+	background-repeat: no-repeat;
+}
+.ibtn-taskplan-task-add{
+	background-image: url(/images/taskplan/btn-task-add.gif) !important; 
+	background-repeat: no-repeat;
+}
+.btn-taskplan-check{
+	background-image: url(/images/taskplan/btn-task-check.gif) !important; 
+	background-repeat: no-repeat;
+}
+
+.oa-taskplan-intro{
+	
+}
+.oa-taskplan-intro .title{
+	font-size:16px;
+	font-weight:bold;
+	text-align:left;
+	letter-spacing:1;
+	line-height:24px;
+	padding:10px 5px 5px 5px;
+}
+.oa-taskplan-intro .title .titleIco
+{
+	float:left;
+	height:24px;
+	width:30px;
+	background: url(/images/taskplan/title-ico.jpg) no-repeat;
+}
+.oa-taskplan-intro .subtitle{
+	padding:0px 5px 5px 29px;
+	font-size:12px;
+	color:#999;
+	line-height:24px;
+}
+.oa-taskplan-intro .content{
+	font-size:14px;
+	line-height:20px;
+	padding:10px 10px 5px 29px;
+	color:#666;	
+}
+.oa-taskplan-intro .content h3{
+	font-size:14px;
+	line-height:1.8em;
+	padding:5px 0px;
+	color:#333;	
+}
+.oa-taskplan-intro .content table.table1{
+	table-layout:fixed;
+	border-collapse:collapse;
+}
+.oa-taskplan-intro .content table.table1 tr.head
+{
+	font-weidht:bold;
+	border-bottom:1px double #ccc;
+}
+.oa-taskplan-intro .content table.table1 td{
+	font-size:12px;
+	line-height:1.5em;
+	color:#666;
+	border-bottom:1px dotta #ccc;
+}
+.oa-taskplan-intro .content table.table1 td.over
+{
+	overflow: hidden;
+	white-space: nowrap;
+}
+.oa-taskplan-intro .attchment
+{
+	font-size:12px;
+	line-height:20px;
+	color:#666;	
+	padding:10px 0px 5px 29px;
+}
+.oa-taskplan-intro .baseline{
+	background: url(/images/portlet/line.jpg) repeat-x;
+	height:1px;
+	font-size:0px;
+	line-height:0px;
+	margin:0px 15px 0px 29px;
+}
+.oa-taskplan-intro a:link,
+.oa-taskplan-intro a:visited,
+.oa-taskplan-intro a:visited,
+.oa-taskplan-intro a:hover,
+.oa-taskplan-intro a:active 
+{
+	color:#666;	
+	font-size: 12px;
+	text-decoration: none;
+	line-height:20px; 
+}
+.oa-taskplan-intro a:hover,
+.oa-taskplan-intro a:active {
+	text-decoration: none;
+	font-size: 12px;
+	line-height:20px; 
+	color:#1F8CC3;
+}
+/* oa taskplan end */
+
+/*oa comm start*/
+.oa-comm-myfeedback-record{
+	color: red;
+}
+/*oa comm end*/
+/*oa information strat*/
+.oa-info
+{
+	background: url(/images/publicinfo/doc_bg.jpg);
+}
+.oa-info .oa-info-tc
+{
+	background: url(/images/publicinfo/doc_tc.jpg) repeat-x bottom;
+	height:60px;
+}
+.ext-ie .oa-info .oa-info-tc
+{
+	font-size:0px;/**IE6下div最小高度由字体行高决定**/
+}
+.oa-info .oa-info-tl
+{
+	background: url(/images/publicinfo/doc_tl.jpg) no-repeat left;
+	padding-left:110px;
+}
+.oa-info .oa-info-tr
+{
+	background: url(/images/publicinfo/doc_tr.jpg) no-repeat right;
+	padding-right:50px;
+}
+.oa-info .oa-info-ml
+{
+	background: url(/images/publicinfo/doc_ml.jpg) repeat-y left;	
+	padding-left:50px;
+}
+.oa-info .oa-info-mr
+{
+	background: url(/images/publicinfo/doc_mr.jpg) repeat-y right;	
+	padding-right:50px;
+}
+.oa-info .oa-info-mc
+{
+	background-color:#FFFFFF;
+	width:100%;
+}
+.ext-ie .oa-info .oa-info-mc,
+.ext-ie .oa-info .oa-info-ml,
+.ext-ie .oa-info .oa-info-mr
+{
+	width:100%;
+}
+.oa-info .oa-info-bc
+{
+	background: url(/images/publicinfo/doc_bc.jpg) repeat-x bottom;
+	height:30px;
+}
+.ext-ie .oa-info .oa-info-bc
+{
+	font-size:0px;/**IE6下div最小高度由字体行高决定**/
+}
+.oa-info .oa-info-bl
+{
+	background: url(/images/publicinfo/doc_bl.jpg) no-repeat left;
+	padding-left:50px;
+}
+.oa-info .oa-info-br
+{
+	background: url(/images/publicinfo/doc_br.jpg) no-repeat right;
+	padding-right:50px;
+}
+.oa-info .bwarp .title
+{
+	font-size:18px;
+	font-weight:bold;
+	font-family:"宋体";	
+	line-height:40px;
+	color:#000066;
+	text-align:center;
+}
+.oa-info .bwarp .subtitle
+{
+	font-size:12px;
+	line-height:40px;
+	color:#999999;
+	text-align:center;
+}
+.oa-info .bwarp .content
+{
+	font-size:14px;
+	line-height:200%;
+	color:#333333;
+	padding-bottom:15px;
+}
+
+.oa-info .baseline
+{
+	background: url(/images/publicinfo/line.jpg) repeat-x;
+	height:1px;
+	font-size:0px;
+}
+.oa-dataview-info{
+	
+}
+.oa-dataview-info table{
+	border-collapse:collapse;
+	border-width:0px;
+	table-layout:fixed;
+}
+.oa-dataview-info table td.over
+{
+	overflow: hidden;
+	white-space: nowrap;
+	padding:5px 0px;
+}
+.oa-dataview-info table td.line
+{
+	background: url(/images/portlet/line.jpg) repeat-x;
+	height:1px;
+	font-size:0px;
+}
+.oa-dataview-info .ico
+{
+	width:16px;
+	height:16px;
+	background: url(/images/portlet/ico.jpg) no-repeat;
+	background-position: 0px -16px;
+}
+.oa-dataview-info .title,
+.oa-dataview-info .title a:link,
+.oa-dataview-info .title a:visited,
+.oa-dataview-info .title a:visited,
+.oa-dataview-info .title a:hover,
+.oa-dataview-info .title a:active{
+	color:#333;
+	font-size:14px;	
+	line-height:1.5em;
+	font-weight:normal;
+	text-decoration:none;
+}
+.oa-dataview-info .view-selected2 .title,
+.oa-dataview-info .view-selected2 .title a:link,
+.oa-dataview-info .view-selected2 .title a:visited,
+.oa-dataview-info .view-selected2 .title a:visited,
+.oa-dataview-info .view-selected2 .title a:hover,
+.oa-dataview-info .view-selected2 .title a:active{
+	font-weight:bold;
+}
+.oa-dataview-info .txt1{
+	color:#999;
+	font-size:12px;	
+}
+.oa-dataview-info .txt2,
+.oa-dataview-info .txt2 a:link,
+.oa-dataview-info .txt2 a:visited,
+.oa-dataview-info .txt2 a:visited,
+.oa-dataview-info .txt2 a:hover,
+.oa-dataview-info .txt2 a:active 
+{
+	color:#666;
+	font-size:12px;	
+}
+
+
+/*oa information end*/
+
+/*oa officework start*/
+.btn-up{
+	background-image: url(/images/btn-up.gif) !important; 
+	background-repeat: no-repeat;
+}
+.btn-down{
+	background-image: url(/images/btn-down.gif) !important; 
+	background-repeat: no-repeat;
+}
+.btn-left{
+	background-image: url(/images/btn-left.gif) !important; 
+	background-repeat: no-repeat;
+}
+.btn-right{
+	background-image: url(/images/btn-right.gif) !important; 
+	background-repeat: no-repeat;
+}
+/*oa officework end*/
+
+
+/*oa forum strat*/
+
+.oa-forum-topic{
+	color:#000;
+	font-size:12px;	
+}
+.oa-forum-topic a:link,
+.oa-forum-topic a:visited,
+.oa-forum-topic a:visited,
+.oa-forum-topic a:hover,
+.oa-forum-topic a:active 
+{
+	color:#000;	
+	text-decoration: none;
+}
+.oa-forum-topic a:hover,
+.oa-forum-topic a:active {
+	text-decoration: underline;
+}
+.oa-forum-topic table{
+	border-collapse:collapse;
+	border-width:0px;
+}
+.oa-forum-topic .title,
+.oa-forum-topic .title a:link,
+.oa-forum-topic .title a:visited,
+.oa-forum-topic .title a:visited,
+.oa-forum-topic .title a:hover,
+.oa-forum-topic .title a:active{
+	color:#000;
+	font-size:14px;	
+	letter-spacing : 1px;
+}
+.oa-forum-topic .txt1{
+	color:#666;
+	font-size:12px;	
+}
+.oa-forum-topic .txt2,
+.oa-forum-topic a:link.txt2,
+.oa-forum-topic a:visited.txt2,
+.oa-forum-topic a:visited.txt2,
+.oa-forum-topic a:hover.txt2,
+.oa-forum-topic a:active.txt2 
+{
+	color:#999;
+	font-size:12px;	
+}
+.oa-forum-topic div.view-item,
+.oa-forum-topic div.view-over,
+.oa-forum-topic div.view-selected{
+	border-bottom: 1px dotted;
+    border-color: #DFE8F6;
+    padding:10px 5px;
+}
+.oa-forum-topic div.view-over{
+	background-color:#F5F5F5;
+}
+.oa-forum-topic div.view-item img.btn{
+	border:0px;
+	display:none;
+}
+.oa-forum-topic div.view-over img.btn{
+	border:0px;
+	display:block;
+}
+
+.oa-forum-post table{
+	color:#000;
+	font-size:12px;	
+}
+.oa-forum-post a:link,
+.oa-forum-post a:visited,
+.oa-forum-post a:visited,
+.oa-forum-post a:hover,
+.oa-forum-post a:active 
+{
+	color:#000;	
+	text-decoration: none;
+}
+.oa-forum-post a:hover,
+.oa-forum-post a:active {
+	text-decoration: underline;
+}
+.oa-forum-post table{
+	border-collapse:collapse;
+	border-width:0px;
+}
+.oa-forum-post .topicnum{width:160px;padding:10px;border:0px;border-right:1px solid #C2D5E3;border-bottom:5px solid #C2D5E3;vertical-align:top;text-align:center;font-size:11px;color:#666;}
+.oa-forum-post .topictitle{
+	font-size:15px;	
+	font-weight:600;
+	border-right:0px;
+	border-left:0px;
+	border-top:0px;
+	padding:0 10px 0 10px;
+	border-bottom:5px solid #E5EDF2;
+	letter-spacing : 1px;
+}
+.oa-forum-post td.porfie{
+	font-size:12px;	
+	color:#000;
+	text-align:center;
+	vertical-align:top;
+	width:160px;
+	padding:10px;
+	border-left:0px;
+	border-top:1px solid #C2D5E3;
+	border-right:1px solid #C2D5E3;
+	border-bottom:5px solid #C2D5E3;
+}
+.oa-forum-post td.post{
+	font-size:12px;	
+	color:#000;
+	text-align:center;
+	vertical-align:top;
+	border-right:0px;
+	border-left:0px;
+	border-top:1px solid #C2D5E3;
+	border-bottom:5px solid #E5EDF2;
+}
+.oa-forum-post td.posthead{
+	text-align:left;
+	padding:5px;
+	border-bottom:1px solid #C2D5E3;
+}
+.oa-forum-post td.postcontent,
+.oa-forum-post td.postcontent p{
+	padding:10px;
+	vertical-align:top;
+	font-size: 14px;
+	line-height: 200%;
+	letter-spacing : 1px;
+}
+.oa-forum-post td.postbottom{
+	text-align:right;
+	padding:5px;
+	border-top:1px solid #C2D5E3;
+}
+.oa-forum-post .txt1{
+	color:#999;
+	font-size:12px;	
+}
+.oa-forum-post .locked {
+	overflow: hidden;
+	margin: 10px 0;
+	padding: 8px 8px 8px 24px;
+	border: 1px dashed #FF9A9A;
+	background: white url(/images/communication/forum_lock.gif) no-repeat 6px 50%;
+	font-size: 12px;
+	zoom: 1;
+}
+.oa-forum-post .poststatus {
+	display: block;
+	padding-bottom:10px;
+	font-size: 12px;
+	text-align: center;
+	font-style: normal;
+	line-height: 32px;
+	color: #999;
+}
+.oa-forum-post .txt2,
+.oa-forum-post a:link.txt2,
+.oa-forum-post a:visited.txt2,
+.oa-forum-post a:visited.txt2,
+.oa-forum-post a:hover.txt2,
+.oa-forum-post a:active.txt2 
+{
+	color:#666;
+	font-size:11px;	
+}
+.oa-forum-post div.view-item,
+.oa-forum-post div.view-over,
+.oa-forum-post div.view-selected{
+	
+}
+.oa-forum-post img{
+	vertical-align:middle;
+}
+.oa-forum-post div.view-item img.btn{
+	border:0px;
+	display:none;
+}
+.oa-forum-post div.view-over img.btn{
+	border:0px;
+	display:block;
+}
+
+/*oa forum end*/
+
+/*oa kownledge start*/
+.oa-kn-tag{	
+    font-size:12px; 
+}
+.ext-ie .oa-kn-tag
+{
+	padding-bottom:5px;
+}
+.oa-kn-tag .tag-wrap{
+   	float: left;
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+	margin-bottom: 5px;
+}
+.ext-ie .tag-wrap{
+	width:50px;
+	white-space: nowrap;
+	display:inline;
+	vertical-align:bottom;
+}
+.oa-kn-tag .tag_l
+{
+	background: url(/images/publicinfo/knowledge/tag_l.jpg) no-repeat left;
+	padding-left:27px;
+}
+.oa-kn-tag .tag_r
+{
+	background: url(/images/publicinfo/knowledge/tag_r.jpg) no-repeat right;
+	padding-right:6px;
+}
+.oa-kn-tag .tag_c
+{
+	background: url(/images/publicinfo/knowledge/tag_c.jpg) repeat-x;
+	height:19px;
+	padding:0px 5px;
+}
+.ext-ie .oa-kn-tag .tag_c
+{
+	padding-top:2px;
+}
+.oa-kn-tag a:link,
+.oa-kn-tag a:visited,
+.oa-kn-tag a:visited,
+.oa-kn-tag a:hover,
+.oa-kn-tag a:active 
+{
+	color:#000;	
+	text-decoration: none;
+	line-height:16px; 
+}
+.oa-kn-tag a:hover,
+.oa-kn-tag a:active {
+	text-decoration: underline;
+	line-height:16px; 
+}
+.oa-dataview-kn{
+	color:#000;
+	font-size:12px;	
+}
+.oa-dataview-kn table{
+	border-collapse:collapse;
+	border-width:0px;
+}
+.oa-dataview-kn .title,
+.oa-dataview-kn .title a:link,
+.oa-dataview-kn .title a:visited,
+.oa-dataview-kn .title a:visited,
+.oa-dataview-kn .title a:hover,
+.oa-dataview-kn .title a:active{
+	font-size:13px;
+	color:#003399;
+}
+.oa-dataview-kn .txt2,
+.oa-dataview-kn a:link.txt2,
+.oa-dataview-kn a:visited.txt2,
+.oa-dataview-kn a:visited.txt2,
+.oa-dataview-kn a:hover.txt2,
+.oa-dataview-kn a:active.txt2 
+{
+	color:#999;
+	font-size:12px;	
+}
+.oa-dataview-kn div.view-item,
+.oa-dataview-kn div.view-over,
+.oa-dataview-kn div.view-selected{
+	border-bottom: 1px dotted;
+    border-color: #DFE8F6;
+    padding:10px 10px;
+}
+.oa-dataview-kn div.view-over{
+	background-color:#F5F5F5;
+}
+.oa-dataview-kn div.view-item img.btn{
+	border:0px;
+	display:none;
+}
+.oa-dataview-kn div.view-over img.btn{
+	border:0px;
+	display:block;
+}
+
+
+.oa-question-intro{
+	
+}
+.oa-question-intro .title{
+	font-size:16px;
+	font-weight:bold;
+	text-align:left;
+	letter-spacing:1;
+	line-height:24px;
+	padding:10px 5px 5px 5px;
+}
+.oa-question-intro .title .titleIco
+{
+	float:left;
+	height:24px;
+	width:30px;
+	background: url(/images/taskplan/title-ico.jpg) no-repeat;
+}
+.oa-question-intro .subtitle{
+	padding:0px 5px 5px 29px;
+	font-size:12px;
+	color:#999;
+	line-height:24px;
+}
+.oa-question-intro .content{
+	font-size:14px;
+	line-height:20px;
+	text-indent: 2em;
+	padding:15px 25px 5px 29px;
+	color:#666;	
+}
+.oa-question-intro .attchment
+{
+	font-size:12px;
+	line-height:20px;
+	color:#666;	
+	padding:10px 0px 5px 29px;
+}
+.oa-question-intro .baseline{
+	background: url(/images/portlet/line.jpg) repeat-x;
+	height:1px;
+	font-size:0px;
+	line-height:0px;
+	margin:0px 15px 0px 29px;
+}
+.oa-question-intro a:link,
+.oa-question-intro a:visited,
+.oa-question-intro a:visited,
+.oa-question-intro a:hover,
+.oa-question-intro a:active 
+{
+	color:#666;	
+	font-size: 12px;
+	text-decoration: none;
+	line-height:20px; 
+}
+.oa-question-intro a:hover,
+.oa-question-intro a:active {
+	text-decoration: none;
+	font-size: 12px;
+	line-height:20px; 
+	color:#1F8CC3;
+}
+.ico-answer{
+	background-image: url(/images/publicinfo/knowledge/ico-answer.gif) !important; 
+	background-repeat: no-repeat;
+}
+.ico-answer-best{
+	background-image: url(/images/publicinfo/knowledge/ico-answer-best.gif) !important; 
+	background-repeat: no-repeat;
+}
+
+.ico-tag{
+	background-image: url(/images/publicinfo/knowledge/ico-tag.gif) !important; 
+	background-repeat: no-repeat;
+}
+.ico-question-_resolve0{
+	background-image: url(/images/publicinfo/knowledge/question_resolve0-big.gif) !important; 
+	background-repeat: no-repeat;
+}
+.ico-question-_resolve1{
+	background-image: url(/images/publicinfo/knowledge/question_resolve1-big.gif) !important; 
+	background-repeat: no-repeat;
+}
+.oa_knstar
+{
+	font-size:12px;
+}
+.ext-ie .oa_knstar
+{
+	width:100%;
+}
+.oa_knstar .bwarp
+{
+	cursor: auto;
+}
+.ext-ie .oa_knstar .bwarp
+{
+	width:100%;
+}
+.oa_knstar .bwarp img
+{
+	vertical-align:middle;
+}
+.oa_knstar .bwarp table
+{
+	table-layout:fixed;
+	border-collapse:collapse;
+}
+.oa_knstar .bwarp table td
+{
+	font-size:12px;
+	line-height:26px;
+}
+.oa_knstar .bwarp table td.line
+{
+	background: url(/images/portlet/line.jpg) repeat-x;
+	height:1px;
+	font-size:0px;
+}
+.oa_knstar .bwarp .ico
+{
+	width:16px;
+	height:16px;
+	background: url(/images/portlet/ico.jpg) no-repeat;
+	background-position: 0px -32px;
+}
+.oa_knstar .oa_knstar_b_1
+{
+	background: url(/images/portlet/oa_portlet_bg.jpg) repeat-x;
+	background-position: 0px 0px;
+	height:26px;
+}
+.oa_knstar .oa_knstar_b_1 .oa_knstar_tr
+{
+	float: left;
+	background: url(/images/portlet/oa_portlet_tl.jpg) no-repeat;
+	background-position: 0px 0px;
+	height:26px;
+	width:5px;
+}
+.oa_knstar .oa_knstar_b_1 .oa_knstar_tc
+{
+	float: left;
+	background: url(/images/portlet/oa_portlet_bg.jpg) repeat-x;
+	background-position: 0px -26px;
+	height:26px;
+	line-height:25px;
+	font-size:12px;
+}
+.oa_knstar .oa_knstar_tl
+{
+	float: left;
+	background: url(/images/portlet/oa_portlet_tr.jpg) no-repeat;	
+	height:26px;
+	width:35px;
+}
+.oa_knstar .oa_knstar_b_1 .oa_knstar_tl
+{
+	background-position: 0px 0px;
+}
+.oa_knstar .oa_knstar_ml
+{
+	background: url(/images/publicinfo/knowledge/border_ml.jpg) repeat-y left;	
+}
+.oa_knstar .oa_knstar_mr
+{
+	background: url(/images/publicinfo/knowledge/border_mr.jpg) repeat-y right;	
+}
+.oa_knstar .oa_knstar_mc
+{
+	margin:0 5px;
+	padding:5px 0px 0px 0px;
+	background: url(/images/publicinfo/knowledge/border_mc.jpg);	
+}
+.oa_knstar .oa_knstar_bc
+{
+	background: url(/images/publicinfo/knowledge/border_bc.jpg) repeat-x bottom;
+	height:5px;
+}
+.ext-ie .oa_knstar .oa_knstar_bc
+{
+	font-size:0px;/**IE6下div最小高度由字体行高决定**/
+}
+.oa_knstar .oa_knstar_bl
+{
+	background: url(/images/publicinfo/knowledge/border_bl.jpg) no-repeat left;
+	padding-left:5px;
+}
+.oa_knstar .oa_knstar_br
+{
+	background: url(/images/publicinfo/knowledge/border_br.jpg) no-repeat right;
+	padding-right:5px;
+}
+.oa_knstar .titleIco
+{
+	float:left;
+	height:16px;
+	width:16px;
+	margin-top:5px;
+}
+.oa_knstar .oa_knstar_btn
+{
+	float: left;
+	cursor: pointer;
+	margin:4px 5px 0px 5px;
+}
+.oa_knstar .oa_knstar_tool
+{
+	overflow: hidden;
+	float: right;
+	padding:0px 4px;
+}
+.oa_knstar .imgborder
+{
+	border:1px solid #ccc;
+	padding:5px;
+	background-color:#FFF;
+	width:180px;
+	height:180px;
+}
+.oa_knstar table.text1
+{
+	margin:20px 0px;
+	border-collapse:collapse;
+}
+.oa_knstar table.text1 td
+{
+	font-size:12px;
+	color:#333;
+	height:25px;
+	border-bottom:1px dotted #ccc;
+}
+table.oa_knstart_top
+{
+	border-collapse:collapse;
+	border:1px solid #ccc;
+}
+table.oa_knstart_top td
+{
+	font-size:12px;
+	color:#666;
+	padding:3px 5px;
+}
+table.oa_knstart_top td.title
+{
+	font-weight:bold;
+	color:#333;
+	height:22px;
+	background: url(/images/publicinfo/knowledge/title_bg.jpg) repeat-x top;
+	border-bottom:1px solid #ccc;
+}
+/*oa kownledge end*/
+
+/***hr start***/
+.oa_hr_list
+{
+	font-size:12px;
+}
+.ext-ie .oa_hr_list
+{
+	width:100%;
+}
+.oa_hr_list .bwarp
+{
+	cursor: auto;
+}
+.ext-ie .oa_hr_list .bwarp
+{
+	width:100%;
+}
+.oa_hr_list .bwarp img
+{
+	vertical-align:middle;
+}
+.oa_hr_list .bwarp table
+{
+	table-layout:fixed;
+	border-collapse:collapse;
+}
+.oa_hr_list .bwarp table td
+{
+	font-size:12px;
+	line-height:26px;
+}
+.oa_hr_list .bwarp table td.over
+{
+	overflow: hidden;
+	white-space: nowrap;
+}
+.oa_hr_list .bwarp table td.line
+{
+	background: url(/images/portlet/line.jpg) repeat-x;
+	height:1px;
+	font-size:0px;
+}
+.oa_hr_list .bwarp .ico1
+{
+	width:16px;
+	height:16px;
+	background: url(/images/portlet/ico.jpg) no-repeat;
+	background-position: 0px 0px;
+}
+.oa_hr_list .bwarp .ico2
+{
+	width:16px;
+	height:16px;
+	background: url(/images/portlet/ico.jpg) no-repeat;
+	background-position: 0px -16px;
+}
+.oa_hr_list .bwarp .ico
+{
+	width:16px;
+	height:16px;
+	background: url(/images/portlet/ico.jpg) no-repeat;
+	background-position: 0px -32px;
+}
+.oa_hr_list .bwarp .ico4
+{
+	width:16px;
+	height:16px;
+	background: url(/images/portlet/ico.jpg) no-repeat;
+	background-position: 0px -48px;
+}
+.oa_hr_list .oa_hr_list_b_1, 
+.oa_hr_list .oa_hr_list_b_2, 
+.oa_hr_list .oa_hr_list_b_3
+{
+	background: url(/images/portlet/oa_portlet_bg.jpg) repeat-x;
+	background-position: 0px 0px;
+	height:26px;
+}
+.oa_hr_list .oa_hr_list_b_1 .oa_hr_list_tr, 
+.oa_hr_list .oa_hr_list_b_2 .oa_hr_list_tr,
+.oa_hr_list .oa_hr_list_b_3 .oa_hr_list_tr
+{
+	float: left;
+	background: url(/images/portlet/oa_portlet_tl.jpg) no-repeat;
+	background-position: 0px 0px;
+	height:26px;
+	width:5px;
+}
+.oa_hr_list .oa_hr_list_b_1 .oa_hr_list_tc,
+.oa_hr_list .oa_hr_list_b_2 .oa_hr_list_tc,
+.oa_hr_list .oa_hr_list_b_3 .oa_hr_list_tc
+{
+	float: left;
+	background: url(/images/portlet/oa_portlet_bg.jpg) repeat-x;
+	background-position: 0px -26px;
+	height:26px;
+	padding-top:5px;
+	font-size:12px;
+}
+.oa_hr_list .oa_hr_list_tl
+{
+	float: left;
+	background: url(/images/portlet/oa_portlet_tr.jpg) no-repeat;	
+	height:26px;
+	width:35px;
+}
+.oa_hr_list .oa_hr_list_b_1 .oa_hr_list_tl
+{
+	background-position: 0px 0px;
+}
+.oa_hr_list .oa_hr_list_b_2 .oa_hr_list_tl
+{
+	background-position: -35px 0px;
+}
+.oa_hr_list .oa_hr_list_b_3 .oa_hr_list_tl
+{
+	background-position: -70px 0px;
+}
+
+.oa_hr_list .oa_hr_list_y_1,
+.oa_hr_list .oa_hr_list_y_2,
+.oa_hr_list .oa_hr_list_y_3
+{
+	background: url(/images/portlet/oa_portlet_bg.jpg) repeat-x;
+	background-position: 0px -52px;
+	height:26px;
+}
+.oa_hr_list .oa_hr_list_y_1 .oa_hr_list_tr,
+.oa_hr_list .oa_hr_list_y_2 .oa_hr_list_tr,
+.oa_hr_list .oa_hr_list_y_3 .oa_hr_list_tr
+{
+	float: left;
+	background: url(/images/portlet/oa_portlet_tl.jpg) no-repeat;
+	background-position: 0px -26px;
+	height:26px;
+	width:5px;
+}
+.oa_hr_list .oa_hr_list_y_1 .oa_hr_list_tc,
+.oa_hr_list .oa_hr_list_y_2 .oa_hr_list_tc,
+.oa_hr_list .oa_hr_list_y_3 .oa_hr_list_tc
+{
+	float: left;
+	background: url(/images/portlet/oa_portlet_bg.jpg) repeat-x;
+	background-position: 0px -78px;
+	height:26px;
+	padding-top:5px;
+	font-size:12px;
+}
+.oa_hr_list  .oa_hr_list_tl,
+.oa_hr_list  .oa_hr_list_tl,
+.oa_hr_list  .oa_hr_list_tl
+{
+	float: left;
+	background: url(/images/portlet/oa_portlet_tr.jpg) no-repeat;
+	height:26px;
+	width:35px;
+}
+.oa_hr_list .oa_hr_list_y_1 .oa_hr_list_tl
+{	
+	background-position: 0px -26px;
+}
+.oa_hr_list .oa_hr_list_y_2 .oa_hr_list_tl
+{	
+	background-position: -35px -26px;
+}
+.oa_hr_list .oa_hr_list_y_3 .oa_hr_list_tl
+{	
+	background-position: -70px -26px;
+}
+
+.oa_hr_list .oa_hr_list_tool
+{
+	overflow: hidden;
+	float: right;
+	padding:0px 4px;
+}
+.oa_hr_list .oa_hr_list_btn
+{
+	float: left;
+	width: 18px;
+	height: 18px;
+	cursor: pointer;
+	margin-top:4px;
+}
+.oa_hr_list .btn1
+{
+	background: url(/images/portlet/tools.gif) no-repeat;
+	background-position: 0px 0px;
+}
+.oa_hr_list .btn2
+{
+	background: url(/images/portlet/tools.gif) no-repeat;
+	background-position: -18px 0px;
+}
+.oa_hr_list .btn3
+{
+	background: url(/images/portlet/tools.gif) no-repeat;
+	background-position: -36px 0px;
+}
+
+.oa_hr_list .oa_hr_list_ml
+{
+	background: url(/images/portlet/oa_portlet_ml.jpg) repeat-y left;	
+}
+.oa_hr_list .oa_hr_list_mr
+{
+	background: url(/images/portlet/oa_portlet_mr.jpg) repeat-y right;	
+}
+.oa_hr_list .oa_hr_list_mc
+{
+	padding:5 10 5 10;
+}
+.oa_hr_list .oa_hr_list_bc
+{
+	background: url(/images/portlet/oa_portlet_bc.jpg) repeat-x bottom;
+	height:5px;
+}
+.ext-ie .oa_hr_list .oa_hr_list_bc
+{
+	font-size:0px;/**IE6下div最小高度由字体行高决定**/
+}
+.oa_hr_list .oa_hr_list_bl
+{
+	background: url(/images/portlet/oa_portlet_bl.jpg) no-repeat left;
+	padding-left:5px;
+}
+.oa_hr_list .oa_hr_list_br
+{
+	background: url(/images/portlet/oa_portlet_br.jpg) no-repeat right;
+	padding-right:5px;
+}
+.oa_hr_list .titleIco
+{
+	float:left;
+	height:16px;
+	width:16px;
+}
+
+.oa_hr_list a:link,
+.oa_hr_list a:visited,
+.oa_hr_list a:visited,
+.oa_hr_list a:hover,
+.oa_hr_list a:active 
+{
+	color:#000;	
+	font-size: 12px;
+	text-decoration: none;
+	line-height:26px; 
+}
+.oa_hr_list a:hover,
+.oa_hr_list a:active {
+	color:#1F8CC3;	
+	text-decoration: none;
+	font-size: 12px;
+	line-height:26px; 
+}
+.oa_hr_list .oa_hr_list_b
+{
+	border:1px solid #D1DCDF;
+}
+.oa_hr_list .oa_hr_list_b .oa_hr_list_tc
+{
+	background: url(/images/portlet/oa_portlet_tc.jpg) repeat-x;
+	background-position: 0px 0px;
+	height:22px;
+	font-size:12px;
+	vertical-align:middle;
+	line-height:22px;
+	border-bottom:1px solid #D1DCDF;
+	padding-left:5px;
+}
+.oa_hr_list .oa_hr_list_b .oa_hr_list_bc
+{
+	background-position: 100px 100px;
+	background-color:#E9EEF8;
+	height: 22px;
+}
+.oa_hr_list .oa_hr_list_b .oa_hr_list_bc td
+{
+	font-size:12px;
+}
+.ext-ie .oa_hr_list_b .oa_hr_list_bc td
+{
+	padding-top:4px;
+}
+.oa_hr_list .oa_hr_list_b .th
+{
+	border-bottom:1px solid #D1DCDF;
+}
+
+.oa_hr_list .oa_hr_list_y
+{
+	border:1px solid #EBD88D;
+}
+.oa_hr_list .oa_hr_list_y .oa_hr_list_tc
+{
+	background: url(/images/portlet/oa_portlet_tc.jpg) repeat-x;
+	background-position: 0px -22px;
+	height:22px;
+	font-size:12px;
+	vertical-align:middle;
+	line-height:22px;
+	border-bottom:1px solid #EBD88D;
+	padding-left:5px;
+}
+.oa_hr_list .oa_hr_list_y .th
+{
+	border-bottom:1px solid #EBD88D;
+}
+.oa_hr_list .oa_hr_list_y .bwarp table td
+{
+	color:#333;
+}
+.oa_hr_list .oa_hr_list_y .bwarp .row
+{
+	background-color:#FFFFFF;
+	
+}
+.oa_hr_list .oa_hr_list_y .bwarp .row-over
+{
+	background-color:#E9EEF8;
+	
+}
+.oa_hr_list .oa_hr_list_y a:link,
+.oa_hr_list .oa_hr_list_y a:visited,
+.oa_hr_list .oa_hr_list_y a:visited,
+.oa_hr_list .oa_hr_list_y a:hover,
+.oa_hr_list .oa_hr_list_y a:active 
+{
+	color:#333;	
+	text-decoration: none;
+}
+.oa_hr_list .oa_hr_list_y a:hover,
+.oa_hr_list .oa_hr_list_y a:active {
+	text-decoration: none;
+	color:#1F8CC3;
+}
+.oa_hr_list .oa_hr_list_y .oa_hr_list_bc
+{
+	background-position: 100px 100px;
+	background-color:#F2E7BA;
+	height: 22px;
+}
+.oa_hr_list .oa_hr_list_y .oa_hr_list_bc td
+{
+	font-size:12px;	
+}
+.ext-ie .oa_hr_list_y .oa_hr_list_bc td
+{
+	padding-top:4px;
+}
+.oa_hr_list .bwarp  p
+{
+	font-size:12px;
+	line-height:1.8em;
+	margin:1em 0.1em;
+}
+.oa_hr_list .bwarp h3
+{
+	font-size:18px;
+}
+/***hr end***/

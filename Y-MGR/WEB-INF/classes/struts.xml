@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd" >
+<struts>
+	<package name="Pub-default" namespace="/" extends="struts-default">
+		<interceptors>
+			<interceptor name="userLoginInterceptor" class="com.ypm.verify.UserLoginInterceptor" />
+			<interceptor name="userRequestInterceptor" class="com.ypm.verify.UserRequestInterceptor" />
+			<interceptor name="userSessionInterceptor" class="com.ypm.verify.UserSessionInterceptor" />
+			<interceptor-stack name="requestInterceptorStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="userRequestInterceptor"></interceptor-ref>
+			</interceptor-stack>
+			<interceptor-stack name="userLogsInterceptorStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="userSessionInterceptor"></interceptor-ref>
+			</interceptor-stack>
+			<interceptor-stack name="userAuthInterceptorStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="userLoginInterceptor"></interceptor-ref>
+				<interceptor-ref name="userSessionInterceptor"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="defaultStack"></default-interceptor-ref>
+		<global-results>
+			<result name="none" type="redirect">${toUrl}</result>
+			<result name="json">/WEB-INF/jsp/myjson.jsp</result>
+			<result name="error">/WEB-INF/jsp/error.jsp</result>
+			<result name="msave">/WEB-INF/jsp/success.jsp</result>
+			<result name="intercept">/WEB-INF/jsp/intercept.jsp</result>
+		</global-results>
+	</package>
+	
+	<package name="html" extends="Pub-default" namespace="/">
+		<default-interceptor-ref name="userLogsInterceptorStack" />
+		<action name="login" class="com.ypm.view.Login">
+			<result name="input">/WEB-INF/jsp/login.jsp</result>
+		</action>
+		<action name="logout" class="com.ypm.view.Logout" />
+	</package>
+	
+	<package name="logs" extends="Pub-default" namespace="/">
+		<default-interceptor-ref name="userAuthInterceptorStack" />
+		<action name="index" class="com.ypm.view.Index">
+			<result name="success">/WEB-INF/jsp/index.jsp</result>
+		</action>
+		<action name="menubar" class="com.ypm.view.MenuBar" />
+		<action name="message" class="com.ypm.view.Message" />
+		<action name="modlib" class="com.ypm.view.Modlib" />
+		<action name="module" class="com.ypm.view.Module" />
+		<action name="dic" class="com.ypm.view.Dictionary" />
+		<action name="opt" class="com.ypm.view.OptInfo" />
+	</package>
+	
+	<package name="portal" extends="Pub-default" namespace="/portal">
+		<default-interceptor-ref name="userAuthInterceptorStack" />
+		<action name="desktop" class="com.ypm.portal.Desktop" />
+	</package>
+	
+	<package name="admin_fjs" extends="Pub-default" namespace="/fjs">
+		<default-interceptor-ref name="userAuthInterceptorStack" />
+		<action name="dict_manage" class="com.ypm.fjs.DictManage" />
+		<action name="dict_region" class="com.ypm.fjs.DictRegion" />
+		<action name="dict_report" class="com.ypm.fjs.DictReport" />
+		<action name="menubar_main" class="com.ypm.fjs.MenubarMain" />
+		<action name="menubar_temp" class="com.ypm.fjs.MenubarTemp" />
+		<action name="um_admin" class="com.ypm.fjs.um.AdminManage" />
+		<action name="um_dept" class="com.ypm.fjs.um.DeptManage" />
+		<action name="um_jobs" class="com.ypm.fjs.um.JobsManage" />
+		<action name="um_orgs" class="com.ypm.fjs.um.OrgsManage" />
+		<action name="set_config" class="com.ypm.fjs.set.ConfigMgr" />
+		<action name="set_client" class="com.ypm.fjs.set.ClientMgr" />
+		<action name="set_bank" class="com.ypm.fjs.set.BankMgr" />
+	</package>
+	
+	<package name="admin_asset" extends="Pub-default" namespace="/asset">
+		<default-interceptor-ref name="userAuthInterceptorStack" />
+		<action name="raw_company" class="com.ypm.asset.RawCompany" />
+		<action name="raw_manage" class="com.ypm.asset.RawManage" />
+		<action name="prod_model" class="com.ypm.asset.ProdAModel" />
+		<action name="prod_manage" class="com.ypm.asset.ProdManage" />
+	</package>
+	
+	<package name="admin_cfo" extends="Pub-default" namespace="/cfo">
+		<default-interceptor-ref name="userAuthInterceptorStack" />
+		<action name="user_manage" class="com.ypm.cfo.UserManage" />
+		<action name="user_book" class="com.ypm.cfo.UserAtBook" />
+		<action name="user_order" class="com.ypm.cfo.UserAtOrder" />
+		<action name="user_cash" class="com.ypm.cfo.UserAtCash" />
+		<action name="user_charge" class="com.ypm.cfo.UserAtCharge" />
+		<action name="company_money" class="com.ypm.cfo.ComAtMoney" />
+	</package>
+	
+	<package name="admin_coo" extends="Pub-default" namespace="/coo">
+		<default-interceptor-ref name="userAuthInterceptorStack" />
+		<action name="ader_info" class="com.ypm.coo.AderInfo" />
+		<!-- 通知管理 -->
+		<action name="ader_note" class="com.ypm.coo.AderNoteAction" />
+		<!-- 票友学堂 -->
+		<action name="xue_info" class="com.ypm.coo.XuesAction" />
+		<!-- 常见问题 -->
+		<action name="help" class="com.ypm.coo.HelpAction" />
+		<!-- 新闻管理 -->
+		<action name="news" class="com.ypm.coo.NewsAction" />
+		<!-- 渠道统计 -->
+		<action name="channel" class="com.ypm.coo.ChannelAction" />
+		<!-- 渠道汇总 -->
+		<action name="channel_sum" class="com.ypm.coo.ChannelSumAction" />
+		<!-- 推送管理 -->
+		<action name="push" class="com.ypm.coo.PushAction" />
+		<!-- app-android版本更新 -->
+		<action name="android_version_update" class="com.ypm.coo.VersionAction" />
+		<!-- app-ios版本更新 -->
+		<action name="ios_version_update" class="com.ypm.coo.VersionAction" />
+		<!-- 福利专区 -->
+		<action name="welfare" class="com.ypm.coo.WelfareAction" />
+
+		<action name="act_model" class="com.ypm.coo.ActModel" />
+		<action name="coupon_manage" class="com.ypm.coo.CouponManage" />
+		<action name="coupon_register" class="com.ypm.coo.CouponRegister" />
+		<action name="coupon_grant" class="com.ypm.coo.CouponGrant" />
+	</package>
+	
+	<package name="admin_user" extends="Pub-default" namespace="/user">
+		<default-interceptor-ref name="userAuthInterceptorStack" />
+		<action name="info_setvip" class="com.ypm.user.InfoSetVIP" />
+		<action name="info_manage" class="com.ypm.user.InfoManage" />
+	</package>
+	<package name="admin_kefu" extends="Pub-default" namespace="/kefu">
+		<default-interceptor-ref name="userAuthInterceptorStack" />
+		<action name="user_bank" class="com.ypm.kefu.UserAtBank" />
+	</package>
+	<package name="admin_stat" extends="Pub-default" namespace="/stat">
+		<default-interceptor-ref name="userAuthInterceptorStack" />
+		<action name="channel_manage" class="com.ypm.stat.ChannelManage" />
+		<action name="channel_gather" class="com.ypm.stat.ChannelGather" />
+	</package>
+	
+	<package name="file" extends="Pub-default" namespace="/">
+		<default-interceptor-ref name="userAuthInterceptorStack" />
+		<!-- 处理文件的下载请求 -->
+		<action name="download" class="com.ypm.file.FileDownloadAction">
+			<result type="stream">
+                <param name="inputName">inputStream</param>
+                <param name="contentDisposition">attachment;filename=${fileName}</param>
+            </result>
+            <result name="error">/WEB-INF/jsp/notfound.jsp</result>
+		</action>
+	</package>
+</struts>

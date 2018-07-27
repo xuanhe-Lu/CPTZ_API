@@ -1,0 +1,184 @@
+﻿Ext.namespace("Ext.cfo.user.book");
+Ext.cfo.user.book.g_url="cfo/user_book.do";
+Ext.cfo.user.book.extWindow=Ext.extend(Ext.Window,{
+	params:{},
+	constructor:function(){
+		this.form=new Ext.FormPanel({
+			cls:"x-panel-mc",
+			autoHeight:true,
+			border:false,
+			bodyStyle:"padding:5px;",
+			labelWidth:65,
+			items:[{xtype:"fjs-store-radio",name:"Suffix",fieldLabel:"${file.msg.type}",dictId:"system.export.excel",groupcfg:{name:"Suffix"}}]
+		});
+		Ext.cfo.user.book.extWindow.superclass.constructor.call(this,{
+			iconCls:"btn-excel",
+			title:"${file.msg.excel}",
+			width:320,
+			autoHeight:true,
+			border:false,
+			closable:true, 
+			closeAction:"hide",
+			modal:true,
+			plain:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-accept1",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	window_submit:function(){
+		this.params.action="export";
+		this.form.getForm().submit(Ext.fjs.loadAction({url:Ext.cfo.user.book.g_url,params:this.params,success:this.apply_success,scope:this}));
+	},
+	apply_success:function(form,opts){
+		Ext.fjs.download("/down.php?filename="+opts.result.message);
+		this.window_close();
+	}
+});
+Ext.cfo.user.book.modWindow=Ext.extend(Ext.Window,{
+	constructor:function(grid){
+		this.grid=grid;
+		this.form=new Ext.form.FormPanel({
+			cls:"x-panel-mc",
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"coo/coupon_info.tpl"},
+			style:"padding-top:0px",
+			items:[
+				{xtype:"fjs-store-combo",name:"TID",hiddenName:"TID",width:100,allowBlank:false,allrec:false,dictId:"coo.coupon.trigger"},
+				{xtype:"fjs-store-combo",name:"TYPE",hiddenName:"TYPE",width:100,allowBlank:false,allrec:false,dictId:"coo.coupon.type"},
+				{xtype:"fjs-store-combo",name:"STID",hiddenName:"STID",width:100,allowBlank:false,allrec:false,dictId:"coo.coupon.stid"},
+				{xtype:"fjs-store-combo",name:"STATE",hiddenName:"STATE",width:100,allowBlank:false,allrec:false,dictId:"system.state"},
+				{xtype:"textfield",name:"NAME",width:145,allowBlank:false,boldLabel:true,minLength:2,maxLength:50},
+				{xtype:"numberfield",name:"TMA",width:100,allowBlank:false,boldLabel:true,decimalPrecision:2,minValue:0,maxValue:10000000},
+				{xtype:"numberfield",name:"TMB",width:100,allowBlank:false,boldLabel:true,decimalPrecision:2,minValue:0,maxValue:10},
+				{xtype:"numberfield",name:"TOALL",width:100,allowBlank:false,boldLabel:true,decimalPrecision:2,minValue:0,maxValue:10000000},
+				{xtype:"numberfield",name:"TOTAL",width:100,allowBlank:false,boldLabel:true,decimalPrecision:2,minValue:0,maxValue:10000000},
+				{xtype:"numberfield",name:"TODAY",width:100,allowBlank:false,boldLabel:true,minValue:0,maxValue:1000},
+				{xtype:"numberfield",name:"COUNT",width:100,allowBlank:false,boldLabel:true,minValue:0,maxValue:1000},
+				{xtype:"fjs-datefield",name:"SDAY",allowBlank:false,format:"Y-m-d H:i:s",width:145},
+				{xtype:"fjs-datefield",name:"EDAY",allowBlank:false,format:"Y-m-d H:i:s",width:145},
+				{xtype:"numberfield",name:"TDAY",width:100,allowBlank:false,boldLabel:true,minValue:0,maxValue:1000},
+				{xtype:"textarea",name:"REMARK",width:390,height:63,boldLabel:true,emptyText:"",maxLength:5000}
+			]
+		});
+		Ext.cfo.user.book.modWindow.superclass.constructor.call(this,{
+			iconCls:"btn-edit",
+			title:"${info.msg.edit}",
+			width:600,
+			autoHeight:true,
+			autoScroll:true,
+			border:false,
+			closable:true,
+			closeAction:"hide",
+			plain:true,
+			modal:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-save",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	window_submit:function(){
+		if(Ext.fjs.checkValid(this.form)){
+			this.form.getForm().submit(Ext.fjs.saveAction({url:Ext.cfo.user.book.g_url,params:{action:"save",cid:this.cid},success:this.apply_success,scope:this}));
+		}
+	},
+	apply_success:function(form,opts){
+		this.form.getForm().reset();
+		this.grid.refresh();
+		this.window_close();
+	},
+	open:function(cid){
+		this.cid=cid;
+		this.form.getForm().load(Ext.fjs.loadAction({url:Ext.cfo.user.book.g_url,params:{action:"getInfo",cid:cid},show:true,scope:this}));
+	}
+});
+Ext.cfo.user.book.MainPanel=Ext.extend(Ext.grid.GridPanel,{
+	constructor:function(){
+		this.extBtn=new Ext.Button({iconCls:"btn-excel",text:"${fzm.btn.export}",tooltip:"${fzm.btn.export}",disabled:false,handler:this.export_onclick,scope:this});
+		var sm=new Ext.grid.CheckboxSelectionModel();
+		var cm=new Ext.grid.ColumnModel([
+			sm,new Ext.grid.RowNumber()<s:header id="cfo.user.book"/>
+		]);
+		this.store=new Ext.fjs.PageStore({
+			url:Ext.cfo.user.book.g_url,
+			baseParams:{action:"list"},
+			fields:[<s:fields id="cfo.user.book"/>]
+		});
+		this.store.load({params:{start:0,limit:Ext.fjs.defPSize}});
+		Ext.cfo.user.book.MainPanel.superclass.constructor.call(this,{
+			region:"center",
+			store:this.store,
+			stripeRows:true,
+			autoScroll:true,
+			boldHeader:true,
+			closable:true,
+			containerScroll:true,
+			columnLines:true,
+			cm:cm,sm:sm,
+			loadMask:true,
+			tbar:[
+				this.fsel=new Ext.fjs.form.StoreComboBox({xtype:"fjs-store-combo",hiddenName:"fsel",dictId:"cfo.order.book",allowBlank:true,allrec:true,value:-1,width:85}),{xtype:"tbspacer",width:5},
+				this.fkey=new Ext.form.TextField({xtype:"textfield",name:"fkey",width:100,maxLength:50}),{xtype:"tbspacer",width:5},
+				{iconCls:"btn-search",tooltip:"${fzm.msg.search}",handler:this.search_onclick,scope:this},
+				"->",this.extBtn
+			],
+			bbar:Ext.fjs.PageToolBar({store:this.store})
+		});
+		this.getSelectionModel().on("selectionchange",this.evt_selection,this);
+		this.on("rowdblclick",this.mod_onclick,this);
+	},
+	evt_selection:function(sm){
+		var len=sm.getCount();
+	},
+	getSid:function(){
+		return Ext.fjs.getPKId(this,"SID");
+	},
+	refresh:function(){
+		this.getBottomToolbar().doRefresh();
+	},
+	search_onclick:function(){
+		var s=this.store;
+		s.setBaseParam("STATE",this.fsel.getValue()||-1);
+		s.setBaseParam("KEY",this.fkey.getValue());
+		s.load({params:{start:0,limit:this.getBottomToolbar().pageSize}});
+	},
+	mod_onclick:function(btn){
+		var w=this.modWin;
+		if(!w){
+			this.modWin=w=new Ext.cfo.user.book.modWindow(this);
+		}
+		w.open(this.getSid());
+	},
+	state_onclick:function(t){
+		Ext.fjs.post({url:Ext.cfo.user.book.g_url,params:{action:"state",ids:this.getSid(),state:t.state},success:this.apply_success,scope:this})
+	},
+	apply_success:function(res,opts){
+		var rs=Ext.decode(res.responseText);
+		if(rs.success){
+			this.refresh()
+		}else{
+			Ext.fjs.showError(rs.message);
+		}
+	},
+	export_onclick:function(btn){
+		var w=this.extWin;
+		if(!w){
+			this.extWin=w=new Ext.cfo.user.book.extWindow();
+		}
+		w.show(btn.id);
+	},
+	beforeDestroy:function(){
+		if(this.addWin)Ext.destroy(this.addWin);
+		if(this.modWin)Ext.destroy(this.modWin);
+		if(this.extWin)Ext.destroy(this.extWin);
+		Ext.cfo.user.book.MainPanel.superclass.beforeDestroy.call(this);
+	}
+});

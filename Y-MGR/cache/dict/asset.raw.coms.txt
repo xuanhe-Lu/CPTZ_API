@@ -1,0 +1,1 @@
+[{"ID":234,"SNO":"asset.raw.coms","SORTID":1,"REFID":"CA","REFVALUE":"企业名称","DEFCHECK":"2"},{"ID":235,"SNO":"asset.raw.coms","SORTID":2,"REFID":"CD","REFVALUE":"注册地址","DEFCHECK":"2"},{"ID":236,"SNO":"asset.raw.coms","SORTID":3,"REFID":"CE","REFVALUE":"企业法人","DEFCHECK":"2"}]

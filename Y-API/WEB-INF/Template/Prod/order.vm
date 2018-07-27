@@ -1,0 +1,39 @@
+﻿<!doctype html><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+<title>已购记录</title>
+<meta name="keywords" content="盈票理财，盈喵金服"/>
+<meta name="description" content="；打造专业的金额服务平台！"/>
+<meta name="copyright" content="杭州晓出科技有限公司版权所有"/>
+<meta name="format-detection" content="address=no"/>
+<meta name="format-detection" content="telephone=no"/>
+<meta name="viewport" content="initial-scale=1,width=device-width,user-scalable=no"/>
+<link type="text/css" href="/css/record.css" rel="stylesheet"/>
+</head>
+<body>
+<div id="hzgs" class="ds">
+<table>
+ <tr class="t">
+  <td>投资用户</td>
+  <td>投资金额（元）</td>
+  <td>投资时间</td>
+ </tr>#if($num>=1)
+#foreach($s in $ords)<tr>
+  <td>${s.name}</td>
+  <td>${s.money}</td>
+  <td>${s.time}</td>
+ </tr>#end<tr>
+  <td class="c" colspan="3">暂无更多数据</td>
+ </tr>
+#else<tr>
+  <td class="c" colspan="3">暂无数据</td>
+ </tr>
+#end
+</table>
+</div>
+<!-- ${UseTime} -->
+<script type="text/javascript">
+if(window.my&&typeof window.my.init=="function"){my.init()}
+</script>
+</body>
+</html>

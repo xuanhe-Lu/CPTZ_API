@@ -1,0 +1,131 @@
+﻿Ext.namespace("Ext.user.msg.chat");
+Ext.user.msg.chat.g_url="user/msg_chat.do";
+Ext.user.msg.chat.exportWindow=Ext.extend(Ext.Window,{
+	params:{},
+	constructor:function(){
+		this.form=new Ext.FormPanel({
+			cls:"x-panel-mc",
+			autoHeight:true,
+			border:false,
+			bodyStyle:"padding:5px;",
+			labelWidth:65,
+			items:[{xtype:"fjs-store-radio",name:"Suffix",fieldLabel:"${file.msg.type}",dictId:"system.export.excel",groupcfg:{name:"Suffix"}}]
+		});
+		Ext.user.msg.chat.exportWindow.superclass.constructor.call(this,{
+			iconCls:"btn-excel",
+			title:"${file.msg.excel}",
+			width:320,
+			autoHeight:true,
+			border:false,
+			closable:true, 
+			closeAction:"hide",
+			modal:true,
+			plain:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-accept1",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	window_submit:function(){
+		this.params.action="export";
+		this.form.getForm().submit(Ext.fjs.loadAction({url:Ext.user.msg.chat.g_url,params:this.params,success:this.apply_success,scope:this}));
+	},
+	apply_success:function(form,opts){
+		Ext.fjs.download("/down.php?filename="+opts.result.message);
+		this.window_close();
+	}
+});
+Ext.user.msg.chat.MainPanel=Ext.extend(Ext.grid.GridPanel,{
+	constructor:function(){
+		this.store=new Ext.fjs.PageStore({
+			url:Ext.user.msg.chat.g_url,
+			baseParams:{action:"list"},
+			fields:[<s:fields id="user.msg.chat"/>]
+		});
+		this.store.load({params:{start:0,limit:Ext.fjs.defPSize}});
+		var sm=new Ext.grid.CheckboxSelectionModel();
+		var cm=new Ext.grid.ColumnModel([
+			sm,new Ext.grid.RowNumber()<s:header id="user.msg.chat"/>
+		]);
+		this.extBtn=new Ext.Button({iconCls:"btn-excel",text:"${fzm.btn.export}",tooltip:"${fzm.btn.export}",disabled:false,handler:this.export_onclick,scope:this});
+		Ext.user.msg.chat.MainPanel.superclass.constructor.call(this,{
+			region:"center",
+			store:this.store,
+			stripeRows:true,
+			autoScroll:true,
+			boldHeader:true,
+			border:false,
+			closable:true,
+			columnLines:true,
+			containerScroll:true,
+			loadMask:true,
+			cm:cm,sm:sm,
+			style:"border-left:1px solid #8db2e3;",
+			tbar:[
+				{xtype:"label",boldLabel:true,text:"${fzm.msg.search}:"},
+				this.fkey=new Ext.form.TextField({xtype:"textfield",name:"fkey",width:150,maxLength:50}),{xtype:"tbspacer",width:5},{iconCls:"btn-search",tooltip:"${fzm.msg.search}",handler:this.search_onclick,scope:this},
+				"->",this.extBtn
+			],
+			bbar:Ext.fjs.PageToolBar({store:this.store})
+		});
+		this.getSelectionModel().on("selectionchange",this.evt_selection,this);
+	},
+	evt_selection:function(sm){
+	},
+	search_onclick:function(){
+		var s=this.store;
+		s.setBaseParam("KEY",this.fkey.getValue());
+		s.load({params:{start:0,limit:this.getBottomToolbar().pageSize}});
+	},
+	getSid:function(){
+		return Ext.fjs.getPKId(this,"SID");
+	},
+	add_onclick:function(btn){
+		var w=this.addWin;
+		if(!w){
+			this.addWin=w=new Ext.user.msg.chat.addWindow(this);
+		}
+		w.show(btn.id);
+	},
+	mod_onclick:function(btn){
+		var w=this.modWin;
+		if(!w){
+			this.modWin=w=new Ext.user.msg.chat.modWindow(this);
+		}
+		w.open(this.getSid());
+	},
+	order_onclick:function(btn){
+		var w=this.ordWin;
+		if(!w){
+			this.ordWin=w=new Ext.user.msg.chat.orderWindow(this)
+		}
+		w.open(btn,this.code);
+	},
+	state_onclick:function(t){
+		Ext.fjs.post({url:Ext.user.msg.chat.g_url,params:{action:"state",ids:this.getSid(),state:t.state},success:this.apply_success,scope:this})
+	},
+	apply_success:function(res,opts){
+		var rs=Ext.decode(res.responseText);
+		if(rs.success){
+			this.refresh()
+		}else{
+			Ext.fjs.showError(rs.message);
+		}
+	},
+	export_onclick:function(btn){
+		var w=this.extWin;
+		if(!w){
+			this.extWin=w=new Ext.user.msg.chat.exportWindow();
+		}
+		w.params.Key=this.fkey.getValue();
+		w.show(btn.id);
+	},
+	beforeDestroy:function(){
+		if(this.extWin)Ext.destroy(this.extWin);
+		Ext.user.msg.chat.MainPanel.superclass.beforeDestroy.call(this);
+	}
+});

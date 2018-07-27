@@ -1,0 +1,14 @@
+﻿.parf-rowexpander{border-top:1px solid #BBB;border-bottom:1px solid #FFF;background-color:#FFF;padding:5px;}
+.ext-ie .parf-rowexpander{width:100%;}
+.parf-rowexpander p{padding:5px;}
+.parf-rowexpander, .parf-rowexpander td{font-weight:normal;font-size:12px;color:#000;}
+.parf-rowexpander td{padding:2px 5px;border-width:0px;}
+.parf-rowexpander table{border-collapse:collapse;border:1px #999 solid;}
+.parf-rowexpander td.header{background-color:#EFEFEF;font-size:12px;font-weight:normal;color:#000;}
+.parf-rowexpander tr.row1{background-color:#FFF;background-image:none;border-top:1px dotted;border-bottom:1px dotted;border-color:#A3BAE9;}
+.parf-rowexpander tr.row2{background-color:#F9F9F9;background-image:none;}
+.parf-rowexpander tr.row-over{border-top:1px dotted;border-bottom:1px dotted;border-color:#A3BAE9;background-color:#EFEFEF;}
+.parf-rowexpander tr.red{color:red;}
+.parf-rowexpander tr.orange{color:orange;}
+.parf-rowexpander tr.green{color:green;}
+.parf-rowexpander tr.black{color:black;}

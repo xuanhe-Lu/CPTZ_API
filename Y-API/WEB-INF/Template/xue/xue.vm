@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>盈喵金服-票友学堂-$!{xues.title}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="keywords" content="盈喵 盈喵金服 理财平台 P2P理财 投资理财 高收益 互联网金融 票据理财 银行理财"/>
+  <meta name="description" content="盈喵金服-太平洋保险承保｜专业透明的银行票据理财平台，本息保障,提供安全高收益的金融理财服务。"/>
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  <style>
+	* {
+		padding: 0;
+		margin: 0;
+	}
+
+  	.topImg {
+		width: 100%;
+		height: 180px;
+	}
+
+	#footer {
+		bottom: 0;
+		width: 100%;
+		text-align: center;
+		color: #999;
+		margin-bottom: 30px;
+	}
+
+	.hr {
+		width: 80%;
+		color: #999;
+		margin: auto;
+		margin-bottom: 10px;
+		margin-top: 20px;
+	}
+
+	#bodyDiv {
+		width: 100%;
+	}
+
+	h1 {
+		text-align: center;
+		margin: 10px
+	}
+  </style>
+</head>
+
+<body>
+	<!-- <div>
+		<img src="/img/xue.jpg" class="topImg"/>
+	</div> -->
+
+	<div id="bodyDiv">
+		<h1>$!{xues.title}</h1>
+		<br/>
+		<div style="margin-bottom: 20px;text-align: center;color: #999;">
+			<span>更新时间：$!time</span>
+		</div>
+
+		<div style="margin: 15px">
+			$!{xues.detail}
+		</div>
+	</div>
+
+	<!-- <div id="footer">
+		<hr class="hr">
+		<span>Copyringht ©2011-2018</span><br/>
+		<span>杭州川浦投资管理有限公司 版权所有</span><br/>
+		<span>浙ICP备18001467号-1</span><br/>
+		<span>经营许可证编号：浙B2-20180188</span><br/>
+		<span>市场有风险 投资需谨慎</span>
+	</div> -->
+</body>
+</html>

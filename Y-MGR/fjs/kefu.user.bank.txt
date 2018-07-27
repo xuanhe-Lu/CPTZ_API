@@ -1,0 +1,187 @@
+﻿Ext.namespace("Ext.kefu.user.bank");
+Ext.kefu.user.bank.g_url="kefu/user_bank.do";
+Ext.kefu.user.bank.extWindow=Ext.extend(Ext.Window,{
+	params:{},
+	constructor:function(){
+		this.form=new Ext.FormPanel({
+			cls:"x-panel-mc",
+			autoHeight:true,
+			border:false,
+			bodyStyle:"padding:5px;",
+			labelWidth:65,
+			items:[{xtype:"fjs-store-radio",name:"Suffix",fieldLabel:"${file.msg.type}",dictId:"system.export.excel",groupcfg:{name:"Suffix"}}]
+		});
+		Ext.kefu.user.bank.extWindow.superclass.constructor.call(this,{
+			iconCls:"btn-excel",
+			title:"${file.msg.excel}",
+			width:320,
+			autoHeight:true,
+			border:false,
+			closable:true, 
+			closeAction:"hide",
+			modal:true,
+			plain:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-accept1",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	window_submit:function(){
+		this.params.action="export";
+		this.form.getForm().submit(Ext.fjs.loadAction({url:Ext.kefu.user.bank.g_url,params:this.params,success:this.apply_success,scope:this}));
+	},
+	apply_success:function(form,opts){
+		Ext.fjs.download("/down.php?filename="+opts.result.message);
+		this.window_close();
+	}
+});
+Ext.kefu.user.bank.datWindow=Ext.extend(Ext.Window,{
+	constructor:function(grid){
+		this.grid=grid;
+		this.form=new Ext.form.FormPanel({
+			cls:"x-panel-mc",
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"kefu/user_bank.tpl"},
+			style:"padding-top:0px",
+			items:[
+				{xtype:"displayfield",name:"NAME"},
+				{xtype:"displayfield",name:"MOBILE"},
+				{xtype:"displayfield",name:"IDCARD"},
+				{xtype:"displayfield",name:"CNO"}
+			]
+		});
+		this.oksBtn=new Ext.Button({iconCls:"btn-accept1",text:"${fzm.btn.agree}",tooltip:"${fzm.btn.agree}",disabled:false,handler:this.window_submit,state:2,scope:this});
+		this.disBtn=new Ext.Button({iconCls:"btn-stop1",text:"${fzm.btn.refuse}",tooltip:"${fzm.btn.refuse}",disabled:false,handler:this.window_submit,state:3,scope:this});
+		Ext.kefu.user.bank.datWindow.superclass.constructor.call(this,{
+			iconCls:"btn-detail1",
+			title:"${kefu.title.101}",
+			width:680,
+			autoHeight:true,
+			autoScroll:true,
+			border:false,
+			closable:true,
+			closeAction:"hide",
+			plain:true,
+			modal:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[this.oksBtn,this.disBtn,{iconCls:"btn-stop1",text:"${fzm.btn.close}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		if(this.need){
+			this.grid.refresh();
+		}
+		this.hide();
+	},
+	window_submit:function(t){
+		this.form.getForm().submit(Ext.fjs.saveAction({url:Ext.kefu.user.bank.g_url,params:{action:"save",Sid:this.sid,state:t.state},success:this.apply_success,scope:this}));
+	},
+	apply_success:function(f,opts){
+		this.btns(opts.result.state);
+		this.need=true;
+	},
+	loader_success:function(res,opts){
+		var rs=opts.result.data;this.show();
+		this.btns(rs.STATE);
+		this.image("kefu_bk1",rs.BA);
+		this.image("kefu_bk2",rs.BB);
+		this.image("kefu_bk3",rs.BC);
+		this.image("kefu_bk4",rs.BD);
+	},
+	image:function(id,v){
+		var a=Ext.get(id);
+		if(a){a.dom.src=v;if(!a.state){a.state=true;a.on("click",function(a,e){window.open(e.src,"news","resizable=no")})}}
+	},
+	btns:function(s){
+		if(s==1){
+			this.oksBtn.setVisible(true);
+			this.disBtn.setVisible(true);
+		}else{
+			this.oksBtn.setVisible(false);
+			this.disBtn.setVisible(false);
+		}
+	},
+	open:function(s){
+		this.need=false;
+		this.sid=s.get("SID");
+		this.btns(s.get("STATS"));
+		this.form.getForm().load(Ext.fjs.loadAction({url:Ext.kefu.user.bank.g_url,params:{action:"info",Sid:this.sid},success:this.loader_success,scope:this}));
+	}
+});
+Ext.kefu.user.bank.MainPanel=Ext.extend(Ext.grid.GridPanel,{
+	constructor:function(){
+		this.extBtn=new Ext.Button({iconCls:"btn-excel",text:"${fzm.btn.export}",tooltip:"${fzm.btn.export}",disabled:false,handler:this.export_onclick,scope:this});
+		var sm=new Ext.grid.CheckboxSelectionModel();
+		var cm=new Ext.grid.ColumnModel([
+			sm,new Ext.grid.RowNumber()<s:header id="kefu.user.bank"/>
+		]);
+		this.store=new Ext.fjs.PageStore({
+			url:Ext.kefu.user.bank.g_url,
+			baseParams:{action:"list"},
+			fields:[<s:fields id="kefu.user.bank"/>]
+		});
+		this.store.load({params:{start:0,limit:Ext.fjs.defPSize}});
+		Ext.kefu.user.bank.MainPanel.superclass.constructor.call(this,{
+			region:"center",
+			store:this.store,
+			stripeRows:true,
+			autoScroll:true,
+			boldHeader:true,
+			closable:true,
+			containerScroll:true,
+			columnLines:true,
+			cm:cm,sm:sm,
+			loadMask:true,
+			tbar:[
+				this.fsel=new Ext.fjs.form.StoreComboBox({xtype:"fjs-store-combo",hiddenName:"fsel",dictId:"kefu.bank.state",allowBlank:true,allrec:true,value:-1,width:85}),{xtype:"tbspacer",width:5},
+				this.fkey=new Ext.form.TextField({xtype:"textfield",name:"fkey",width:100,maxLength:50}),{xtype:"tbspacer",width:5},
+				{iconCls:"btn-search",tooltip:"${fzm.msg.search}",handler:this.search_onclick,scope:this},
+				"->",this.extBtn
+			],
+			bbar:Ext.fjs.PageToolBar({store:this.store})
+		});
+		this.getSelectionModel().on("selectionchange",this.evt_selection,this);
+		this.on("rowdblclick",this.dat_onclick,this);
+	},
+	evt_selection:function(sm){
+		var len=sm.getCount();
+	},
+	getSid:function(){
+		return Ext.fjs.getPKId(this,"SID");
+	},
+	refresh:function(){
+		this.getBottomToolbar().doRefresh();
+	},
+	search_onclick:function(){
+		var s=this.store;
+		s.setBaseParam("STATE",this.fsel.getValue()||-1);
+		s.setBaseParam("KEY",this.fkey.getValue());
+		s.load({params:{start:0,limit:this.getBottomToolbar().pageSize}});
+	},
+	dat_onclick:function(btn){
+		var s=this.getSelectionModel().getSelections();
+		var w=this.datWin;
+		if(!w){
+			this.datWin=w=new Ext.kefu.user.bank.datWindow(this);
+		}
+		w.open(s[0]);
+	},
+	export_onclick:function(btn){
+		var w=this.extWin;
+		if(!w){
+			this.extWin=w=new Ext.kefu.user.bank.extWindow();
+		}
+		w.show(btn.id);
+	},
+	beforeDestroy:function(){
+		if(this.extWin)Ext.destroy(this.extWin);
+		if(this.datWin)Ext.destroy(this.datWin);
+		Ext.kefu.user.bank.MainPanel.superclass.beforeDestroy.call(this);
+	}
+});

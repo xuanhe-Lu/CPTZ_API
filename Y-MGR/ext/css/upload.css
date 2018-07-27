@@ -1,0 +1,29 @@
+﻿.ext-ux-uploaddialog-addbtn{background:url("img/file-add.gif") no-repeat left center!important;}
+.ext-ux-uploaddialog-removebtn{background:url("img/file-remove.gif") no-repeat left center!important;}
+.ext-ux-uploaddialog-resetbtn{background:url("img/reset.gif") no-repeat left center!important;}
+.ext-ux-uploaddialog-uploadstartbtn{background:url("img/upload-start.gif") no-repeat left center!important;}
+.ext-ux-uploaddialog-uploadstopbtn{background:url("img/upload-stop.gif") no-repeat left center!important;}
+.ext-ux-uploaddialog-indicator-stoped{width:16px;height:16px;background:url("img/done.gif") no-repeat center center;}
+.ext-ux-uploaddialog-indicator-processing{width:16px;height:16px;background:url("img/loading.gif") no-repeat center center;}
+.ext-ux-uploaddialog-state{background-position:center center;background-repeat:no-repeat;text-align:center;}
+/* Queued */
+.ext-ux-uploaddialog-state-0{background-image:url("img/uncheck.gif");}
+/* Finished */
+.ext-ux-uploaddialog-state-1{background-image:url("img/check.gif");}
+/* Failed */
+.ext-ux-uploaddialog-state-2{background-image:url("img/failed.gif");}
+/* Processing */
+.ext-ux-uploaddialog-state-3{background-image:url("img/file-uploading.gif");}
+/* Progress bar fix */
+.ext-ie7 .ext-ux-uploaddialog-dialog .x-progress-bar .x-progress-text div{display:none;}
+.ext-ie7 .ext-ux-uploaddialog-dialog .x-progress-text-back{position:absolute;left:0px;right:0px;}
+.ext-ie7 .ext-ux-uploaddialog-dialog .x-progress-text-back div{width:auto!important;white-space:nowrap;}
+.fjs-uploadfield{border:1px solid #8DB2E3;}    
+.fjs-uploadfield .x-panel-body{background:white;font:11px Arial, Helvetica, sans-serif;}
+.fjs-uploadfield .thumb{background:transparent;padding:1px 0 0 0;text-align:center;}
+.fjs-uploadfield .thumb img{width:32px;height:32px;}
+.fjs-uploadfield .thumb-wrap{float:left;margin:4px;margin-right:0;padding:2px;text-align:center;}
+.fjs-uploadfield .thumb-wrap span{display:block;width:60px;height:32px;overflow:hidden!important;padding-top:4px;white-space:normal!important;text-align:center;}
+.fjs-uploadfield .x-view-over{padding:1px;border:1px solid #DDD;background:url("../images/default/grid/row-over.gif") #efefef repeat-x left top;}
+.fjs-uploadfield .x-view-selected{padding:1px;border:1px solid #99bbe8;background:url("img/selected.gif") #eff5fb no-repeat right bottom;}
+.fjs-uploadfield .x-view-selected .thumb{background:transparent;}

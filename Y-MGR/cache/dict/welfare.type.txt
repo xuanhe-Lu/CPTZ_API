@@ -1,0 +1,1 @@
+[{"ID":360,"SNO":"welfare.type","SORTID":1,"REFID":"1","REFVALUE":"精选活动","DEFCHECK":"0"},{"ID":361,"SNO":"welfare.type","SORTID":2,"REFID":"2","REFVALUE":"往期活动","DEFCHECK":"0"}]

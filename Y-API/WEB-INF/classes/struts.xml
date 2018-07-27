@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd" >
+<struts>
+	<package name="Pub-default" namespace="/" extends="struts-default">
+		<interceptors>
+			<interceptor name="userLoginInterceptor" class="com.ypiao.verify.UserLoginInterceptor" />
+			<interceptor name="userCookieInterceptor"
+				class="com.ypiao.verify.UserCookieInterceptor" />
+			<interceptor name="userRequestInterceptor"
+				class="com.ypiao.verify.UserRequestInterceptor" />
+			<interceptor name="userSessionInterceptor"
+				class="com.ypiao.verify.UserSessionInterceptor" />
+			<interceptor-stack name="requestInterceptorStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="userRequestInterceptor"></interceptor-ref>
+			</interceptor-stack>
+			<interceptor-stack name="userCodeInterceptorStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="userCookieInterceptor"></interceptor-ref>
+			</interceptor-stack>
+			<interceptor-stack name="userLogsInterceptorStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="userSessionInterceptor"></interceptor-ref>
+			</interceptor-stack>
+			<interceptor-stack name="userAuthInterceptorStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="userLoginInterceptor"></interceptor-ref>
+				<interceptor-ref name="userSessionInterceptor"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="defaultStack"></default-interceptor-ref>
+		<global-results>
+			<result name="none" type="redirect">${toUrl}</result>
+			<result name="json">/WEB-INF/jsp/myjson.jsp</result>
+			<result name="jxml">/WEB-INF/jsp/myjxml.jsp</result>
+			<result name="show">/WEB-INF/jsp/myshow.jsp</result>
+			<result name="error">/WEB-INF/jsp/error.jsp</result>
+			<result name="failed">/WEB-INF/jsp/failed.jsp</result>
+			<result name="nothtml">/WEB-INF/jsp/nothtml.jsp</result>
+		</global-results>
+	</package>
+	<package name="ajax" extends="Pub-default" namespace="/">
+		<default-interceptor-ref name="requestInterceptorStack" />
+		<action name="city" class="com.ypiao.ajax.AtCity" />
+		<action name="coder" class="com.ypiao.ajax.AtCoder" />
+		<action name="notify" class="com.ypiao.ajax.AtNotify" />
+		<action name="zhima" class="com.ypiao.ajax.AtZhima" />
+	</package>
+	<package name="html" extends="Pub-default" namespace="/">
+		<default-interceptor-ref name="userLogsInterceptorStack" />
+		<action name="default" class="com.ypiao.view.Default">
+			<result name="success">/default.html</result>
+		</action>
+		<action name="index" class="com.ypiao.view.Index">
+			<result name="success">/index.html</result>
+		</action>
+		<action name="login" class="com.ypiao.view.Login" />
+		<action name="note" class="com.ypiao.view.Noter" />
+		<action name="prod_order" class="com.ypiao.view.ProdAtOrder" />
+	</package>
+	<package name="user" extends="Pub-default" namespace="/">
+		<default-interceptor-ref name="userAuthInterceptorStack" />
+
+	</package>
+	<package name="logs_json" extends="Pub-default" namespace="/js">
+		<default-interceptor-ref name="userLogsInterceptorStack" />
+		<action name="ios" class="com.ypiao.json.AtIOS" />
+		<action name="config" class="com.ypiao.json.AtConfig" />
+		<action name="coder" class="com.ypiao.json.AtCoder" />
+		<action name="index" class="com.ypiao.json.AtIndex" />
+		<action name="login" class="com.ypiao.json.AtLogin" />
+		<action name="about" class="com.ypiao.json.AtAbout" />
+		<action name="adser" class="com.ypiao.json.AtAdser" />
+		<action name="bank" class="com.ypiao.json.AtBank" />
+		<action name="help" class="com.ypiao.json.AtHelp" />
+		<action name="prod" class="com.ypiao.json.AtProdInfo" />
+		<action name="share" class="com.ypiao.json.AtShare" />
+		<action name="feedback" class="com.ypiao.json.AtFeedback" />
+		<action name="register" class="com.ypiao.json.AtRegister" />
+		<action name="act_info" class="com.ypiao.json.AtActInfo" />
+		<action name="20180618" class="com.ypiao.json.At20180618" />
+		
+		<action name="user_forget" class="com.ypiao.json.AtUserForget" />
+		<action name="user_return" class="com.ypiao.json.AtUserReturn" />
+		<!-- 抽奖-->
+		<action name="user_lottery" class="com.ypiao.json.OnUserLottery" />
+		<action name="user_cat" class="com.ypiao.json.OnUserCat" />
+
+	</package>
+	<package name="auth_json" extends="Pub-default" namespace="/js">
+		<default-interceptor-ref name="userAuthInterceptorStack" />
+		<action name="recharge" class="com.ypiao.json.OnRecharge" />
+		<action name="user_buy" class="com.ypiao.json.OnUserBuy" />
+		<action name="user_cash" class="com.ypiao.json.OnUserCash" />
+		<action name="user_order" class="com.ypiao.json.OnUserOrder" />
+		<action name="user_trade" class="com.ypiao.json.OnUserTrade" />
+		<action name="user_facer" class="com.ypiao.json.OnUserFacer" />
+		<action name="user_info" class="com.ypiao.json.OnUserInfo" />
+		<action name="user_auth" class="com.ypiao.json.OnUserAuth" />
+		<action name="user_bank" class="com.ypiao.json.OnUserBank" />
+		<!-- 更换银行卡上传图片 -->
+		<action name="user_card" class="com.ypiao.json.OnUserCard" />
+		<action name="user_pass" class="com.ypiao.json.OnUserPass" />
+		<action name="user_prod" class="com.ypiao.json.OnUserProd" />
+		<action name="user_profile" class="com.ypiao.json.OnUserProfile" />
+
+		<action name="user_coupon" class="com.ypiao.json.OnUserCoupon" />
+		<!-- add by luxh 签到 -->
+		<action name="user_attendance" class="com.ypiao.json.OnUserAtten" />
+
+		<action name="user_vip" class="com.ypiao.json.OnUserVip" />
+
+
+
+	</package>
+
+	<!-- 网站/app json数据 -->
+	<package name="site_app_json" extends="Pub-default" namespace="/js">
+		<!-- 通知管理 -->
+		<action name="ader_notes" class="com.ypiao.json.AtAderNote"/>
+		
+		<!-- 票友学堂 -->
+		<action name="xues" class="com.ypiao.json.AtXue"/>
+		
+		<!-- 票友学堂列表项json -->
+		<action name="xue_one" class="com.ypiao.json.AtXue" method="one">
+			<param name="sid"></param>
+		</action>
+		
+		<!-- 票友学堂列表项H5页面 -->
+		<action name="xue_h5" class="com.ypiao.json.AtXue" method="h5">
+			<param name="sid"></param>
+            <result type="velocity">/WEB-INF/Template/xue/xue.vm</result>  
+            <result name="error" type="velocity">/WEB-INF/Template/xue/error.vm</result> 
+		</action>
+		
+		<!-- 官网常见问题数据列表 -->
+		<action name="helps" class="com.ypiao.json.AtHelp" method="list"/>
+		
+		<!-- app常见问题分类获取 -->
+		<action name="helps_by_type" class="com.ypiao.json.AtHelp" method="listByType">
+			<param name="type"></param>
+		</action>
+		
+		<!-- 新闻管理 -->
+		<action name="news" class="com.ypiao.json.AtNews"/>
+		
+		<!-- 网站首页中部广告 -->
+		<action name="aders_index_center" class="com.ypiao.json.AtAdser" method="indexCenter"/>
+		
+		<!-- 网站首页顶部轮播广告 -->
+		<action name="aders_index_top" class="com.ypiao.json.AtAdser" method="indexTop"/>
+		
+		<!-- app首页中部四个icon + 其下方点击注册图片 -->
+		<action name="aders_app_icon" class="com.ypiao.json.AtAdser" method="appCenterIcon"/>
+		
+		<!-- app首页了解盈喵金服 -->
+		<action name="aders_app_know" class="com.ypiao.json.AtAdser" method="appKnow"/>
+		
+		<!-- 福利专区 -->
+		<action name="welfares" class="com.ypiao.json.AtWelfare"/>
+		
+		<!-- 优惠券弹窗 -->
+		<action name="alert_coupon" class="com.ypiao.json.OnUserCoupon" method="alert"/>
+		<!--&lt;!&ndash; 抽奖&ndash;&gt;
+		<action name="user_lottery" class="com.ypiao.json.OnUserLottery" />-->
+
+	</package>
+
+</struts>

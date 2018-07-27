@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.sunsw.com/dtd/spring-beans-2.0.dtd">
+<beans>
+	<bean id="placeholderConfig" class="org.framework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:init.properties</value>
+		</property>
+	</bean>
+	<bean id="dataSource" class="com.sunsw.sql.PooledDataSource" destroy-method="close">
+		<property name="driver" value="${datasource.driver}"/>
+		<property name="jdbcUrl" value="${datasource.url}" />
+		<property name="username" value="${datasource.username}" />
+		<property name="password" value="${datasource.password}" />
+		<property name="partitionCount" value="${ds.partitionCount}" />
+		<property name="acquireIncrement" value="${ds.acquireIncrement}" />
+		<property name="minConnectionsPerPartition" value="${ds.minConnectionsPerPartition}" />
+		<property name="maxConnectionsPerPartition" value="${ds.maxConnectionsPerPartition}" />
+		<property name="idleConnectionTestPeriod" value="${ds.idleConnectionTestPeriod}" />
+		<property name="idleMaxAgeInMinutes" value="${ds.idleMaxAgeInMinutes}" />
+		<property name="releaseHelperThreads" value="${ds.releaseHelperThreads}" />
+		<property name="acquireRetryDelayInMs" value="${ds.acquireRetryDelayInMs}" />
+		<property name="closeConnectionWatch" value="${ds.closeConnectionWatch}" />
+		<!-- <property name="initSQL" value="${ds.initSQL}" /> -->
+	</bean>
+	<bean id="dsFactory" class="com.ypm.data.DataFactory">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="messageSource" class="org.framework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>com.ypm.source</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="sysBeaner" class="com.ypm.service.SysBeaner" />
+</beans>

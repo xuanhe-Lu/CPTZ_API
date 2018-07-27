@@ -1,0 +1,1 @@
+[{"ID":6,"SNO":"system.export.excel","SORTID":1,"REFID":"xls","REFVALUE":".xls(office2003)","DEFCHECK":"0"},{"ID":7,"SNO":"system.export.excel","SORTID":2,"REFID":"xlsx","REFVALUE":".xlsx(office2007)","DEFCHECK":"1"}]

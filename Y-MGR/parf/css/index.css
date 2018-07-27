@@ -1,0 +1,42 @@
+﻿.icon-reminder{background-image:url(/parm/remind/reminder.gif)!important;background-repeat:no-repeat;}
+.x-portal .x-panel-dd-spacer{margin-bottom:10px;}
+.x-portlet{margin-bottom:10px;}
+/* Clean up the look of the portlets */
+.x-portlet .x-panel-ml{padding-left:2px;}
+.x-portlet .x-panel-mr{padding-right:2px;}
+.x-portlet .x-panel-bl{padding-left:2px;}
+.x-portlet .x-panel-br{padding-right:2px;}
+.x-portlet .x-panel-body{background:white;}
+.x-portlet .x-panel-mc{padding-top:2px;}
+.x-portlet .x-panel-bc .x-panel-footer{padding-bottom:2px;}
+.x-portlet .x-panel-nofooter .x-panel-bc{height:2px;}
+/*** Firefox patch****/
+.x-window-footer{position:relative;top:0;right:0;}
+.x-tab-strip SPAN.x-tab-strip-text{font-size:12px;}
+.x-panel-header{font-size:12px;}
+.x-tree-node{font-size:12px;}
+.x-grid3-hd-row td{font-size:12px;}
+.x-toolbar .x-small-editor{font-size:12px;}
+.x-toolbar .ytb-text{font-size:12px;}
+.x-grid3-row td{font-size:12px;line-height:16px;}
+.x-tip .x-tip-bd{font-size:12px;}
+.x-tip h3{font-size:12px;}
+.x-tip .x-tip-bd-inner{font-size:12px;}
+.x-panel-tl .x-panel-header{font:normal 12px tahoma,arial,verdana,sans-serif;}
+.x-form-field{font:12px tahoma,arial,helvetica,sans-serif}
+.x-small-editor .x-form-field{font:12px tahoma,arial,helvetica,sans-serif}
+.x-combo-list-item{font:12px tahoma,arial,helvetica,sans-serif;}
+.x-menu-list-item{font:12px tahoma,arial,sans-serif;}
+.x-window-tl .x-window-header{font:bold 12px tahoma,arial,verdana,sans-serif;}
+.x-layout-split-west .x-layout-mini{}
+.x-form-item{font:12px tahoma,arial,helvetica,sans-serif}
+.x-grid-group-hd DIV{font:bold 12px tahoma,arial,helvetica,sans-serif;}
+.ext-gecko .x-btn button{padding-left:0pt;padding-right:0pt;}
+.x-btn button{font-size:12px;}
+.ext-ie .x-menu{overflow:visible;}
+#sys_sitemsg{margin:5px;}
+#sys_sitemsg span{color:red;}
+#sys_sitemsg ul{padding:10px 10px 10px 50px;}
+#sys_sitemsg li{line-height:1.8em;}
+#sys_sitemsg a:link,#sys_sitemsg a:visited,#sys_sitemsg a:visited,#sys_sitemsg a:hover,#sys_sitemsg a:active{line-height:20px;text-decoration:none;color:#08C;}
+#sys_sitemsg a:hover,#sys_sitemsg a:active{color:red;}

@@ -1,0 +1,5 @@
+﻿.ux-mselect{position:relative;overflow:auto;background:white;_zoom:1;}
+.ux-mselect-item{padding:2px;border:1px solid #fff;white-space:nowrap;font:normal 12px tahoma, arial, helvetica, sans-serif;cursor:pointer;}
+.ux-mselect-selected{border:1px dotted #A3BAE9!important;background:#DFE8F6;cursor:pointer;}
+.x-view-drag-insert-above{border-top:1px dotted #36C;}
+.x-view-drag-insert-below{border-bottom:1px dotted #36C;}

@@ -1,0 +1,9 @@
+﻿.parf-menuadmin .x-panel-body{background:white;font:11px Arial, Helvetica, sans-serif;}
+.parf-menuadmin .thumb{padding:3px;background:#dddddd;}
+.parf-menuadmin .thumb img{width:16px;height:16px;}
+.parf-menuadmin .thumb-wrap{float:left;margin:4px;margin-right:0;padding:5px;}
+.parf-menuadmin .thumb-wrap span{display:block;overflow:hidden;text-align:center;}
+.parf-menuadmin .x-view-over{padding:4px;border:1px solid #dddddd;background:#efefef url(/extjs/images/default/grid/row-over.gif) repeat-x left top;}
+.parf-menuadmin .x-view-selected{padding:4px;border:1px solid #99bbe8;background:#eff5fb url(/extjs/images/selected.gif) no-repeat right bottom;}
+.parf-menuadmin .x-view-selected .thumb{background:transparent;}
+.parf-menuadmin .loading-indicator{margin:10px;padding-left:20px;background-image:url('/extjs/images/default/grid/loading.gif');background-repeat:no-repeat;background-position:left;font-size:11px;}

@@ -1,0 +1,9 @@
+.msgbox_layer,.msgbox_layer .gtl_ico_succ,.msgbox_layer .gtl_ico_fail,.msgbox_layer .gtl_ico_hits,.msgbox_layer .gtl_ico_clear,.msgbox_layer .gtl_end{display:inline-block;position:absolute;height:54px;line-height:54px;background-image:url("img/tip_layer.png");_background-image:url("img/tip_layer_ie6.png");background-repeat:no-repeat;font-weight:bold;font-size:14px;color:#606060;}
+.msgbox_layer_wrap{width:100%;position:fixed;_position:absolute;top:45%;left:0;text-align:center;z-index:60000;}
+.msgbox_layer {background-position:0 -161px;background-repeat:repeat-x;position:relative;padding:0 18px 0 9px;margin:0 auto;}
+.msgbox_layer .gtl_end{background-position:0 0;right:-6px;top:0;width:6px;}
+.msgbox_layer .gtl_ico_succ{background-position:-6px 0;top:0;left:-45px;width:45px;}
+.msgbox_layer .gtl_ico_hits{background-position:-6px -54px;top:0;left:-45px;width:45px;}
+.msgbox_layer .gtl_ico_fail{background-position:-6px -108px;top:0;left:-45px;width:45px;}
+.msgbox_layer .gtl_ico_clear{background-position:-6px 0;top:0;left:-5px;width:5px;}
+.msgbox_layer img{float:left;margin:19px 10px 0 5px;}

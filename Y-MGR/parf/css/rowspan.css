@@ -1,0 +1,29 @@
+﻿.rowspan-grid .x-grid3-body .x-grid3-row {
+    border:none;
+    cursor:default;
+    width:100%;
+}
+.rowspan-grid .x-grid3-header .x-grid3-cell{
+    /*border-left: 2px solid transparent;*/
+    border-left: 2px solid #fff;
+}
+.rowspan-grid .x-grid3-body .x-grid3-row{
+    overflow: hidden;
+    border-right: 1px solid #ccc;
+}
+.rowspan-grid .x-grid3-body .x-grid3-cell {
+    border: 1px solid #ccc;
+    border-top:none;
+    border-right:none;
+}
+.rowspan-grid .x-grid3-body .x-grid3-cell-first {
+    /*border-left: 1px solid transparent;*/
+    border-left: 1px solid #fff;
+}
+.rowspan-grid .x-grid3-body .rowspan-unborder {
+    /*border-bottom:1px solid transparent;*/
+    border-bottom:1px solid #fff;
+}
+.rowspan-grid .x-grid3-body .rowspan {
+    border-bottom: 1px solid #ccc;
+}

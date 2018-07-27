@@ -1,0 +1,284 @@
+﻿Ext.namespace("Ext.user.money.draw");
+Ext.user.money.draw.g_url="user/money_draw.do";
+Ext.user.money.draw.exportWindow=Ext.extend(Ext.Window,{
+	params:{},
+	constructor:function(){
+		this.form=new Ext.FormPanel({
+			cls:"x-panel-mc",
+			autoHeight:true,
+			border:false,
+			bodyStyle:"padding:5px;",
+			labelWidth:65,
+			items:[{xtype:"fjs-store-radio",name:"Suffix",fieldLabel:"${file.msg.type}",dictId:"system.export.excel",groupcfg:{name:"Suffix"}}]
+		});
+		Ext.user.money.draw.exportWindow.superclass.constructor.call(this,{
+			iconCls:"btn-excel",
+			title:"${file.msg.excel}",
+			width:320,
+			autoHeight:true,
+			border:false,
+			closable:true, 
+			closeAction:"hide",
+			modal:true,
+			plain:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-accept1",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	window_submit:function(){
+		this.params.action="export";
+		this.form.getForm().submit(Ext.fjs.loadAction({url:Ext.user.money.draw.g_url,params:this.params,success:this.apply_success,scope:this}));
+	},
+	apply_success:function(form,opts){
+		Ext.fjs.download("/down.php?filename="+opts.result.message);
+		this.window_close();
+	}
+});
+Ext.user.money.draw.datWindow=Ext.extend(Ext.Window,{
+	constructor:function(){
+		this.form=new Ext.form.FormPanel({
+			cls:"x-panel-mc",
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"user/money_draws.tpl"},
+			style:"padding-top:0px",
+			items:[
+				{xtype:"displayfield",name:"SID"},
+				{xtype:"displayfield",name:"UID"},
+				{xtype:"displayfield",name:"BID"},
+				{xtype:"displayfield",name:"MARK"},
+				{xtype:"displayfield",name:"NAME"},
+				{xtype:"displayfield",name:"ACCT"},
+				{xtype:"displayfield",name:"CARD"},
+				{xtype:"displayfield",name:"MONEY"},
+				{xtype:"displayfield",name:"STATE"},
+				{xtype:"displayfield",name:"STEXT"},
+				{xtype:"displayfield",name:"STIME"},
+				{xtype:"displayfield",name:"TIME"}
+			]
+		});
+		Ext.user.money.draw.datWindow.superclass.constructor.call(this,{
+			iconCls:"btn-detail1",
+			title:"${fzm.msg.detail}",
+			width:680,
+			autoHeight:true,
+			autoScroll:true,
+			border:false,
+			closable:true,
+			closeAction:"hide",
+			plain:true,
+			modal:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-stop1",text:"${fzm.btn.close}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	open:function(row){
+		var src="/ext/images/default/s.gif";
+		if(row.get("STATS")==5){
+			src="/cash/"+row.get("SID")+".jpg";
+		}
+		this.form.getForm().setValues({
+			SID:row.get("SID"),
+			UID:row.get("UID"),
+			BID:row.get("BID"),
+			MARK:row.get("MARK"),
+			NAME:row.get("NAME"),
+			ACCT:row.get("ACCT"),
+			CARD:row.get("CARD"),
+			MONEY:row.get("MONEY"),
+			STATE:row.get("STATE"),
+			STEXT:row.get("STEXT"),
+			STIME:row.get("STIME"),
+			TIME:row.get("TIME")
+		});
+		this.show();
+		$("src_draws").src=src;
+	}
+});
+Ext.user.money.draw.modWindow=Ext.extend(Ext.Window,{
+	constructor:function(grid){
+		this.grid=grid;
+		this.form=new Ext.form.FormPanel({
+			cls:"x-panel-mc",
+			fileUpload:true,
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"user/money_draw.tpl"},
+			style:"padding-top:0px",
+			items:[
+				{xtype:"displayfield",name:"SID"},
+				{xtype:"displayfield",name:"UID"},
+				{xtype:"displayfield",name:"BID"},
+				{xtype:"displayfield",name:"MARK"},
+				{xtype:"displayfield",name:"NAME"},
+				{xtype:"displayfield",name:"ACCT"},
+				{xtype:"displayfield",name:"CARD"},
+				{xtype:"displayfield",name:"MONEY"},
+				{xtype:"displayfield",name:"STATE"},
+				{xtype:"displayfield",name:"STIME"},
+				{xtype:"displayfield",name:"TIME"},
+				{xtype:"fileuploadfield",fieldLabel:"file",name:"files",emptyText:"${upload.msg.empty}",allowBlank:true,anchor:"95%",width:250,buttonText:"${upload.msg.select}"},
+				{xtype:"textfield",name:"STEXT",width:480,allowBlank:true,boldLabel:true,minLength:2,maxLength:100}
+			]
+		});
+		Ext.user.money.draw.modWindow.superclass.constructor.call(this,{
+			iconCls:"btn-edit",
+			title:"${fzm.msg.edit}",
+			width:680,
+			autoHeight:true,
+			autoScroll:true,
+			border:false,
+			closable:true,
+			closeAction:"hide",
+			plain:true,
+			modal:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-save",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	window_submit:function(){
+		if(Ext.fjs.checkValid(this.form)){
+			var fv=this.form.getForm().findField("files").getValue();
+			if(/(jpg|jpeg|png|bmp)$/i.test(fv)){
+				this.form.getForm().submit(Ext.fjs.saveAction({url:Ext.user.money.draw.g_url,params:{action:"save",sid:this.sid},success:this.apply_success,scope:this}));
+			}else{
+				Ext.fjs.showInfo("${upload.msg.image}");
+			}
+		}
+	},
+	apply_success:function(form,opts){
+		this.form.getForm().reset();
+		this.grid.reload();
+		this.window_close();
+	},
+	open:function(row){
+		this.sid=row.get("SID");
+		this.form.getForm().setValues({
+			SID:this.sid,
+			UID:row.get("UID"),
+			BID:row.get("BID"),
+			MARK:row.get("MARK"),
+			NAME:row.get("NAME"),
+			ACCT:row.get("ACCT"),
+			CARD:row.get("CARD"),
+			MONEY:row.get("MONEY"),
+			STATE:row.get("STATE"),
+			STIME:row.get("STIME"),
+			TIME:row.get("TIME")
+		});
+		this.show();
+	}
+});
+Ext.user.money.draw.MainPanel=Ext.extend(Ext.grid.GridPanel,{
+	constructor:function(){
+		this.store=new Ext.fjs.PageStore({
+			url:Ext.user.money.draw.g_url,
+			baseParams:{action:"list"},
+			fields:[<s:fields id="user.money.draw"/>,"STATS"]
+		});
+		this.store.load({params:{start:0,limit:Ext.fjs.defPSize}});
+		var sm=new Ext.grid.CheckboxSelectionModel();
+		var cm=new Ext.grid.ColumnModel([
+			sm,new Ext.grid.RowNumber()<s:header id="user.money.draw"/>
+		]);
+		this.showBtn=new Ext.Button({iconCls:"btn-detail1",text:"${fzm.btn.view}",tooltip:"${fzm.msg.select}",disabled:true,handler:this.show_onclick,scope:this});
+		this.statBtn=new Ext.Button({iconCls:"btn-edit",text:"${user.msg.draw}",tooltip:"${fzm.msg.select}",disabled:true,handler:this.todo_onclick,scope:this});
+		this.extBtn=new Ext.Button({iconCls:"btn-excel",text:"${fzm.btn.export}",tooltip:"${fzm.btn.export}",disabled:false,handler:this.export_onclick,scope:this});
+		Ext.user.money.draw.MainPanel.superclass.constructor.call(this,{
+			region:"center",
+			store:this.store,
+			stripeRows:true,
+			autoScroll:true,
+			boldHeader:true,
+			border:false,
+			closable:true,
+			columnLines:true,
+			containerScroll:true,
+			loadMask:true,
+			cm:cm,sm:sm,
+			style:"border-left:1px solid #8db2e3;",
+			tbar:[
+				{xtype:"label",boldLabel:true,text:"${fzm.msg.search}:"},
+				this.fkey=new Ext.form.TextField({xtype:"textfield",name:"fkey",width:150,maxLength:50}),{xtype:"tbspacer",width:5},{iconCls:"btn-search",tooltip:"${fzm.msg.search}",handler:this.search_onclick,scope:this},
+				"->",this.showBtn,"-",this.statBtn,"-",this.extBtn
+			],
+			bbar:Ext.fjs.PageToolBar({store:this.store})
+		});
+		this.getSelectionModel().on("selectionchange",this.evt_selection,this);
+		this.on("rowdblclick",this.todo_onclick,this);
+	},
+	evt_selection:function(sm){
+		var len=sm.getCount();
+		if(len==1){
+			this.showBtn.enable();
+			this.statBtn.enable();
+		}else{
+			this.showBtn.disable();
+			this.statBtn.disable();
+		}
+	},
+	reload:function(){
+		this.getBottomToolbar().doRefresh();
+	},
+	search_onclick:function(){
+		var s=this.store;
+		s.setBaseParam("KEY",this.fkey.getValue());
+		s.load({params:{start:0,limit:this.getBottomToolbar().pageSize}});
+	},
+	todo_onclick:function(btn){
+		var a=this.getSelectionModel().getSelections();
+		if(a.length!=1){
+		}else if(a[0].get("STATS")==0){
+			this.todo_mod(a[0]);
+		}else{
+			this.todo_dat(a[0]);
+		}
+	},
+	todo_dat:function(row){
+		var w=this.datWin;
+		if(!w){
+			this.datWin=w=new Ext.user.money.draw.datWindow();
+		}
+		w.open(row);
+	},
+	todo_mod:function(row){
+		var w=this.modWin;
+		if(!w){
+			this.modWin=w=new Ext.user.money.draw.modWindow(this);
+		}
+		w.open(row);
+	},
+	getSid:function(){
+		return Ext.fjs.getPKId(this,"SID");
+	},
+	show_onclick:function(btn){
+		this.todo_dat(this.getSelectionModel().getSelections()[0]);
+	},
+	export_onclick:function(btn){
+		var w=this.extWin;
+		if(!w){
+			this.extWin=w=new Ext.user.money.draw.exportWindow();
+		}
+		w.params.Key=this.fkey.getValue();
+		w.show(btn.id);
+	},
+	beforeDestroy:function(){
+		if(this.datWin)Ext.destroy(this.datWin);
+		if(this.modWin)Ext.destroy(this.modWin);
+		if(this.extWin)Ext.destroy(this.extWin);
+		Ext.user.money.draw.MainPanel.superclass.beforeDestroy.call(this);
+	}
+});

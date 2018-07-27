@@ -1,0 +1,61 @@
+﻿.parf-opinion .x-view-over{
+	border-bottom:1px solid #ECE9D8;
+	background-color: #DDDDDD;
+	padding: 1;
+	cursor: pointer;
+}
+
+.parf-opinion .x-view-selected{
+	background-color: #99BBE8;
+	border-bottom:1px solid #ECE9D8;
+	padding: 1
+}
+
+.parf-opinion .item-wrap{
+	background:transparent;
+	padding: 3;
+	align:center;
+	border-bottom:1px solid #ECE9D8;
+}
+.parf-opinion .item-wrap table td{
+	font-size : 12px;
+}
+.parf-opinion .item-content-new{
+	padding: 5px;
+	white-space: normal;
+	word-break:break-all;
+}
+.parf-opinion .item-catpion-new{
+	padding: 5px;
+	text-align:right;
+}
+.parf-opinion .item-content-old{
+	padding: 5px;
+	color: #666666;
+	white-space: normal;
+	word-break:break-all;
+}
+.parf-opinion .item-catpion-old{
+	padding: 5px;
+	color: #666666;
+	text-align:right;
+}
+
+.parf-opinion .x-view-over .delBtn
+{
+	width: 18px;
+	height: 18px;
+	margin-left:5px;
+	cursor: pointer;
+	background: url(/images/portlet/tools.gif) no-repeat;
+	background-position: -36px 0px;
+}
+
+.parf-opinion  .delBtn
+{
+	width: 0px;
+	height: 0px;
+	margin-left:5px;
+	cursor: ;
+	background:;
+}

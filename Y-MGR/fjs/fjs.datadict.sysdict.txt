@@ -1,0 +1,465 @@
+﻿Ext.namespace("Ext.fjs.datadict.sysdict");
+Ext.fjs.datadict.sysdict.g_url="fjs/dict_manage.do";
+Ext.fjs.datadict.sysdict.FormBar=Ext.extend(Ext.FormPanel,{
+	constructor:function(){
+		Ext.fjs.datadict.sysdict.FormBar.superclass.constructor.call(this,{
+			cls:"x-panel-mc",
+			region:"south",
+			height:150,
+			autoScroll:true,
+			border:false,
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"datadict/sysdict_form.tpl"},
+			style:"border-top:1px solid #8db2e3;padding-top:0px;",
+			items:[
+				{xtype:"hidden",name:"DICTID"},
+				{xtype:"textfield",name:"REFID",boldLabel:true,allowBlank:false,width:250,maxLength:50},
+				{xtype:"textfield",name:"REFVALUE",boldLabel:true,allowBlank:false,width:250,maxLength:50},
+				{xtype:"fjs-store-radio",name:"DEFCHECK",fieldLabel:"${dict.msg.default}",dictId:"system.default",width:150,groupcfg:{name:"DEFCHECK",allowBlank:false}}
+			],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-accept1",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+		this.on("afterlayout",this.disable,this,{single:true});
+	},
+	window_submit:function(){
+		if(this.getForm().isValid()){
+			this.getForm().submit(Ext.fjs.addAction({url:Ext.fjs.datadict.sysdict.g_url,params:{action:"save",define:1,sid:this.grid.sid},success:this.save_success,scope:this}));
+		}else{
+			Ext.msg.alert(Ext.fjs.NOTICE,Ext.fjs.formInvalid);
+		}
+	},
+	save_success:function(form,opts){
+		this.window_close();
+		this.grid.store.load({params:{start:0,limit:Ext.fjs.defPSize}});
+	},
+	window_close:function(){
+		this.disable();
+		var f=this.getForm();f.reset();f.setValues({DEFCHECK:1});
+	}
+});
+Ext.fjs.datadict.sysdict.GridBar=Ext.extend(Ext.grid.GridPanel,{
+	constructor:function(form){
+		this.form=form;form.grid=this;
+		this.store=new Ext.data.JsonStore({
+			url:Ext.fjs.datadict.sysdict.g_url,
+			baseParams:{action:"getDictInfo",define:1,sid:0},
+			fields:["DICTID","REFID","REFVALUE","DEFCHECK"]
+		});
+		var sm=new Ext.grid.CheckboxSelectionModel();
+		var cm=new Ext.grid.ColumnModel([sm,new Ext.grid.RowNumber(),
+			{header:"${fzm.msg.number}",dataIndex:"REFID",hideable:true,menuDisabled:false,width:100,sortable:true},
+			{header:"${fzm.msg.name}",dataIndex:"REFVALUE",hideable:true,menuDisabled:false,width:250,sortable:true},
+			{header:"${fzm.msg.default}",dataIndex:"DEFCHECK",hideable:true,menuDisabled:false,width:100,sortable:false}
+		]);
+		Ext.fjs.datadict.sysdict.GridBar.superclass.constructor.call(this,{
+			iconCls:"ico-folder",
+			region:"center",
+			store:this.store,
+			stripeRows:true,		//斑马线
+			autoScroll:true,
+			boldHeader:true,		//列标题为粗体
+			border:false,
+			closable:true,
+			containerScroll:true,
+			loadMask:true,			//加载完毕前会有遮盖
+			margins:"0 0 5 0",
+			style:"border-bottom:1px solid #8db2e3;",
+			sm:sm,cm:cm,columnLines:true,
+			viewConfig:{forceFit:true},
+			tbar:['->',
+				this.addBtn=new Ext.Button({iconCls:"btn-add",text:"${fzm.msg.add}",disabled:false,tooltip:"${fzm.msg.new}",handler:this.add_onclick,scope:this}),'-',
+				this.updateBtn=new Ext.Button({iconCls:"btn-edit",text:"${fzm.btn.modify}",disabled:true,tooltip:"${fzm.msg.select}",handler:this.update_onclick,scope:this}),'-',
+				this.deleteBtn=new Ext.Button({iconCls:"btn-delete",text:"${fzm.btn.delete}",disabled:true,tooltip:"${fzm.msg.select}",handler:this.delete_onclick,scope:this}),'-',
+				this.orderBtn=new Ext.Button({iconCls:"btn-order",text:"${fzm.btn.order}",disabled:false,tooltip:"${fzm.msg.order}",handler:this.order_onclick,scope:this})
+			]
+		});
+		this.on("afterrender",this.evt_afterrender,this);
+		this.on("afterlayout",this.evt_afterlayout,this,{single:true});
+		this.getSelectionModel().on("selectionchange",this.evt_selectionChange,this);
+	},
+	evt_afterlayout:function(){
+		this.disable();
+	},
+	evt_afterrender:function(){
+		this.store.load({params:{start:0,limit:Ext.fjs.defPSize}});
+	},
+	evt_selectionChange:function(sm){
+		var len=sm.getCount();
+		if(len==1){
+			this.updateBtn.enable();
+		}else{
+			this.updateBtn.disable();
+		}
+		if(len>0){
+			this.deleteBtn.enable();
+		}else{
+			this.deleteBtn.disable();
+		}
+	},
+	refresh:function(){
+		this.disable();
+		this.reset(true);
+	},
+	reload:function(sid){
+		this.sid=sid;
+		this.enable();
+		this.reset(true);
+		Ext.fjs.setProperty(this.store.baseParams,"sid",sid);
+		this.evt_afterrender();
+	},
+	reset:function(de){
+		var f=this.form.getForm();
+		f.reset();f.setValues({DEFCHECK:1});
+		if(de){this.form.disable()}else{this.form.enable()}
+	},
+	add_onclick:function(){
+		this.reset(false);
+	},
+	update_onclick:function(){
+		var f=this.getSelectionModel().getSelections();
+		if(f.length>0){
+			var d=f[0].data;
+			d.DEFCHECK=(/(1|是|Yes)$/ig.test(d.DEFCHECK))?1:0;
+			this.form.getForm().setValues(d);
+		}
+		this.form.enable();
+	},
+	delete_onclick:function(){
+		Ext.msg.confirm(Ext.fjs.NOTICE,Ext.fjs.del_confirm,this.delConfirm,this);
+	},
+	delConfirm:function(btn){
+		if(btn!="yes")return;
+		Ext.fjs.post({url:Ext.fjs.datadict.sysdict.g_url,params:{action:"delete",sid:this.sid,ids:Ext.fjs.getPKId(this,"DICTID")},success:this.del_success,scope:this});
+	},
+	del_success:function(res,opts){
+		var rs=Ext.decode(res.responseText);
+		if(rs.success){
+			this.reload(this.sid);
+		}else{
+			Ext.fjs.showError(rs.message);
+		}
+	},
+	order_onclick:function(btn){
+		var tree=this.tree;
+		if(tree.orderWin==null){
+			tree.orderWin=new Ext.fjs.datadict.sysdict.orderWindow(tree);
+		}
+		tree.orderWin.open(btn,this);
+	}
+});
+Ext.fjs.datadict.sysdict.addWindow=Ext.extend(Ext.Window,{
+	constructor:function(tree){
+		this.tree=tree;
+		this.form=new Ext.FormPanel({
+			cls:"x-panel-mc",
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"datadict/tree_operate.tpl"},
+			style:"padding:0px",
+			items:[
+				{xtype:"textfield",name:"DICTSNO",width:260,allowBlank:false,boldLabel:true,minLength:3,maxLength:25},
+				{xtype:"textfield",name:"DICTNAME",width:260,allowBlank:false,boldLabel:true,minLength:3,maxLength:50}
+			]
+		});
+		Ext.fjs.datadict.sysdict.addWindow.superclass.constructor.call(this,{
+			iconCls:"btn-add",
+			title:"${dict.title.type1}",
+			width:380,
+			autoHeight:true,
+			border:false,
+			closeAction:"hide",
+			modal:true,
+			plain:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-accept1",text:"${fzm.btn.confirm}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_submit:function(){
+		if(Ext.fjs.checkValid(this.form)){
+			var tid=(this.node)?this.node.id:0;
+			this.form.getForm().submit(Ext.fjs.addAction({url:Ext.fjs.datadict.sysdict.g_url,params:{action:"add",define:1,tid:tid},success:this.add_success,scope:this}));
+		}else{
+			Ext.msg.alert(Ext.fjs.NOTICE,Ext.fjs.formInvalid);
+		}
+	},
+	add_success:function(form,opts){
+		form.reset();this.hide();
+		var node=this.node,fP=node.getPath();
+		if(node==null){
+			this.tree.root.reload();
+		}else if(node.leaf){
+			if(node.parentNode){
+				node.parentNode.reload();
+				this.tree.expandPath(fP);
+			}else{
+				this.tree.root.reload();
+			}
+		}else{
+			node.reload();
+		}
+	},
+	window_close:function(){
+		this.hide();
+	},
+	open:function(btn,node){
+		this.node=node;
+		this.show(btn.id);
+	}
+});
+Ext.fjs.datadict.sysdict.UpdateWindow=Ext.extend(Ext.Window,{
+	constructor:function(tree){
+		this.tree=tree;
+		this.form=new Ext.FormPanel({
+			cls:"x-panel-mc",
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"datadict/tree_update.tpl"},
+			style:"padding:0",
+			items:[
+				{xtype:"hidden",name:"OLDSNO"},{xtype:"hidden",name:"OLDNAME"},
+				{xtype:"textfield",name:"DICTSNO",width:260,allowBlank:false,boldLabel:true,minLength:3,maxLength:25},
+				{xtype:"textfield",name:"DICTNAME",width:260,allowBlank:false,boldLabel:true,minLength:3,maxLength:50}
+			]
+		});
+		Ext.fjs.datadict.sysdict.UpdateWindow.superclass.constructor.call(this,{
+			iconCls:"btn-edit",
+			title:"${dict.msg.edit}",
+			width:380,
+			autoHeight:true,
+			border:false,
+			closeAction:"hide",
+			modal:true,
+			plain:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-accept1",text:"${fzm.btn.confirm}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_submit:function(){
+		if(Ext.fjs.checkValid(this.form)){
+			this.form.getForm().submit(Ext.fjs.saveAction({url:Ext.fjs.datadict.sysdict.g_url,params:{action:"update",define:1,sid:this.node.id},success:this.update_success,scope:this}));
+		}
+	},
+	update_success:function(form,opts){
+		form.reset();this.hide();
+		var node=this.node,fP=node.getPath();
+		node.parentNode.reload();
+		this.tree.expandPath(fP);
+	},
+	window_close:function(){
+		this.hide();
+	},
+	open:function(btn,node){
+		this.node=node;
+		this.form.getForm().load(Ext.fjs.loadAction({url:Ext.fjs.datadict.sysdict.g_url,params:{action:"getDictMenu",sid:node.id},show:true,scope:this}));
+	}
+});
+Ext.fjs.datadict.sysdict.orderWindow=Ext.extend(Ext.Window,{
+	constructor:function(tree){
+		this.tree=tree;
+		this.store=new Ext.data.Store({
+			autoDestroy:true,
+			url:Ext.fjs.datadict.sysdict.g_url,
+			baseParams:{action:"getChildrens",define:1},
+			reader:new Ext.data.JsonReader({root:"",fields:["id","text"]})
+		});
+		this.form=new Ext.form.FormPanel({
+			frame:true,
+			layout:"column",
+			labelAlign:"left",
+			labelWidth:85,
+			width:255,height:222,
+			style:"padding-right:1.8px;padding-bottom:1.8px",
+			items:[
+				{xtype:"hidden",name:"SID"},
+				{xtype:"fjs-itemorder",name:"IDS",multiselects:{width:250,height:216,allowBlank:false,ddReorder:true,store:this.store,displayField:"text",valueField:"id"}}
+			]
+		});
+		Ext.fjs.datadict.sysdict.orderWindow.superclass.constructor.call(this,{
+			iconCls:"btn-order",
+			title:"${dict.title.order}",
+			layout:"fit",		//样式充满窗口
+			width:300,		//窗口宽度
+			height:300,		//窗口高度
+			closeAction:"hide",	//默认窗口隐藏close,hide
+			modal:true,		//模式窗口，默认为false
+			plain:true,
+			resizable:false,	//窗口的大小不允许拖动,默认为true
+			items:this.form,
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-accept1",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_submit:function(){
+		if(Ext.fjs.checkValid(this.form)){
+			this.form.getForm().submit(Ext.fjs.saveAction({url:Ext.fjs.datadict.sysdict.g_url,params:{action:"order"},success:this.order_success,scope:this}));
+		}
+	},
+	order_success:function(form,opts){
+		this.window_close();
+		var node=this.tree.getSelectionModel().getSelectedNode();
+		if(this.grid){
+			this.grid.reload(node.id);
+		}else if(node){
+			node.reload();
+		}else{
+			this.tree.root.reload();
+		}
+	},
+	window_close:function(){
+		this.form.getForm().reset();
+		this.hide();
+	},
+	open:function(btn,grid){
+		this.grid=grid;
+		var sid=0,parm=this.store.baseParams,node=this.tree.getSelectionModel().getSelectedNode();
+		if(grid){
+			sid=grid.sid;
+			parm.action="getDictOrder";
+		}else{
+			parm.action="getChildrens";
+		}
+		Ext.fjs.setProperty(parm,"sid",node.id);
+		this.form.getForm().findField("SID").setValue(sid);
+		(function(){this.store.load()}).defer(100,this);
+		this.show(btn.id);
+	}
+});
+Ext.fjs.datadict.sysdict.TreeBar=Ext.extend(Ext.tree.TreePanel,{
+	constructor:function(grid){
+		this.grid=grid;
+		Ext.fjs.datadict.sysdict.TreeBar.superclass.constructor.call(this,{
+			iconCls:"ico-folder",
+			region:"center",
+			autoScroll:true,
+			border:false,
+			lines:false ,
+			style:"border-right:1px solid #8db2e3;",
+			useArrows:true,
+			rootVisible:true,
+			root:{id:"0",text:"${dict.msg.info}",nodeType:"async",expanded:true},
+			loader:new Ext.tree.TreeLoader(),
+			tbar:[
+				this.refreshBtn=new Ext.Button({iconCls:"btn-refresh",text:"${fzm.btn.refresh}",tooltip:"${fzm.msg.refresh}",handler:this.refresh_onclick,scope:this}),'-',
+				this.expandBtn=new Ext.Button({iconCls:"btn-expand",text:"${fzm.btn.expand}",tooltip:"${fzm.msg.expand}",handler:this.expandAll,scope:this}),'-',
+				this.collapseBtn=new Ext.Button({iconCls:"btn-collapse",text:"${fzm.btn.collapse}",tooltip:"${fzm.msg.collapse}",handler:this.collapseAll,scope:this}),'-',
+				this.addBtn=new Ext.Button({iconCls:"btn-add",text:"${fzm.btn.add}",tooltip:"${fzm.msg.add}",handler:this.add_onclick,scope:this}),'-',
+				this.updateBtn=new Ext.Button({iconCls:"btn-edit",text:"${fzm.btn.modify}",id:"update",disabled:true,tooltip:"${fzm.msg.modify}",handler:this.update_onclick,scope:this}),'-',
+				this.deleteBtn=new Ext.Button({iconCls:"btn-delete",text:"${fzm.btn.delete}",id:"delete",disabled:true,tooltip:"${fzm.msg.delete}",handler:this.delete_onclick,scope:this}),'-',
+				this.orderBtn=new Ext.Button({iconCls:"btn-order",text:"${fzm.btn.order}",id:"order",tooltip:"${fzm.msg.order}",handler:this.order_onclick,scope:this})
+			]
+		});
+		this.on("beforeload",this.evt_beforeload,this); 
+		this.on("click",this.evt_click,this);
+		this.getSelectionModel().on("selectionchange",this.evt_selectchange,this);
+	},
+	evt_beforeload:function(node){
+		this.loader.dataUrl=Ext.fjs.datadict.sysdict.g_url+"?action=getChildrens&define=1&sid="+node.id;
+	},
+	evt_click:function(node){
+		node.expand();
+		if(node.hasChildNodes()){
+			this.grid.refresh();
+		}else{
+			this.grid.reload(node.id);
+		}
+	},
+	evt_selectchange:function(sm,node){
+		if(node==null){
+			this.updateBtn.disable();
+			this.deleteBtn.disable();
+			return;
+		}
+		if(node.getDepth()>0){
+			this.updateBtn.enable();
+		}else{
+			this.updateBtn.disable();
+		}
+		if(node.hasChildNodes()){
+			this.deleteBtn.disable();
+			this.orderBtn.enable();
+		}else{
+			this.deleteBtn.enable();
+			this.orderBtn.disable();
+		}
+	},
+	refresh_onclick:function(){
+		this.updateBtn.disable();
+		this.deleteBtn.disable();
+		this.grid.refresh();
+		this.root.reload();
+	},
+	add_onclick:function(btn){
+		if(this.addWin==null){
+			this.addWin=new Ext.fjs.datadict.sysdict.addWindow(this);
+		}
+		var node=this.getSelectionModel().getSelectedNode();
+		this.addWin.open(btn,node);
+	},
+	update_onclick:function(btn){
+		if(this.updateWin==null){
+			this.updateWin=new Ext.fjs.datadict.sysdict.UpdateWindow(this);
+		}
+		var node=this.getSelectionModel().getSelectedNode();
+		this.updateWin.open(btn,node);
+	},
+	order_onclick:function(btn){
+		if(this.orderWin==null){
+			this.orderWin=new Ext.fjs.datadict.sysdict.orderWindow(this);
+		}
+		this.orderWin.open(btn);
+	},
+	delete_onclick:function(){
+		Ext.msg.confirm(Ext.fjs.NOTICE,Ext.fjs.del_confirm,this.delConfirm,this);
+	},
+	delConfirm:function(btn){
+		if(btn!="yes")return;
+		var node=this.getSelectionModel().getSelectedNode();if(node==null)return;
+		Ext.fjs.post({url:Ext.fjs.datadict.sysdict.g_url,params:{action:"delete",sid:node.id},success:this.del_success,scope:this});
+	},
+	del_success:function(res,opts){
+		var rs=Ext.decode(res.responseText);
+		if(rs.success){
+			this.grid.refresh();
+			var node=this.getSelectionModel().getSelectedNode().parentNode;
+			if(node){node.reload();}else{this.root.reload();}
+		}else{
+			Ext.fjs.showError(rs.message);
+		}
+	},
+	beforeDestroy:function(){
+		if(this.addWin)Ext.destroy(this.addWin);
+		if(this.updateWin)Ext.destroy(this.updateWin);
+		if(this.orderWin)Ext.destroy(this.orderWin);
+		Ext.fjs.datadict.sysdict.TreeBar.superclass.beforeDestroy.call(this);
+	}
+});
+Ext.fjs.datadict.sysdict.MainPanel=Ext.extend(Ext.Panel,{
+	constructor:function(){
+		this.form=new Ext.fjs.datadict.sysdict.FormBar();
+		this.grid=new Ext.fjs.datadict.sysdict.GridBar(this.form);
+		this.tree=new Ext.fjs.datadict.sysdict.TreeBar(this.grid);
+		Ext.fjs.datadict.sysdict.MainPanel.superclass.constructor.call(this,{
+			border:false,
+			closable:true,
+			layout:"border",
+			items:[this.tree,{region:"east",width:415,margins:"0 0 0 5",border:false,collapsible:false,layout:"border",style:"border-left:1px solid #8DB2E3;",items:[this.grid,this.form]}]
+		});
+		this.grid.tree=this.tree;
+		this.on("afterrender",this.evt_afterrender,this);
+	},
+	evt_afterrender:function(){
+		Ext.msg.confirm(Ext.fjs.NOTICE,"${dict.msg.note}",this.operate,this);
+	},
+	operate:function(btn){
+		if(btn!="yes")Ext.fjs.module.closeChildP(this);
+	},
+	beforeDestroy:function(){
+		if(this.form)Ext.destroy(this.form);
+		if(this.grid)Ext.destroy(this.grid);
+		if(this.tree)Ext.destroy(this.tree);
+		Ext.fjs.datadict.sysdict.MainPanel.superclass.beforeDestroy.call(this);
+	}
+});

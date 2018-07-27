@@ -1,0 +1,1 @@
+[{"ID":227,"SNO":"asset.raw.safe","SORTID":1,"REFID":"1","REFVALUE":"电子","DEFCHECK":"1"},{"ID":228,"SNO":"asset.raw.safe","SORTID":2,"REFID":"2","REFVALUE":"纸质","DEFCHECK":"2"}]

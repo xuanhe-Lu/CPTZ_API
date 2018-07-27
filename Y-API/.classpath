@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="WEB-INF/src"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/aliyun-java-sdk-core-3.3.1.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/aliyun-java-sdk-dysmsapi-1.0.0.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/antgroup.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/bcprov-jdk16-145.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/freemarker-2.3.24.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/gif4j.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/JavaPNS_2.2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/javassist-3.11.0.GA.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/jsoup-1.8.3.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/mail.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/mysql-5.1.19-bin.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/sunsw-all.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/zxing.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_171"/>
+	<classpathentry kind="lib" path="D:/oxygen/Tomcat9/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="D:/oxygen/Tomcat9/lib/annotations-api.jar"/>
+	<classpathentry kind="lib" path="D:/oxygen/Tomcat9/lib/el-api.jar"/>
+	<classpathentry kind="lib" path="D:/oxygen/Tomcat9/lib/jasper.jar"/>
+	<classpathentry kind="lib" path="D:/oxygen/Tomcat9/lib/jsp-api.jar"/>
+	<classpathentry kind="output" path="WEB-INF/classes"/>
+</classpath>

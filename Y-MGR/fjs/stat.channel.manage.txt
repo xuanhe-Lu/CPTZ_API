@@ -1,0 +1,249 @@
+﻿Ext.namespace("Ext.stat.channel.manage");
+Ext.stat.channel.manage.g_url="stat/channel_manage.do";
+Ext.stat.channel.manage.exportWindow=Ext.extend(Ext.Window,{
+	params:{},
+	constructor:function(){
+		this.form=new Ext.FormPanel({
+			cls:"x-panel-mc",
+			autoHeight:true,
+			border:false,
+			bodyStyle:"padding:5px;",
+			labelWidth:65,
+			items:[{xtype:"fjs-store-radio",name:"Suffix",fieldLabel:"${file.msg.type}",dictId:"system.export.excel",groupcfg:{name:"Suffix"}}]
+		});
+		Ext.stat.channel.manage.exportWindow.superclass.constructor.call(this,{
+			iconCls:"btn-excel",
+			title:"${file.msg.excel}",
+			width:320,
+			autoHeight:true,
+			border:false,
+			closable:true, 
+			closeAction:"hide",
+			modal:true,
+			plain:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-accept1",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	window_submit:function(){
+		this.params.action="export";
+		this.form.getForm().submit(Ext.fjs.loadAction({url:Ext.stat.channel.manage.g_url,params:this.params,success:this.apply_success,scope:this}));
+	},
+	apply_success:function(form,opts){
+		Ext.fjs.download("/down.php?filename="+opts.result.message);
+		this.window_close();
+	}
+});
+Ext.stat.channel.manage.datWindow=Ext.extend(Ext.Window,{
+	constructor:function(){
+		this.form=new Ext.form.FormPanel({
+			cls:"x-panel-mc",
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"user/money_draw.tpl"},
+			style:"padding-top:0px",
+			items:[
+				{xtype:"displayfield",name:"SID"},
+				{xtype:"displayfield",name:"UID"},
+				{xtype:"displayfield",name:"BID"},
+				{xtype:"displayfield",name:"MARK"},
+				{xtype:"displayfield",name:"NAME"},
+				{xtype:"displayfield",name:"ACCT"},
+				{xtype:"displayfield",name:"CARD"},
+				{xtype:"displayfield",name:"MONEY"},
+				{xtype:"displayfield",name:"STATE"},
+				{xtype:"displayfield",name:"STEXT"},
+				{xtype:"displayfield",name:"STIME"},
+				{xtype:"displayfield",name:"TIME"}
+			]
+		});
+		Ext.stat.channel.manage.datWindow.superclass.constructor.call(this,{
+			iconCls:"btn-detail1",
+			title:"${fzm.msg.detail}",
+			width:680,
+			autoHeight:true,
+			autoScroll:true,
+			border:false,
+			closable:true,
+			closeAction:"hide",
+			plain:true,
+			modal:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-stop1",text:"${fzm.btn.close}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	open:function(row){
+		this.form.getForm().setValues({
+			SID:row.get("SID"),
+			UID:row.get("UID"),
+			BID:row.get("BID"),
+			MARK:row.get("MARK"),
+			NAME:row.get("NAME"),
+			ACCT:row.get("ACCT"),
+			CARD:row.get("CARD"),
+			MONEY:row.get("MONEY"),
+			STATE:row.get("STATE"),
+			STEXT:row.get("STEXT"),
+			STIME:row.get("STIME"),
+			TIME:row.get("TIME")
+		});
+		this.show();
+	}
+});
+Ext.stat.channel.manage.modWindow=Ext.extend(Ext.Window,{
+	constructor:function(grid){
+		this.grid=grid;
+		this.form=new Ext.form.FormPanel({
+			cls:"x-panel-mc",
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"stat/channel_info.tpl"},
+			style:"padding-top:0px",
+			items:[
+				{xtype:"displayfield",name:"SID"},{xtype:"displayfield",name:"TOTAL"},
+				{xtype:"numberfield",fieldLabel:"UID",name:"UID",allowBlank:true,boldLabel:true,width:80,minValue:0},
+				{xtype:"numberfield",fieldLabel:"FID",name:"FID",allowBlank:true,boldLabel:true,width:80,minValue:0},
+				{xtype:"textfield",name:"STEXT",width:280,allowBlank:true,boldLabel:true,minLength:2,maxLength:100}
+			]
+		});
+		Ext.stat.channel.manage.modWindow.superclass.constructor.call(this,{
+			iconCls:"btn-edit",
+			title:"${fzm.msg.edit}",
+			width:400,
+			autoHeight:true,
+			autoScroll:true,
+			border:false,
+			closable:true,
+			closeAction:"hide",
+			plain:true,
+			modal:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-save",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.close}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.form.getForm().reset();
+		this.hide();
+	},
+	window_submit:function(){
+		if(Ext.fjs.checkValid(this.form)){
+			this.form.getForm().submit(Ext.fjs.saveAction({url:Ext.stat.channel.manage.g_url,params:{action:"save",sid:this.sid},success:this.apply_success,scope:this}));
+		}
+	},
+	apply_success:function(from,opts){
+		this.window_close();
+		this.grid.refresh();
+	},
+	open:function(row){
+		this.sid=row.get("SID");
+		this.form.getForm().setValues({
+			SID:this.sid,
+			UID:row.get("UID"),
+			FID:row.get("FID"),
+			STEXT:row.get("STEXT"),
+			TOTAL:row.get("TOTAL")
+		});
+		this.show();
+	}
+});
+Ext.stat.channel.manage.MainPanel=Ext.extend(Ext.grid.GridPanel,{
+	constructor:function(){
+		this.store=new Ext.fjs.PageStore({
+			url:Ext.stat.channel.manage.g_url,
+			baseParams:{action:"list"},
+			fields:[<s:fields id="stat.channel.manage"/>]
+		});
+		this.store.load({params:{start:0,limit:Ext.fjs.defPSize}});
+		var sm=new Ext.grid.CheckboxSelectionModel();
+		var cm=new Ext.grid.ColumnModel([
+			sm,new Ext.grid.RowNumber()<s:header id="stat.channel.manage"/>
+		]);
+		this.showBtn=new Ext.Button({iconCls:"btn-detail1",text:"${fzm.btn.view}",tooltip:"${fzm.msg.select}",disabled:true,handler:this.show_onclick,scope:this});
+		this.modBtn=new Ext.Button({iconCls:"btn-edit",text:"${fzm.btn.edit}",tooltip:"${fzm.msg.select}",disabled:true,handler:this.mod_onclick,scope:this});
+		this.extBtn=new Ext.Button({iconCls:"btn-excel",text:"${fzm.btn.export}",tooltip:"${fzm.btn.export}",disabled:false,handler:this.export_onclick,scope:this});
+		Ext.stat.channel.manage.MainPanel.superclass.constructor.call(this,{
+			region:"center",
+			store:this.store,
+			stripeRows:true,
+			autoScroll:true,
+			boldHeader:true,
+			border:false,
+			closable:true,
+			columnLines:true,
+			containerScroll:true,
+			loadMask:true,
+			cm:cm,sm:sm,
+			style:"border-left:1px solid #8db2e3;",
+			tbar:[
+				this.fsel=new Ext.fjs.form.StoreComboBox({xtype:"fjs-store-combo",hiddenName:"fsel",dictId:"stat.channel.sels",allowBlank:true,allrec:false,width:90}),{xtype:"tbspacer",width:5},
+				this.fkey=new Ext.form.TextField({xtype:"textfield",name:"fkey",width:150,maxLength:50}),{xtype:"tbspacer",width:5},{iconCls:"btn-search",tooltip:"${fzm.msg.search}",handler:this.search_onclick,scope:this},
+				"->",this.showBtn,"-",this.modBtn,"-",this.extBtn
+			],
+			bbar:Ext.fjs.PageToolBar({store:this.store})
+		});
+		this.getSelectionModel().on("selectionchange",this.evt_selection,this);
+		this.on("rowdblclick",this.mod_onclick,this);
+	},
+	evt_selection:function(sm){
+		var len=sm.getCount();
+		if(len==1){
+			this.showBtn.enable();
+			this.modBtn.enable();
+		}else{
+			this.showBtn.disable();
+			this.modBtn.disable();
+		}
+	},
+	refresh:function(){
+		this.getBottomToolbar().doRefresh();
+	},
+	search_onclick:function(){
+		var s=this.store;
+		s.setBaseParam("SEL",this.fsel.getValue());
+		s.setBaseParam("KEY",this.fkey.getValue());
+		s.load({params:{start:0,limit:this.getBottomToolbar().pageSize}});
+	},
+	getSid:function(){
+		return Ext.fjs.getPKId(this,"SID");
+	},
+	show_onclick:function(btn){
+		var a=this.getSelectionModel().getSelections();
+		var w=this.datWin;
+		if(!w){
+			this.datWin=w=new Ext.stat.channel.manage.datWindow();
+		}
+		//w.open(a[0]);
+	},
+	mod_onclick:function(btn){
+		var a=this.getSelectionModel().getSelections();
+		var w=this.modWin;
+		if(!w){
+			this.modWin=w=new Ext.stat.channel.manage.modWindow(this);
+		}
+		w.open(a[0]);
+	},
+	export_onclick:function(btn){
+		var w=this.extWin;
+		if(!w){
+			this.extWin=w=new Ext.stat.channel.manage.exportWindow();
+		}
+		w.params.Key=this.fkey.getValue();
+		w.show(btn.id);
+	},
+	beforeDestroy:function(){
+		if(this.datWin)Ext.destroy(this.datWin);
+		if(this.modWin)Ext.destroy(this.modWin);
+		if(this.extWin)Ext.destroy(this.extWin);
+		Ext.stat.channel.manage.MainPanel.superclass.beforeDestroy.call(this);
+	}
+});

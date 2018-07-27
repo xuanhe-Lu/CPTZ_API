@@ -1,0 +1,1 @@
+[{"ID":45,"SNO":"coo.coupon.type","SORTID":1,"REFID":"1","REFVALUE":"体验券","DEFCHECK":"1"},{"ID":46,"SNO":"coo.coupon.type","SORTID":2,"REFID":"2","REFVALUE":"加息券","DEFCHECK":"0"},{"ID":47,"SNO":"coo.coupon.type","SORTID":3,"REFID":"3","REFVALUE":"抵扣券","DEFCHECK":"0"}]

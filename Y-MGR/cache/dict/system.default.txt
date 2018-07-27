@@ -1,0 +1,1 @@
+[{"ID":1,"SNO":"system.default","SORTID":1,"REFID":"1","REFVALUE":"是","DEFCHECK":"1"},{"ID":2,"SNO":"system.default","SORTID":2,"REFID":"0","REFVALUE":"否","DEFCHECK":"0"}]

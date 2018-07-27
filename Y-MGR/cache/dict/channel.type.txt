@@ -1,0 +1,1 @@
+[{"ID":330,"SNO":"channel.type","SORTID":1,"REFID":"1","REFVALUE":"一级渠道","DEFCHECK":"0"},{"ID":331,"SNO":"channel.type","SORTID":2,"REFID":"2","REFVALUE":"二级渠道","DEFCHECK":"0"},{"ID":332,"SNO":"channel.type","SORTID":3,"REFID":"3","REFVALUE":"三级渠道","DEFCHECK":"0"}]

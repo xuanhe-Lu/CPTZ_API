@@ -1,0 +1,388 @@
+Ext.namespace("Ext.fjs.set.client");
+Ext.fjs.set.client.g_url="fjs/set_client.do";
+Ext.fjs.set.client.extWindow=Ext.extend(Ext.Window,{
+	params:{},
+	constructor:function(){
+		this.form=new Ext.FormPanel({
+			cls:"x-panel-mc",
+			autoHeight:true,
+			border:false,
+			bodyStyle:"padding:5px;",
+			labelWidth:65,
+			items:[{xtype:"fjs-store-radio",name:"Suffix",fieldLabel:"${file.msg.type}",dictId:"system.export.excel",groupcfg:{name:"Suffix"}}]
+		});
+		Ext.fjs.set.client.extWindow.superclass.constructor.call(this,{
+			iconCls:"btn-excel",
+			title:"${file.msg.excel}",
+			width:320,
+			autoHeight:true,
+			border:false,
+			closable:true, 
+			closeAction:"hide",
+			modal:true,
+			plain:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-accept1",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	window_submit:function(){
+		this.params.action="export";
+		this.form.getForm().submit(Ext.fjs.loadAction({url:Ext.fjs.set.client.g_url,params:this.params,success:this.apply_success,scope:this}));
+	},
+	apply_success:function(form,opts){
+		Ext.fjs.download("/down.php?filename="+opts.result.message);
+		this.window_close();
+	}
+});
+
+Ext.fjs.set.client.datWindow=Ext.extend(Ext.Window,{
+	constructor:function(){
+		this.form=new Ext.form.FormPanel({
+			cls:"x-panel-mc",
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"fjs/set_client.tpl"},
+			style:"padding-top:0px",
+			items:[
+				{xtype:"numberfield",fieldLabel:"Code",name:"CODE",allowBlank:false,boldLabel:true,width:95,minValue:0,maxValue:1000},
+				{xtype:"textfield",fieldLabel:"Codever",name:"CODEVER",allowBlank:false,boldLabel:true,width:200,maxLength:50},
+				{xtype:"datefield",fieldLabel:"Tday",name:"TDAY",allowBlank:false,format:"Y-m-d",width:95},
+				{xtype:"fjs-store-radio",fieldLabel:"state",name:"STATE",dictId:"system.state",width:150,groupcfg:{name:"State",allowBlank:false}},
+				{xtype:"textarea",fieldLabel:"CONTENT",name:"CONTENT",boldLabel:true,emptyText:"",width:450,height:150}
+			]
+		});
+		Ext.fjs.set.client.datWindow.superclass.constructor.call(this,{
+			iconCls:"btn-add",
+			title:"${system.title.code}",
+			width:600,
+			autoHeight:true,
+			autoScroll:true,
+			border:false,
+			closable:true,
+			closeAction:"hide",
+			plain:true,
+			modal:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-save",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.form.getForm().reset();
+		this.hide();
+	},
+	window_submit:function(){
+		if(Ext.fjs.checkValid(this.form)){
+			this.form.getForm().submit(Ext.fjs.saveAction({url:Ext.fjs.set.client.g_url,params:{action:"save",sid:this.sid,tid:this.tid},success:this.apply_success,scope:this}));
+		}
+	},
+	apply_success:function(form,opts){
+		this.grid.refresh();
+		this.window_close();
+	},
+	open:function(a,sid){
+		this.grid=a;
+		this.sid=sid;
+		this.tid=a.tid;
+		if(sid>0){this.setIconClass("btn-edit");}else{this.setIconClass("btn-add");}
+		this.form.getForm().load(Ext.fjs.loadAction({url:Ext.fjs.set.client.g_url,params:{action:"getInfo",sid:this.sid,tid:this.tid},show:true,scope:this}));
+	}
+});
+
+// 新增Android版本窗口
+Ext.fjs.set.client.azAddWindow=Ext.extend(Ext.Window,{
+	constructor:function(){
+		this.form=new Ext.form.FormPanel({
+			cls:"x-panel-mc",
+			fileUpload:true,
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"fjs/add_client_android.tpl"},
+			style:"padding-top:0px",
+			items:[
+				{xtype:"numberfield",fieldLabel:"Code",name:"CODE",allowBlank:false,boldLabel:true,width:95,minValue:0,maxValue:1000},
+				{xtype:"textfield",fieldLabel:"Codever",name:"CODEVER",allowBlank:false,boldLabel:true,width:200,maxLength:50},
+				{xtype:"datefield",fieldLabel:"Tday",name:"TDAY",allowBlank:false,format:"Y-m-d",width:95},
+				{xtype:"fjs-store-radio",fieldLabel:"state",name:"STATE",dictId:"system.state",width:150,groupcfg:{name:"State",allowBlank:false}},
+				{xtype:"fileuploadfield",fieldLabel:"file",name:"files",width:280,emptyText:"${upload.msg.empty}",allowBlank:false,anchor:"95%",buttonText:"${upload.msg.select}"},
+				{xtype:"textarea",fieldLabel:"CONTENT",name:"CONTENT",boldLabel:true,emptyText:"",width:450,height:150}
+			]
+		});
+		Ext.fjs.set.client.datWindow.superclass.constructor.call(this,{
+			iconCls:"btn-add",
+			title:"${system.title.code}",
+			width:600,
+			autoHeight:true,
+			autoScroll:true,
+			border:false,
+			closable:true,
+			closeAction:"hide",
+			plain:true,
+			modal:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-save",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.form.getForm().reset();
+		this.hide();
+	},
+	window_submit:function(){
+		var f = this.form;
+		if(Ext.fjs.checkValid(f)){
+			var fv = f.getForm().findField("files").getValue();
+			if(/(apk)$/i.test(fv)){
+				f.getForm().submit(Ext.fjs.saveAction({url:Ext.fjs.set.client.g_url,params:{action:"saveAndroid",sid:this.sid,tid:this.tid},success:this.apply_success,scope:this}));
+			}else{
+				Ext.fjs.showInfo("${upload.msg.apk}");
+			}
+		}
+	},
+	apply_success:function(form,opts){
+		this.grid.refresh();
+		this.window_close();
+	},
+	open:function(a,sid){
+		this.grid=a;
+		this.sid=sid;
+		this.tid=a.tid;
+		if(sid>0){this.setIconClass("btn-edit");}else{this.setIconClass("btn-add");}
+		this.form.getForm().load(Ext.fjs.loadAction({url:Ext.fjs.set.client.g_url,params:{action:"getInfo",sid:this.sid,tid:this.tid},show:true,scope:this}));
+	}
+});
+
+// 修改Android版本窗口
+Ext.fjs.set.client.azModWindow=Ext.extend(Ext.Window,{
+	constructor:function(){
+		this.form=new Ext.form.FormPanel({
+			cls:"x-panel-mc",
+			fileUpload:true,
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"fjs/mod_client_android.tpl"},
+			style:"padding-top:0px",
+			items:[
+				{xtype:"numberfield",fieldLabel:"Code",name:"CODE",allowBlank:false,boldLabel:true,width:95,minValue:0,maxValue:1000},
+				{xtype:"textfield",fieldLabel:"Codever",name:"CODEVER",allowBlank:false,boldLabel:true,width:200,maxLength:50},
+				{xtype:"datefield",fieldLabel:"Tday",name:"TDAY",allowBlank:false,format:"Y-m-d",width:95},
+				{xtype:"fjs-store-radio",fieldLabel:"state",name:"STATE",dictId:"system.state",width:150,groupcfg:{name:"State",allowBlank:false}},
+				{xtype:"fileuploadfield",fieldLabel:"file",name:"files",width:280,emptyText:"${upload.msg.empty}",allowBlank:true,anchor:"95%",buttonText:"${upload.msg.select}"},
+				{xtype:"textarea",fieldLabel:"CONTENT",name:"CONTENT",boldLabel:true,emptyText:"",width:450,height:150}
+			]
+		});
+		Ext.fjs.set.client.datWindow.superclass.constructor.call(this,{
+			iconCls:"btn-add",
+			title:"${system.title.code}",
+			width:600,
+			autoHeight:true,
+			autoScroll:true,
+			border:false,
+			closable:true,
+			closeAction:"hide",
+			plain:true,
+			modal:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-save",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.form.getForm().reset();
+		this.hide();
+	},
+	window_submit:function(){
+		var f = this.form;
+		if(Ext.fjs.checkValid(f)){
+			f.getForm().submit(Ext.fjs.saveAction({url:Ext.fjs.set.client.g_url,params:{action:"saveAndroid",sid:this.sid,tid:this.tid},success:this.apply_success,scope:this}));
+		}
+	},
+	apply_success:function(form,opts){
+		this.grid.refresh();
+		this.window_close();
+	},
+	loader_success:function(res,opts){
+		var rs=opts.result.data;
+		this.show();
+		document.getElementById("apk_link").href = "/app/download/" + rs.FILENAME;
+	},
+	open:function(a,sid){
+		this.grid=a;
+		this.sid=sid;
+		this.tid=a.tid;
+		if(sid>0){this.setIconClass("btn-edit");}else{this.setIconClass("btn-add");}
+		this.form.getForm().load(Ext.fjs.loadAction({url:Ext.fjs.set.client.g_url,params:{action:"getInfo",sid:this.sid,tid:this.tid},show:true,scope:this}));
+	}
+});
+
+Ext.fjs.set.client.Lister= Ext.extend(Ext.grid.GridPanel,{
+	needLoad:true,
+	constructor:function(grid,title,tid){
+		this.grid=grid;this.tid=tid;
+		var sm=new Ext.grid.CheckboxSelectionModel();
+		var cm=new Ext.grid.ColumnModel([
+			sm,new Ext.grid.RowNumber()<s:header id="fjs.set.client"/>
+		]);
+		this.store=new Ext.fjs.PageStore({
+			url:Ext.fjs.set.client.g_url,
+			baseParams:{action:"list",tid:tid},
+			fields:[<s:fields id="fjs.set.client"/>]
+		});
+		
+		// 判断显示相同按钮调用不同事件处理函数
+		if (tid == 0) {
+			this.addBtn=new Ext.Button({iconCls:"btn-add",text:"${fzm.btn.add}",tooltip:"${fzm.msg.add}",disabled:false,handler:this.add_az_onclick,scope:this});
+			this.modBtn=new Ext.Button({iconCls:"btn-edit",text:"${fzm.btn.modify}",tooltip:"${fzm.msg.select}",disabled:true,handler:this.update_az_onclick,scope:this});
+		} else {
+			this.addBtn=new Ext.Button({iconCls:"btn-add",text:"${fzm.btn.add}",tooltip:"${fzm.msg.add}",disabled:false,handler:this.add_onclick,scope:this});
+			this.modBtn=new Ext.Button({iconCls:"btn-edit",text:"${fzm.btn.modify}",tooltip:"${fzm.msg.select}",disabled:true,handler:this.update_onclick,scope:this});
+		}
+		this.enaBtn=new Ext.Button({iconCls:"btn-accept1",text:"${fzm.btn.enable}",tooltip:"${fzm.btn.enable}",disabled:true,handler:this.state_onclick,state:0,scope:this});
+		this.disBtn=new Ext.Button({iconCls:"btn-stop1",text:"${fzm.btn.disable}",tooltip:"${fzm.btn.disable}",disabled:true,handler:this.state_onclick,state:1,scope:this});
+		this.delBtn=new Ext.Button({iconCls:"btn-delete",text:"${fzm.btn.delete}",tooltip:"${fzm.msg.select}",disabled:true,handler:this.delete_onclick,scope:this});
+		this.extBtn=new Ext.Button({iconCls:"btn-excel",text:"${fzm.btn.export}",tooltip:"${fzm.btn.export}",disabled:false,handler:this.export_onclick,scope:this});
+		Ext.fjs.set.client.Lister.superclass.constructor.call(this,{
+			title:title,
+			region:"center",
+			store:this.store,
+			stripeRows:true,
+			autoScroll:true,
+			boldHeader:true,
+			border:false,
+			closable:false,
+			columnLines:true,
+			loadMask:true,
+			cm:cm,sm:sm,
+			tbar:["->",this.addBtn,"-",this.modBtn,"-",this.delBtn,"-",this.enaBtn,"-",this.disBtn,"-",this.extBtn],
+			bbar:Ext.fjs.PageToolBar({store:this.store})
+		});
+		this.getSelectionModel().on("selectionchange",this.evt_selection,this);
+		// 如果是Android，双击行记录则显示弹框不同
+		if (tid == 0) {
+			this.on("rowdblclick",this.update_az_onclick,this);
+		} else {
+			this.on("rowdblclick",this.update_onclick,this);
+		}
+		this.on("show",this.evt_show,this);
+	},
+	evt_selection:function(sm){
+		var len=sm.getCount();
+		if(len==1){this.modBtn.enable()}else{this.modBtn.disable()}
+		if(len==0){
+			this.delBtn.disable();
+			this.disBtn.disable();
+			this.enaBtn.disable();
+		}else{
+			this.delBtn.enable();
+			this.disBtn.enable();
+			this.enaBtn.enable();
+		}
+	},
+	evt_show:function(){
+		if(this.needLoad){
+			this.needLoad=false;
+			this.store.load({params:{start:0,limit:Ext.fjs.defPSize}});
+		}
+	},
+	getSid:function(){
+		return Ext.fjs.getPKId(this,"SID");
+	},
+	refresh:function(){
+		this.getBottomToolbar().doRefresh();
+	},
+	add_az_onclick:function(){
+		this.grid.addsAz(this);
+	},
+	update_az_onclick:function(){
+		this.grid.editAz(this,Ext.fjs.getPKId(this,"SID"));
+	},
+	add_onclick:function(){
+		this.grid.adds(this);
+	},
+	update_onclick:function(){
+		this.grid.edit(this,Ext.fjs.getPKId(this,"SID"));
+	},
+	delete_onclick:function(){
+		Ext.msg.confirm(Ext.fjs.NOTICE,Ext.fjs.del_confirm,this.delConfirm,this);
+	},
+	delConfirm:function(btn){
+		if(btn=="yes"){
+			Ext.fjs.post({url:Ext.fjs.set.client.g_url,params:{action:"delete",ids:this.getSid()},success:this.apply_success,scope:this});
+		}
+	},
+	state_onclick:function(t){
+		Ext.fjs.post({url:Ext.fjs.set.client.g_url,params:{action:"state",ids:this.getSid(),state:t.state},success:this.apply_success,scope:this})
+	},
+	apply_success:function(res,opts){
+		var rs=Ext.decode(res.responseText);
+		if(rs.success){
+			this.refresh()
+		}else{
+			Ext.fjs.showError(rs.message);
+		}
+	},
+	export_onclick:function(btn){
+		var w=this.extWin;
+		if(!w){
+			this.extWin=w=new Ext.fjs.set.client.extWindow();
+		}
+		w.params.tid=this.tid;
+		w.show(btn.id);
+	},
+	beforeDestroy:function(){
+		if(this.extWin)Ext.destroy(this.extWin);
+		Ext.fjs.set.client.Lister.superclass.beforeDestroy.call(this);
+	}
+});
+Ext.fjs.set.client.MainPanel=Ext.extend(Ext.TabPanel,{
+	constructor:function(){
+		this.anz=new Ext.fjs.set.client.Lister(this,"Android",0);
+		this.ios=new Ext.fjs.set.client.Lister(this,"IOS",1);
+		Ext.fjs.set.client.MainPanel.superclass.constructor.call(this,{
+			title:"Title",
+			activeTab:0,
+			border:false,
+			closable:true,
+			items:[this.anz,this.ios]
+		});
+	},
+	getWin:function(){
+		if(!this.datWin){
+			this.datWin=new Ext.fjs.set.client.datWindow();
+		}
+		return this.datWin;
+	},
+	getAzAddWin:function(){
+		if(!this.azAddWin){
+			this.azAddWin=new Ext.fjs.set.client.azAddWindow();
+		}
+		return this.azAddWin;
+	},
+	getAzModWin:function(){
+		if(!this.azModWin){
+			this.azModWin=new Ext.fjs.set.client.azModWindow();
+		}
+		return this.azModWin;
+	},
+	addsAz:function(a){
+		this.getAzAddWin().open(a,0);
+	},
+	adds:function(a){
+		this.getWin().open(a,0);
+	},
+	editAz:function(a,sid){
+		this.getAzModWin().open(a,sid);
+	},
+	edit:function(a,sid){
+		this.getWin().open(a,sid);
+	},
+	beforeDestroy:function(){
+		if(this.datWin)Ext.destroy(this.datWin);
+		Ext.fjs.set.client.MainPanel.superclass.beforeDestroy.call(this);
+	}
+});

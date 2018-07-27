@@ -1,0 +1,47 @@
+{
+  "code": 0,
+  "success": true,
+  "body": {
+    "count": 2,
+    "lotterys": [{
+      "id": 1,
+      "name":"fds",
+      "url": "images/lottery/rewards_1.png"
+    },
+      {
+        "id": 2,
+        "name":"fds",
+        "url": "images/lottery/rewards_2.png"
+      },
+      {
+        "id": 3,
+        "name":"fds",
+        "url": "images/lottery/rewards_3.png"
+      },
+      {
+        "id": 8,
+        "name":"fds",
+        "url": "images/lottery/rewards_8.png"
+      },
+      {
+        "id": 4,
+        "name":"fds",
+        "url": "images/lottery/rewards_4.png"
+      },
+      {
+        "id": 7,
+        "name":"fds",
+        "url": "images/lottery/rewards_7.png"
+      },
+      {
+        "id": 6,
+        "name":"fds",
+        "url": "images/lottery/rewards_6.png"
+      },
+      {
+        "id": 5,
+        "name":"fds",
+        "url": "images/lottery/rewards_5.png"
+      }]
+  }
+}

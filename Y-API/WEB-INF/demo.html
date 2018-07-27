@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+<body>
+<input type="text" id="ueseName">
+<input type="password" id="password">
+<input type="button" value="登陆" id="btn">
+</body>
+<script>
+    $('#btn').click(function(event) {
+        /* Act on the event */
+        var  ueseName = $('#ueseName').val()
+        var password = $('#password').val()
+        $.ajax({
+            type:'POST',
+            url : 'http://192.168.100.69:8081/js/user_lottery/findLottery',
+            contentType: "application/json",
+            dataType:'json',
+            data:JSON.stringify({ "uid":107918}),
+            success:function(d){
+                console.log(d);
+            }
+        })
+    });
+</script>
+</html>

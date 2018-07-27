@@ -1,0 +1,1 @@
+[{"ID":248,"SNO":"asset.prod.sales","SORTID":1,"REFID":"0","REFVALUE":"普通产品","DEFCHECK":"2"},{"ID":249,"SNO":"asset.prod.sales","SORTID":2,"REFID":"1","REFVALUE":"新手推荐","DEFCHECK":"2"},{"ID":250,"SNO":"asset.prod.sales","SORTID":3,"REFID":"2","REFVALUE":"老顾客","DEFCHECK":"2"},{"ID":251,"SNO":"asset.prod.sales","SORTID":4,"REFID":"3","REFVALUE":"热销产品","DEFCHECK":"2"}]

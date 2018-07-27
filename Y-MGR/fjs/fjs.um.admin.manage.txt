@@ -1,0 +1,389 @@
+﻿Ext.namespace("Ext.fjs.um.admin.manage");
+Ext.fjs.um.admin.manage.g_url="/fjs/um_admin.do";
+Ext.fjs.um.admin.manage.detailWindow=Ext.extend(Ext.Window,{
+	constructor:function(){
+		this.dform=new Ext.form.FormPanel({
+			cls:"x-panel-mc",
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"fjs/ums_detail.tpl"},
+			style:"padding-top:0px",
+			items:[
+				{xtype:"displayfield",fieldLabel:"${user.msg.name}",name:"LOGINNAME",boldLabel:true,width:170},
+				{xtype:"displayfield",fieldLabel:"${user.msg.username}",name:"USERNAME",boldLabel:true,width:170},
+				{xtype:"displayfield",fieldLabel:"${user.msg.issuper}",name:"ISSUPER",boldLabel:true,width:150},
+				{xtype:"displayfield",fieldLabel:"${fzm.msg.state}",name:"STATUS",boldLabel:true,width:200},
+				{xtype:"displayfield",fieldLabel:"${user.msg.jobs}",name:"JOBID",boldLabel:true,width:170},
+				{xtype:"displayfield",fieldLabel:"${user.msg.orgs}",name:"ORGID",boldLabel:true,width:170},
+				{xtype:"displayfield",fieldLabel:"${user.msg.dept}",name:"DEPTID",width:170},
+				{xtype:"displayfield",fieldLabel:"${menu.msg.info}",name:"MENUID",width:170}
+			]
+		});
+		Ext.fjs.um.admin.manage.detailWindow.superclass.constructor.call(this,{
+			iconCls:"btn-detail1",
+			title:"${fzm.msg.detail}",
+			width:680,
+			autoHeight:true,
+			autoScroll:true,
+			border:false,
+			closable:true,
+			closeAction:"hide",
+			modal:true,
+			plain:true,
+			resizable:false,
+			items:[this.dform],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-stop1",text:"${fzm.btn.close}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	open:function(g){
+		var get=Ext.fjs.getPKId;
+		this.dform.getForm().setValues({
+			LOGINNAME:get(g,"LOGINNAME"),
+			USERNAME:get(g,"USERNAME"),
+			ISSUPER:get(g,"ISSUPER"),
+			STATUS:get(g,"STATUS"),
+			MENUID:get(g,"MENUID"),
+			DEPTID:get(g,"DEPTID"),
+			JOBID:get(g,"JOBID"),
+			ORGID:get(g,"ORGID")
+		});
+		this.show();
+	}
+});
+Ext.fjs.um.admin.manage.AddWindow=Ext.extend(Ext.Window,{
+	constructor:function(grid){
+		this.grid=grid;
+		this.form=new Ext.form.FormPanel({
+			cls:"x-panel-mc",
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"fjs/ums_add.tpl"},
+			style:"padding-top:0px",
+			items:[
+				{xtype:"textfield",fieldLabel:"${user.msg.usno}",name:"USERNO",allowBlank:true,boldLabel:true,width:170,maxLength:20},
+				{xtype:"textfield",fieldLabel:"${user.msg.name}",name:"LOGINNAME",allowBlank:false,boldLabel:true,width:170,maxLength:20},
+				{xtype:"textfield",fieldLabel:"${user.msg.pass}",name:"PASSWORD",id:"password1",allowBlank:true,boldLabel:true,inputType:"password",width:170,maxLength:15},
+				{xtype:"textfield",fieldLabel:"${user.msg.psub}",name:"REPWD",allowBlank:false,boldLabel:true,inputType:"password",vtype:"password",vtypeText:"${user.error.012}",initialPassField:"password1",width:170,maxLength:15,scope:this},
+				{xtype:"textfield",fieldLabel:"${user.msg.rname}",name:"USERNAME",allowBlank:false,boldLabel:true,width:170,maxLength:20},
+				{xtype:"fjs-store-radio",fieldLabel:"${user.msg.issuper}",name:"ISSUPER",allowBlank:false,boldLabel:true,dictId:"system.user.type",width:150,groupcfg:{name:"ISSUPER"}},
+				{xtype:"fjs-tree-combo",fieldLabel:"${user.msg.jobs}",name:"JOBID",passName:"JOBID",allowBlank:false,allowUnLeafClick:true,boldLabel:true,width:170,listWidth:200,tP:{rootVisible:false,root:{id:"0",text:"${user.msg.jobs}"},sync:false,url:"fjs/um_jobs.do?action=tree"}},
+				{xtype:"fjs-tree-combo",fieldLabel:"${user.msg.orgs}",name:"ORGID",passName:"ORGID",allowBlank:false,allowUnLeafClick:true,boldLabel:true,width:170,listWidth:200,tP:{rootVisible:false,root:{id:"0",text:"${user.msg.orgs}"},sync:false,url:"fjs/um_orgs.do?action=tree"}},
+				{xtype:"fjs-store-combo",hiddenName:"DEPTID",allowBlank:false,allrec:false,dictUrl:Ext.fjs.um.admin.manage.g_url+"?action=getDept",width:170},
+				{xtype:"fjs-store-combo",hiddenName:"MENUID",allowBlank:false,allrec:false,dictId:"fjs.menubar.template",width:170}
+			]
+		});
+		Ext.fjs.um.admin.manage.AddWindow.superclass.constructor.call(this,{
+			iconCls:"btn-add",
+			title:"${user.title.add}",
+			width:680,
+			autoHeight:true,
+			autoScroll:true,
+			border:false,
+			closable:true,
+			closeAction:"hide",
+			modal:true,
+			plain:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-accept1",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	window_submit:function(){
+		if(Ext.fjs.checkValid(this.form)){
+			this.form.getForm().submit(Ext.fjs.saveAction({url:Ext.fjs.um.admin.manage.g_url,params:{action:"add"},success:this.apply_success,scope:this}));
+		}
+	},
+	apply_success:function(form,opts){
+		this.form.getForm().reset();
+		this.window_close();
+		this.grid.refresh();
+	}
+});
+Ext.fjs.um.admin.manage.ModWindow=Ext.extend(Ext.Window,{
+	constructor:function(grid){
+		this.grid=grid;
+		this.form=new Ext.form.FormPanel({
+			cls:"x-panel-mc",
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"fjs/ums_edit.tpl"},
+			style:"padding-top:0px",
+			items:[
+				{xtype:"hidden",name:"UID"},
+				{xtype:"textfield",fieldLabel:"${user.msg.usno}",name:"USERNO",allowBlank:true,boldLabel:true,width:170,maxLength:20},
+				{xtype:"textfield",fieldLabel:"${user.msg.name}",name:"LOGINNAME",allowBlank:false,boldLabel:true,width:170,maxLength:20},
+				{xtype:"textfield",fieldLabel:"${user.msg.rname}",name:"USERNAME",allowBlank:false,boldLabel:true,width:170,maxLength:20},
+				{xtype:"fjs-store-radio",fieldLabel:"${user.msg.issuper}",name:"ISSUPER",allowBlank:false,boldLabel:true,dictId:"system.user.type",width:150,groupcfg:{name:"ISSUPER"}},
+				{xtype:"fjs-tree-combo",fieldLabel:"${user.msg.jobs}",name:"JOBID",passName:"JOBID",allowBlank:false,allowUnLeafClick:true,boldLabel:true,width:170,listWidth:200,tP:{rootVisible:false,root:{id:"0",text:"${user.msg.jobs}"},sync:true,url:"fjs/um_jobs.do?action=tree"}},
+				{xtype:"fjs-tree-combo",fieldLabel:"${user.msg.orgs}",name:"ORGID",passName:"ORGID",allowBlank:false,allowUnLeafClick:true,boldLabel:true,width:170,listWidth:200,tP:{rootVisible:false,root:{id:"0",text:"${user.msg.orgs}"},sync:true,url:"fjs/um_orgs.do?action=tree"}},
+				{xtype:"fjs-store-combo",hiddenName:"DEPTID",allowBlank:false,allrec:false,dictUrl:Ext.fjs.um.admin.manage.g_url+"?action=getDept",width:170},
+				{xtype:"fjs-store-combo",hiddenName:"MENUID",allowBlank:false,allrec:false,dictId:"fjs.menubar.template",width:170}
+			]
+		});
+		Ext.fjs.um.admin.manage.ModWindow.superclass.constructor.call(this,{
+			iconCls:"btn-edit",
+			title:"${user.title.edit}",
+			width:680,
+			autoHeight:true,
+			autoScroll:true,
+			border:false,
+			closable:true,
+			closeAction:"hide",
+			modal:true,
+			plain:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-accept1",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	window_submit:function(){
+		if(Ext.fjs.checkValid(this.form)){
+			this.form.getForm().submit(Ext.fjs.saveAction({url:Ext.fjs.um.admin.manage.g_url,params:{action:"updateUser"},success:this.apply_success,scope:this}));
+		}
+	},
+	apply_success:function(form,opts){
+		this.form.getForm().reset();
+		this.window_close();
+		this.grid.refresh();
+	},
+	loader_success:function(form,opts){
+		var d=opts.result.data;this.show();
+		form.findField("JOBID").loadValue(d.JOBID);
+		form.findField("ORGID").loadValue(d.ORGID);
+	},
+	open:function(uid){
+		this.form.getForm().load(Ext.fjs.loadAction({url:Ext.fjs.um.admin.manage.g_url,params:{action:"getInfo",uid:uid},success:this.loader_success,scope:this}));
+	}
+});
+Ext.fjs.um.admin.manage.PwdWindow=Ext.extend(Ext.Window,{
+	constructor:function(){
+		this.form=new Ext.form.FormPanel({
+			cls:"x-panel-mc",
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"fjs/ums_rpwd.tpl"},
+			style:"padding-top:0px",
+			items:[
+				{xtype:"displayfield",name:"LOGIN",width:200},
+				{xtype:"textfield",fieldLabel:"${user.msg.pass}",name:"PWORD",id:"Pwd1",allowBlank:true,boldLabel:true,inputType:"password",width:200,maxLength:15},
+				{xtype:"textfield",fieldLabel:"${user.msg.psub}",name:"REPWD",allowBlank:false,boldLabel:true,inputType:"password",vtype:"password",vtypeText:"${user.error.012}",initialPassField:"Pwd1",width:200,maxLength:15,scope:this}
+			]
+		});
+		Ext.fjs.um.admin.manage.PwdWindow.superclass.constructor.call(this,{
+			iconCls:"btn-edit",
+			title:"${user.title.rpwd}",
+			width:380,
+			border:false,
+			closable:true,
+			closeAction:"hide",
+			modal:true,
+			plain:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-accept1",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	window_submit:function(){
+		if(Ext.fjs.checkValid(this.form)){
+			this.form.getForm().submit(Ext.fjs.saveAction({url:Ext.fjs.um.admin.manage.g_url,params:{action:"updatePwd",uid:this.uid},success:this.apply_success,scope:this}));
+		}
+	},
+	apply_success:function(form,opts){
+		this.form.getForm().reset();
+		this.window_close();
+	},
+	open:function(btn,g){
+		var get=Ext.fjs.getPKId;this.uid=get(g,"UID");
+		this.form.getForm().setValues({LOGIN:get(g,"LOGINNAME")});
+		this.show(btn.id);
+	}
+});
+Ext.fjs.um.admin.manage.ToolBar=Ext.extend(Ext.Toolbar,{
+	constructor:function(grid){
+		this.grid=grid;
+		this.dStore=new Ext.data.JsonStore({
+			autoDestroy:true,
+			url:Ext.fjs.um.admin.manage.g_url,
+			baseParams:{action:"getDept"},
+			fields:["id","text"]
+		});
+		this.addBtn=new Ext.Button({iconCls:"btn-add",text:"${fzm.btn.new}",tooltip:"${dept.msg.new}",disabled:false,handler:this.add_onclick,scope:this});
+		this.detBtn=new Ext.Button({iconCls:"btn-detail1",text:"${fzm.btn.detail}",tooltip:"${fzm.msg.select}",disabled:true,handler:this.detail_onclick,scope:this});
+		this.optBtn=new Ext.Button({iconCls:"btn-setting",text:"${fzm.btn.setting}",menu:[
+			{iconCls:"btn-edit",text:"${fzm.btn.data}",tooltip:"${fzm.msg.select}",disabled:true,handler:this.update_onclick,scope:this},
+			{iconCls:"btn-edit",text:"${fzm.btn.pass}",disabled:true,handler:this.modPwd_onclick,scope:this},
+			{iconCls:"btn-delete",text:"${fzm.btn.delete}",tooltip:"${fzm.msg.select}",disabled:true,handler:this.delete_onclick,scope:this},
+			{iconCls:"btn-accept",text:"${fzm.btn.enable}",disabled:true,handler:this.state_onclick,state:0,scope:this},
+			{iconCls:"btn-stop",text:"${fzm.btn.disable}",disabled:true,handler:this.state_onclick,state:1,scope:this},
+			{iconCls:"mnu-group",text:"${fzm.btn.group}",disabled:true,handler:this.relation_onclick,scope:this}
+		]});
+		this.exportBtn=new Ext.Button({iconCls:"btn-excel",text:"${fzm.btn.export}",tooltip:"${fzm.msg.excel}",handler:function(){},scope:this});
+		Ext.fjs.um.admin.manage.ToolBar.superclass.constructor.call(this,{
+			buttonAlign:"left",
+			items:[
+				{xtype:"label",boldLabel:true,text:"${dept.msg.info}:"},
+				this.fDept=new Ext.form.ComboBox({name:"DEPID",hiddenName:"DEPID",allowBlank:true,emptyText:"${fzm.msg.all}",triggerAction:"all",width:120,store:this.dStore,displayField:"text",valueField:"id"}),
+				{xtype:"tbspacer",width:5},{xtype:"label",boldLabel:true,text:"${user.msg.keys}:"},
+				this.fKey=new Ext.form.TextField({xtype:"textfield",name:"USERNAME",width:100,maxLength:50}),
+				{xtype:"tbspacer",width:5},{iconCls:"btn-search",tooltip:"${fzm.msg.search}",handler:this.search_onclick,scope:this},
+				"->",this.addBtn,"-",this.detBtn,"-",this.optBtn,"-",this.exportBtn
+			]
+		})
+	},
+	getUid:function(){
+		return Ext.fjs.getPKId(this.grid,"UID");
+	},
+	refresh:function(){
+		this.grid.getBottomToolbar().doRefresh();
+	},
+	search_onclick:function(){
+		var s=this.grid.getStore();
+		s.setBaseParam("DEPT",this.fDept.getValue());
+		s.setBaseParam("KEY",this.fKey.getValue());
+		this.grid.store.load({params:{start:0,limit:this.grid.getBottomToolbar().pageSize}});
+	},
+	detail_onclick:function(){
+		var w=this.detWin;
+		if(!w){
+			this.detWin=w=new Ext.fjs.um.admin.manage.detailWindow();
+		}
+		w.open(this.grid);
+	},
+	add_onclick:function(btn){
+		if(!this.addWin){
+			this.addWin=new Ext.fjs.um.admin.manage.AddWindow(this);
+		}
+		this.addWin.show();
+	},
+	update_onclick:function(){
+		if(!this.modWin){
+			this.modWin=new Ext.fjs.um.admin.manage.ModWindow(this);
+		}
+		this.modWin.open(this.getUid());
+	},
+	modPwd_onclick:function(btn){
+		if(!this.pwdWin){
+			this.pwdWin=new Ext.fjs.um.admin.manage.PwdWindow();
+		}
+		this.pwdWin.open(btn,this.grid);
+	},
+	state_onclick:function(t){
+		Ext.fjs.post({url:Ext.fjs.um.admin.manage.g_url,params:{action:"state",uid:this.getUid(),state:t.state},success:this.apply_success,scope:this});
+	},
+	delete_onclick:function(){
+		Ext.msg.confirm(Ext.fjs.NOTICE,Ext.fjs.del_confirm,this.delConfirm,this);
+	},
+	delConfirm:function(btn){
+		if(btn=="yes"){
+			Ext.fjs.post({url:Ext.fjs.um.admin.manage.g_url,params:{action:"delete",ids:this.getUid()},success:this.apply_success,scope:this});
+		}
+	},
+	relation_onclick:function(){
+		alert("暂未开放");
+	},
+	apply_success:function(res,opts){
+		var rs=Ext.decode(res.responseText);
+		if(rs.success){
+			this.refresh();
+		}else{
+			Ext.fjs.showError(rs.message);
+		}
+	},
+	beforeDestroy:function(){
+		if(this.addWin)Ext.destroy(this.addWin);
+		if(this.modWin)Ext.destroy(this.modWin);
+		if(this.pwdWin)Ext.destroy(this.pwdWin);
+		if(this.detWin)Ext.destroy(this.detWin);
+		Ext.fjs.um.admin.manage.ToolBar.superclass.beforeDestroy.call(this);
+	}
+});
+Ext.fjs.um.admin.manage.MainPanel=Ext.extend(Ext.grid.GridPanel,{
+	constructor:function(){
+		var sm=new Ext.grid.CheckboxSelectionModel();
+		var cm=new Ext.grid.ColumnModel([
+			sm,new Ext.grid.RowNumber(),
+			{header:"${user.msg.uid}",dataIndex:"UID",width:65,sortable:true,menuDisabled:false,fixed:false},
+			//{header:"${user.msg.usno}",dataIndex:"USNO",width:65,sortable:true,menuDisabled:false,fixed:false},
+			{header:"${user.msg.name}",dataIndex:"LOGINNAME",width:100,sortable:true,menuDisabled:false,fixed:false},
+			{header:"${user.msg.rname}",dataIndex:"USERNAME",width:100,sortable:true,menuDisabled:false,fixed:false},
+			{header:"${user.msg.dept}",dataIndex:"DEPTID",width:100,sortable:true,menuDisabled:false,fixed:false},
+			{header:"${user.msg.jobs}",dataIndex:"JOBID",width:100,sortable:true,menuDisabled:false,fixed:false},
+			{header:"${user.msg.orgs}",dataIndex:"ORGID",width:100,sortable:true,menuDisabled:false,fixed:false},
+			{header:"${fzm.msg.state}",dataIndex:"STATUS",width:100,sortable:true,menuDisabled:false,fixed:false},
+			{header:"${menu.msg.info}",dataIndex:"MENUID",width:100,sortable:true,menuDisabled:false,fixed:false}
+		]);
+		this.store=new Ext.fjs.PageStore({
+			url:Ext.fjs.um.admin.manage.g_url,
+			baseParams:{action:"list"},
+			fields:["UID","USNO","LOGINNAME","USERNAME","MENUID","DEPTID","JOBID","ORGID","STATE","STATUS","ISSUPER"]
+		});
+		this.toolBar=new Ext.fjs.um.admin.manage.ToolBar(this);
+		Ext.fjs.um.admin.manage.MainPanel.superclass.constructor.call(this,{
+			region:"center",
+			store:this.store,
+			stripeRows:true,
+			autoScroll:true,
+			boldHeader:true,
+			closable:true,
+			loadMask:true,
+			containerScroll:true,
+			columnLines:true,
+			cm:cm,sm:sm,
+			viewConfig:{forceFit:true},
+			tbar:this.toolBar,
+			bbar:Ext.fjs.PageToolBar({store:this.store})
+		});
+		this.getSelectionModel().on("selectionchange",this.evt_selection,this);
+		this.on("afterrender",this.evt_afterrender);
+		this.on("rowdblclick",this.toolBar.detail_onclick,this.toolBar);
+	},
+	evt_afterrender:function(){
+		this.store.load({params:{start:0,limit:Ext.fjs.defPSize}});
+	},
+	evt_selection:function(sm){
+		var bts=this.toolBar.optBtn.menu.items,len=sm.getCount();
+		if(len<=0){
+			this.toolBar.detBtn.disable();
+			for(var i=0;i<bts.length;i++){bts.itemAt(i).disable()}
+		}else if(len==1){
+			this.toolBar.detBtn.enable();
+			if (sm.getSelected().get("STATE")==0){
+				bts.itemAt(3).disable();
+				bts.itemAt(4).enable();
+			}else{
+				bts.itemAt(3).enable();
+				bts.itemAt(4).disable();
+			}
+			bts.itemAt(0).enable();
+			bts.itemAt(1).enable();
+			bts.itemAt(2).enable();
+			bts.itemAt(5).enable();
+		}else{
+			this.toolBar.detBtn.disable();
+			bts.itemAt(0).disable();
+			bts.itemAt(1).disable();
+			bts.itemAt(2).enable();
+			bts.itemAt(3).disable();
+			bts.itemAt(4).disable();
+			bts.itemAt(5).disable();
+		}
+	},
+	reload:function(){
+		this.getBottomToolbar().doRefresh();
+	},
+	beforeDestroy:function(){
+		Ext.fjs.um.admin.manage.MainPanel.superclass.beforeDestroy.call(this);
+	}
+});

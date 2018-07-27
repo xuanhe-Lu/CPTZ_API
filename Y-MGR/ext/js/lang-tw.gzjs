@@ -1,0 +1,157 @@
+﻿if(Ext.fjs){
+	Ext.apply(Ext.fjs,{
+		ERROR:"錯誤提示",NOTICE:"提示",formInvalid:"您提交表單上有錯誤的內容，請點擊紅線右邊的圓點查看錯誤！",add_wait:"正在保存數據請稍後",load_wait:"正在裝載數據請稍後",save_wait:"正在保存數據請稍後",del_confirm:"刪除數據后，將無法恢復！您確定要執行刪除操作嗎？",
+		SE:{99:"連接伺服器錯誤：狀態:",100:"連接伺服器錯誤：無法連接伺服器，可能是伺服器沒有回應或網路連接中斷！",401:"您長時間沒有進行系統操作，為了安全系統已自動為您註銷，請您點擊【確定】後重新登錄！",403:"您沒有此功能的訪問權限！如果您要訪問此功能請找系統維護人員！",500:"伺服器端內部錯誤：請查看應用伺服器日誌！",551:"系統管理員沒有為您設置系統角色或者係統權限，請您聯繫系統管理員！",591:"系統授權碼已過期無法訪問，請申請新的授權碼！"}
+	})
+}
+if(Ext.msg){
+	Ext.msg.loading="載入中 ...";
+	Ext.msg.menu="系統導航";
+	Ext.msg.buttonText={ok:"確定",cancel:"取消",yes:"是",no:"否"};
+	Ext.msg.text={from:"從",to:"到"};
+	Ext.msg.warn=["您打開過多的標籤窗口會影響流覽器的反應速度，請先關閉某些不使用的標籤窗口才能繼續操作",""];
+}
+Ext.UpdateManager.defaults.indicatorText='<div class="loading-indicator">載入中...</div>';
+if(Ext.DataView){
+	Ext.DataView.prototype.emptyText="";
+}
+if(Ext.grid.GridPanel){
+	Ext.grid.GridPanel.prototype.ddText="選擇了 {0} 行";
+}
+if(Ext.TabPanelItem){
+	Ext.TabPanelItem.prototype.closeText="關閉此標籤";
+}
+if(Ext.form.Field){
+	Ext.form.Field.prototype.invalidText="輸入值非法";
+}
+if(Ext.LoadMask){
+	Ext.LoadMask.prototype.msg="讀取中...";
+}
+Date.monthNames=["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
+Date.dayNames=["日","一","二","三","四","五","六"];
+Date.dayWeeks=["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
+Date.formatCodes.a="(this.getHours()<12 ? '上午':'下午')";
+Date.formatCodes.A="(this.getHours()<12 ? '上午':'下午')";
+Date.showDay=function(){
+	var buf=[],day=new Date();
+	buf.push(day.format('Y年m月d日'));
+	buf.push(this.dayWeeks[day.getDay()]);
+	buf.push(day.format('H:i:s'));
+	return buf.join("&nbsp;&nbsp;");
+}
+if(Ext.util.Format){
+	Ext.util.Format.date=function(v, format){
+		if(!v) return "";
+		if(!(v instanceof Date)) v=new Date(Date.parse(v));
+		return v.dateFormat(format||"y年m月d日");
+	};
+}
+if(Ext.DatePicker){
+	Ext.apply(Ext.DatePicker.prototype,{
+		todayText        :"今天",
+		minText          :"日期必須大于最小允許日期",//update
+		maxText          :"日期必須小于最大允許日期",//update
+		disabledDaysText :"",
+		disabledDatesText:"",
+		monthNames       :Date.monthNames,
+		dayNames         :Date.dayNames,
+		prevText         :"上個月 (Ctrl+Left)",
+		nextText         :"下個月 (Ctrl+Right)",
+		monthYearText    :"選擇一個月 (Control+Up/Down 來改變年份)",//update
+		todayTip         :"{0} (空格鍵選擇)",
+		format           :"y年m月d日",
+		okText           :"確定",
+		cancelText       :"取消"
+	});
+}
+if(Ext.PagingToolbar){
+	Ext.apply(Ext.PagingToolbar.prototype,{
+		beforePageText: "第",//update
+		afterPageText :"頁,共 {0} 頁",//update
+		firstText     :"第一頁",
+		prevText      :"上一頁",//update
+		nextText      :"下一頁",
+		lastText      :"最后頁",
+		refreshText   :"刷新",
+		displayMsg    :"顯示 {0} - {1}條，共 {2} 條",//update
+		emptyMsg      :"沒有數據"
+	});
+}
+if(Ext.form.TextField){
+	Ext.apply(Ext.form.TextField.prototype,{
+		minLengthText:"該輸入項的最小長度是 {0} 個字符",
+		maxLengthText:"該輸入項的最大長度是 {0} 個字符",
+		blankText    :"該輸入項為必輸項",
+		regexText    :"",
+		emptyText    :null
+	});
+}
+if(Ext.form.NumberField){
+	Ext.apply(Ext.form.NumberField.prototype,{
+		minText:"該輸入項的最小值是 {0}",
+		maxText:"該輸入項的最大值是 {0}",
+		nanText:"{0} 不是有效數值"
+	});
+}
+if(Ext.form.DateField){
+	Ext.apply(Ext.form.DateField.prototype,{
+		disabledDaysText :"禁用",
+		disabledDatesText:"禁用",
+		minText          :"該輸入項的日期必須在 {0} 之后",
+		maxText          :"該輸入項的日期必須在 {0} 之前",
+		invalidText      :"{0} 是無效的日期 - 必須符合格式： {1}",
+		format           :"y年m月d日"
+	});
+}
+if(Ext.form.ComboBox){
+	Ext.apply(Ext.form.ComboBox.prototype,{loadingText:Ext.msg.loading,valueNotFoundText:undefined});
+}
+if(Ext.form.VTypes){
+	Ext.apply(Ext.form.VTypes,{
+		emailText   :"該輸入項必須是電子郵件地址，格式如： \"user@example.com\"",
+		urlText     :"該輸入項必須是URL地址，格式如： \"http:/'+'/www.example.com\"",
+		alphaText   :"該輸入項只能包含半角字母和_",//update
+		alphanumText:"該輸入項只能包含半角字母,數字和_"//update
+	});
+}
+if(Ext.form.HtmlEditor){
+	Ext.apply(Ext.form.HtmlEditor.prototype,{
+		createLinkText:'添加超級鏈接:',buttonTips:{
+		bold:{title:'粗體 (Ctrl+B)',text:'將選中的文字設置為粗體',cls:'x-html-editor-tip'},
+		italic:{title:'斜體 (Ctrl+I)',text:'將選中的文字設置為斜體',cls:'x-html-editor-tip'},
+		underline:{title:'下劃綫 (Ctrl+U)',text:'給所選文字加下劃綫',cls:'x-html-editor-tip'},
+		increasefontsize:{title:'增大字體',text:'增大字號',cls:'x-html-editor-tip'},
+		decreasefontsize:{title:'縮小字體',text:'減小字號',cls:'x-html-editor-tip'},
+		backcolor:{title:'以不同顏色突出顯示文本',text:'使文字看上去像是用熒光筆做了標記一樣',cls:'x-html-editor-tip'},
+		forecolor:{title:'字體顏色',text:'更改字體顏色',cls:'x-html-editor-tip'},
+		justifyleft:{title:'左對齊',text:'將文字左對齊',cls:'x-html-editor-tip'},
+		justifycenter:{title:'居中',text:'將文字居中對齊',cls:'x-html-editor-tip'},
+		justifyright:{title:'右對齊',text:'將文字右對齊',cls:'x-html-editor-tip'},
+		insertunorderedlist:{title:'項目符號',text:'開始創建項目符號列表',cls:'x-html-editor-tip'},
+		insertorderedlist:{title:'編號',text:'開始創建編號列表',cls:'x-html-editor-tip'},
+		createlink:{title:'轉成超級鏈接',text:'將所選文本轉換成超級鏈接',cls:'x-html-editor-tip'},
+		sourceedit:{title:'代碼視圖',text:'以代碼的形式展現文本',cls:'x-html-editor-tip'}
+	}});
+}
+if(Ext.grid.GridView){
+	Ext.apply(Ext.grid.GridView.prototype,{
+		sortAscText :"正序",//update
+		sortDescText:"倒序",//update
+		lockText    :"鎖定列",//update
+		unlockText  :"解除鎖定",//update
+		columnsText :"列"
+	});
+}
+if(Ext.grid.PropertyColumnModel){
+	Ext.apply(Ext.grid.PropertyColumnModel.prototype,{
+		nameText  :"名稱",
+		valueText :"值",
+		dateFormat:"y年m月d日"
+	});
+}
+if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
+	Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype,{
+		splitTip:"拖動來改變尺寸.",
+		collapsibleSplitTip:"拖動來改變尺寸. 雙擊隱藏."
+	});
+}

@@ -1,0 +1,1 @@
+[{"ID":340,"SNO":"push.type","SORTID":1,"REFID":"1","REFVALUE":"立即发送","DEFCHECK":"1"},{"ID":341,"SNO":"push.type","SORTID":2,"REFID":"2","REFVALUE":"定时发送","DEFCHECK":"0"}]

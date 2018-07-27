@@ -1,0 +1,441 @@
+﻿/***  类似word边框 ***/
+.pf-borderBg {
+	background-color: #FFFFFF;
+}
+
+.pf-border-lt {
+	height: 11px;
+	width: 11px;
+	background-image: url(../images/border/border-lt.gif) !important;
+	background-repeat: repeat;
+}
+
+.pf-border-ct {
+	background-image: url(../images/border/border-top.gif) !important;
+	background-repeat: repeat;
+}
+
+.pf-border-rt {
+	height: 11px;
+	width: 11px;
+	background-image: url(../images/border/border-rt.gif) !important;
+	background-repeat: repeat;
+}
+
+.pf-border-left {
+	width: 11px;
+	background-image: url(../images/border/border-left.gif) !important;
+	background-repeat: repeat;
+}
+
+.pf-border-right {
+	width: 11px;
+	background-image: url(../images/border/border-right.gif) !important;
+	background-repeat: repeat;
+}
+
+.pf-border-lb {
+	height: 11px;
+	width: 11px;
+	background-image: url(../images/border/border-lb.gif) !important;
+	background-repeat: repeat;
+}
+
+.pf-border-cb {
+	background-image: url(../images/border/border-bottom.gif) !important;
+	background-repeat: repeat;
+}
+
+.pf-border-rb {
+	height: 11px;
+	width: 11px;
+	background-image: url(../images/border/border-rb.gif) !important;
+	background-repeat: repeat;
+}
+
+/***  Page Layout 内部CSS ***/
+.parf-page .head .caption {
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+	color: #333;
+	padding-bottom: 10px;
+}
+
+.parf-page .head .subcaption {
+	text-align: center;
+	font-size: 12px;
+	font-weight: normal;
+	color: #333;
+	padding-top: 5px;
+}
+
+.parf-page .foot {
+	margin: 5px 5px 5px 5px;
+}
+
+.parf-page .foot li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.parf-page .foot,.parf-page .foot li {
+	color: #666;
+	font-size: 12px;
+}
+
+.parf-page .lable {
+	border: solid #999;
+	border-width: 1px 1px 1px 1px;
+	padding: 5px 5px 5px 5px;
+	text-align: left;
+	font-size: 12px;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+.parf-page .lable-text {
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.parf-page .field {
+	border: solid #999;
+	border-width: 1px 1px 1px 1px;
+	padding: 5px 5px 5px 5px !important;
+	font-size: 12px;
+}
+
+.parf-page .head table,.parf-page .body table {
+	border-collapse: collapse;
+}
+
+.parf-page .body table td,.parf-page .x-form-cb-label {
+	font-size: 12px;
+	color: #333;
+}
+
+.parf-page .x-form-text {
+	background-image: url();
+	border-color: #FFF;
+	border-bottom-color: #BBB;
+}
+
+.parf-page .x-form-field-trigger-wrap .x-form-text {
+	border-right-color: #BBB;
+}
+
+.ext-ie6 .parf-page .x-form-text,.ext-ie7 .parf-page .x-form-text {
+	border-bottom-width: 2px;
+}
+
+.parf-page .x-grid3 .x-form-text {
+	border-color: #FFF;
+}
+
+.ext-ie6 .parf-page .x-grid3 .x-form-text,.ext-ie7 .parf-page .x-grid3 .x-form-text
+	{
+	border-bottom-width: 1px;
+	border-bottom-color: #FFF;
+}
+
+.parf-page textarea.x-form-field {
+	background-image: url();
+	border-color: #FFF;
+	border-bottom-color: #BBB;
+}
+
+.parf-page .x-form-invalid,.parf-page .x-form-invalid textarea.x-form-field
+	{
+	border-color: #FFF;
+	border-bottom-color: RED;
+}
+
+.parf-page .head table td {
+	border-width: 0px;
+}
+
+.parf-page .head .lable {
+	white-space: nowrap;
+}
+
+.parf-page .number .x-form-text {
+	color: #8B0000;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.parf-page .x-panel
+{
+	background-color: #FFF;
+	background-image: url();
+	border-color: #FFF;
+}
+.parf-page .parf-uploadfield
+{
+	border-color: #999;
+}
+.parf-page .x-panel-bbar .x-toolbar,.parf-page .x-panel-tbar .x-toolbar
+	{
+	background-color: #FFF;
+	background-image: url();
+	border-color: #FFF;
+	border-bottom-color: #BBB;
+}
+
+.parf-page .x-grid3-header {
+	background-color: #FFF;
+	background-image: url();
+	border: 1px solid #999;
+	border-width: 1px 0px 1px 0px;
+}
+
+.parf-page .x-grid3-hd-inner {
+	font-weight: bold;
+}
+
+.parf-page .panle {
+	border: solid #999 1px;
+}
+.parf-page .x-form-display-field
+{
+	white-space: pre-wrap;
+	font-size:12px;
+	word-break:break-all;
+}
+/***  parf-page end ***/
+/***  Html Form Layout 内部CSS start **/
+.parf-form .head {
+	background: #DFE8F6 URL(../images/form/leaf.gif) no-repeat 5 5;
+	font-weight: bold;
+	font-size: 14;
+	border: solid #999;
+	border-width: 1px 1px 0px 1px;
+	padding: 5px 10px 5px 25px;
+	vertical-align: bottom;
+	color: #333;
+}
+
+.ext-ie6 .parf-form .head {
+	width: 100%;
+}
+
+.parf-form .head span {
+	font-weight: normal;
+	font-size: 12;
+	color: #666;
+	padding-left: 10px;
+}
+
+.parf-form table {
+	border-collapse: collapse;
+	border-width: 0px;
+}
+
+.parf-form table.body {
+	width: 100%;
+}
+
+.parf-form td {
+	font-size: 12;
+	color: #000;
+}
+
+.parf-form .lable {
+	padding: 5px 5px 5px 10px;
+	text-align: left;
+	font-weight: bold;
+	white-space: nowrap;
+	background-color: #EEE;
+	color: #333;
+	vertical-align: top;
+	border: solid #999;
+	border-width: 1px 1px 1px 1px;
+	font-size: 12;
+}
+
+.parf-form .field {
+	padding: 5px 5px 5px 5px;
+	background-color: #FFF;
+	border: solid #999;
+	border-width: 1px 1px 1px 1px;
+	font-size: 12;
+}
+
+.ext-ie6 .parf-form .x-form-text,.ext-ie7 .parf-form .x-form-text {
+	border-bottom-width: 2px;
+}
+
+.parf-form .foot {
+	margin: 5px 5px 15px 5px;
+}
+
+.parf-form .foot li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.parf-form .foot,.parf-page .foot li {
+	color: #666;
+	font-size: 12;
+}
+
+/***  parf-form end ***/
+/* EJS word边框内部 CSS start */
+.parf-doc .normaldoc,
+.parf-doc .normaldoc p,
+.parf-doc .normaldoc div,
+.parf-doc .normaldoc span,
+.parf-doc .normaldoc table td
+{
+	font-size: 12;
+	color: #000;
+}
+
+.parf-doc .normaldoc .head .caption {
+	text-align: center;
+	font-size: 24px;
+	font-weight: bold;
+	color: #000;
+	line-height: 1.8em;
+	font-family: "楷体","楷体_GB2312";
+	padding:10px 0px 5px 0px;
+}
+
+.parf-doc .normaldoc .head .subcaption {
+	text-align: center;
+	font-size: 12px;
+	font-weight: normal;
+	color: #666;
+	padding-top: 5px 0px 10px 0px;
+	text-align: center;
+}
+
+.parf-doc .normaldoc .body .content {
+	color: #555;
+	font-size: 20px;
+	line-height: 1.8em;
+	padding: 10 0 5 0;
+	font-family: "仿宋_GB2312";
+}
+
+.parf-doc .normaldoc .body table {
+	border-collapse: collapse;
+}
+
+.parf-doc .normaldoc .body .content p {
+	margin: 0 10 0.5em 10;
+	font-family: "仿宋_GB2312";
+	color: #000;
+	font-size: 20px;
+	line-height: 1.8em;
+}
+
+.parf-doc .normaldoc .body .content p.box {
+	padding: 5px;
+	border: dotted #CDCDCD 2px;
+}
+
+.parf-doc .normaldoc .body .content .table1 td.head {
+	border: dotted #CDCDCD 1px;
+	font-size: 12px;
+	color: #000;
+	height: 25;
+}
+
+.parf-doc .normaldoc .body .content .table1 td.cell {
+	color: #000;
+	font-size: 12px;
+}
+
+.parf-doc .normaldoc .body .content .title1 {
+	font-size: 12;
+	font-weight: bold;
+	color: #000;
+	padding: 10px 0px 5px 0px;
+}
+
+.parf-doc .normaldoc .foot {
+	padding: 5 0 0 0;
+	font-size: 12px;
+	color: #666;
+}
+/* parf-doc end */
+
+
+
+/************parf-wordform 用于word表单****************/
+.parf-wordform .x-form-field-wrap
+{
+	padding:0px 0px 2px 0px;
+}
+.parf-wordform .x-form-text {
+	background-image: url();
+	border-color: #FFFFFF;
+	border-bottom-color: #000000;
+	color: #000000;
+	font-size:12px;
+}
+.parf-wordform .x-form-field-trigger-wrap .x-form-text {
+	border-right-color: #BBBBBB;
+	font-size:12px;
+}
+.ext-ie6 .parf-wordform .x-form-text,
+.ext-ie7 .parf-wordform .x-form-text {
+	border-bottom-width: 2px;
+}
+.parf-wordform .x-grid3 .x-form-text {
+	border-color: #FFFFFF;
+}
+.ext-ie6 .parf-wordform .x-grid3 .x-form-text,.ext-ie7 .parf-wordform .x-grid3 .x-form-text
+{
+	border-bottom-width: 1px;
+	border-bottom-color: #FFFFFF;
+}
+.parf-wordform textarea.x-form-field {
+	background-image: url();
+	border-color: #FFFFFF;
+	border-bottom-color: #000000;
+	color: #000000;
+	font-size:12px;
+}
+.parf-wordform .x-form-invalid,.parf-page .x-form-invalid textarea.x-form-field
+{
+	border-color: #FFFFFF;
+	border-bottom-color: RED;
+}
+.parf-wordform .x-panel-bbar .x-toolbar,.parf-wordform .x-panel-tbar .x-toolbar
+	{
+	background-color: #FFF;
+	background-image: url();
+	border-color: #FFFFFF;
+	border-bottom-color: #000000;
+}
+.parf-wordform .x-grid3-header {
+	background-color: #FFF;
+	background-image: url();
+	border: 1px solid #999999;
+	border-width: 1px 0px 1px 0px;
+}
+.parf-wordform .x-grid3-hd-inner {
+	font-weight: bold;
+}
+.parf-wordform .panle {
+	border: solid #999999 1px;
+}
+.parf-wordform .parf-uploadfield {
+    border-style: solid;
+    border-width: 1;
+    border-color: #000000;
+}
+.parf-wordform .x-item-disabled{
+	opacity:1;
+	-moz-opacity:1;
+	filter: alpha(opacity=100);
+	color: #000000;
+}
+.parf-wordform .x-form-display-field{white-space:normal;word-break:break-all;font-size:12px;}
+.parf-wordform strong,
+.parf-wordform b{font-weight:bold;}

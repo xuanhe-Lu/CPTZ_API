@@ -1,0 +1,9 @@
+﻿.fjs-menuadmin .x-panel-body{background:white;font:11px Arial, Helvetica, sans-serif;}
+.fjs-menuadmin .thumb{padding:3px;background:#dddddd;}
+.fjs-menuadmin .thumb img{width:16px;height:16px;cursor:pointer;}
+.fjs-menuadmin .thumb-wrap{float:left;margin:4px;margin-right:0;padding:5px;}
+.fjs-menuadmin .thumb-wrap span{display:block;overflow:hidden;text-align:center;}
+.fjs-menuadmin .x-view-over{padding:4px;border:1px solid #dddddd;background:#efefef url(/ext/images/default/grid/row-over.gif) left top repeat-x;}
+.fjs-menuadmin .x-view-selected{padding:4px;border:1px solid #99bbe8;background:#eff5fb url(/ext/images/selected.gif) no-repeat right bottom;}
+.fjs-menuadmin .x-view-selected .thumb{background:transparent;}
+.fjs-menuadmin .loading-indicator{margin:10px;padding-left:20px;background:url('/ext/images/default/grid/loading.gif') left top no-repeat;font-size:11px;}

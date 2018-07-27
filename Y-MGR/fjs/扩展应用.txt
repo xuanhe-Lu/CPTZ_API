@@ -1,0 +1,15 @@
+﻿显示Tip
+renderer:function(v, m, r, row, col, s){
+	m.attr='ext:qtip='+v; return v;
+}
+
+
+listeners:{
+	"focus":function(){alert("选中了!");}
+}
+
+单项选择
+{xtype:"checkbox",name:"CG",boxLabel:"Bacon"}
+
+工具条显示横线：
+{xtype:"tbtext",text:"-",width:5}

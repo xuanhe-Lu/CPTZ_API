@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/servlet-api.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/jasper.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/jsp-api.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/el-api.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/annotations-api.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/JavaPNS_2.2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/bcprov-jdk16-145.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/freemarker-2.3.24.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/gif4j.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/javassist-3.11.0.GA.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/mail.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/mysql-5.1.19-bin.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/poi-3.16.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/poi-ooxml-3.16.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/poi-ooxml-schemas-3.16.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/sunsw-all.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/velocity-1.7.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/velocity-tools-2.0.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/gexin-rp-fastjson-1.0.0.1.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/gexin-rp-sdk-base-4.0.0.22.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/gexin-rp-sdk-http-4.0.1.17.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/gexin-rp-sdk-template-4.0.0.16.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/protobuf-java-2.5.0.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/httpclient-4.5.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/httpcore-4.4.1.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-logging-1.1.3.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-codec-1.6.jar"/>
+	<classpathentry kind="src" path="WEB-INF/src"/>
+	<classpathentry kind="src" output="work" path="work"/>
+	<classpathentry kind="output" path="WEB-INF/classes"/>
+</classpath>

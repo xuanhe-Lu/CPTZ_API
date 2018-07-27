@@ -1,0 +1,169 @@
+﻿/** 类似word边框 */
+.pf-borderbg{background-color:#FFFFFF;}
+.pf-border-lt{width:11px;height:11px;background-image:url(../images/border/border-lt.gif)!important;background-repeat:repeat;}
+.pf-border-ct{background-image:url(../images/border/border-top.gif)!important;background-repeat:repeat;}
+.pf-border-rt{width:11px;height:11px;background-image:url(../images/border/border-rt.gif)!important;background-repeat:repeat;}
+.pf-border-left{width:11px;background-image:url(../images/border/border-left.gif)!important;background-repeat:repeat;}
+.pf-border-right{width:11px;background-image:url(../images/border/border-right.gif)!important;background-repeat:repeat;}
+.pf-border-lb{width:11px;height:11px;background-image:url(../images/border/border-lb.gif)!important;background-repeat:repeat;}
+.pf-border-cb{background-image:url(../images/border/border-bottom.gif)!important;background-repeat:repeat;}
+.pf-border-rb{width:11px;height:11px;background-image:url(../images/border/border-rb.gif)!important;background-repeat:repeat;}
+/** Page Layout 内部CSS */
+.fjs-page .head .caption{
+	text-align:center;
+	font-size:16px;
+	font-weight:bold;
+	color:#333;
+	padding-bottom:10px;
+}
+.fjs-page .head .subcaption{
+	text-align:center;
+	font-size:12px;
+	font-weight:normal;
+	color:#333;
+	padding-top:5px;
+}
+
+.fjs-page .foot{
+	margin:5px 5px 5px 5px;
+}
+
+.fjs-page .foot li{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+
+.fjs-page .foot,.fjs-page .foot li{
+	color:#666;
+	font-size:12px;
+}
+
+.fjs-page .lable{border:1px solid #999;padding:5px 5px 5px 5px;text-align:left;font-size:12px;font-weight:bold;white-space:nowrap;}
+.fjs-page .lable-text{font-size:12px;font-weight:bold;}
+.fjs-page .field{
+	border:solid #999;
+	border-width:1px 1px 1px 1px;
+	padding:5px 5px 5px 5px !important;
+	font-size:12px;
+}
+
+.fjs-page .head table,.fjs-page .body table{
+	border-collapse:collapse;
+}
+
+.fjs-page .body table td,.fjs-page .x-form-cb-label{font-size:12px;color:#333;}
+
+.fjs-page .x-form-text{
+	background-image:url();
+	border-color:#FFF;
+	border-bottom-color:#BBB;
+}
+
+.fjs-page .x-form-field-trigger-wrap .x-form-text{
+	border-right-color:#BBB;
+}
+
+.ext-ie6 .fjs-page .x-form-text,.ext-ie7 .fjs-page .x-form-text{
+	border-bottom-width:2px;
+}
+
+.fjs-page .x-grid3 .x-form-text{
+	border-color:#FFF;
+}
+
+.ext-ie6 .fjs-page .x-grid3 .x-form-text,.ext-ie7 .fjs-page .x-grid3 .x-form-text
+	{
+	border-bottom-width:1px;
+	border-bottom-color:#FFF;
+}
+
+.fjs-page textarea.x-form-field{
+	background-image:url();
+	border-color:#FFF;
+	border-bottom-color:#BBB;
+}
+
+.fjs-page .x-form-invalid,.fjs-page .x-form-invalid textarea.x-form-field
+	{
+	border-color:#FFF;
+	border-bottom-color:RED;
+}
+
+.fjs-page .head table td{
+	border-width:0px;
+}
+
+.fjs-page .head .lable{
+	white-space:nowrap;
+}
+
+.fjs-page .number .x-form-text{
+	color:#8B0000;
+	font-size:14px;
+	font-weight:bold;
+}
+
+.fjs-page .x-panel{
+background-color:#FFF;
+background-image:url();
+border-color:#FFF;}
+.fjs-page .fjs-uploadfield{border-color:#999;}
+.fjs-page .x-panel-bbar .x-toolbar,.fjs-page .x-panel-tbar .x-toolbar{
+	background-color:#FFF;
+	background-image:url();
+	border-color:#FFF;
+	border-bottom-color:#BBB;
+}
+.fjs-page .x-grid3-header{
+	background-color:#FFF;
+	background-image:url();
+	border:1px solid #999;
+	border-width:1px 0px 1px 0px;
+}
+.fjs-page .x-grid3-hd-inner{font-weight:bold;}
+.fjs-page .panle{border:solid #999 1px;}
+.fjs-page .x-form-display-field{white-space:pre-wrap;word-break:break-all;font-size:12px;}
+/** Html Form Layout 内部CSS */
+.fjs-form .head{padding:5px 10px 5px 25px;vertical-align:bottom;background:url(../images/form/leaf.gif) 5px 5px no-repeat #DFE8F6;border-width:1px 1px 0px 1px;border:solid #999;font-weight:bold;font-size:14px;color:#333;}
+.fjs-form .head span{padding-left:10px;font-weight:normal;font-size:12px;color:#666;}
+.fjs-form label{cursor:pointer;}
+.fjs-form table{width:100%;border-collapse:collapse;border-width:0px;}
+.fjs-form table.body{border:1px solid #AAA;}.fjs-form td{font-size:12px;color:#000;}
+.fjs-form .fa,.fjs-form .fas,.fjs-form .fd,.fjs-form .fds{padding:5px;background-color:#FFF;border:1px solid #AAA;border-top:0px;font-size:12px;}
+.fjs-form .fa,.fjs-form .fas{white-space:nowrap;vertical-align:middle;background-color:#EEE;text-align:left;font-weight:bold;color:#333;}
+.fjs-form .fa{border-left:0px;}.fjs-form .fd{border-left:0px;border-right:0px;}
+.fjs-form .foot{margin:5px 5px 15px 5px;}
+.fjs-form .foot li{margin:0;padding:0;list-style:none;}
+.fjs-form .foot,.fjs-page .foot li{font-size:12px;color:#666;}
+.ext-ie6 .fjs-form .head{width:100%;}
+.ext-ie6 .fjs-form .x-form-text,.ext-ie7 .fjs-form .x-form-text{border-bottom-width:2px;}
+/** word边框内部 */
+.fjs-doc .normaldoc,.fjs-doc .normaldoc p,.fjs-doc .normaldoc div,.fjs-doc .normaldoc span,.fjs-doc .normaldoc table td{font-size:12px;color:#000;}
+.fjs-doc .normaldoc .head .caption{line-height:1.8em;padding:10px 0 5px 0;text-align:center;font-weight:bold;font-size:24px;font-family:"楷体","楷体_GB2312";color:#000;}
+.fjs-doc .normaldoc .head .subcaption{padding-top:5px;text-align:center;font-weight:normal;font-size:12px;color:#666;}
+.fjs-doc .normaldoc .body .content{line-height:1.8em;padding:10px 0 5px 0;font-family:"仿宋_GB2312";font-size:20px;color:#555;}
+.fjs-doc .normaldoc .body table{border-collapse:collapse;}
+.fjs-doc .normaldoc .body .content p{line-height:1.8em;margin:0 10px 0.5em 10px;font-size:20px;font-family:"仿宋_GB2312";color:#000;}
+.fjs-doc .normaldoc .body .content p.box{padding:5px;border:2px dotted #CDCDCD;}
+.fjs-doc .normaldoc .body .content .table1 td.head{height:25px;border:1px dotted #CDCDCD;font-size:12px;color:#000;}
+.fjs-doc .normaldoc .body .content .table1 td.cell{font-size:12px;color:#000;}
+.fjs-doc .normaldoc .body .content .title1{padding:10px 0px 5px 0px;font-weight:bold;font-size:12px;color:#000;}
+.fjs-doc .normaldoc .foot{padding:5px 0 0 0;font-size:12px;color:#666;}
+/** fjs-wordform 用于word表单 */
+.fjs-wordform .x-form-field-wrap{padding:0px 0px 2px 0px;}
+.fjs-wordform .x-form-text{border-color:#FFF;border-bottom-color:#000;font-size:12px;color:#000;}
+.fjs-wordform .x-form-field-trigger-wrap .x-form-text{border-right-color:#BBB;font-size:12px;}
+.ext-ie6 .fjs-wordform .x-form-text,.ext-ie7 .fjs-wordform .x-form-text{border-bottom-width:2px;}
+.fjs-wordform .x-grid3 .x-form-text{border-color:#FFF;}
+.ext-ie6 .fjs-wordform .x-grid3 .x-form-text,.ext-ie7 .fjs-wordform .x-grid3 .x-form-text{border-bottom-width:1px;border-bottom-color:#FFF;}
+.fjs-wordform textarea.x-form-field{border-color:#FFF;border-bottom-color:#000;font-size:12px;color:#000;}
+.fjs-wordform .x-form-invalid,.fjs-page .x-form-invalid textarea.x-form-field{border-color:#FFF;border-bottom-color:red;}
+.fjs-wordform .x-panel-bbar .x-toolbar,.fjs-wordform .x-panel-tbar .x-toolbar{background-color:#FFF;border-color:#FFF;border-bottom-color:#000;}
+.fjs-wordform .x-grid3-header{background-color:#FFF;border:1px solid #999999;border-width:1px 0px 1px 0px;}
+.fjs-wordform .x-grid3-hd-inner{font-weight:bold;}
+.fjs-wordform .x-form-display-field{white-space:normal;word-break:break-all;font-size:12px;}
+.fjs-wordform .x-item-disabled{filter:alpha(opacity=80);opacity:1;color:#000;}
+.fjs-wordform .panle{border:1px solid #999;}
+.fjs-wordform .fjs-uploadfield{border:1px solid #000;}
+.fjs-wordform strong,.fjs-wordform b{font-weight:bold;}

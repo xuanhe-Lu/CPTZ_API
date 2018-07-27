@@ -1,0 +1,21 @@
+﻿<!doctype html><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+<title>${note.title}</title>
+<meta name="keywords" content="盈票理财，盈喵金服"/>
+<meta name="description" content="；打造专业的金额服务平台！"/>
+<meta name="copyright" content="杭州晓出科技有限公司版权所有"/>
+<meta name="format-detection" content="address=no"/>
+<meta name="format-detection" content="telephone=no"/>
+<meta name="viewport" content="initial-scale=1,width=device-width,user-scalable=no"/>
+</head>
+<body>
+<div id="hzgs">
+${note.detail}
+</div>
+<!-- ${UseTime} -->
+<script type="text/javascript">
+if(window.my&&typeof window.my.init=="function"){my.init()}
+</script>
+</body>
+</html>

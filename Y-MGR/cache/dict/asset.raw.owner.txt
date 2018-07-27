@@ -1,0 +1,1 @@
+[{"ID":229,"SNO":"asset.raw.owner","SORTID":1,"REFID":"1","REFVALUE":"企业","DEFCHECK":"1"},{"ID":230,"SNO":"asset.raw.owner","SORTID":2,"REFID":"2","REFVALUE":"个人","DEFCHECK":"2"}]

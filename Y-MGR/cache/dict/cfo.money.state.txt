@@ -1,0 +1,1 @@
+[{"ID":324,"SNO":"cfo.money.state","SORTID":1,"REFID":"3","REFVALUE":"待打款","DEFCHECK":"0"},{"ID":325,"SNO":"cfo.money.state","SORTID":2,"REFID":"4","REFVALUE":"待回款","DEFCHECK":"0"},{"ID":326,"SNO":"cfo.money.state","SORTID":3,"REFID":"5","REFVALUE":"已完成","DEFCHECK":"0"}]

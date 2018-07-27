@@ -1,0 +1,12 @@
+﻿/* CSS Document */
+body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:15px;color:#000;}
+button{outline:none;}li{list-style:none;}img{vertical-align:bottom;max-width:100%;}
+*{border:0px;margin:auto;padding:0px;}.c{text-align:center;}.show{display:block;}.hide{display:none;}
+ul:after{padding:0px;content:'.';display:block;clear:both;visibility:hidden;height:0;}
+.ds table{width:100%;border-collapse:collapse;border-width:0px;}
+.ds td{padding:5px;border:#E4E5E6 1px solid;}
+.ds tr.t{background:#E4E5E6;text-align:center;color:#B2B2B2;}
+/* CSS Link */
+a.coffee:link,a.coffee:visited{color:#600;}a.coffee:hover{color:#639;}
+a{text-decoration:none;color:#84A8C8;}a:link{color:#585858;}
+a:visited,a:active{color:#585858;}a:hover{color:#F00;cursor:pointer;}

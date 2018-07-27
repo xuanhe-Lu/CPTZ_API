@@ -1,0 +1,1 @@
+[{"ID":271,"SNO":"coo.ader.note.state","SORTID":1,"REFID":"1","REFVALUE":"启用","DEFCHECK":"0"},{"ID":272,"SNO":"coo.ader.note.state","SORTID":2,"REFID":"2","REFVALUE":"停用","DEFCHECK":"0"}]

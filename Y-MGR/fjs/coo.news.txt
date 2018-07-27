@@ -1,0 +1,271 @@
+﻿Ext.namespace("Ext.coo.news");
+Ext.coo.news.g_url="coo/news.do";
+Ext.coo.news.extWindow=Ext.extend(Ext.Window,{
+	params:{},
+	constructor:function(){
+		this.form=new Ext.FormPanel({
+			cls:"x-panel-mc",
+			autoHeight:true,
+			border:false,
+			bodyStyle:"padding:5px;",
+			labelWidth:65,
+			items:[{xtype:"fjs-store-radio",name:"Suffix",fieldLabel:"${file.msg.type}",dictId:"system.export.excel",groupcfg:{name:"Suffix"}}]
+		});
+		Ext.coo.news.extWindow.superclass.constructor.call(this,{
+			iconCls:"btn-excel",
+			title:"${file.msg.excel}",
+			width:420,
+			autoHeight:true,
+			border:false,
+			closable:true, 
+			closeAction:"hide",
+			modal:true,
+			plain:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-accept1",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	window_submit:function(){
+		this.params.action="export";
+		this.form.getForm().submit(Ext.fjs.loadAction({url:Ext.coo.news.g_url,params:this.params,success:this.apply_success,scope:this}));
+	},
+	apply_success:function(form,opts){
+		Ext.fjs.download("/down.php?filename="+opts.result.message);
+		this.window_close();
+	}
+});
+Ext.coo.news.addWindow=Ext.extend(Ext.Window,{
+	constructor:function(grid){
+		this.grid=grid;
+		this.form=new Ext.form.FormPanel({
+			cls:"x-panel-mc",
+			fileUpload:true,
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"coo/news_add.tpl"},
+			style:"padding-top:0px",
+			items:[
+				{xtype:"textfield",name:"TITLE",width:480,allowBlank:false,boldLabel:true,minLength:3,maxLength:100},
+				{xtype:"textfield",name:"SUBJECT",width:480,allowBlank:false,boldLabel:true,minLength:3,maxLength:100},
+				{xtype:"fjs-store-combo",hiddenName:"POSITION",width:150,allowBlank:false,boldLabel:true,allrec:false,dictId:"display.position"},
+				{xtype:"htmleditor",name:"DETAIL",height:280,width:800,enableFont:true,allowBlank:false},
+				{xtype:"fileuploadfield",fieldLabel:"file",name:"files",width:280,emptyText:"${upload.msg.empty}",allowBlank:true,anchor:"95%",buttonText:"${upload.msg.select}"},
+				{xtype:"fjs-store-combo",hiddenName:"STATE",width:150,allowBlank:false,boldLabel:true,allrec:false,dictId:"coo.ader.note.state"}
+			]
+		});
+		Ext.coo.news.addWindow.superclass.constructor.call(this,{
+			iconCls:"btn-add",
+			title:"${coo.title.005}",
+			width:900,
+			autoHeight:true,
+			autoScroll:false,
+			border:false,
+			closable:true,
+			closeAction:"hide",
+			plain:true,
+			modal:true,
+			resizable:false,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-save",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	window_submit:function(){
+		var f=this.form;
+		if(Ext.fjs.checkValid(f)){
+			var fv=f.getForm().findField("files").getValue();
+			if(/(jpg|jpeg|png|bmp)$/i.test(fv)){
+				f.getForm().submit(Ext.fjs.saveAction({url:Ext.coo.news.g_url,params:{action:"save"},success:this.apply_success,scope:this}));
+			}else{
+				Ext.fjs.showInfo("${upload.msg.image}");
+			}
+		}
+	},
+	apply_success:function(form,opts){
+		this.form.getForm().reset();
+		this.grid.refresh();
+		this.window_close();
+	}
+});
+Ext.coo.news.modWindow=Ext.extend(Ext.Window,{
+	constructor:function(grid){
+		this.grid=grid;
+		this.form=new Ext.form.FormPanel({
+			cls:"x-panel-mc",
+			fileUpload:true,
+			layout:"html",
+			layoutConfig:{css:"fjs-form",template:"coo/news_mod.tpl"},
+			style:"padding-top:0px",
+			items:[
+				{xtype:"displayfield",name:"SID"},
+				{xtype:"textfield",name:"TITLE",width:480,allowBlank:false,boldLabel:true,minLength:3,maxLength:100},
+				{xtype:"textfield",name:"SUBJECT",width:480,allowBlank:true,boldLabel:true,minLength:3,maxLength:20},
+				{xtype:"fjs-store-combo",name:"POSITION",hiddenName:"POSITION",allrec:false,width:150,allowBlank:false,boldLabel:true,dictId:"display.position"},
+				{xtype:"displayfield",name:"AUTHOR"},
+				{xtype:"htmleditor",name:"DETAIL",height:280,width:800,enableFont:true,allowBlank:false},
+				{xtype:"fileuploadfield",fieldLabel:"file",name:"files",width:280,emptyText:"${upload.msg.empty}",allowBlank:true,anchor:"95%",buttonText:"${upload.msg.select}"},
+				{xtype:"fjs-store-combo",name:"STATE",hiddenName:"STATE",allrec:false,width:150,allowBlank:false,boldLabel:true,dictId:"coo.ader.note.state"}
+			]
+		});
+		Ext.coo.news.modWindow.superclass.constructor.call(this,{
+			iconCls:"btn-edit",
+			title:"${coo.title.005}",
+			width:900,
+			autoHeight:true,
+			autoScroll:true,
+			border:false,
+			closable:true,
+			closeAction:"hide",
+			plain:true,
+			modal:true,
+			resizable:true,
+			items:[this.form],
+			buttonAlign:"center",
+			buttons:[{iconCls:"btn-save",text:"${fzm.btn.submit}",handler:this.window_submit,scope:this},{iconCls:"btn-stop1",text:"${fzm.btn.cancel}",handler:this.window_close,scope:this}]
+		});
+	},
+	window_close:function(){
+		this.hide();
+	},
+	window_submit:function(){
+		if(Ext.fjs.checkValid(this.form)){
+			var fv=this.form.getForm().findField("files").getValue();
+			if(fv==""||/(jpg|jpeg|png|bmp)$/i.test(fv)){
+				this.form.getForm().submit(Ext.fjs.saveAction({url:Ext.coo.news.g_url,params:{action:"save",sid:this.sid},success:this.apply_success,scope:this}));
+			}else{
+				Ext.fjs.showInfo("${upload.msg.image}");
+			}
+		}
+	},
+	apply_success:function(form,opts){
+		this.form.getForm().reset();
+		this.grid.refresh();
+		this.window_close();
+	},
+	loader_success:function(res,opts){
+		var rs=opts.result.data;
+		this.show();
+		Ext.fjs.image("news_info", rs.SID.toLowerCase(), rs.DIST, rs.VER);
+	},
+	open:function(sid){
+		this.sid=sid;
+		this.form.getForm().load(Ext.fjs.loadAction({url:Ext.coo.news.g_url,params:{action:"view",sid:sid},success:this.loader_success,scope:this}));
+	}
+});
+Ext.coo.news.MainPanel=Ext.extend(Ext.grid.GridPanel,{
+	constructor:function(){
+		this.addBtn=new Ext.Button({iconCls:"btn-add",text:"${fzm.btn.add}",tooltip:"${fzm.msg.add}",disabled:false,handler:this.add_onclick,scope:this});
+		this.modBtn=new Ext.Button({iconCls:"btn-edit",text:"${fzm.btn.modify}",tooltip:"${fzm.msg.select}",disabled:true,handler:this.mod_onclick,scope:this});
+		this.delBtn=new Ext.Button({iconCls:"btn-delete",text:"${fzm.btn.delete}",tooltip:"${fzm.msg.select}",disabled:true,handler:this.del_onclick,scope:this});
+		this.btns=new Ext.Button({iconCls:"mnu-wrench_orange",text:"${fzm.btn.bulk}",menu:[
+			{iconCls:"btn-excel",text:"${fzm.msg.export}",handler:this.export_onclick,scope:this}
+		],disabled:false});
+		var sm=new Ext.grid.CheckboxSelectionModel();
+		var cm=new Ext.grid.ColumnModel([
+			sm,new Ext.grid.RowNumber()<s:header id="coo.news"/>
+		]);
+		this.store=new Ext.fjs.PageStore({
+			url:Ext.coo.news.g_url,
+			baseParams:{action:"list"},
+			fields:[<s:fields id="coo.news"/>]
+		});
+		this.store.load({params:{start:0,limit:Ext.fjs.defPSize}});
+		Ext.coo.news.MainPanel.superclass.constructor.call(this,{
+			region:"center",
+			store:this.store,
+			stripeRows:true,
+			autoScroll:true,
+			boldHeader:true,
+			closable:true,
+			containerScroll:true,
+			columnLines:true,
+			cm:cm,sm:sm,
+			loadMask:true,
+			tbar:[
+				this.fcom=new Ext.fjs.form.StoreComboBox({xtype:"fjs-store-combo",hiddenName:"fcom",dictId:"coo.ader.note.state",allowBlank:true,allrec:true,width:90}),{xtype:"tbspacer",width:5},
+				this.fpos=new Ext.fjs.form.StoreComboBox({xtype:"fjs-store-combo",hiddenName:"fpos",dictId:"display.position",allowBlank:true,allrec:true,width:90}),{xtype:"tbspacer",width:5},
+				this.fkey=new Ext.form.TextField({xtype:"textfield",name:"fkey",allowBlank:true,width:100,maxLength:50}),{xtype:"tbspacer",width:5},
+				{iconCls:"btn-search",tooltip:"${fzm.msg.search}",handler:this.search_onclick,scope:this},
+				"->",this.addBtn,"-",this.modBtn,"-",this.delBtn,"-",this.btns
+			],
+			bbar:Ext.fjs.PageToolBar({store:this.store})
+		});
+		this.getSelectionModel().on("selectionchange",this.evt_selection,this);
+		this.on("rowdblclick",this.mod_onclick,this);
+	},
+	evt_selection:function(sm){
+		var bts=this.btns.menu.items,len=sm.getCount();
+		if(len==1){
+			this.modBtn.enable();
+			this.delBtn.enable();
+			//bts.itemAt(1).enable();
+		}else{
+			this.modBtn.disable();
+			this.delBtn.disable();
+			//bts.itemAt(1).disable();
+		}
+	},
+	getSid:function(){
+		return Ext.fjs.getPKId(this,"SID");
+	},
+	refresh:function(){
+		this.getBottomToolbar().doRefresh();
+	},
+	search_onclick:function(){
+		var s=this.store;
+		s.setBaseParam("STATE",this.fcom.getValue());
+		s.setBaseParam("POSITION",this.fpos.getValue());
+		s.setBaseParam("KEY",this.fkey.getValue());
+		s.load({params:{start:0,limit:this.getBottomToolbar().pageSize}});
+	},
+	add_onclick:function(btn){
+		var w=this.addWin;
+		if(!w){
+			this.addWin=w=new Ext.coo.news.addWindow(this);
+		}
+		w.show(btn.id);
+	},
+	mod_onclick:function(btn){
+		var w=this.modWin;
+		if(!w){
+			this.modWin=w=new Ext.coo.news.modWindow(this);
+		}
+		w.open(this.getSid());
+	},
+	del_onclick:function(){
+		Ext.msg.confirm(Ext.fjs.NOTICE,Ext.fjs.del_confirm,this.delConfirm,this);
+	},
+	delConfirm:function(btn){
+		if(btn=="yes"){
+			Ext.fjs.post({url:Ext.coo.news.g_url,params:{action:"delete",ids:this.getSid()},success:this.apply_success,scope:this});
+		}
+	},
+	send_onclick:function(btn){
+		Ext.fjs.post({url:Ext.coo.news.g_url,params:{action:"send",ids:this.getSid()},success:this.apply_success,scope:this});
+	},
+	apply_success:function(res,opts){
+		var rs=Ext.decode(res.responseText);
+		if(rs.success){
+			Ext.fjs.showInfo(rs.message);
+			this.refresh()
+		}else{
+			Ext.fjs.showError(rs.message);
+		}
+	},
+	export_onclick:function(btn){
+		Ext.fjs.showInfo("导出功能暂未开放!"); 
+	},
+	beforeDestroy:function(){
+		if(this.addWin)Ext.destroy(this.addWin);
+		if(this.modWin)Ext.destroy(this.modWin);
+		if(this.extWin)Ext.destroy(this.extWin);
+		Ext.coo.news.MainPanel.superclass.beforeDestroy.call(this);
+	}
+});
