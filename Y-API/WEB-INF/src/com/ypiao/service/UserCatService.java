@@ -2,6 +2,7 @@ package com.ypiao.service;
 
 import com.ypiao.bean.Cat;
 import com.ypiao.bean.CatConfig;
+import com.ypiao.bean.UserInfo;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,7 +22,7 @@ public interface UserCatService {
      * @DATE:2018/7/25
      * @VERSION:1.0
      */
-    public List<Cat> qryCatInfo(Long uid)throws  Exception;
+    public List<Cat> qryCatInfo(Long uid,int type)throws  Exception;
     /*
      * @NAME:findcatConfig
      * @DESCRIPTION:根据ID查找配置
@@ -47,5 +48,30 @@ public interface UserCatService {
      */
     public void updateCatActTimeByIdAndUidAndTime(long uid, int id, int type, long time, int catFood, BigDecimal grow,String name )throws Exception ;
 
+    /*
+     * @NAME:findRankList
+     * @DESCRIPTION:查找成长值前100 的猫
+     * @AUTHOR:luxh
+     * @DATE:2018/7/27
+     * @VERSION:1.0
+     */
     public List<Cat> findRankList() throws Exception;
+    /*
+     * @NAME:updateName
+     * @DESCRIPTION:修改姓名（用户或者猫）
+     * @AUTHOR:luxh
+     * @DATE:2018/7/27
+     * @VERSION:1.0
+     */
+    public int updateName(long id,int type,String name) throws Exception;
+    /*
+     * @NAME:insCat
+     * @DESCRIPTION:创建猫
+     * @AUTHOR:luxh
+     * @DATE:2018/7/27
+     * @VERSION:1.0
+     */
+    public void insCat(Cat cat);
+
+    public Cat qryCatHis();
 }

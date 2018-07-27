@@ -3,6 +3,7 @@ package com.ypiao.json;
 
 import com.ypiao.bean.*;
 import com.ypiao.service.UserAuthService;
+import com.ypiao.service.UserCatService;
 import com.ypiao.service.UserInfoService;
 import com.ypiao.service.UserVipService;
 import com.ypiao.util.MonthFound;
@@ -11,8 +12,10 @@ import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 /*
  * @CLASSNAME:OnUserVip
  * @DESCRIPTION: 用户会员购买变更
@@ -32,6 +35,7 @@ public class OnUserVip extends Action {
     private UserVipService userVipService;
     private UserInfoService userInfoService;
     private UserAuthService userAuthService;
+    private UserCatService userCatService;
 
     @Override
     public String index() {
@@ -122,6 +126,7 @@ public class OnUserVip extends Action {
                 return JSON;
             }
             if (s.getMa().compareTo(rmb) < 0 || s.getMb().compareTo(rmb) < 0) {
+                logger.info(String.format("用户[%s]余额不足，请充值后再购买。",uid));
                 json.addError("用户余额不足，请充值后再购买。");
                 return JSON;
             }
@@ -147,13 +152,17 @@ public class OnUserVip extends Action {
             logger.info("购买会员记录成功");
             logger.info(String.format("变更用户信息VIP等级为【%s】", level));
             this.getUserInfoService().updateUserVip(uid, level);
-//            json.addSuccess("购买成功");
-//            json.addSuccess("购买成功");
-            json.addMessage("OK");
-//            json.success(API_OK);
-//            json.add("body");
-//            json.formater();
-//            json.append("msg","购买成功");
+
+            //如果猫舍没满的话，新增一个同等级的猫
+            List<Cat> catList = new ArrayList<>();
+            catList = this.getUserCatService().qryCatInfo(uid,1);//1是根据uid查找
+            logger.info(String.format("用户[%s]的猫舍现有[%s]只猫",uid,catList.size()));
+            if(catList.size()>=2){
+                json.addMessage("因猫舍中猫的数量已达上限,小猫无法出生.");
+            }else {
+                    //根据购买的会员等级，新增相对应的猫
+            }
+            json.success(API_OK);
             return JSON;
         } catch (Exception e) {
             e.printStackTrace();
@@ -239,5 +248,13 @@ public class OnUserVip extends Action {
 
     public void setUserAuthService(UserAuthService userAuthService) {
         this.userAuthService = userAuthService;
+    }
+
+    public UserCatService getUserCatService() {
+        return userCatService;
+    }
+
+    public void setUserCatService(UserCatService userCatService) {
+        this.userCatService = userCatService;
     }
 }

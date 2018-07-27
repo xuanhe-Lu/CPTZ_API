@@ -15,7 +15,8 @@ public class Cat implements Serializable {
     private int id;//id
     private int catLevel = 2;//类型 2为白银，3为黄金
     private long uid;//用户 ID
-    private String name;//名称
+    private String catName;//猫名称
+    private String userName;//用户名称
     private int gender =0;//性别 ，0为雄性，1为雌性
     private int catFood =0;//猫粮
     private int state =0;//猫状态，0为成长期，1为成熟期，
@@ -61,12 +62,42 @@ public class Cat implements Serializable {
         this.uid = uid;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public String toString() {
+        return "Cat{" +
+                "id=" + id +
+                ", catLevel=" + catLevel +
+                ", uid=" + uid +
+                ", catName='" + catName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", gender=" + gender +
+                ", catFood=" + catFood +
+                ", state=" + state +
+                ", growth=" + growth +
+                ", maturity=" + maturity +
+                ", bathTime=" + bathTime +
+                ", clearTime=" + clearTime +
+                ", shareTime=" + shareTime +
+                ", feedTime=" + feedTime +
+                ", IsShovel=" + IsShovel +
+                ", remark='" + remark + '\'' +
+                '}';
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getCatName() {
+        return catName;
+    }
+
+    public void setCatName(String catName) {
+        this.catName = catName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public int getGender() {
@@ -139,27 +170,6 @@ public class Cat implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    @Override
-    public String toString() {
-        return "Cat{" +
-                "id=" + id +
-                ", catLevel=" + catLevel +
-                ", uid=" + uid +
-                ", name='" + name + '\'' +
-                ", gender=" + gender +
-                ", catFood=" + catFood +
-                ", state=" + state +
-                ", growth=" + growth +
-                ", maturity=" + maturity +
-                ", bathTime=" + bathTime +
-                ", clearTime=" + clearTime +
-                ", shareTime=" + shareTime +
-                ", feedTime=" + feedTime +
-                ", IsShovel=" + IsShovel +
-                ", remark='" + remark + '\'' +
-                '}';
     }
 
     public long getFeedTime() {

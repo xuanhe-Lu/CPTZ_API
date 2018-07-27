@@ -5,6 +5,7 @@ import com.ypiao.bean.Cat;
 import com.ypiao.bean.CatConfig;
 import com.ypiao.bean.UserVip;
 import com.ypiao.service.UserCatService;
+import com.ypiao.service.UserFaceService;
 import com.ypiao.service.UserVipService;
 import com.ypiao.util.MonthFound;
 import org.apache.log4j.Logger;
@@ -24,6 +25,7 @@ public class OnUserCat extends Action {
     private static Logger log = Logger.getLogger(OnUserCat.class);
     private UserCatService userCatService;
     private UserVipService userVipService;
+    private UserFaceService userFaceService;
 
     @Override
     public String index() {
@@ -47,13 +49,19 @@ public class OnUserCat extends Action {
 //        UserSession us = this.getUserSession();
 //        log.info("us.getUid():"+us.getUid());
         long uid = this.getLong("uid");
+        int id = this.getInt("id");
+        int type = 1;
+        if (id == 0) {
+            type = 1;//根据用户查找
+        } else
+            type = 2;//根据catId查找
         try {
 //            json.formater();
 //            json.add("catInfo");
 //            json.formates();
             //根据uid 查询猫信息
             log.info(String.format("[%s]调用UserCatService().qryCatInfo", uid));
-            List<Cat> catList = this.getUserCatService().qryCatInfo(uid);
+            List<Cat> catList = this.getUserCatService().qryCatInfo(id == 0 ? uid : id, type);
             log.info(String.format("[%s]调用UserCatService().qryCatInfo结束", uid));
             json.success(API_OK);
             json.add("body");
@@ -63,7 +71,8 @@ public class OnUserCat extends Action {
                     json.formater();
                     json.append("id", cat.getId());
                     json.append("uid", cat.getUid());
-                    json.append("name", cat.getName());
+                    json.append("catName", cat.getCatName());
+                    json.append("userName", cat.getUserName() == "" ? String.valueOf(cat.getUid()) : cat.getUserName());
                     json.append("catLevel", cat.getCatLevel());
                     json.append("gender", cat.getGender());
                     json.append("catFood", cat.getCatFood());
@@ -202,6 +211,10 @@ public class OnUserCat extends Action {
 
                     log.info(String.format("start updateCatActTimeByIdAndUidAndTime,uid:[%s],id:[%s],type:[%s],time:[%s],catFood:[%s],grow:[%s],name:[%s]", uid, id, type, time, catFood, grow, name));
                     //保存猫粮和成长值到正表和历史表中。
+                    if(type == 4){
+                        //查询最近一条喂食记录，转换成成长值入正表和记录表
+                        //TODO
+                    }
                     this.getUserCatService().updateCatActTimeByIdAndUidAndTime(uid, id, type, time, catFood, cat.getGrowth().add(grow), name);
                     json.append("state", 1);
                     json.append("type", type);
@@ -216,8 +229,6 @@ public class OnUserCat extends Action {
             e.printStackTrace();
             json.addError("系统错误，请稍后再试");
         }
-
-
         return JSON;
     }
 
@@ -228,15 +239,61 @@ public class OnUserCat extends Action {
      * @DATE:2018/7/27
      * @VERSION:1.0
      */
-    public  String rankList(){
+    public String rankList() throws Exception {
         log.info("come in rankList");
         AjaxInfo json = this.getAjaxInfo();
-        try {
-            this.getUserCatService().findRankList();
-        } catch (Exception e) {
-            e.printStackTrace();
+        long uid = this.getLong("uid");
+        List<Cat> catList = this.getUserCatService().findRankList();
+        int sign = 0;
+        json.add("body");
+        json.adds("catList");
+        log.info("循环获取前100名信息");
+        for (Cat cat : catList) {
+            if (cat.getUid() == uid) {
+                sign = 1;
+            }
+            int ver = this.getUserFaceService().findFaceByUid(cat.getUid());
+            json.append("id", cat.getId());
+            json.append("uid", cat.getUid());
+            json.append("userName", cat.getUserName());
+            json.append("catLevel", cat.getCatLevel());
+            json.append("growth", cat.getGrowth());
+            json.append("sign", sign);
+            json.add("facer");
+            json.append("uid", uid);
+            json.append("ver", ver);
+            sign = 0;
         }
-        return null;
+        return JSON;
+    }
+
+    /*
+     * @NAME:changeName
+     * @DESCRIPTION:修改名字（用户或者猫的）
+     * @AUTHOR:luxh
+     * @DATE:2018/7/27
+     * @VERSION:1.0
+     */
+    public String changeName()throws Exception{
+        log.info(String.format("come in changeName"));
+        AjaxInfo json = this.getAjaxInfo();
+        int type = this.getInt("type");
+        String name  = this.getString("name");
+        long id = 0L;
+        if(type ==1){//代表是用户改名字
+            id = this.getLong("uid");
+        }else
+            id = this.getInt("id");
+        int i = 0;
+        i = this.getUserCatService().updateName( id, type,name);
+        if(i <1){
+            json.addError("修改昵称失败，请稍后再试.");
+            return JSON;
+        }else{
+            json.success(API_OK);
+            json.addMessage("修改昵称成功");
+        }
+        return  JSON;
     }
 
     public UserCatService getUserCatService() {
@@ -253,5 +310,13 @@ public class OnUserCat extends Action {
 
     public void setUserVipService(UserVipService userVipService) {
         this.userVipService = userVipService;
+    }
+
+    public UserFaceService getUserFaceService() {
+        return userFaceService;
+    }
+
+    public void setUserFaceService(UserFaceService userFaceService) {
+        this.userFaceService = userFaceService;
     }
 }
