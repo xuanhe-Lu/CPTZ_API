@@ -229,8 +229,12 @@ public class OnUserCat extends Action {
     public  String rankList(){
         log.info("come in rankList");
         AjaxInfo json = this.getAjaxInfo();
-        this.getUserCatService().findRankList();
-
+        try {
+            this.getUserCatService().findRankList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public UserCatService getUserCatService() {
