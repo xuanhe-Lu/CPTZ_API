@@ -99,7 +99,7 @@ public class AtProdInfo extends Action {
 				UserSession us = this.getUserSession();
 				int status = 0;//0为不允许，1为允许
 				BigDecimal vipRate = new BigDecimal(1.00);
-				if(us.isLogin() ){
+				if(us.getUid()== 0){
 					logger.info("用户未登录,无法查询用户VIP等级");
 				}else {
 					long nowTime = System.currentTimeMillis();
