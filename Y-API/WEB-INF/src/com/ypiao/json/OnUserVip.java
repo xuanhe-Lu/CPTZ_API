@@ -126,7 +126,7 @@ public class OnUserVip extends Action {
                 return JSON;
             }
             if (s.getMa().compareTo(rmb) < 0 || s.getMb().compareTo(rmb) < 0) {
-                logger.info(String.format("用户[%s]余额不足，请充值后再购买。",uid));
+                logger.info(String.format("用户[%s]余额不足，请充值后再购买。", uid));
                 json.addError("用户余额不足，请充值后再购买。");
                 return JSON;
             }
@@ -138,6 +138,7 @@ public class OnUserVip extends Action {
             userVip.setUid(uid);
             if (i >= 0) {
                 //TODO 数据同步到MGR
+                //修改ymgr库中的user_rmbs
             }
             // TODO 应急 ，先写死，后期改成查数据库配置表
             if (level == 2) {
@@ -155,12 +156,18 @@ public class OnUserVip extends Action {
 
             //如果猫舍没满的话，新增一个同等级的猫
             List<Cat> catList = new ArrayList<>();
-            catList = this.getUserCatService().qryCatInfo(uid,1);//1是根据uid查找
-            logger.info(String.format("用户[%s]的猫舍现有[%s]只猫",uid,catList.size()));
-            if(catList.size()>=2){
+            catList = this.getUserCatService().qryCatInfo(uid, 1);//1是根据uid查找
+            logger.info(String.format("用户[%s]的猫舍现有[%s]只猫", uid, catList.size()));
+            if (catList.size() >= 2) {
                 json.addMessage("因猫舍中猫的数量已达上限,小猫无法出生.");
-            }else {
-                    //根据购买的会员等级，新增相对应的猫
+            } else {
+                //根据购买的会员等级，新增相对应的猫
+                Cat cat = new Cat();
+                cat.setUserName(String.valueOf(uid));
+                cat.setUid(uid);
+                cat.setCatLevel(level);
+                this.getUserCatService().insCat(cat);
+
             }
             json.success(API_OK);
             return JSON;

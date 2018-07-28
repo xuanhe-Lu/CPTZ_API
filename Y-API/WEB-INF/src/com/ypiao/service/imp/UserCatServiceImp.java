@@ -36,7 +36,7 @@ public class UserCatServiceImp implements UserCatService {
         PreparedStatement ps = null;
         List<Cat> catList = new ArrayList<>();
         try {
-            ps = conn.prepareStatement("SELECT id,uid,catName,catLevel,gender,catFood,state,maturity,growth,bathTime,clearTime,shareTime,IsShovel,userName FROM cat_status where state < 2 AND " + sqlSuffix);
+            ps = conn.prepareStatement("SELECT id,uid,catName,catLevel,gender,catFood,state,maturity,growth,bathTime,clearTime,shareTime,IsShovel,userName,img,feedTime FROM cat_status where state < 2 AND " + sqlSuffix);
             ps.setLong(1, uid);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -56,6 +56,8 @@ public class UserCatServiceImp implements UserCatService {
                 cat.setShareTime(rs.getLong(12));
                 cat.setIsShovel(rs.getInt(13));
                 cat.setUserName(rs.getString(14));
+                cat.setImg(rs.getString(15));
+                cat.setFeedTime(rs.getLong(16));
                 catList.add(cat);
             }
         } finally {
@@ -87,7 +89,7 @@ public class UserCatServiceImp implements UserCatService {
                 catConfig.setGoldGrowthAdd(rs.getBigDecimal(8));
             }
         } finally {
-            JPrepare.close(ps,conn);
+            JPrepare.close(ps, conn);
         }
         return catConfig;
     }
@@ -128,13 +130,13 @@ public class UserCatServiceImp implements UserCatService {
     }
 
     @Override
-    public void updateCatActTimeByIdAndUidAndTime(long uid, int id, int type, long time, int catFood, BigDecimal grow, String catName) throws Exception {
+    public void updateCatActTimeByIdAndUidAndTime(long uid, int id, int type, long time, int catFood, BigDecimal grow, String catName, int state) throws Exception {
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
         try {
-            log.info(String.format("come in updateCatActTimeByIdAndUidAndTime,uid:[%s],id:[%s],type:[%s],time:[%s],catFood:[%s],grow:[%s],catName:[%s]", uid, id, type, time, catFood, grow, catName));
-            String sql = "update cat_status set remark = ?,";
-            String sqlSuffix = " where uid = ? and id = ?  ";
+            log.info(String.format("come in updateCatActTimeByIdAndUidAndTime,uid:[%s],id:[%s],type:[%s],time:[%s],catFood:[%s],grow:[%s],catName:[%s],state[%s]", uid, id, type, time, catFood, grow, catName, state));
+            String sql = "update cat_status set state = ?,";
+            String sqlSuffix = " where uid = ? and id = ?  and state <1";
             String word = null;
             if (type == 1) {
                 word = " shareTime  = ? ,catFood = ?";
@@ -149,27 +151,32 @@ public class UserCatServiceImp implements UserCatService {
 
 
             ps = conn.prepareStatement(finalSql);
-            ps.setLong(1, time);
-            ps.setString(2, catName);
-
+//            ps.setLong(1, type);
+            ps.setInt(1, state);
+            ps.setLong(2, time);
             if (type == 1 || type == 2 || type == 3) {
                 ps.setLong(3, catFood);
             } else if (type == 4) {
                 ps.setBigDecimal(3, grow);
             }
+            ps.setLong(4, uid);
+            ps.setInt(5,id);
             //更新正表
             log.info("入正表");
             if (ps.executeUpdate() > 0) {
                 log.info("入历史表");
                 //入历史表
-                String sqlHis = "insert into cat_logs (uid,catId,type,catName,time) values (?,?,?,?,?)";
+                String sqlHis = "insert into cat_logs (uid,catId,type,catName,time,remark) values (?,?,?,?,?,?)";
                 ps.setLong(1, uid);
                 ps.setInt(2, id);
                 ps.setInt(3, type);
                 ps.setString(4, catName);
                 ps.setLong(5, time);
+                ps.setString(6, String.format("猫粮:[%s],成长值:[%s]",catFood,grow));
                 int i = ps.executeUpdate();
                 log.info("change rows :" + i);
+            }else{
+                log.info("updateCatActTimeByIdAndUidAndTime,更新失败");
             }
         } finally {
             JPrepare.close(ps, conn);
@@ -220,18 +227,43 @@ public class UserCatServiceImp implements UserCatService {
 
             i = ps.executeUpdate();
         } finally {
-            JPrepare.close(ps,conn);
+            JPrepare.close(ps, conn);
         }
         return i;
     }
 
     @Override
-    public void insCat(Cat cat) {
-
+    public void insCat(Cat cat) throws Exception {
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement("insert into cat_status (uid,userName,catLevel,maturity) values (?,?,?,?)");
+            ps.setLong(1, cat.getUid());
+            ps.setString(2, cat.getUserName());
+            ps.setInt(3, cat.getCatLevel());
+            ps.setBigDecimal(4, cat.getMaturity());
+            ps.execute();
+        } finally {
+            JPrepare.close(ps, conn);
+        }
     }
 
     @Override
-    public Cat qryCatHis() {
+    public Cat qryCatHis(long uid, int id, int type) throws Exception {
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        Cat cat = new Cat();
+        ps = conn.prepareStatement("select catFood,state,maturity,growth from cat_logs where uid =? and id =? and type = ? order by time desc limit 1");
+        ps.setLong(1, uid);
+        ps.setInt(2, id);
+        ps.setInt(3, type);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            cat.setCatFood(rs.getInt(1));
+            cat.setState(rs.getInt(2));
+            cat.setMaturity(rs.getBigDecimal(3));
+            cat.setGrowth(rs.getBigDecimal(4));
+        }
         return null;
     }
 }

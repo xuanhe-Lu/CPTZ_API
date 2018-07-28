@@ -84,6 +84,7 @@ public class OnUserCat extends Action {
                     json.append("shareTime", cat.getShareTime());
                     json.append("remark", cat.getRemark());
                     json.append("IsShovel", cat.getIsShovel());
+                    json.append("img",cat.getImg());
                 }
             }
             return JSON;
@@ -140,82 +141,113 @@ public class OnUserCat extends Action {
                     String date = "";
                     String dateNew = "";
                     String name = "";
-                    if (type == 1) {//分享
-                        log.info(String.format("[%s]会员本次操作的动作是[%s],时间是[%s]", uid, catConfig.getName(), time));
-                        savetime = cat.getShareTime();
-                        date = MonthFound.getDataFormat(savetime, "yyyy-MM-dd");
-                        dateNew = MonthFound.getDataFormat(time, "yyyy-MM-dd");
-                        name = "分享";
-                        if (date.equals(dateNew)) {
-                            log.info(String.format("[%s]会员今日已分享过了,不在获得猫粮", uid));
-                            json.success(API_OK);
-                            json.add("body");
-                            json.append("type", type);
-                            json.append("state", 0);
-                            json.append("msg", String.format("您今日已分享过了,不在获得猫粮"));
-                            return JSON;
-                        }
-                    } else if (type == 2) {//洗澡
-                        log.info(String.format("[%s]会员本次操作的动作是[%s],时间是[%s]", uid, catConfig.getName(), time));
-                        savetime = cat.getBathTime();
-                        date = MonthFound.getDataFormat(savetime, "yyyy-MM-dd");
-                        dateNew = MonthFound.getDataFormat(time, "yyyy-MM-dd");
-                        name = "洗澡";
-                        if (date.equals(dateNew)) {
-                            log.info(String.format("[%s]会员今日已给[%s]猫洗过澡了,不在获得猫粮", uid, id));
-                            json.success(API_OK);
-                            json.add("body");
-                            json.append("type", type);
-                            json.append("state", 0);
-                            json.append("msg", String.format("您今日已给猫洗过澡了,不在获得猫粮"));
-                            return JSON;
-                        }
-                    } else if (type == 3) {//喂食
-                        name = "喂食";
-                        log.info(String.format("[%s]会员本次操作的动作是[喂食],时间是[%s]", uid, catConfig.getName(), time));
-                        if (cat.getClearTime() <= cat.getFeedTime()) {
-                            // 如果铲屎时间小于等于喂食时间，则是已喂食，但未铲屎
-                            log.info(String.format("[%s]会员今日已给[]猫喂食，但是未铲屎，请铲屎后在喂食。", uid, id));
-                            json.success(API_OK);
-                            json.add("body");
-                            json.append("type", type);
-                            json.append("state", 0);
-                            json.append("msg", String.format("您今日已给猫喂食了，但是未铲屎，请铲屎后在喂食"));
-                            return JSON;
-                        }
-                    } else if (type == 4) {//铲屎
-                        name = "铲屎";
-                        log.info(String.format("[%s]会员本次操作的动作是[铲屎],时间是[%s]", uid, catConfig.getName(), time));
-                        savetime = cat.getFeedTime();
-                        //判断铲屎时间是否已经符合2小时后的标准
-                        if (savetime == 0L) {
-                            //如果喂食时间是0 ，则表明没有进行过喂食，需要先进行喂食，才能铲屎
-                            log.info(String.format("[%s]会员尚未给[%s]猫喂食，请在喂食后2小时铲屎", uid, id));
-                            json.success(API_OK);
-                            json.add("body");
-                            json.append("type", type);
-                            json.append("state", 0);
-                            json.append("msg", String.format("您尚未给猫喂食了，请在喂食后2小时铲屎"));
-                            return JSON;
-                        } else if ((time - savetime) < 72000000) {
-                            //如果时间差小于两小时，则表明有喂食，但是未达到铲屎时间
-                            log.info(String.format("[%s]会员已经给[%s]猫喂食，但是未达到两小时时间，请在喂食后2小时铲屎", uid, id));
-                            json.success(API_OK);
-                            json.add("body");
-                            json.append("type", type);
-                            json.append("state", 0);
-                            json.append("msg", String.format("尚未达到铲屎时间，请在喂食后2小时铲屎"));
-                            return JSON;
+                    if(cat.getState() == 1){
+                        log.info("该猫已经是成熟期了");
+                        //TODO 成熟期返回数据
+//                        json.
+                        return JSON;
+                    }else {
+                        if (type == 1) {//分享
+                            log.info(String.format("[%s]会员本次操作的动作是[%s],时间是[%s]", uid, catConfig.getName(), time));
+                            savetime = cat.getShareTime();
+                            date = MonthFound.getDataFormat(savetime, "yyyy-MM-dd");
+                            dateNew = MonthFound.getDataFormat(time, "yyyy-MM-dd");
+                            name = "分享";
+                            if (date.equals(dateNew)) {
+                                log.info(String.format("[%s]会员今日已分享过了,不在获得猫粮", uid));
+                                json.success(API_OK);
+                                json.add("body");
+                                json.append("type", type);
+                                json.append("state", 0);
+                                json.append("msg", String.format("您今日已分享过了,不在获得猫粮"));
+                                return JSON;
+                            }
+                        } else if (type == 2) {//洗澡
+                            log.info(String.format("[%s]会员本次操作的动作是[%s],时间是[%s]", uid, catConfig.getName(), time));
+                            savetime = cat.getBathTime();
+                            date = MonthFound.getDataFormat(savetime, "yyyy-MM-dd");
+                            dateNew = MonthFound.getDataFormat(time, "yyyy-MM-dd");
+                            name = "洗澡";
+                            if (date.equals(dateNew)) {
+                                log.info(String.format("[%s]会员今日已给[%s]猫洗过澡了,不在获得猫粮", uid, id));
+                                json.success(API_OK);
+                                json.add("body");
+                                json.append("type", type);
+                                json.append("state", 0);
+                                json.append("msg", String.format("您今日已给猫洗过澡了,不在获得猫粮"));
+                                return JSON;
+                            }
+                        } else if (type == 3) {//喂食
+                            name = "喂食";
+                            log.info(String.format("[%s]会员本次操作的动作是[喂食],时间是[%s]", uid, catConfig.getName(), time));
+                            if (cat.getClearTime() <= cat.getFeedTime()) {
+                                // 如果铲屎时间小于等于喂食时间，则是已喂食，但未铲屎
+                                log.info(String.format("[%s]会员今日已给[]猫喂食，但是未铲屎，请铲屎后在喂食。", uid, id));
+                                json.success(API_OK);
+                                json.add("body");
+                                json.append("type", type);
+                                json.append("state", 0);
+                                json.append("msg", String.format("您今日已给猫喂食了，但是未铲屎，请铲屎后在喂食"));
+                                return JSON;
+                            }
+                        } else if (type == 4) {//铲屎
+                            name = "铲屎";
+                            log.info(String.format("[%s]会员本次操作的动作是[铲屎],时间是[%s]", uid, catConfig.getName(), time));
+                            savetime = cat.getFeedTime();
+                            //判断铲屎时间是否已经符合2小时后的标准
+                            if (savetime == 0L) {
+                                //如果喂食时间是0 ，则表明没有进行过喂食，需要先进行喂食，才能铲屎
+                                log.info(String.format("[%s]会员尚未给[%s]猫喂食，请在喂食后2小时铲屎", uid, id));
+                                json.success(API_OK);
+                                json.add("body");
+                                json.append("type", type);
+                                json.append("state", 0);
+                                json.append("msg", String.format("您尚未给猫喂食了，请在喂食后2小时铲屎"));
+                                return JSON;
+                            } else if ((time - savetime) < 72000000) {
+                                //如果时间差小于两小时，则表明有喂食，但是未达到铲屎时间
+                                log.info(String.format("[%s]会员已经给[%s]猫喂食，但是未达到两小时时间，请在喂食后2小时铲屎", uid, id));
+                                json.success(API_OK);
+                                json.add("body");
+                                json.append("type", type);
+                                json.append("state", 0);
+                                json.append("msg", String.format("尚未达到铲屎时间，请在喂食后2小时铲屎"));
+                                return JSON;
+                            }
                         }
                     }
+                    if(type == 1||type ==2){
+                        catFood += cat.getCatFood();
+                    }else if(type ==3){
+                        catFood  = cat.getCatFood() - catFood;
+                    }/*else if(type ==4){
+                        if(level == 2){
+                            grow = grow.multiply(catConfig.getSilverGrowthAdd());
+                        }else if(level == 3){
+                            grow = grow.multiply(catConfig.getGoldGrowthAdd());
+                        }else
+                            grow = grow.multiply(catConfig.getOrdinaryGrowthAdd());
+                    }*/
 
-                    log.info(String.format("start updateCatActTimeByIdAndUidAndTime,uid:[%s],id:[%s],type:[%s],time:[%s],catFood:[%s],grow:[%s],name:[%s]", uid, id, type, time, catFood, grow, name));
+
                     //保存猫粮和成长值到正表和历史表中。
+                    int state = 0;
                     if(type == 4){
                         //查询最近一条喂食记录，转换成成长值入正表和记录表
                         //TODO
+                        Cat cat1 = new Cat();
+                        cat1 =   this.getUserCatService().qryCatHis(uid,id,type =3);
+                        grow = grow.multiply(new BigDecimal(cat1.getCatFood()*0.1));
+                        if(grow.add(cat.getGrowth()) == cat.getMaturity())
+                        {
+                            state = 1;
+                        }
+                        catFood =0;
                     }
-                    this.getUserCatService().updateCatActTimeByIdAndUidAndTime(uid, id, type, time, catFood, cat.getGrowth().add(grow), name);
+                    log.info(String.format("start updateCatActTimeByIdAndUidAndTime,uid:[%s],id:[%s],type:[%s],time:[%s],catFood:[%s],grow:[%s],name:[%s]", uid, id, type, time, catFood, grow, name));
+                    this.getUserCatService().updateCatActTimeByIdAndUidAndTime(uid, id, type, time, catFood, cat.getGrowth().add(grow), name,state);
+                    json.success(API_OK);
+                    json.add("body");
                     json.append("state", 1);
                     json.append("type", type);
                     json.append("catFood", catFood);
