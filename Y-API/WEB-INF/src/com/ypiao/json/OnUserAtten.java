@@ -3,6 +3,7 @@ package com.ypiao.json;
 import com.ypiao.bean.AjaxInfo;
 import com.ypiao.bean.UserSession;
 import com.ypiao.service.UserAttenService;
+import com.ypiao.service.UserCatService;
 import com.ypiao.service.imp.UserAttenServiceImp;
 import com.ypiao.util.MonthFound;
 import org.commons.logs.Logger;
@@ -24,6 +25,7 @@ public class OnUserAtten extends Action {
     private static final long serialVersionUID = -5994314495730896937L;
 
     private UserAttenService userAttenService;
+    private UserCatService userCatService;
 
     public OnUserAtten() {
         super(true);
@@ -157,6 +159,9 @@ public class OnUserAtten extends Action {
         count = count + 1;
         int countRe = this.getUserAttenService().save(time, uid, count);
         if (countRe == 1) {
+            //签到成功，则查询用户会员等级，
+           int vip =  us.getVIP();
+
             json.addMessage("OK");
         } else {
             json.addError("用户本次签到失败,请重新签到!");
@@ -170,5 +175,13 @@ public class OnUserAtten extends Action {
 
     public void setUserAttenService(UserAttenService userAttenService) {
         this.userAttenService = userAttenService;
+    }
+
+    public UserCatService getUserCatService() {
+        return userCatService;
+    }
+
+    public void setUserCatService(UserCatService userCatService) {
+        this.userCatService = userCatService;
     }
 }
