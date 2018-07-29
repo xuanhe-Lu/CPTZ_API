@@ -9,11 +9,12 @@ import com.ypiao.fuiou.*;
 import com.ypiao.service.*;
 import com.ypiao.sign.Fuiou;
 import com.ypiao.util.*;
+import org.apache.log4j.Logger;
 
 public class OnUserBuy extends Action {
 
     private static final long serialVersionUID = -7584077415632858067L;
-
+    private static Logger logger = Logger.getLogger(OnUserBuy.class);
     private PayInfoService payInfoService;
 
     private ProdInfoService prodInfoService;
@@ -32,6 +33,7 @@ public class OnUserBuy extends Action {
 
     private UserInfoService userInfoService;
     private UserVipService userVipService;
+    private UserCatService userCatService;
     public OnUserBuy() {
         super(true);
     }
@@ -968,6 +970,36 @@ public class OnUserBuy extends Action {
                 logger.info("getTradeInfoService.saveOrder");
                 this.getTradeInfoService().saveOrder(s);
                 logger.info("end saveOrder");
+
+                //保存用户投标获取的猫粮
+                long time = GMTime.currentTimeMillis();
+                UserVip userVip = new UserVip();
+                try {
+                    userVip = this.getUserVipService().queryVipLog(us.getUid(),time);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    logger.error("获取用户VIP信息失败");
+                }
+                /*
+                catfood 计算方式
+                    普通会员 RMB*0.003*day
+                    白银会员 RMB*0.003*day*1.05
+                    黄金会员 RMB*0.003*day*1.10
+                 */
+                int catFoodInt = 0;
+                BigDecimal catFood = s.getTma().multiply(new BigDecimal(s.getRday())).multiply(new BigDecimal(1.00)).multiply(new BigDecimal(0.003));
+                if(userVip.getLevel() <2){
+                    catFoodInt = (catFood.multiply(new BigDecimal(1.05))).intValue();
+                }else {
+                    catFoodInt = (catFood.multiply(new BigDecimal(1.10))).intValue();
+                }
+                try {
+                    this.getUserCatService().updateCatFood(us.getUid(),catFoodInt);
+                } catch (Exception e) {
+                    logger.error("存储猫粮数据出错");
+                    e.printStackTrace();
+                    json.addError("存储猫粮数据出错,请稍后再试");
+                }
             }
         } catch (SQLException | JAXBException | IOException e) {
             json.addError(this.getText("system.error.info"));
@@ -983,5 +1015,13 @@ public class OnUserBuy extends Action {
 
     public void setUserVipService(UserVipService userVipService) {
         this.userVipService = userVipService;
+    }
+
+    public UserCatService getUserCatService() {
+        return userCatService;
+    }
+
+    public void setUserCatService(UserCatService userCatService) {
+        this.userCatService = userCatService;
     }
 }

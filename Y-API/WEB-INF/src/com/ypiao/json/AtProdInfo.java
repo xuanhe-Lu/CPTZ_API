@@ -76,6 +76,7 @@ public class AtProdInfo extends Action {
 			LOGGER.info(e.getMessage());
 			json.addError(this.getText("system.error.get"));
 		}
+		logger.info("JSON:"+json.toString());
 		return JSON;
 	}
 	
@@ -121,10 +122,10 @@ public class AtProdInfo extends Action {
 
 
 				json.formater();
-//				json.append("vipstatus",status);
+				json.append("vipstatus",status);
 
 				json.append("vipRate",vipRate);
-				json.append("vipstatus",1);
+//				json.append("vipstatus",1);
 
 				//end luxh
 				json.append( "pid", info.getPid() );
@@ -226,7 +227,7 @@ public class AtProdInfo extends Action {
 			LOGGER.info( "根据状态加载产品列表发生异常，异常信息：" + e.getMessage() );
 			json.addError(this.getText( "system.error.get" ));
 		}
-		
+		logger.info("JSON:"+json.toString());
 		return JSON;
 	}
 

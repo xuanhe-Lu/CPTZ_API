@@ -2,6 +2,7 @@ package com.ypiao.service;
 
 import com.ypiao.bean.Cat;
 import com.ypiao.bean.CatConfig;
+import com.ypiao.bean.CatFood;
 import com.ypiao.bean.UserInfo;
 
 import java.math.BigDecimal;
@@ -46,7 +47,7 @@ public interface UserCatService {
      * @DATE:2018/7/27
      * @VERSION:1.0
      */
-    public void updateCatActTimeByIdAndUidAndTime(long uid, int id, int type, long time, int catFood, BigDecimal grow,String name,int state )throws Exception ;
+    public void updateCatActTimeByIdAndUidAndTime(long uid, int id, int type, long time, int catfoodCahnge ,int catFood, BigDecimal grow,String name,int state )throws Exception ;
 
     /*
      * @NAME:findRankList
@@ -58,12 +59,12 @@ public interface UserCatService {
     public List<Cat> findRankList() throws Exception;
     /*
      * @NAME:updateName
-     * @DESCRIPTION:修改姓名（用户或者猫）
+     * @DESCRIPTION:修改猫姓名
      * @AUTHOR:luxh
      * @DATE:2018/7/27
      * @VERSION:1.0
      */
-    public int updateName(long id,int type,String name) throws Exception;
+    public int updateName(long id,String name) throws Exception;
     /*
      * @NAME:insCat
      * @DESCRIPTION:创建猫
@@ -81,4 +82,38 @@ public interface UserCatService {
      * @VERSION:1.0
      */
     public Cat qryCatHis(long uid,int id ,int type )throws Exception ;
+
+    /*
+     * @NAME:qryCatFood
+     * @DESCRIPTION:查询猫粮
+     * @AUTHOR:luxh
+     * @DATE:2018/7/29
+     * @VERSION:1.0
+     */
+    public CatFood qryCatFood(long uid)throws Exception ;
+
+    /*
+     * @NAME:updateCatFood
+     * @DESCRIPTION:保存猫粮
+     * @AUTHOR:luxh
+     * @DATE:2018/7/29
+     * @VERSION:1.0
+     */
+    public int updateCatFood(long uid ,int catfood) throws Exception ;
+    /*
+     * @NAME:updateIsMember
+     * @DESCRIPTION:购买会员后修改isMember字段为1
+     * @AUTHOR:luxh
+     * @DATE:2018/7/29
+     * @VERSION:1.0
+     */
+    public int updateIsMember(long uid ,int isMember) throws Exception;
+    /*
+     * @NAME:updateuserName
+     * @DESCRIPTION:更新用户昵称
+     * @AUTHOR:luxh
+     * @DATE:2018/7/29
+     * @VERSION:1.0
+     */
+    public int updateuserName(long uid ,String userName) throws Exception;
 }

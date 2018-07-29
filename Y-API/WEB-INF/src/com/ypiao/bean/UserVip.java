@@ -16,7 +16,7 @@ public class UserVip  implements Serializable {
     private static final long serialVersionUID = -1566393143542146651L;
     private int id;
     private String name;
-    private int level;
+    private int level = 0;
     private long uid;
     private long startTime;
     private long endTime;

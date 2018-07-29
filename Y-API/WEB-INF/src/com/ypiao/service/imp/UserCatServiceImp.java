@@ -2,6 +2,7 @@ package com.ypiao.service.imp;
 
 import com.ypiao.bean.Cat;
 import com.ypiao.bean.CatConfig;
+import com.ypiao.bean.CatFood;
 import com.ypiao.data.JPrepare;
 import com.ypiao.service.UserCatService;
 import org.apache.log4j.Logger;
@@ -130,7 +131,7 @@ public class UserCatServiceImp implements UserCatService {
     }
 
     @Override
-    public void updateCatActTimeByIdAndUidAndTime(long uid, int id, int type, long time, int catFood, BigDecimal grow, String catName, int state) throws Exception {
+    public void updateCatActTimeByIdAndUidAndTime(long uid, int id, int type, long time, int catFoodChange, int catFood, BigDecimal grow, String catName, int state) throws Exception {
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
         try {
@@ -160,22 +161,24 @@ public class UserCatServiceImp implements UserCatService {
                 ps.setBigDecimal(3, grow);
             }
             ps.setLong(4, uid);
-            ps.setInt(5,id);
+            ps.setInt(5, id);
             //更新正表
             log.info("入正表");
             if (ps.executeUpdate() > 0) {
                 log.info("入历史表");
                 //入历史表
-                String sqlHis = "insert into cat_logs (uid,catId,type,catName,time,remark) values (?,?,?,?,?,?)";
+                String sqlHis = "insert into cat_logs (uid,catId,type,catName,time,remark,catFood) values (?,?,?,?,?,?,?)";
+                ps = conn.prepareStatement(sqlHis);
                 ps.setLong(1, uid);
                 ps.setInt(2, id);
                 ps.setInt(3, type);
                 ps.setString(4, catName);
                 ps.setLong(5, time);
-                ps.setString(6, String.format("猫粮:[%s],成长值:[%s]",catFood,grow));
+                ps.setString(6, String.format("更新猫粮:[%s],成长值:[%s]，总猫粮[%s]", catFoodChange, grow, catFood));
+                ps.setInt(7, catFoodChange);
                 int i = ps.executeUpdate();
                 log.info("change rows :" + i);
-            }else{
+            } else {
                 log.info("updateCatActTimeByIdAndUidAndTime,更新失败");
             }
         } finally {
@@ -207,29 +210,19 @@ public class UserCatServiceImp implements UserCatService {
         return catList;
     }
 
-    public int updateName(long id, int type, String name) throws Exception {
+    public int updateName(long id, String name) throws Exception {
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
-        String sqlInfo = "";
-        String sqlSuffix = "";
-        int i = 0;
-        if (type == 1) {//用户改名
-            sqlInfo = "userName = ?";
-            sqlSuffix = "uid = ?";
-        } else {
-            sqlInfo = "catName = ?";
-            sqlSuffix = "id = ?";
-        }
+
         try {
-            ps = conn.prepareStatement("update cat_status set " + sqlInfo + " where " + sqlSuffix);
+            ps = conn.prepareStatement("update cat_status set catName = ?  where id = ?");
             ps.setString(1, name);
             ps.setLong(2, id);
 
-            i = ps.executeUpdate();
+            return ps.executeUpdate();
         } finally {
             JPrepare.close(ps, conn);
         }
-        return i;
     }
 
     @Override
@@ -253,17 +246,100 @@ public class UserCatServiceImp implements UserCatService {
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
         Cat cat = new Cat();
-        ps = conn.prepareStatement("select catFood,state,maturity,growth from cat_logs where uid =? and id =? and type = ? order by time desc limit 1");
-        ps.setLong(1, uid);
-        ps.setInt(2, id);
-        ps.setInt(3, type);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            cat.setCatFood(rs.getInt(1));
-            cat.setState(rs.getInt(2));
-            cat.setMaturity(rs.getBigDecimal(3));
-            cat.setGrowth(rs.getBigDecimal(4));
+        try {
+            ps = conn.prepareStatement("select catFood ,id from cat_logs where uid =? and catId =? and type = ? order by time desc limit 1");
+            ps.setLong(1, uid);
+            ps.setInt(2, id);
+            ps.setInt(3, type);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                cat.setCatFood(rs.getInt(1));
+                log.info("qryCatHis,"+rs.getInt(2));
+
+            }
+            return cat;
+        } finally {
+            JPrepare.close(ps, conn);
         }
-        return null;
+
     }
+
+    public CatFood qryCatFood(long uid) throws Exception {
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        CatFood cat;
+        try {
+            cat = new CatFood();
+            ps = conn.prepareStatement("select catFood,isMember,userName from cat_userInfo where uid = ?  order by time desc ");
+            ps.setLong(1, uid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                cat.setCatFood(rs.getInt(1));
+                cat.setIsMember(rs.getInt(2));
+                cat.setUserName(rs.getString(3));
+            }
+        } finally {
+            JPrepare.close(ps, conn);
+        }
+        return cat;
+    }
+
+    public int updateCatFood(long uid, int catfood) throws Exception {
+        log.info(String.format("come in updateCatFood,uid[%s],catfood[%s]", uid, catfood));
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        CatFood cat = new CatFood();
+        try {
+            ps = conn.prepareStatement("update cat_userInfo set  catFood = ?   where uid = ?  ");
+            ps.setInt(1, catfood);
+            ps.setLong(2, uid);
+            int i = 0;
+            i = ps.executeUpdate();
+            log.info(String.format("执行update 影响条数为:[%s]", i));
+            if (i < 1) {
+                log.info(String.format("开始执行insert"));
+                ps = conn.prepareStatement("insert into cat_userInfo (uid,catFood ,time) values(?,?,?)  ");
+                ps.setInt(2, catfood);
+                ps.setLong(1, uid);
+                ps.setLong(3, System.currentTimeMillis());
+                i = ps.executeUpdate();
+                System.out.println("insert:" + i);
+            }
+            return i;
+        } finally {
+            JPrepare.close(ps, conn);
+        }
+    }
+
+    public int updateIsMember(long uid, int isMember) throws Exception {
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        CatFood cat = new CatFood();
+        try {
+            ps = conn.prepareStatement("update cat_userInfo set  isMember = ?   where uid = ?  ");
+            ps.setInt(1, isMember);
+            ps.setLong(2, uid);
+            return ps.executeUpdate();
+        } finally {
+            JPrepare.close(ps, conn);
+        }
+
+    }
+
+    public int updateuserName(long uid, String userName) throws Exception {
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        CatFood cat = new CatFood();
+        try {
+            ps = conn.prepareStatement("update cat_userInfo set  userName = ?   where uid = ?  ");
+            ps.setString(1, userName);
+            ps.setLong(2, uid);
+            return ps.executeUpdate();
+        } finally {
+            JPrepare.close(ps, conn);
+        }
+
+    }
+
+
 }

@@ -1,9 +1,6 @@
 package com.ypiao.json;
 
-import com.ypiao.bean.AjaxInfo;
-import com.ypiao.bean.Cat;
-import com.ypiao.bean.CatConfig;
-import com.ypiao.bean.UserVip;
+import com.ypiao.bean.*;
 import com.ypiao.service.UserCatService;
 import com.ypiao.service.UserFaceService;
 import com.ypiao.service.UserVipService;
@@ -46,8 +43,6 @@ public class OnUserCat extends Action {
     public String getCatInfo() {
         log.info("come in OnUserCat.getCatInfo");
         AjaxInfo json = this.getAjaxInfo();
-//        UserSession us = this.getUserSession();
-//        log.info("us.getUid():"+us.getUid());
         long uid = this.getLong("uid");
         int id = this.getInt("id");
         int type = 1;
@@ -56,15 +51,25 @@ public class OnUserCat extends Action {
         } else
             type = 2;//根据catId查找
         try {
-//            json.formater();
-//            json.add("catInfo");
-//            json.formates();
+
+            CatFood catFoodInfo =  this.getUserCatService().qryCatFood(uid);
+            int catFood = catFoodInfo.getCatFood();
+            long time = System.currentTimeMillis();
+            UserVip userVip = this.getUserVipService().queryVipLog(uid,time);
             //根据uid 查询猫信息
             log.info(String.format("[%s]调用UserCatService().qryCatInfo", uid));
             List<Cat> catList = this.getUserCatService().qryCatInfo(id == 0 ? uid : id, type);
             log.info(String.format("[%s]调用UserCatService().qryCatInfo结束", uid));
             json.success(API_OK);
             json.add("body");
+            CatFood catFood1 = this.getUserCatService().qryCatFood(uid);
+            log.info("catFood1.getUserName(),"+catFood1.toString());
+            String userName = "".equals(catFood1.getUserName()) ?String.valueOf(uid):catFood1.getUserName();
+            log.info("userName:"+userName);
+            json.append("userName",userName);
+            json.append("catFood",catFood);
+            json.append("uid",uid);
+            json.append("level",userVip.getLevel());
             json.adds("catInfo");
             for (Cat cat : catList) {
                 if (cat != null && cat.getId() != 0) {
@@ -72,10 +77,10 @@ public class OnUserCat extends Action {
                     json.append("id", cat.getId());
                     json.append("uid", cat.getUid());
                     json.append("catName", cat.getCatName());
-                    json.append("userName", cat.getUserName() == "" ? String.valueOf(cat.getUid()) : cat.getUserName());
+                   // json.append("userName", userName);
                     json.append("catLevel", cat.getCatLevel());
                     json.append("gender", cat.getGender());
-                    json.append("catFood", cat.getCatFood());
+                   // json.append("catFood", cat.getCatFood());
                     json.append("state", cat.getState());
                     json.append("maturity", cat.getMaturity());
                     json.append("growth", cat.getGrowth());
@@ -87,6 +92,7 @@ public class OnUserCat extends Action {
                     json.append("img",cat.getImg());
                 }
             }
+
             return JSON;
         } catch (Exception e) {
             log.info("获取猫舍信息出错,uid:" + uid);
@@ -110,8 +116,9 @@ public class OnUserCat extends Action {
         long uid = this.getLong("uid");
         int id = this.getInt("id");
         long time = this.getLong("time");
+        int catFoodRe = this.getInt("catfood");
         int type = this.getInt("type");//获取动作,根据动作查找猫粮配置表，
-        log.info(String.format("uid:[%s],time:[%s],type:[%s]", uid, time, type));
+        log.info(String.format("uid:[%s],time:[%s],type:[%s],catFood[%s],type:[%s]", uid, time, type,catFoodRe,type));
 
         try {
             // 根据时间和type 查询当天是否已经执行了动作。
@@ -138,13 +145,14 @@ public class OnUserCat extends Action {
                     //检查猫的状态和动作时间
                     Cat cat = this.getUserCatService().findCatStatus(id, uid);
 
+                    //查询猫粮
+                    CatFood catFood1 = this.getUserCatService().qryCatFood(uid);
                     String date = "";
                     String dateNew = "";
                     String name = "";
                     if(cat.getState() == 1){
                         log.info("该猫已经是成熟期了");
                         //TODO 成熟期返回数据
-//                        json.
                         return JSON;
                     }else {
                         if (type == 1) {//分享
@@ -179,7 +187,7 @@ public class OnUserCat extends Action {
                             }
                         } else if (type == 3) {//喂食
                             name = "喂食";
-                            log.info(String.format("[%s]会员本次操作的动作是[喂食],时间是[%s]", uid, catConfig.getName(), time));
+                            log.info(String.format("[%s]会员本次操作的动作是[%s],时间是[%s]", uid, catConfig.getName(), time));
                             if (cat.getClearTime() <= cat.getFeedTime()) {
                                 // 如果铲屎时间小于等于喂食时间，则是已喂食，但未铲屎
                                 log.info(String.format("[%s]会员今日已给[]猫喂食，但是未铲屎，请铲屎后在喂食。", uid, id));
@@ -192,7 +200,7 @@ public class OnUserCat extends Action {
                             }
                         } else if (type == 4) {//铲屎
                             name = "铲屎";
-                            log.info(String.format("[%s]会员本次操作的动作是[铲屎],时间是[%s]", uid, catConfig.getName(), time));
+                            log.info(String.format("[%s]会员本次操作的动作是[%s],时间是[%s]", uid, catConfig.getName(), time));
                             savetime = cat.getFeedTime();
                             //判断铲屎时间是否已经符合2小时后的标准
                             if (savetime == 0L) {
@@ -204,7 +212,7 @@ public class OnUserCat extends Action {
                                 json.append("state", 0);
                                 json.append("msg", String.format("您尚未给猫喂食了，请在喂食后2小时铲屎"));
                                 return JSON;
-                            } else if ((time - savetime) < 72000000) {
+                            } else if ((time - savetime) < 7200000) {
                                 //如果时间差小于两小时，则表明有喂食，但是未达到铲屎时间
                                 log.info(String.format("[%s]会员已经给[%s]猫喂食，但是未达到两小时时间，请在喂食后2小时铲屎", uid, id));
                                 json.success(API_OK);
@@ -217,9 +225,9 @@ public class OnUserCat extends Action {
                         }
                     }
                     if(type == 1||type ==2){
-                        catFood += cat.getCatFood();
+                        catFood += catFood1.getCatFood();
                     }else if(type ==3){
-                        catFood  = cat.getCatFood() - catFood;
+                        catFood  = catFood1.getCatFood() - catFoodRe;
                     }/*else if(type ==4){
                         if(level == 2){
                             grow = grow.multiply(catConfig.getSilverGrowthAdd());
@@ -232,20 +240,46 @@ public class OnUserCat extends Action {
 
                     //保存猫粮和成长值到正表和历史表中。
                     int state = 0;
-                    if(type == 4){
+                    if(type == 1 || type ==2 ||type ==3){
+                        log.info("猫粮存储到CAT_USERINFO表中");
+                        //修改catfood
+                       int i = 0;
+                       i = this.getUserCatService().updateCatFood(uid,catFood);
+                       if(i < 1){
+                           log.info("猫粮存储到CAT_USERINFO表失败");
+                           json.addError("获取猫粮失败，请稍后再试");
+                           return JSON;
+                       }
+                    }else  if(type == 4){
                         //查询最近一条喂食记录，转换成成长值入正表和记录表
                         //TODO
                         Cat cat1 = new Cat();
-                        cat1 =   this.getUserCatService().qryCatHis(uid,id,type =3);
+                        log.info("come in qryCatHis,uid"+uid+"id："+id);
+                        cat1 =   this.getUserCatService().qryCatHis(uid,id,3);
+                        log.info("end  qryCatHis,cat1"+cat1.toString());
                         grow = grow.multiply(new BigDecimal(cat1.getCatFood()*0.1));
+                        grow = grow.add(cat.getGrowth());
                         if(grow.add(cat.getGrowth()) == cat.getMaturity())
                         {
                             state = 1;
                         }
                         catFood =0;
                     }
-                    log.info(String.format("start updateCatActTimeByIdAndUidAndTime,uid:[%s],id:[%s],type:[%s],time:[%s],catFood:[%s],grow:[%s],name:[%s]", uid, id, type, time, catFood, grow, name));
-                    this.getUserCatService().updateCatActTimeByIdAndUidAndTime(uid, id, type, time, catFood, cat.getGrowth().add(grow), name,state);
+                    int catFoodTemp = 0 ;
+                    if(type ==3){
+                        catFoodTemp = catFoodRe;
+                    }else
+                    {
+
+                        if(level == 2){
+                            catFoodTemp = catConfig.getSilverRight();
+                        }else  if(level == 3){
+                            catFoodTemp = catConfig.getGoldRight();
+                        }
+                    }
+                    grow = grow.setScale(2,BigDecimal.ROUND_HALF_UP);//两位小数设置
+                    log.info(String.format("start updateCatActTimeByIdAndUidAndTime,uid:[%s],id:[%s],type:[%s],time:[%s],catFoodTemp:[%s] ,catFood:[%s],grow:[%s],name:[%s]", uid, id, type, time, catFoodTemp,catFood, grow, name));
+                    this.getUserCatService().updateCatActTimeByIdAndUidAndTime(uid, id, type, time, catFoodTemp,catFood, grow, name,state);
                     json.success(API_OK);
                     json.add("body");
                     json.append("state", 1);
@@ -256,6 +290,9 @@ public class OnUserCat extends Action {
                     return JSON;
 
                 }
+            }else {
+                log.info("您不是会员，无法获得通过该动作获得猫粮或者成长值");
+                json.addError("您不是会员，无法获得通过该动作获得猫粮或者成长值");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -312,12 +349,14 @@ public class OnUserCat extends Action {
         int type = this.getInt("type");
         String name  = this.getString("name");
         long id = 0L;
+        int i = 0;
         if(type ==1){//代表是用户改名字
             id = this.getLong("uid");
-        }else
+            i = this.getUserCatService().updateuserName( id,name);
+        }else {
             id = this.getInt("id");
-        int i = 0;
-        i = this.getUserCatService().updateName( id, type,name);
+            i = this.getUserCatService().updateName(id, name);
+        }
         if(i <1){
             json.addError("修改昵称失败，请稍后再试.");
             return JSON;
