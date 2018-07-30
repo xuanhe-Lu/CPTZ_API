@@ -116,4 +116,14 @@ public interface UserCatService {
      * @VERSION:1.0
      */
     public int updateuserName(long uid ,String userName) throws Exception;
+
+    /*
+     * @NAME:updateuserName
+     * @DESCRIPTION:保存猫粮和备注,供邀请奖励统计使用
+     * @AUTHOR:luxh
+     * @DATE:2018/7/29
+     * @VERSION:1.0
+     */
+
+    public int updateCatFood(long uid, int catfood,String remark) throws Exception;
 }

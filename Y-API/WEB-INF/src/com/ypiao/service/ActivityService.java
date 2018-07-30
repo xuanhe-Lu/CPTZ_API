@@ -16,4 +16,12 @@ public interface ActivityService {
 
 	/** 活动->邀请->返现 */
 	public void take(ProdInfo info, LogOrder log) throws SQLException;
+
+	/**
+	 *
+	 * @param info
+	 * @param log
+	 * @throws SQLException
+	 */
+	public void activityForVipBuy(ProdInfo info, LogOrder log) throws SQLException;
 }
