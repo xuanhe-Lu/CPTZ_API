@@ -118,7 +118,7 @@ public class UserAuthServiceImp extends AConfig implements UserAuthService {
 		try {
 			a.setTime(GMTime.currentTimeMillis());
 			this.save(conn, a); // 保存数据信息
-			SyncMap.getAll().sender(SYS_A124, "save", a);
+//			SyncMap.getAll().sender(SYS_A124, "save", a);
 		} finally {
 			JPrepare.close(conn);
 		}

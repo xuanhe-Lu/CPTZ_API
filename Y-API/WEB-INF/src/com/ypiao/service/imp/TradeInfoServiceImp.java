@@ -227,7 +227,7 @@ public class TradeInfoServiceImp extends AConfig implements TradeInfoService {
 			conn.commit();
 			
 			if (STATE_NORMAL == result) {
-				SyncMap.getAll().sender(SYS_A850, "save", log);
+//				SyncMap.getAll().sender(SYS_A850, "save", log);
 				this.execute(() -> {
 					try {
 						this.getActivityService().take(info, log);

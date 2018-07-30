@@ -157,8 +157,8 @@ public class UserCashServiceImp extends AConfig implements UserCashService {
 			}
 			conn.commit();
 			if (result) {
-				SyncMap.getAll().sender(SYS_A880, "save", c);
-				SyncMap.getAll().sender(SYS_A128, "save", r);
+//				SyncMap.getAll().sender(SYS_A880, "save", c);
+//				SyncMap.getAll().sender(SYS_A128, "save", r);
 			}
 			return result;
 		} catch (SQLException e) {

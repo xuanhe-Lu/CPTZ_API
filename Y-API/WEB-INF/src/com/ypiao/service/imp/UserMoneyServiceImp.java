@@ -73,7 +73,7 @@ public class UserMoneyServiceImp extends AConfig implements UserMoneyService {
 				ps.setLong(3, r.getTime());
 				ps.setLong(4, r.getUid());
 				ps.executeUpdate();
-				SyncMap.getAll().sender(SYS_A128, "save", r);
+//				SyncMap.getAll().sender(SYS_A128, "save", r);
 			} finally {
 				ps.close();
 			}
@@ -101,7 +101,7 @@ public class UserMoneyServiceImp extends AConfig implements UserMoneyService {
 				ps.setLong(4, r.getTime());
 				ps.setLong(5, r.getUid());
 				ps.executeUpdate();
-				SyncMap.getAll().sender(SYS_A128, "share", r);
+//				SyncMap.getAll().sender(SYS_A128, "share", r);
 			} finally {
 				ps.close();
 			}

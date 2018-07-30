@@ -325,7 +325,7 @@ public class UserBankServiceImp extends AConfig implements UserBankService {
 		try {
 			b.setTime(GMTime.currentTimeMillis());
 			this.save(conn, b); // 保存数据信息
-			SyncMap.getAll().sender(SYS_A125, "save", b);
+//			SyncMap.getAll().sender(SYS_A125, "save", b);
 		} finally {
 			JPrepare.close(conn);
 		}
@@ -336,7 +336,7 @@ public class UserBankServiceImp extends AConfig implements UserBankService {
 		try {
 			b.setTime(GMTime.currentTimeMillis());
 			this.save(conn, b); // 保存数据信息
-			SyncMap.getAll().sender(SYS_A125, "saveBker", b);
+//			SyncMap.getAll().sender(SYS_A125, "saveBker", b);
 		} finally {
 			JPrepare.close(conn);
 		}
@@ -363,8 +363,8 @@ public class UserBankServiceImp extends AConfig implements UserBankService {
 			this.getUserAuthService().save(conn, a); // 认证信息
 			this.save(conn, b); // 实名信息
 			this.getUserInfoService().update(conn, b);
-			SyncMap.getAll().sender(SYS_A124, "save", a);
-			SyncMap.getAll().sender(SYS_A125, "save", b);
+//			SyncMap.getAll().sender(SYS_A124, "save", a);
+//			SyncMap.getAll().sender(SYS_A125, "save", b);
 		} finally {
 			JPrepare.close(conn);
 		}

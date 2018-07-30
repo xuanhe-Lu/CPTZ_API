@@ -1,6 +1,7 @@
 package com.ypiao.json;
 
 import com.ypiao.bean.AjaxInfo;
+import com.ypiao.bean.CatConfig;
 import com.ypiao.bean.UserSession;
 import com.ypiao.service.UserAttenService;
 import com.ypiao.service.UserCatService;
@@ -160,8 +161,23 @@ public class OnUserAtten extends Action {
         int countRe = this.getUserAttenService().save(time, uid, count);
         if (countRe == 1) {
             //签到成功，则查询用户会员等级，
-           int vip =  us.getVIP();
+            int vip = us.getVIP();
 
+            CatConfig catConfig = this.getUserCatService().findcatConfig(vip);
+            //签到成功根据会员等级不同,获取不同数量的猫粮
+            if (vip < 2) {
+                logger.info(String.format("该用户【%s】为普通会员,签到获取的猫粮【%s】g", uid, catConfig.getSilverRight()));
+                this.getUserCatService().updateCatFood(uid, catConfig.getSilverRight());
+                logger.info(String.format("保存猫粮成功"));
+            } else if (vip == 2) {
+                logger.info(String.format("该用户【%s】为白银会员,签到获取的猫粮【%s】g", uid, catConfig.getSilverRight()));
+                this.getUserCatService().updateCatFood(uid, catConfig.getSilverRight());
+                logger.info(String.format("保存猫粮成功"));
+            } else if (vip == 3) {
+                logger.info(String.format("该用户【%s】为白银会员,签到获取的猫粮【%s】g", uid, catConfig.getGoldRight()));
+                this.getUserCatService().updateCatFood(uid, catConfig.getGoldRight());
+                logger.info(String.format("保存猫粮成功"));
+            }
             json.addMessage("OK");
         } else {
             json.addError("用户本次签到失败,请重新签到!");

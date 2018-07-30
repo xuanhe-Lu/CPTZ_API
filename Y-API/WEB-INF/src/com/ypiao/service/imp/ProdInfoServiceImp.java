@@ -370,7 +370,7 @@ public class ProdInfoServiceImp extends AConfig implements ProdInfoService {
 
 	public void saveOver(long Pid, long time) throws SQLException {
 		if (this.update(Pid, time) >= 1) {
-			SyncMap.getAll().add("pid", Pid).add("time", time).sender(SYS_A203, "saveAuto");
+//			SyncMap.getAll().add("pid", Pid).add("time", time).sender(SYS_A203, "saveAuto");
 		}
 	}
 

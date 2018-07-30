@@ -100,7 +100,7 @@ public class OnUserCard extends Action {
 				File dest = new File(sb.toString());
 				VeImage.waterJPG(file, dest, 800, 800, true);
 				this.getUserBankService().saveBker(b); // 保存数据信息
-				SyncMap.getAll().add("uid", str).add("sid", sid).sender(APSKey.SYS_A996, "saveUsed", dest);
+//				SyncMap.getAll().add("uid", str).add("sid", sid).sender(APSKey.SYS_A996, "saveUsed", dest);
 				json.addObject();
 				json.append("uid", us.getUid());
 				json.append("sid", sid); // 图片编号

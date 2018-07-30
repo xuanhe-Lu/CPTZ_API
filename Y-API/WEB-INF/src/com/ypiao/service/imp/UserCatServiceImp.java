@@ -303,7 +303,7 @@ public class UserCatServiceImp implements UserCatService {
                 ps.setLong(1, uid);
                 ps.setLong(3, System.currentTimeMillis());
                 i = ps.executeUpdate();
-                System.out.println("insert:" + i);
+                log.info("insert:" + i);
             }
             return i;
         } finally {

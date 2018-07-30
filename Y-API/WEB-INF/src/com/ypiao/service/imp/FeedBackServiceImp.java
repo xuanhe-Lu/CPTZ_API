@@ -64,6 +64,6 @@ public class FeedBackServiceImp extends AConfig implements FeedBackService {
 		// 保存反馈信息
 		this.save(f); 
 		// 同步数据
-		SyncMap.getAll().sender( SYS_A995, "save", f );
+//		SyncMap.getAll().sender( SYS_A995, "save", f );
 	}
 }

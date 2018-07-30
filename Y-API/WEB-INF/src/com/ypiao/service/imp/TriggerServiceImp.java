@@ -79,6 +79,10 @@ public class TriggerServiceImp extends AConfig implements TriggerService {
 
 	public void register(UserInfo info) throws SQLException {
 		this.compute(1, info.getUid(), info.getTime());
+		//新增邀请好友送邀请人1%加息券
+		if(info.getUPS() !=0 && info.getUPS()>=100000) {
+			this.compute(7, info.getUPS(), info.getTime());
+		}
 	}
 
 	public void bindCard(long uid, long time) throws SQLException {

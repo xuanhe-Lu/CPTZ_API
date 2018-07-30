@@ -131,20 +131,21 @@ public class SenderServiceImp extends AConfig implements SenderService {
 			post.setEntity(new UrlEncodedFormEntity( ns, Constant.SYS_UTF8 ));
 			post.setHeader( HTTP.CONTENT_TYPE, "application/x-www-form-urlencoded" );
 			post.setHeader( HTTP.USER_AGENT, "sunsw-HttpClient" );
-			HttpResponse res = hc.execute(post);
-			HttpEntity entity = res.getEntity();
-			if (entity == null) {
+//			HttpResponse res = hc.execute(post);
+//			HttpEntity entity = res.getEntity();
+//			if (entity == null) {
 				// Ignored
-			} else if (res.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				String body = EntityUtils.toString(entity, "UTF-8");
-				System.out.println(body);
-				LOGGER.info( "短信发送成功，接口返回数据：" + body );
-				JSON j = new JSON(body);
-				return (j.getInt("status") == 0);
-			} else {
-				EntityUtils.consume(entity);
-			}
-			return false;
+//			} else if (res.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+//				String body = EntityUtils.toString(entity, "UTF-8");
+//				System.out.println(body);
+//				LOGGER.info( "短信发送成功，接口返回数据：" + body );
+//				JSON j = new JSON(body);
+//				return (j.getInt("status") == 0);
+				return (true);
+//			} else {
+//				EntityUtils.consume(entity);
+//			}
+//			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;

@@ -201,7 +201,7 @@ public class UserInfoServiceImp extends AConfig implements UserInfoService {
 			a.setTime(reg.getRtime());
 			this.initProfile(s, a); // 扩展信息
 			if (sync) {
-				SyncMap.getAll().sender(SYS_A120, "reg", reg);
+//				SyncMap.getAll().sender(SYS_A120, "reg", reg);
 				this.getTriggerService().register(reg);
 			}
 		} catch (Exception e) {
@@ -585,7 +585,7 @@ public class UserInfoServiceImp extends AConfig implements UserInfoService {
 			}
 			rs.close();
 			if (time >= 1) {
-				SyncMap.getAll().add("uid", uid).add("nc", score).add("time", time).sender(SYS_A123, "modNC");
+//				SyncMap.getAll().add("uid", uid).add("nc", score).add("time", time).sender(SYS_A123, "modNC");
 			}
 			return score;
 		} finally {
@@ -596,7 +596,7 @@ public class UserInfoServiceImp extends AConfig implements UserInfoService {
 	public void updatePwd(long uid, String Pwd) throws SQLException {
 		long time = GMTime.currentTimeMillis();
 		if (this.updatePwd(uid, Pwd, time) >= 1) {
-			SyncMap.getAll().add("uid", uid).add("pwd", Pwd).add("time", time).sender(SYS_A123, "modPwd");
+//			SyncMap.getAll().add("uid", uid).add("pwd", Pwd).add("time", time).sender(SYS_A123, "modPwd");
 		}
 	}
 
@@ -617,7 +617,7 @@ public class UserInfoServiceImp extends AConfig implements UserInfoService {
 			}
 			rs.close();
 			if (uid >= USER_UID_BEG) {
-				SyncMap.getAll().add("uid", uid).add("pwd", Pwd).add("time", time).sender(SYS_A123, "modPwd");
+//				SyncMap.getAll().add("uid", uid).add("pwd", Pwd).add("time", time).sender(SYS_A123, "modPwd");
 			}
 		} finally {
 			JPrepare.close(ps, conn);

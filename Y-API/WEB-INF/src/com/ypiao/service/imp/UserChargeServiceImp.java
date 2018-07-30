@@ -233,7 +233,7 @@ public class UserChargeServiceImp extends AConfig implements APState, UserCharge
 					}
 				}
 			} // 同步充值结果
-			SyncMap.getAll().sender(SYS_A129, "charge", c);
+//			SyncMap.getAll().sender(SYS_A129, "charge", c);
 		} finally {
 			JPrepare.close(conn);
 		}
@@ -288,7 +288,7 @@ public class UserChargeServiceImp extends AConfig implements APState, UserCharge
 				rs.insertRow();
 			}
 			rs.close();
-			SyncMap.getAll().sender(SYS_A129, "proto", p);
+//			SyncMap.getAll().sender(SYS_A129, "proto", p);
 		} finally {
 			JPrepare.close(ps, conn);
 		}
@@ -298,7 +298,7 @@ public class UserChargeServiceImp extends AConfig implements APState, UserCharge
 		long time = GMTime.currentTimeMillis();
 		if (this.update(p.getCNo(), p.getState(), time) >= 1) {
 			p.setTime(time);
-			SyncMap.getAll().add("cno", p.getCNo()).add("state", p.getState()).add("time", time).sender(SYS_A129, "unBind");
+//			SyncMap.getAll().add("cno", p.getCNo()).add("state", p.getState()).add("time", time).sender(SYS_A129, "unBind");
 		}
 	}
 

@@ -9,12 +9,14 @@ import com.ypiao.service.*;
 import com.ypiao.util.APState;
 import com.ypiao.util.SmsUtils;
 import com.ypiao.util.Table;
+import org.apache.log4j.Logger;
 
 /**
  * 活动业务层接口实现类. 
  */
 public class ActivityServiceImp extends AConfig implements ActivityService {
 
+	private static Logger logger = Logger.getLogger(ActivityServiceImp.class);
 	private SenderService senderService;
 
 	private TriggerService triggerService;
@@ -22,6 +24,8 @@ public class ActivityServiceImp extends AConfig implements ActivityService {
 	private UserInfoService userInfoService;
 
 	private UserMoneyService userMoneyService;
+
+	private UserVipService userVipService;
 
 	protected void checkSQL() {
 	}
@@ -213,17 +217,41 @@ public class ActivityServiceImp extends AConfig implements ActivityService {
 		UserStatus s = this.getUserInfoService().findUserStatusByUid(log.getUid());
 		if (info.getAdj() >= 1) {
 			this.take(info.getAdj(), s.getMobile(), log);
-		} // 处理邀请等信息
-		if (s.getUPS() >= USER_UID_BEG) {
-			if (s.getNp() == 1 && log.getTma().intValue() >= 1000) {
-				this.getTriggerService().invite(s.getUPS(), log.getTime());
-			} // 分享收益加成
-			BigDecimal rmb = log.getTmg().divide(BigDecimal.TEN); // 基础收益10%
-			if (rmb.compareTo(BigDecimal.ZERO) >= 1) {
-				this.invite(s.getUPS(), log.getUid(), log.getSid(), rmb, log.getTime());
-			}
-		} else {
-			// Ignored
 		}
+		//检查邀请人是否是会员，不是会员不享受投资收益返现
+		boolean isVip = false;
+		try {
+			logger.info(String.format("查询【%s】在【%s】时，是否是会员，",s.getUPS(),System.currentTimeMillis()));
+			UserVip userVip = this.getUserVipService().queryVipLog(s.getUPS(),System.currentTimeMillis());
+			logger.info(String.format("该用户【%s】信息为:【%s】",s.getUPS(),userVip.toString()));
+			isVip = userVip.getLevel()<2?false:true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// 处理邀请等信息
+
+		if(isVip) {
+			logger.info(String.format("该用户【%s】当前不是会员，不享受权益",s.getUPS()));
+			if (s.getUPS() >= USER_UID_BEG) {
+				if (s.getNp() == 1 && log.getTma().intValue() >= 1000) {
+					this.getTriggerService().invite(s.getUPS(), log.getTime());
+				} // 分享收益加成
+				BigDecimal rmb = log.getTmg().divide(BigDecimal.TEN); // 基础收益10%
+				if (rmb.compareTo(BigDecimal.ZERO) >= 1) {
+					this.invite(s.getUPS(), log.getUid(), log.getSid(), rmb, log.getTime());
+				}
+			} else {
+				// Ignored
+			}
+		}else
+			logger.info(String.format("该用户【%s】当前不是会员，不享受权益",s.getUPS()));
+	}
+
+	public UserVipService getUserVipService() {
+		return userVipService;
+	}
+
+	public void setUserVipService(UserVipService userVipService) {
+		this.userVipService = userVipService;
 	}
 }
