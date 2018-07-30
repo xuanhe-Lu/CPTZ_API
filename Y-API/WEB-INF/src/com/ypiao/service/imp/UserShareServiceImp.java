@@ -17,10 +17,10 @@ public class UserShareServiceImp extends AConfig implements UserShareService {
 	private static String SQL_BY_RMBS;
 
 	protected void checkSQL() {
-		SQL_BY_RMBS = JPrepare.getQuery("SELECT Sid,Uid,Fid,Adds,Time FROM user_rmbs WHERE Uid=? AND Tid=5", 0, "inner", "SELECT Uid,Account FROM user_info", "A.Fid=B.Uid ORDER BY A.Sid DESC");
+		SQL_BY_RMBS =  JPrepare.getQuery("SELECT Sid,Uid,Fid,Adds,Time FROM user_rmbs WHERE Uid=? AND Tid=5", 0, "inner", "SELECT Uid,Account FROM user_info", "A.Fid=B.Uid ORDER BY A.Sid DESC");
 	}
 
-	public void sendByAll(AjaxInfo json, long uid, int state) throws SQLException {
+	public void  sendByAll(AjaxInfo json, long uid, int state) throws SQLException {
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;
 		try {
