@@ -1,15 +1,19 @@
 package com.ypiao.json;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.sql.SQLException;
-import javax.xml.bind.JAXBException;
 import com.ypiao.bean.*;
 import com.ypiao.fuiou.*;
 import com.ypiao.service.*;
 import com.ypiao.sign.Fuiou;
-import com.ypiao.util.*;
+import com.ypiao.util.APState;
+import com.ypiao.util.GMTime;
+import com.ypiao.util.VeRule;
+import com.ypiao.util.VeStr;
 import org.apache.log4j.Logger;
+
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.SQLException;
 
 public class OnUserBuy extends Action {
 
@@ -34,6 +38,7 @@ public class OnUserBuy extends Action {
     private UserInfoService userInfoService;
     private UserVipService userVipService;
     private UserCatService userCatService;
+
     public OnUserBuy() {
         super(true);
     }
@@ -117,54 +122,54 @@ public class OnUserBuy extends Action {
         try {
             if (Pwd == null || Pwd.length() < 6) {
                 json.addError(this.getText("user.error.027"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 检测产品信息
             long Pid = this.getLong("pid"); // 产品编号
             ProdInfo info = this.getProdInfoService().findProdByPid(Pid);
             if (info == null) {
                 json.addError(this.getText("system.error.none"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 非销售状态
             if (info.getAu() != SALE_A1) {
                 json.addError(this.getText("user.error.850"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 检测最低余额
             if (amt.compareTo(BigDecimal.ZERO) <= 0) {
-                json.addError(this.getText("user.error.851", new String[] { DF2.format(info.getMc()) }));
-                System.out.println("json:"+json.toString());
- return JSON;
+                json.addError(this.getText("user.error.851", new String[]{DF2.format(info.getMc())}));
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 检测最低余额
             if (info.getMc().compareTo(amt) >= 1) {
-                json.addError(this.getText("user.error.851", new String[] { DF2.format(info.getMc()) }));
-                System.out.println("json:"+json.toString());
- return JSON;
+                json.addError(this.getText("user.error.851", new String[]{DF2.format(info.getMc())}));
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 检测最高限额
             if (info.getMb().compareTo(BigDecimal.ZERO) >= 1) {
                 if (amt.compareTo(info.getMb()) >= 1) {
-                    json.addError(this.getText("user.error.852", new String[] { DF2.format(info.getMb()) }));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    json.addError(this.getText("user.error.852", new String[]{DF2.format(info.getMb())}));
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 }
             } // 产品余额
             BigDecimal yu = info.getMa().subtract(info.getMd());
             if (amt.compareTo(yu) >= 1) {
                 json.addError(this.getText("user.error.853"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 产品售罄
             if (info.getMc().compareTo(yu) >= 1) {
                 json.addError(this.getText("user.error.855"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 产品Model
             ProdModel m = this.getProdModelService().getProdModelByTid(info.getTid());
             if (m == null) {
                 json.addError(this.getText("user.error.856"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 优惠券信息
             long cid = this.getLong("sid");
             long cid1 = this.getLong("sid1");
@@ -172,7 +177,7 @@ public class OnUserBuy extends Action {
             UserSession us = this.getUserSession();
             UserCoupon uc = this.getUserCouponService().findCouponBySid(cid);
             UserCoupon uc1 = new UserCoupon();
-            if(cid1 !=0l) {
+            if (cid1 != 0l) {
                 uc1 = this.getUserCouponService().findCouponBySid(cid1);
             }
             if (uc1 == null) {
@@ -181,27 +186,25 @@ public class OnUserBuy extends Action {
                 uc1 = null; // Ignored
             } else if (uc1.getState() != STATE_NORMAL || time >= uc1.getEday()) {
                 json.addError(this.getText("user.error.857"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } else {
                 if (STATE_DISABLE != m.getTofee()) {
                     json.addError(this.getText("user.error.858"));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 } // 投资金额不满足
                 if (uc1.getToall().compareTo(amt) >= 1) {
                     json.addError(this.getText("user.error.859"));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 } // 理财天数不满足
                 if (uc1.getToday() > info.getAj()) {
                     json.addError(this.getText("user.error.859"));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 }
             }
-
-
 
 
             if (uc == null) {
@@ -210,62 +213,62 @@ public class OnUserBuy extends Action {
                 uc = null; // Ignored
             } else if (uc.getState() != STATE_NORMAL || time >= uc.getEday()) {
                 json.addError(this.getText("user.error.857"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } else {
                 if (STATE_DISABLE != m.getTofee()) {
                     json.addError(this.getText("user.error.858"));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 } // 投资金额不满足
                 if (uc.getToall().compareTo(amt) >= 1) {
                     json.addError(this.getText("user.error.859"));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 } // 理财天数不满足
                 if (uc.getToday() > info.getAj()) {
                     json.addError(this.getText("user.error.859"));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 }
             } // 全局投资次数
             if (m.getTotal() >= 1) {
                 if (this.getTradeInfoService().isProdByAll(us.getUid(), m.getTid(), m.getTotal())) {
-                    json.addError(this.getText("user.error.860", new String[] { m.getName(), String.valueOf(m.getTotal()) }));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    json.addError(this.getText("user.error.860", new String[]{m.getName(), String.valueOf(m.getTotal())}));
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 }
             } // 当前标的次数
             if (m.getToall() >= 1) {
                 if (this.getTradeInfoService().isProdByPid(us.getUid(), info.getPid(), m.getToall())) {
-                    json.addError(this.getText("user.error.861", new String[] { info.getAa(), String.valueOf(m.getToall()) }));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    json.addError(this.getText("user.error.861", new String[]{info.getAa(), String.valueOf(m.getToall())}));
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 }
             } // 检测实名信息
             UserAuth a = this.getUserAuthService().findAuthByUid(us.getUid());
             if (a == null) {
                 json.addError(this.getText("user.error.050"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 校对支付密码
             Pwd = VeStr.toMD5(Pwd); // 格式化
             if (!Pwd.equalsIgnoreCase(a.getPays())) {
                 json.addError(this.getText("user.error.028"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 检测账户信息
             synchronized (doLock(us.getUid())) {
                 UserStatus s = this.getUserInfoService().findUserStatusByUid(us.getUid());
                 if (s == null) {
                     json.addError(this.getText("user.error.888"));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 } // 抵扣券处理
                 BigDecimal rmb = amt;
                 LogOrder log = new LogOrder();
                 // 增加对会员权益日黄金会员加息券叠加的处理
-                if(uc != null && uc1!=null){
+                if (uc != null && uc1 != null) {
                     log.setCid(uc.getSid());
                     switch (uc.getType()) {
                         case 1: // 体验券
@@ -285,7 +288,7 @@ public class OnUserBuy extends Action {
                     if (uc.getType() == 1) {
                         log.setTmd(amt.subtract(rmb));
                     }
-                }else 	if (uc != null) {
+                } else if (uc != null) {
                     log.setCid(uc.getSid());
                     switch (uc.getType()) {
                         case 1: // 体验券
@@ -308,8 +311,8 @@ public class OnUserBuy extends Action {
                 } // 检测账户余额是否足
                 if (rmb.compareTo(s.getMb()) >= 1) {
                     json.addError(this.getText("user.error.854"));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 } // 构建订单信息
                 log.setSid(VeStr.getUSid());
                 log.setUid(us.getUid());
@@ -317,10 +320,10 @@ public class OnUserBuy extends Action {
                 log.setTid(info.getTid());
                 log.setName(info.getAa());
                 //增加会员年化利率
-                BigDecimal bigDecimal = new BigDecimal(""+this.getBigDecimal("vipRate"));
-                if(!"0.00".equals(bigDecimal)){
+                BigDecimal bigDecimal = new BigDecimal("" + this.getBigDecimal("vipRate"));
+                if (!"0.00".equals(bigDecimal)) {
                     log.setRate((info.getAn().add(info.getAds())).multiply(bigDecimal));
-                }else {
+                } else {
                     log.setRate(info.getAn().add(info.getAds()));
                 }
                 log.setAds(info.getAds());
@@ -334,8 +337,8 @@ public class OnUserBuy extends Action {
                     // Ignored
                 } else {
                     json.addError(this.getText("user.error.856"));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 }
                 int state = this.getTradeInfoService().commit(info, log, uc);
                 if (state == 0) {
@@ -367,8 +370,8 @@ public class OnUserBuy extends Action {
         } finally {
             Pwd = null;
         }
-        System.out.println("json:"+json.toString());
- return JSON;
+        System.out.println("json:" + json.toString());
+        return JSON;
     }
 
     public String index() {
@@ -378,38 +381,38 @@ public class OnUserBuy extends Action {
             ProdInfo info = this.getProdInfoService().findProdByPid(Pid);
             if (info == null) {
                 json.addError(this.getText("system.error.none"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 非销售状态
             if (info.getAu() != SALE_A1) {
                 json.addError(this.getText("user.error.850"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 产品售罄
             if (info.getMa().compareTo(info.getMd()) <= 0) {
                 json.addError(this.getText("user.error.855"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 产品Model
             ProdModel m = this.getProdModelService().getProdModelByTid(info.getTid());
             if (m == null) {
                 json.addError(this.getText("user.error.856"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 全局投资次数
             UserSession us = this.getUserSession();
             if (m.getTotal() >= 1) {
                 if (this.getTradeInfoService().isProdByAll(us.getUid(), m.getTid(), m.getTotal())) {
-                    json.addError(this.getText("user.error.860", new String[] { m.getName(), String.valueOf(m.getTotal()) }));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    json.addError(this.getText("user.error.860", new String[]{m.getName(), String.valueOf(m.getTotal())}));
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 }
             } // 当前标的次数
             if (m.getToall() >= 1) {
                 if (this.getTradeInfoService().isProdByPid(us.getUid(), info.getPid(), m.getToall())) {
-                    json.addError(this.getText("user.error.861", new String[] { info.getAa(), String.valueOf(m.getToall()) }));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    json.addError(this.getText("user.error.861", new String[]{info.getAa(), String.valueOf(m.getToall())}));
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 }
             }
             int na = 0; // 可用券码数量
@@ -423,7 +426,7 @@ public class OnUserBuy extends Action {
             json.close().add("obj");
             json.append("uid", us.getUid());
             json.append("mb", DF2.format(s.getMb()));
-            json.append("vip",s.getVIP()+"");
+            json.append("vip", s.getVIP() + "");
             json.append("na", na);
             if (b == null) {
                 json.append("bkname", "未绑卡");
@@ -437,11 +440,13 @@ public class OnUserBuy extends Action {
         } catch (SQLException e) {
             json.addError(this.getText("system.error.info"));
         }
-        System.out.println("json:"+json.toString());
- return JSON;
+        System.out.println("json:" + json.toString());
+        return JSON;
     }
 
-    /** 验证信息 */
+    /**
+     * 验证信息
+     */
     public String verify() {
         logger.info("comein verify");
         AjaxInfo json = this.getAjaxInfo();
@@ -451,60 +456,60 @@ public class OnUserBuy extends Action {
             ProdInfo info = this.getProdInfoService().findProdByPid(Pid);
             if (info == null) {
                 json.addError(this.getText("system.error.none"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 非销售状态
             if (info.getAu() != SALE_A1) {
                 json.addError(this.getText("user.error.850"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 检测最低余额
             if (amt.compareTo(BigDecimal.ZERO) <= 0) {
-                json.addError(this.getText("user.error.851", new String[] { DF2.format(info.getMc()) }));
-                System.out.println("json:"+json.toString());
- return JSON;
+                json.addError(this.getText("user.error.851", new String[]{DF2.format(info.getMc())}));
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 检测最低余额
             if (info.getMc().compareTo(amt) >= 1) {
-                json.addError(this.getText("user.error.851", new String[] { DF2.format(info.getMc()) }));
-                System.out.println("json:"+json.toString());
- return JSON;
+                json.addError(this.getText("user.error.851", new String[]{DF2.format(info.getMc())}));
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 检测最高限额
             if (info.getMb().compareTo(BigDecimal.ZERO) >= 1) {
                 if (amt.compareTo(info.getMb()) >= 1) {
-                    json.addError(this.getText("user.error.852", new String[] { DF2.format(info.getMb()) }));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    json.addError(this.getText("user.error.852", new String[]{DF2.format(info.getMb())}));
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 }
             } // 产品余额
             BigDecimal yu = info.getMa().subtract(info.getMd());
             if (amt.compareTo(yu) >= 1) {
                 json.addError(this.getText("user.error.853"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 产品售罄
             if (info.getMc().compareTo(yu) >= 1) {
                 json.addError(this.getText("user.error.855"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 产品Model
             ProdModel m = this.getProdModelService().getProdModelByTid(info.getTid());
             if (m == null) {
                 json.addError(this.getText("user.error.856"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             }
             //add by luxh 会员权益日当天黄金会员可以使用两张加息券
-            UserSession us= this.getUserSession();
+            UserSession us = this.getUserSession();
             long time = GMTime.currentTimeMillis();
             UserVip userVip = new UserVip();
             boolean isVipTwo = false;
             try {
-                userVip = this.getUserVipService().queryVipLog(us.getUid(),time);
+                userVip = this.getUserVipService().queryVipLog(us.getUid(), time);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if(userVip.getLevel()>1){
-                isVipTwo =true;
+            if (userVip.getLevel() > 1) {
+                isVipTwo = true;
             }
             //end
 
@@ -513,37 +518,37 @@ public class OnUserBuy extends Action {
             long cid1 = this.getLong("sid1");
 
             //UserSession us = this.getUserSession();
-            UserCoupon uc = null ;
-            if(cid > 0 ) {
-                uc= this.getUserCouponService().findCouponBySid(cid);
+            UserCoupon uc = null;
+            if (cid > 0) {
+                uc = this.getUserCouponService().findCouponBySid(cid);
                 if (uc == null) {
                     // Ignored
                 } else if (uc.getUid() != us.getUid()) {
                     uc = null; // Ignored
                 } else if (uc.getState() != STATE_NORMAL || time >= uc.getEday()) {
                     json.addError(this.getText("user.error.857"));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 } else {
                     if (STATE_DISABLE != m.getTofee()) {
                         json.addError(this.getText("user.error.858"));
-                        System.out.println("json:"+json.toString());
- return JSON;
+                        System.out.println("json:" + json.toString());
+                        return JSON;
                     } // 投资金额不满足
                     if (uc.getToall().compareTo(amt) >= 1) {
                         json.addError(this.getText("user.error.859"));
-                        System.out.println("json:"+json.toString());
- return JSON;
+                        System.out.println("json:" + json.toString());
+                        return JSON;
                     } // 理财天数不满足
                     if (uc.getToday() > info.getAj()) {
                         json.addError(this.getText("user.error.859"));
-                        System.out.println("json:"+json.toString());
- return JSON;
+                        System.out.println("json:" + json.toString());
+                        return JSON;
                     }
                 }
             }
             UserCoupon uc1 = null;
-            if(cid1 > 0 ) {
+            if (cid1 > 0) {
                 if (isVipTwo) {
                     uc1 = this.getUserCouponService().findCouponBySid(cid1);
                     if (uc1 == null) {
@@ -552,23 +557,23 @@ public class OnUserBuy extends Action {
                         uc1 = null; // Ignored
                     } else if (uc1.getState() != STATE_NORMAL || time >= uc1.getEday()) {
                         json.addError(this.getText("user.error.857"));
-                        System.out.println("json:"+json.toString());
- return JSON;
+                        System.out.println("json:" + json.toString());
+                        return JSON;
                     } else {
                         if (STATE_DISABLE != m.getTofee()) {
                             json.addError(this.getText("user.error.858"));
-                            System.out.println("json:"+json.toString());
- return JSON;
+                            System.out.println("json:" + json.toString());
+                            return JSON;
                         } // 投资金额不满足
                         if (uc1.getToall().compareTo(amt) >= 1) {
                             json.addError(this.getText("user.error.859"));
-                            System.out.println("json:"+json.toString());
- return JSON;
+                            System.out.println("json:" + json.toString());
+                            return JSON;
                         } // 理财天数不满足
                         if (uc1.getToday() > info.getAj()) {
                             json.addError(this.getText("user.error.859"));
-                            System.out.println("json:"+json.toString());
- return JSON;
+                            System.out.println("json:" + json.toString());
+                            return JSON;
                         }
                     }
 
@@ -579,23 +584,23 @@ public class OnUserBuy extends Action {
             // 全局投资次数
             if (m.getTotal() >= 1) {
                 if (this.getTradeInfoService().isProdByAll(us.getUid(), m.getTid(), m.getTotal())) {
-                    json.addError(this.getText("user.error.860", new String[] { m.getName(), String.valueOf(m.getTotal()) }));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    json.addError(this.getText("user.error.860", new String[]{m.getName(), String.valueOf(m.getTotal())}));
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 }
             } // 当前标的次数
             if (m.getToall() >= 1) {
                 if (this.getTradeInfoService().isProdByPid(us.getUid(), info.getPid(), m.getToall())) {
-                    json.addError(this.getText("user.error.861", new String[] { info.getAa(), String.valueOf(m.getToall()) }));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    json.addError(this.getText("user.error.861", new String[]{info.getAa(), String.valueOf(m.getToall())}));
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 }
             } // 检测实名信息
             UserAuth a = this.getUserAuthService().findAuthByUid(us.getUid());
             if (a == null) {
                 json.addError(this.getText("user.error.050"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 检测支付余额
             BigDecimal rmb = amt;
             int way = this.getInt("way");
@@ -603,8 +608,8 @@ public class OnUserBuy extends Action {
             s.setSid(VeStr.getUSid());
             s.setUid(us.getUid());
             s.setPid(info.getPid());
-            if(uc !=null && uc1!=null ){
-                if(uc.getType() == uc1.getType()){
+            if (uc != null && uc1 != null) {
+                if (uc.getType() == uc1.getType()) {
                     s.setCid(uc.getSid());
                     s.setCid1(uc1.getSid());
                     switch (uc.getType()) {
@@ -625,7 +630,7 @@ public class OnUserBuy extends Action {
                     if (uc.getType() == 1) {
                         s.setTmd(amt.subtract(rmb));
                     }
-                }else {
+                } else {
                     s.setCid(uc.getSid());
                     s.setCid1(uc1.getSid());
                     switch (uc.getType()) {
@@ -656,11 +661,11 @@ public class OnUserBuy extends Action {
                     if (rmb.compareTo(BigDecimal.ZERO) <= 0) {
                         rmb = BigDecimal.ZERO;
                     } // 扣除金额
-                    if (uc.getType() == 1|| uc1.getType() == 1) {
+                    if (uc.getType() == 1 || uc1.getType() == 1) {
                         s.setTmd(amt.subtract(rmb));
                     }
                 }
-            }else if (uc != null) {
+            } else if (uc != null) {
                 s.setCid(uc.getSid());
                 switch (uc.getType()) {
                     case 1: // 体验券
@@ -795,11 +800,13 @@ public class OnUserBuy extends Action {
         } catch (SQLException | JAXBException | IOException e) {
             json.addError(this.getText("user.error.856"));
         }
-        System.out.println("json:"+json.toString());
- return JSON;
+        System.out.println("json:" + json.toString());
+        return JSON;
     }
 
-    /** 新版购买接口 */
+    /**
+     * 新版购买接口
+     */
     public String submit() {
         logger.info("come in submit");
         AjaxInfo json = this.getAjaxInfo();
@@ -808,17 +815,17 @@ public class OnUserBuy extends Action {
             long sid = this.getLong("sid");
             SysOrder s = this.getTradeInfoService().findSysOrderBySid(sid);
             if (s == null || STATE_TOEXIT == s.getState()) {
-                logger.info("no SysOrder"+sid);
+                logger.info("no SysOrder" + sid);
                 json.addError(this.getText("system.error.pars"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             }
             long now = GMTime.currentTimeMillis();
             if ((now - 1800000) > s.getTime()) {
                 s.setState(6); // 超时关闭
                 this.getTradeInfoService().saveOrder(s);
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 根据信息校验
             UserSession us = this.getUserSession();
             boolean addM = false;
@@ -829,8 +836,8 @@ public class OnUserBuy extends Action {
                 LogCharge c = this.getUserChargeService().findChargeBySid(sid - 1);
                 if (c == null) {
                     json.addError(this.getText("user.error.856"));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 }
                 c.setVercd(code); // 验证码
                 UserProto p = this.getUserChargeService().findProtoByUid(us.getUid());
@@ -881,8 +888,8 @@ public class OnUserBuy extends Action {
                             s.setStext(this.getText("支付超时，请联系客服！"));
                             this.getTradeInfoService().saveOrder(s);
                             json.addError(s.getStext());
-                            System.out.println("json:"+json.toString());
- return JSON;
+                            System.out.println("json:" + json.toString());
+                            return JSON;
                         } else {
                             us.setMoney(r.getTotal());
                         }
@@ -891,14 +898,14 @@ public class OnUserBuy extends Action {
                         s.setStext(res.getResponsemsg());
                         this.getTradeInfoService().saveOrder(s);
                         json.addError(res.getResponsemsg());
-                        System.out.println("json:"+json.toString());
- return JSON;
+                        System.out.println("json:" + json.toString());
+                        return JSON;
                     }
                 }
             } else if (Pwd == null || Pwd.length() < 6) {
                 json.addError(this.getText("user.error.027"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } else {
                 Pwd = VeStr.toMD5(Pwd);
                 UserAuth a = this.getUserAuthService().findAuthByUid(us.getUid());
@@ -907,31 +914,31 @@ public class OnUserBuy extends Action {
                     s.setStext("实名认证错误！");
                     this.getTradeInfoService().saveOrder(s);
                     json.addError(this.getText("user.error.050"));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 } // 校对支付密码
                 if (!Pwd.equalsIgnoreCase(a.getPays())) {
                     s.setState(STATE_READER);
                     s.setStext("支付密码错误！");
                     this.getTradeInfoService().saveOrder(s);
                     json.addError(this.getText("user.error.028"));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 }
             } // 产品信息加载
             ProdInfo info = this.getProdInfoService().findProdByPid(s.getPid());
             if (info == null) {
                 json.addError(this.getText("system.error.none"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                System.out.println("json:" + json.toString());
+                return JSON;
             } // 券码信息处理
             UserCoupon uc = null;
             if (s.getCid() >= USER_UID_MAX) {
                 uc = this.getUserCouponService().findCouponBySid(s.getCid());
                 if (uc == null || STATE_NORMAL != uc.getState()) {
                     json.addError(this.getText("user.error.857"));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 }
             }
             logger.info("执行投资信息操作");
@@ -964,8 +971,8 @@ public class OnUserBuy extends Action {
                     // Next todo
                 } else {
                     json.addError(this.getText("user.error.856"));
-                    System.out.println("json:"+json.toString());
- return JSON;
+                    System.out.println("json:" + json.toString());
+                    return JSON;
                 }
                 log.setSid(s.getSid());
                 log.setUid(us.getUid());
@@ -1038,7 +1045,7 @@ public class OnUserBuy extends Action {
                 long time = GMTime.currentTimeMillis();
                 UserVip userVip = new UserVip();
                 try {
-                    userVip = this.getUserVipService().queryVipLog(us.getUid(),time);
+                    userVip = this.getUserVipService().queryVipLog(us.getUid(), time);
                 } catch (Exception e) {
                     e.printStackTrace();
                     logger.error("获取用户VIP信息失败");
@@ -1051,13 +1058,13 @@ public class OnUserBuy extends Action {
                  */
                 int catFoodInt = 0;
                 BigDecimal catFood = s.getTma().multiply(new BigDecimal(s.getRday())).multiply(new BigDecimal(1.00)).multiply(new BigDecimal(0.003));
-                if(userVip.getLevel() <2){
+                if (userVip.getLevel() < 2) {
                     catFoodInt = (catFood.multiply(new BigDecimal(1.05))).intValue();
-                }else {
+                } else {
                     catFoodInt = (catFood.multiply(new BigDecimal(1.10))).intValue();
                 }
                 try {
-                    this.getUserCatService().updateCatFood(us.getUid(),catFoodInt);
+                    this.getUserCatService().updateCatFood(us.getUid(), catFoodInt);
                 } catch (Exception e) {
                     logger.error("存储猫粮数据出错");
                     e.printStackTrace();
@@ -1069,8 +1076,8 @@ public class OnUserBuy extends Action {
         } finally {
             Pwd = null;
         }
-        System.out.println("json:"+json.toString());
- return JSON;
+        System.out.println("json:" + json.toString());
+        return JSON;
     }
 
     public UserVipService getUserVipService() {

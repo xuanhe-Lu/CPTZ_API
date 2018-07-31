@@ -1,5 +1,6 @@
 package com.ypiao.service;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import com.ypiao.bean.AjaxInfo;
@@ -28,4 +29,12 @@ public interface UserMoneyService {
 	public UserRmbs findMoneyByUid(long uid) throws SQLException;
 
 	public AjaxInfo sendMoneyByUid(AjaxInfo json, long uid) throws SQLException;
+
+	/**
+	 *
+	 * @param uid
+	 * @return
+	 * @throws SQLException
+	 */
+	public BigDecimal findSumMoneyByUid(long uid) throws SQLException;
 }

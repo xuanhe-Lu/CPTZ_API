@@ -5,13 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import com.ypiao.bean.AjaxInfo;
-import com.ypiao.bean.LogOrder;
-import com.ypiao.bean.ProdInfo;
-import com.ypiao.bean.SyncMap;
-import com.ypiao.bean.SysOrder;
-import com.ypiao.bean.UserCoupon;
-import com.ypiao.bean.UserRmbs;
+
+import com.ypiao.bean.*;
 import com.ypiao.data.JPrepare;
 import com.ypiao.service.ActivityService;
 import com.ypiao.service.ProdInfoService;
@@ -23,12 +18,14 @@ import com.ypiao.service.UserOrderService;
 import com.ypiao.util.APState;
 import com.ypiao.util.GMTime;
 import com.ypiao.util.Table;
+import com.ypiao.util.VeStr;
+import org.apache.log4j.Logger;
 
 /**
  * 交易信息接口实现类. 
  */
 public class TradeInfoServiceImp extends AConfig implements TradeInfoService {
-
+	private static Logger logger = Logger.getLogger(TradeInfoServiceImp.class);
 	private ActivityService activityService;
 
 	private ProdInfoService prodInfoService;
@@ -222,6 +219,152 @@ public class TradeInfoServiceImp extends AConfig implements TradeInfoService {
 						//}
 					//}
 					/******************* xk add end ********************/
+					//TODO 购买成功，是否有邀请人，计算是否累计1W，如果都满足，则邀请人和被邀请人均获得38元现金奖励。
+					//先查询是否有邀请人。注册绑卡后总共投资了多少，是否大于1W，如果大于等于1W，则计算减去当前一笔，是否小于等于1W，如果是，则返现，否则为已经返现。
+					UserInfo userInfo = this.getUserInfoService().findUserInfoByUid(log.getUid());
+					if(userInfo.getUid() == log.getUid() && userInfo.getUPS()>=100000){
+						logger.info(String.format("该用户【%s】有邀请人【%s】，满足活动条件",log.getUid(),userInfo.getUPS()));
+						BigDecimal sum = this.getUserMoneyService().findSumMoneyByUid(log.getUid());
+						sum = sum.abs();
+						logger.info(String.format("用户[%s]已经投资[%s]",log.getUid(),sum));
+						if(sum.compareTo(new BigDecimal("10000"))==0){
+							//正好等于1W
+							logger.info(String.format("该用户【%s】投资刚好达到1W元",log.getUid()));
+							//保存被邀请人38元现金奖励
+							logger.info("开始保存被邀请人的活动奖励");
+							UserStatus userStatus = this.getUserInfoService().findUserStatusByUid(log.getUid());
+							UserRmbs rmbs = new UserRmbs();
+							rmbs.setSid(VeStr.getUSid());
+							rmbs.setTid(5);//1,充值,2,提现,3,提现退回,4理财消费,5,理财回款
+							rmbs.setUid(userInfo.getUPS());
+							rmbs.setFid(0);
+							rmbs.setWay("理财回款");
+							String mobile = userStatus.getMobile();
+							mobile = mobile.substring(0, mobile.length() - 8) + "****" + mobile.substring(mobile.length() - 4);
+							rmbs.setEvent("累计投满1万，返现38元");
+							BigDecimal adds = new BigDecimal("38");
+							logger.info("adds"+adds.toString());
+							rmbs.setAdds(adds);
+							rmbs.setCost(userStatus.getMa());
+							rmbs.setTotal(userStatus.getMa().add(adds));
+							rmbs.setState(0);
+							rmbs.setTime(System.currentTimeMillis());
+							this.getUserMoneyService().save(rmbs);
+
+							//保存邀请人38元现金奖励
+							logger.info("开始保存邀请人的活动奖励");
+							UserStatus userStatusUps = this.getUserInfoService().findUserStatusByUid(userInfo.getUPS());
+							UserRmbs rmbsUps = new UserRmbs();
+							rmbsUps.setSid(VeStr.getUSid());
+							rmbsUps.setTid(5);//1,充值,2,提现,3,提现退回,4理财消费,5,理财回款
+							rmbsUps.setUid(userInfo.getUPS());
+							rmbsUps.setFid(0);
+							rmbsUps.setWay("理财回款");
+							 mobile = userStatusUps.getMobile();
+							mobile = mobile.substring(0, mobile.length() - 8) + "****" + mobile.substring(mobile.length() - 4);
+							rmbsUps.setEvent("邀请好友"+ mobile +"累计投满1万，返现38元");
+							 adds = new BigDecimal("38");
+							logger.info("adds"+adds.toString());
+							rmbsUps.setAdds(adds);
+							rmbsUps.setCost(userStatusUps.getMa());
+							rmbsUps.setTotal(userStatusUps.getMa().add(adds));
+							rmbsUps.setState(0);
+							rmbsUps.setTime(System.currentTimeMillis());
+							this.getUserMoneyService().save(rmbsUps);
+							logger.info("结束保存邀请人的活动奖励");
+						}else if( sum.compareTo(new BigDecimal("10000"))>0 && (sum.add(r.getAdds())).compareTo(new BigDecimal("10000"))<0){
+							//累计投资金额大于1W，并且不算当前投资金额，累计金额小于1W
+							logger.info(String.format("该用户【%s】累计投资金额大于1W，并且不算当前投资金额，累计金额小于1W",log.getUid()));
+							//保存被邀请人38元现金奖励
+							logger.info("开始保存被邀请人的活动奖励");
+							UserStatus userStatus = this.getUserInfoService().findUserStatusByUid(log.getUid());
+							UserRmbs rmbs = new UserRmbs();
+							rmbs.setSid(VeStr.getUSid());
+							rmbs.setTid(5);//1,充值,2,提现,3,提现退回,4理财消费,5,理财回款
+							rmbs.setUid(userInfo.getUPS());
+							rmbs.setFid(0);
+							rmbs.setWay("理财回款");
+							String mobile = userStatus.getMobile();
+							mobile = mobile.substring(0, mobile.length() - 8) + "****" + mobile.substring(mobile.length() - 4);
+							rmbs.setEvent("累计投满1万，返现38元");
+							BigDecimal adds = new BigDecimal("38");
+							logger.info("adds"+adds.toString());
+							rmbs.setAdds(adds);
+							rmbs.setCost(userStatus.getMa());
+							rmbs.setTotal(userStatus.getMa().add(adds));
+							rmbs.setState(0);
+							rmbs.setTime(System.currentTimeMillis());
+							this.getUserMoneyService().save(rmbs);
+
+							//保存邀请人38元现金奖励
+							logger.info("开始保存邀请人的活动奖励");
+							UserStatus userStatusUps = this.getUserInfoService().findUserStatusByUid(userInfo.getUPS());
+							UserRmbs rmbsUps = new UserRmbs();
+							rmbsUps.setSid(VeStr.getUSid());
+							rmbsUps.setTid(5);//1,充值,2,提现,3,提现退回,4理财消费,5,理财回款
+							rmbsUps.setUid(userInfo.getUPS());
+							rmbsUps.setFid(0);
+							rmbsUps.setWay("理财回款");
+							mobile = userStatusUps.getMobile();
+							mobile = mobile.substring(0, mobile.length() - 8) + "****" + mobile.substring(mobile.length() - 4);
+							rmbsUps.setEvent("邀请好友"+ mobile +"累计投满1万，返现38元");
+							adds = new BigDecimal("38");
+							logger.info("adds"+adds.toString());
+							rmbsUps.setAdds(adds);
+							rmbsUps.setCost(userStatusUps.getMa());
+							rmbsUps.setTotal(userStatusUps.getMa().add(adds));
+							rmbsUps.setState(0);
+							rmbsUps.setTime(System.currentTimeMillis());
+							this.getUserMoneyService().save(rmbsUps);
+							logger.info("结束保存邀请人的活动奖励");
+						}else if( sum.compareTo(new BigDecimal("10000"))>0 && (sum.add(r.getAdds())).compareTo(new BigDecimal("10000"))<0){
+							//累计投资金额大于1W，并且不算当前投资金额，累计金额小于1W
+							logger.info(String.format("该用户【%s】累计投资金额大于1W，并且不算当前投资金额，累计金额小于1W",log.getUid()));
+							//保存被邀请人38元现金奖励
+							logger.info("开始保存被邀请人的活动奖励");
+							UserStatus userStatus = this.getUserInfoService().findUserStatusByUid(log.getUid());
+							UserRmbs rmbs = new UserRmbs();
+							rmbs.setSid(VeStr.getUSid());
+							rmbs.setTid(5);//1,充值,2,提现,3,提现退回,4理财消费,5,理财回款
+							rmbs.setUid(userInfo.getUPS());
+							rmbs.setFid(0);
+							rmbs.setWay("理财回款");
+							String mobile = userStatus.getMobile();
+							mobile = mobile.substring(0, mobile.length() - 8) + "****" + mobile.substring(mobile.length() - 4);
+							rmbs.setEvent("累计投满1万，返现38元");
+							BigDecimal adds = new BigDecimal("38");
+							logger.info("adds"+adds.toString());
+							rmbs.setAdds(adds);
+							rmbs.setCost(userStatus.getMa());
+							rmbs.setTotal(userStatus.getMa().add(adds));
+							rmbs.setState(0);
+							rmbs.setTime(System.currentTimeMillis());
+							this.getUserMoneyService().save(rmbs);
+
+							//保存邀请人38元现金奖励
+							logger.info("开始保存邀请人的活动奖励");
+							UserStatus userStatusUps = this.getUserInfoService().findUserStatusByUid(userInfo.getUPS());
+							UserRmbs rmbsUps = new UserRmbs();
+							rmbsUps.setSid(VeStr.getUSid());
+							rmbsUps.setTid(5);//1,充值,2,提现,3,提现退回,4理财消费,5,理财回款
+							rmbsUps.setUid(userInfo.getUPS());
+							rmbsUps.setFid(0);
+							rmbsUps.setWay("理财回款");
+							mobile = userStatusUps.getMobile();
+							mobile = mobile.substring(0, mobile.length() - 8) + "****" + mobile.substring(mobile.length() - 4);
+							rmbsUps.setEvent("邀请好友"+ mobile +"累计投满1万，返现38元");
+							adds = new BigDecimal("38");
+							logger.info("adds"+adds.toString());
+							rmbsUps.setAdds(adds);
+							rmbsUps.setCost(userStatusUps.getMa());
+							rmbsUps.setTotal(userStatusUps.getMa().add(adds));
+							rmbsUps.setState(0);
+							rmbsUps.setTime(System.currentTimeMillis());
+							this.getUserMoneyService().save(rmbsUps);
+							logger.info("结束保存邀请人的活动奖励");
+						}
+
+					}
 				}
 			}
 			conn.commit();

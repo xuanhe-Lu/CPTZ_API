@@ -1,9 +1,10 @@
 package com.ypiao.service;
 
 import java.sql.SQLException;
-import com.ypiao.bean.ActInfo;
-import com.ypiao.bean.LogOrder;
-import com.ypiao.bean.ProdInfo;
+import java.util.List;
+import java.util.Map;
+
+import com.ypiao.bean.*;
 
 public interface ActivityService {
 
@@ -24,4 +25,30 @@ public interface ActivityService {
 	 * @throws SQLException
 	 */
 	public void activityForVipBuy(ProdInfo info, LogOrder log) throws SQLException;
+
+
+	/**
+	 *  根据邀请人查找受邀人的数量
+	 * @param ups
+	 * @return
+	 * @throws SQLException
+	 */
+	public int qryUserByUps(long ups ) throws SQLException;
+
+	/**
+	 * 根据uid 查找符合累计投资满1W的受邀人
+	 * @param ups
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<String> qryUserByUid(long ups ) throws SQLException;
+
+	/**
+	 * 根据event查找受邀人中的白银会员和黄金会员
+	 * @param ups
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Map<String,Object>> qryUserVipByUid(long ups ) throws SQLException;
+	public List<UserRmbs> qryInvestByUidAndEvent(long ups ) throws SQLException;
 }

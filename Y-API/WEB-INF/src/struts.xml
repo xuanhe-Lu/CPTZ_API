@@ -85,7 +85,7 @@
 		<!-- 抽奖-->
 		<action name="user_lottery" class="com.ypiao.json.OnUserLottery" />
 		<action name="user_cat" class="com.ypiao.json.OnUserCat" />
-		<action name="user_activity" class="com.ypiao.json.OnUseractivity" />
+		<action name="user_activity" class="com.ypiao.json.OnUserActivity" />
 
 	</package>
 	<package name="auth_json" extends="Pub-default" namespace="/js">
