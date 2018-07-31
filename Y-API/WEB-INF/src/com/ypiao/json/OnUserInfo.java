@@ -77,7 +77,8 @@ public class OnUserInfo extends Action {
 			json.addError(this.getText( "system.error.info" ));
 		}
 		
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 	/**
@@ -100,7 +101,8 @@ public class OnUserInfo extends Action {
 			json.addError(this.getText( "system.error.info" ));
 		}
 		
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 	public String index() {
@@ -146,6 +148,7 @@ public class OnUserInfo extends Action {
 			json.addError(this.getText( "system.error.info" ));
 		}
 		
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 }

@@ -115,30 +115,36 @@ public class OnUserAuth extends Action {
 			UserSession us = this.getUserSession();
 			if (us.getReals() >= 1 && us.getBinds() >= 1) {
 				json.addError(this.getText("user.error.051"));
-				return JSON;
+				System.out.println("json:"+json.toString());
+ return JSON;
 			} // 检测录入信息
 			if (name == null || name.length() <= 1) {
 				json.addError(this.getText("user.error.052"));
-				return JSON;
+				System.out.println("json:"+json.toString());
+ return JSON;
 			}
 			if (!VeRule.isIDCard(idCard)) {
 				json.addError(this.getText("user.error.053"));
-				return JSON;
+				System.out.println("json:"+json.toString());
+ return JSON;
 			} // 检测银行卡号
 			if (!VeRule.isBank(cardNo)) {
 				json.addError(this.getText("user.error.061"));
-				return JSON;
+				System.out.println("json:"+json.toString());
+ return JSON;
 			} // 检测预留手机号
 			String sm = VeStr.getMobile(mobile);
 			if (sm == null) {
 				json.addError(this.getText("user.error.062"));
-				return JSON;
+				System.out.println("json:"+json.toString());
+ return JSON;
 			} // 实名信息加载
 			UserAuth a = this.getUserAuthService().findAuthByUid(us.getUid());
 			if (a == null) {
 				if (this.getUserAuthService().isAuthByIdCard(idCard)) {
 					json.addError(this.getText("user.error.054"));
-					return JSON;
+					System.out.println("json:"+json.toString());
+ return JSON;
 				}
 				a = new UserAuth();
 				a.setUid(us.getUid());
@@ -147,7 +153,8 @@ public class OnUserAuth extends Action {
 				// Ignored
 			} else if (this.getUserAuthService().isAuthByIdCard(idCard)) {
 				json.addError(this.getText("user.error.054"));
-				return JSON;
+				System.out.println("json:"+json.toString());
+ return JSON;
 			} // 检测是否实名认证
 			if (name.equalsIgnoreCase(a.getName())) {
 				// Ignroed
@@ -161,7 +168,8 @@ public class OnUserAuth extends Action {
 					a.setRtime(GMTime.currentTimeMillis());
 				} else {
 					json.addError(this.getText("user.error.055"));
-					return JSON;
+					System.out.println("json:"+json.toString());
+ return JSON;
 				}
 			} // 根据卡号获取
 			UserBank b = this.getUserBankService().findBankByCNo(cardNo);
@@ -171,7 +179,8 @@ public class OnUserAuth extends Action {
 			} else if (b.getUid() != us.getUid()) {
 				this.getUserAuthService().save(a);
 				this.addActionError(this.getText("user.error.066"));
-				return JSON;
+				System.out.println("json:"+json.toString());
+ return JSON;
 			} // 检测验证码发送
 			if (code == null || code.length() <= 4) {
 				this.getUserAuthService().save(a);
@@ -181,7 +190,8 @@ public class OnUserAuth extends Action {
 					CardBinResponse res = Fuiou.cardBinQry(pay.getSellid(), pay.getSecret(), cardNo);
 					if (!res.getRcd().equals("0000")) {
 						json.addError(this.getText(res.getRdesc()));
-						return JSON;
+						System.out.println("json:"+json.toString());
+ return JSON;
 					} // 调用京东万象数据接口
 					BankResponse r = Checker.bankcard4(a.getName(), a.getIdCard(), cardNo, sm);
 					if (!r.isFlag()) {
@@ -189,7 +199,8 @@ public class OnUserAuth extends Action {
 						LOGGER.info( r.toString() );
 						LOGGER.info( r.getResult().toString() );
 						json.addError(this.getText("user.error.065"));
-						return JSON;
+						System.out.println("json:"+json.toString());
+ return JSON;
 					} // 将卡号信息存入数据库
 					BankResponse.Data d = r.getResult().getData();
 					if (d.getBankCardBin() == null) {
@@ -249,7 +260,8 @@ public class OnUserAuth extends Action {
 		} finally {
 			code = name = mobile = cardNo = idCard = null;
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 	/**
@@ -307,6 +319,7 @@ public class OnUserAuth extends Action {
 		} finally {
 			idCard = name = null;
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 }

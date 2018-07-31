@@ -62,7 +62,8 @@ public class AtRegister extends Action {
 			String sm = VeStr.getMobile(fix, mobile);
 			if (!this.getSendInfoService().isCode(sm, code)) {
 				json.addError(this.getText("user.error.008"));
-				return JSON;
+				System.out.println("json:"+json.toString());
+ return JSON;
 			} // 获取用户信息
 			UserInfo info = this.getUserInfoService().findUserInfoBySM(sm);
 			if (info == null) {
@@ -105,6 +106,7 @@ public class AtRegister extends Action {
 		} finally {
 			fix = code = mobile = null;
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 }

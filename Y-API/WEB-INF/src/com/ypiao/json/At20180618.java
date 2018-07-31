@@ -41,7 +41,8 @@ public class At20180618 extends Action {
 			json.addError(this.getText( "system.error.get" ));
 		}
 		
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 	public String list() {
@@ -56,6 +57,7 @@ public class At20180618 extends Action {
 			json.addError(this.getText( "system.error.get" ));
 		}
 		
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 }

@@ -55,6 +55,7 @@ public class AtIOS extends Action {
 		} finally {
 			JPrepare.close(ps, conn);
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 }

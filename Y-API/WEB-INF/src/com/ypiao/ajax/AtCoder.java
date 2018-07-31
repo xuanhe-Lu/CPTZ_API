@@ -47,7 +47,8 @@ public class AtCoder extends Action {
 		} finally {
 			code = mobile = null;
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 	/** 账号存在=(取回密码) */
@@ -72,22 +73,26 @@ public class AtCoder extends Action {
 		try {
 			if (mobile == null) {
 				json.addError(this.getText("user.error.010"));
-				return JSON;
+				System.out.println("json:"+json.toString());
+ return JSON;
 			} // 转换手机号码
 			String sm = VeStr.getMobile(fix, mobile);
 			if (sm == null) {
 				json.addError(this.getText("user.error.010"));
-				return JSON;
+				System.out.println("json:"+json.toString());
+ return JSON;
 			} else if (ALL == exist) {
 				// Ignored
 			} else if (this.getSendInfoService().isUser(sm)) {
 				if (NOT == exist) {
 					json.addError(this.getText("user.error.011"));
-					return JSON;
+					System.out.println("json:"+json.toString());
+ return JSON;
 				}
 			} else if (YES == exist) {
 				json.addError(this.getText("user.error.013"));
-				return JSON;
+				System.out.println("json:"+json.toString());
+ return JSON;
 			} // 检测发送状态
 			String addr = VeStr.getRemoteAddr(request);
 			switch (this.getSendInfoService().detect(addr, sm)) {
@@ -115,6 +120,7 @@ public class AtCoder extends Action {
 		} finally {
 			fix = mobile = null;
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 }

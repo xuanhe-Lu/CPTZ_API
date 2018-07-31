@@ -110,13 +110,15 @@ public class Login extends Action implements SessionAware {
 			pass = "none"; // 为空时调用
 		} else if (pass.length() < 3) {
 			json.addError(this.getText("user.error.014"));
-			return JSON;
+			System.out.println("json:"+json.toString());
+ return JSON;
 		}
 		// 验证工号
 		String num = this.getNum();
 		if (num.length() != 6 || !Pattern.compile( "([0-9]{6})" ).matcher(num).matches()) {
 			json.addError(this.getText( "user.error.016" ));
-			return JSON;
+			System.out.println("json:"+json.toString());
+ return JSON;
 		}
 		// 查询数据
 		AdminInfo info = this.getAdminInfoService().findAdminInfoByName(name);
@@ -157,7 +159,8 @@ public class Login extends Action implements SessionAware {
 		} catch (Exception e) {
 			json.addError(this.getText("system.error.info"));
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 	private String success() {

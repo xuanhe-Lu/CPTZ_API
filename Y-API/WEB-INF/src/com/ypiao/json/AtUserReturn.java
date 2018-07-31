@@ -35,7 +35,8 @@ public class AtUserReturn extends Action {
 		} catch (SQLException e) {
 			json.addError(this.getText("system.error.get"));
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 	public String info() {
@@ -50,6 +51,7 @@ public class AtUserReturn extends Action {
 		} catch (SQLException e) {
 			json.addError(this.getText("system.error.get"));
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 }

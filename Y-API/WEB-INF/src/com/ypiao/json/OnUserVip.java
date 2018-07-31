@@ -60,17 +60,20 @@ public class OnUserVip extends Action {
             // 检测支付密码
             if (Pwd == null || Pwd.length() < 6) {
                 json.addError(this.getText("user.error.027"));
-                return JSON;
+                System.out.println("json:"+json.toString());
+ return JSON;
             } // 检测认证信息
             UserAuth a = this.getUserAuthService().findAuthByUid(uid);
             if (a == null) {
                 json.addError(this.getText("user.error.050"));
-                return JSON;
+                System.out.println("json:"+json.toString());
+ return JSON;
             } // 校对支付密码
             Pwd = VeStr.toMD5(Pwd); // 格式化
             if (!Pwd.equalsIgnoreCase(a.getPays())) {
                 json.addError(this.getText("user.error.028"));
-                return JSON;
+                System.out.println("json:"+json.toString());
+ return JSON;
             }
             logger.info(String.format("uid为:【%s】,想要变更为【%s】等级", uid, level));
             //1 查询用户会员记录表，校验该用户是否是正在期限内的会员。
@@ -95,7 +98,8 @@ public class OnUserVip extends Action {
                 logger.info(String.format("累加之后的时间是【%s】", endTime));*/
                 logger.info(String.format("该用户【%s】已经是会员了，不能重复购买", uid));
                 json.addError(String.format("尊敬的用户，您已经是会员了，不必重复购买"));
-                return JSON;
+                System.out.println("json:"+json.toString());
+ return JSON;
             } else {
                 //获取当前时间
                 Date now = new Date();
@@ -123,12 +127,14 @@ public class OnUserVip extends Action {
             UserStatus s = this.getUserInfoService().findUserStatusByUid(uid);
             if (s == null) {
                 json.addError(this.getText("user.error.888"));
-                return JSON;
+                System.out.println("json:"+json.toString());
+ return JSON;
             }
             if (s.getMa().compareTo(rmb) < 0 || s.getMb().compareTo(rmb) < 0) {
                 logger.info(String.format("用户[%s]余额不足，请充值后再购买。", uid));
                 json.addError("用户余额不足，请充值后再购买。");
-                return JSON;
+                System.out.println("json:"+json.toString());
+ return JSON;
             }
             int i = 0;
             //购买会员后，用户余额修改
@@ -170,14 +176,16 @@ public class OnUserVip extends Action {
 
             }
             json.success(API_OK);
-            return JSON;
+            System.out.println("json:"+json.toString());
+ return JSON;
         } catch (Exception e) {
             e.printStackTrace();
             json.addError(this.getText("user.error.856"));
         }
 
 
-        return JSON;
+        System.out.println("json:"+json.toString());
+ return JSON;
     }
 
     /*
@@ -212,7 +220,8 @@ public class OnUserVip extends Action {
                 json.append("startTime", 0);
                 json.append("endTime", 4092599349000l);
                 json.append("remark", "注册即为普通会员");
-                return JSON;
+                System.out.println("json:"+json.toString());
+ return JSON;
             } else {
                 json.success(API_OK);
                 json.add("body");
@@ -224,12 +233,14 @@ public class OnUserVip extends Action {
                 json.append("startTime", userVip.getStartTime());
                 json.append("endTime", userVip.getEndTime());
                 json.append("remark", userVip.getRemark());
-                return JSON;
+                System.out.println("json:"+json.toString());
+ return JSON;
             }
         } catch (Exception e) {
             e.printStackTrace();
             json.addError("未查到会员信息，请重试！");
-            return JSON;
+            System.out.println("json:"+json.toString());
+ return JSON;
         }
     }
 

@@ -21,7 +21,7 @@ public class MenuBar extends Action {
 	public String index() {
 		UserSession us = this.getUserSession();
 		this.setAjaxInfo(this.getAdminMenuService().getMenuListByUid(us.getMenu()));
-		return JSON;
+ return JSON;
 	}
 
 }

@@ -60,7 +60,8 @@ public class AtProdInfo extends Action {
 		} catch (SQLException e) {
 			json.addError(this.getText("system.error.get"));
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 	/**
@@ -77,7 +78,8 @@ public class AtProdInfo extends Action {
 			json.addError(this.getText("system.error.get"));
 		}
 		logger.info("JSON:"+json.toString());
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 	
 	/**
@@ -205,7 +207,8 @@ public class AtProdInfo extends Action {
 			json.addError(this.getText( "system.error.get" ));
 		}
 		
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 	/**
@@ -228,7 +231,8 @@ public class AtProdInfo extends Action {
 			json.addError(this.getText( "system.error.get" ));
 		}
 		logger.info("JSON:"+json.toString());
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 	public UserVipService getUserVipService() {

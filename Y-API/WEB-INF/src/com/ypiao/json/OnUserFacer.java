@@ -74,6 +74,7 @@ public class OnUserFacer extends Action {
 			json.addError(this.getText("user.error.140"));
 		} finally {
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 }

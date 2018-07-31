@@ -53,7 +53,8 @@ public class AtAdser extends Action implements ServletRequestAware {
 		} catch (SQLException e) {
 			json.addError(this.getText("system.error.info"));
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 	
 	/**
@@ -76,7 +77,8 @@ public class AtAdser extends Action implements ServletRequestAware {
 			json.addError(this.getText( "system.error.info" ));
 		}
 		
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 	
 	/**
@@ -99,7 +101,8 @@ public class AtAdser extends Action implements ServletRequestAware {
 			json.addError(this.getText( "system.error.info" ));
 		}
 		
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 	
 	/**
@@ -133,7 +136,8 @@ public class AtAdser extends Action implements ServletRequestAware {
 			json.addText( "error", e.getMessage() );
 		}
 		
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 	
 	/**
@@ -153,7 +157,8 @@ public class AtAdser extends Action implements ServletRequestAware {
 			json.addError(this.getText( "system.error.info" ));
 		}
 		
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 }

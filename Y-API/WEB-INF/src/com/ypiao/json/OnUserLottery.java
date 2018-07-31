@@ -66,7 +66,8 @@ public class OnUserLottery extends Action {
             json.add("body");
             json.formater();
             json.append("count", count);
-            return JSON;
+            System.out.println("json:"+json.toString());
+ return JSON;
         }
         List<Lottery> lotteryList = null;
         try {
@@ -77,7 +78,8 @@ public class OnUserLottery extends Action {
         if (lotteryList == null || lotteryList.size() == 0) {
             logger.info(String.format("未找到抽奖相关配置，请检查配置表!!!"));
             json.addError("未找到抽奖相关配置，请检查配置表!!!");
-            return JSON;
+            System.out.println("json:"+json.toString());
+ return JSON;
         }
         json.success(API_OK);
         json.add("body");
@@ -100,7 +102,8 @@ public class OnUserLottery extends Action {
             json.append("type", type);
             json.append("probability", probability);
         }
-        return JSON;
+        System.out.println("json:"+json.toString());
+ return JSON;
     }
 
     /*
@@ -127,7 +130,8 @@ public class OnUserLottery extends Action {
         if (count < 1) {
             logger.error(String.format("该用户【%s】没有抽奖次数", uid));
             json.addError("用户已经没有抽奖次数了!!!");
-            return JSON;
+            System.out.println("json:"+json.toString());
+ return JSON;
         } else {
             //2. 查找奖项和概率
             List<Lottery> lotteryList = null;
@@ -137,14 +141,16 @@ public class OnUserLottery extends Action {
                 logger.error(String.format("查找抽奖次数出错，请稍后再试."));
                 json.addError("查找抽奖次数出错，请稍后再试.");
                 e.printStackTrace();
-                return JSON;
+                System.out.println("json:"+json.toString());
+ return JSON;
             }
             int sum = 100;// 抽奖概率写死成100，后期如果需要改动，则放开接口。
 //            sum = this.userLotteryService.findLotteryProbability();
             if (lotteryList == null || lotteryList.size() == 0) {
                 logger.info(String.format("未找到抽奖相关配置，请检查配置表!!!"));
                 json.addError("未找到抽奖相关配置，请检查配置表!!!");
-                return JSON;
+                System.out.println("json:"+json.toString());
+ return JSON;
             }
             List<Integer> list = new ArrayList<>();
             int i = (int) (Math.random() * sum + 1);
@@ -185,7 +191,8 @@ public class OnUserLottery extends Action {
                 }
                 logger.info(String.format("该用户【%s】的本次抽奖结果入表成功,", uid));
 
-//                return JSON;
+//                System.out.println("json:"+json.toString());
+ return JSON;
             } else if (lottery.getType() == 2 || lottery.getType() == 3 || lottery.getType() == 1) { //1是体验金，2是加息券，3是现金券,
                 //到期时间，起投金额，开始时间，结束时间。 使用期限是领取开始一个月内
                 logger.info(String.format("该用户【%s】的本次抽奖结果为：%s", uid, lottery.getName()));
@@ -222,7 +229,8 @@ public class OnUserLottery extends Action {
                     logger.error(String.format("抽奖奖励存储失败"));
                     e.printStackTrace();
                     json.addError("抽奖奖励存储失败");
-//                    return JSON;
+//                    System.out.println("json:"+json.toString());
+ return JSON;
                 }
                 //TODO 抽奖记录入表
                 count = count - 1;
@@ -253,7 +261,8 @@ public class OnUserLottery extends Action {
                 json.append("id", lottery.getId());
                 json.append("name", lottery.getName());
                 json.append("money", lottery.getMoney());
-                return JSON;*/
+                System.out.println("json:"+json.toString());
+ return JSON;*/
             } else if (lottery.getType() == 4) {//4是返现
                 logger.info(String.format("该用户【%s】的本次抽奖结果为：%s", uid, lottery.getName()));
                 //返现直接到账户中，但是提现的时候需要校验是否有在投产品。
@@ -286,7 +295,8 @@ public class OnUserLottery extends Action {
 //        json.append("id", lottery.getId());
 //        json.append("name", lottery.getName());
 //        json.append("money", lottery.getMoney());
-        return JSON;
+        System.out.println("json:"+json.toString());
+ return JSON;
     }
 
     @Override
@@ -294,7 +304,8 @@ public class OnUserLottery extends Action {
         HttpServletResponse response = ServletActionContext.getResponse();
         response.setHeader( "Access-Control-Allow-Origin", "*" );
         AjaxInfo json = new AjaxInfo();
-        return JSON;
+        System.out.println("json:"+json.toString());
+ return JSON;
     }
 
     public UserLotteryService getUserLotteryService() {

@@ -83,7 +83,8 @@ public class OnUserPass extends Action {
 			Pass = null;
 		}
 		
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 	/**
@@ -131,7 +132,8 @@ public class OnUserPass extends Action {
 			Pwd = code = null;
 		}
 		
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 	/**
@@ -177,6 +179,7 @@ public class OnUserPass extends Action {
 			Pass = Pwd = null;
 		}
 		
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 }

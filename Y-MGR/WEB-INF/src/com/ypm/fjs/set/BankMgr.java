@@ -45,7 +45,7 @@ public class BankMgr extends Action {
 
 	public String tree() {
 		this.setAjaxInfo(this.getBankInfoService().findBankByAll());
-		return JSON;
+ return JSON;
 	}
 
 	public String getInfo() {
@@ -71,7 +71,8 @@ public class BankMgr extends Action {
 		} catch (SQLException e) {
 			json.addError(this.getText("system.error.info"));
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 	public String list() {
@@ -110,7 +111,7 @@ public class BankMgr extends Action {
 			sb.append(" DESC,Bid DESC");
 		} // 加载数据信息
 		this.setAjaxInfo(this.getBankInfoService().findBankByAll(sql, fs, sb.toString(), getStart(), getLimit()));
-		return JSON;
+ return JSON;
 	}
 
 	public String save() {
@@ -126,10 +127,12 @@ public class BankMgr extends Action {
 					json.addError(this.getText("system.error.none"));
 				} else if (!fxt.image(true)) {
 					json.addError(this.getText("fjs.error.101"));
-					return JSON;
+					System.out.println("json:"+json.toString());
+ return JSON;
 				} else if (!fdt.image(true)) {
 					json.addError(this.getText("fjs.error.102"));
-					return JSON;
+					System.out.println("json:"+json.toString());
+ return JSON;
 				}
 			} else if (!fxt.image()) {
 				json.addError(this.getText("fjs.error.101"));
@@ -157,7 +160,8 @@ public class BankMgr extends Action {
 			fxt.destroy();
 			fdt.destroy();
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 	public String order() {
@@ -173,7 +177,8 @@ public class BankMgr extends Action {
 		} catch (SQLException e) {
 			json.addError(this.getText("data.order.failed"));
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 	public String state() {
@@ -195,11 +200,12 @@ public class BankMgr extends Action {
 		} finally {
 			ids = null;
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 	public String export() {
 		this.getAjaxInfo().addError(getText("system.error.export"));
-		return JSON;
+ return JSON;
 	}
 }

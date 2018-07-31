@@ -76,6 +76,7 @@ public class AtUserForget extends Action {
 			fix = Pwd = code = mobile = null;
 		}
 		
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 }

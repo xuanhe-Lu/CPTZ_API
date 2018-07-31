@@ -83,7 +83,8 @@ public abstract class Action extends ActionSupport implements UserSessionAware {
 				return ERROR;
 			} else {
 				json.addError(this.getText("system.error.info"));
-				return JSON;
+				System.out.println("json:"+json.toString());
+ return JSON;
 			}
 		}
 	}

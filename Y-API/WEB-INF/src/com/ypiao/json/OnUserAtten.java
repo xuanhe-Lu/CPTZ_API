@@ -43,7 +43,8 @@ public class OnUserAtten extends Action {
         time = Long.parseLong(this.getParameter("time"));
         uid = Long.parseLong(this.getParameter("uid"));
         System.out.println(String.format("index:time:%s,uid:%s", time, uid));
-        return JSON;
+        System.out.println("json:"+json.toString());
+ return JSON;
     }
 
     /*
@@ -138,7 +139,8 @@ public class OnUserAtten extends Action {
 
         logger.info(String.format("该用户【%s】count:%s,stats:%s", uid, count, stats));
 
-        return JSON;
+        System.out.println("json:"+json.toString());
+ return JSON;
     }
 
     /*
@@ -182,7 +184,8 @@ public class OnUserAtten extends Action {
         } else {
             json.addError("用户本次签到失败,请重新签到!");
         }
-        return JSON;
+        System.out.println("json:"+json.toString());
+ return JSON;
     }
 
     public UserAttenService getUserAttenService() {

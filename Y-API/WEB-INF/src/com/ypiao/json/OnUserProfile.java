@@ -13,6 +13,7 @@ public class OnUserProfile extends Action {
 	public String index() {
 		AjaxInfo json = this.getAjaxInfo();
 		json.addError("错误信息哈！");
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 }

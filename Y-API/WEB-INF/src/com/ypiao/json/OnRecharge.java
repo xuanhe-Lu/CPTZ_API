@@ -93,7 +93,8 @@ public class OnRecharge extends Action {
 			LogCharge c = this.getUserChargeService().findChargeBySid(sid);
 			if (c == null) {
 				json.addError(this.getText("system.error.none"));
-				return JSON;
+				System.out.println("json:"+json.toString());
+ return JSON;
 			} // 构建付款信息
 			c.setVercd(code); // 验证码
 			UserSession us = this.getUserSession();
@@ -155,7 +156,8 @@ public class OnRecharge extends Action {
 			e.printStackTrace();
 			json.addError(this.getText("system.error.info"));
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 
 	/**
@@ -171,21 +173,25 @@ public class OnRecharge extends Action {
 			System.out.println(us.getBinds() + "\t" + us.getReals() + "==" + rmb);
 			if (us.getBinds() != STATE_DISABLE) {
 				json.addError(this.getText("user.error.070"));
-				return JSON;
+				System.out.println("json:"+json.toString());
+ return JSON;
 			}
 			if (rmb.compareTo(BigDecimal.ZERO) <= 0) {
 				json.addError(this.getText("user.error.071", new String[] { "2" }));
-				return JSON;
+				System.out.println("json:"+json.toString());
+ return JSON;
 			}
 			UserBank b = this.getUserBankService().findBankByUid(us.getUid());
 			if (b == null) {
 				json.addError(this.getText("user.error.070"));
-				return JSON;
+				System.out.println("json:"+json.toString());
+ return JSON;
 			} // 获取银行限额
 			BankInfo info = this.getBankInfoService().getBankByBid(b.getBid());
 			if (info != null && rmb.compareTo(info.getToall()) >= 1) {
 				json.addError(this.getText("user.error.072", new String[] { DF2.format(info.getToall()) }));
-				return JSON;
+				System.out.println("json:"+json.toString());
+ return JSON;
 			} // 执行充值操作
 			LogCharge c = new LogCharge();
 			c.setSid(VeStr.getUSid()); // 订单编号
@@ -266,6 +272,7 @@ public class OnRecharge extends Action {
 			e.printStackTrace();
 			json.addError(this.getText("system.error.info"));
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 }

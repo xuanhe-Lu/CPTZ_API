@@ -93,11 +93,13 @@ public class OnUserCat extends Action {
                 }
             }
 
-            return JSON;
+            System.out.println("json:"+json.toString());
+ return JSON;
         } catch (Exception e) {
             log.info("获取猫舍信息出错,uid:" + uid);
             json.addError("获取猫舍信息出错");
-            return JSON;
+            System.out.println("json:"+json.toString());
+ return JSON;
         }
     }
 
@@ -153,7 +155,8 @@ public class OnUserCat extends Action {
                     if(cat.getState() == 1){
                         log.info("该猫已经是成熟期了");
                         //TODO 成熟期返回数据
-                        return JSON;
+                        System.out.println("json:"+json.toString());
+ return JSON;
                     }else {
                         if (type == 1) {//分享
                             log.info(String.format("[%s]会员本次操作的动作是[%s],时间是[%s]", uid, catConfig.getName(), time));
@@ -168,7 +171,8 @@ public class OnUserCat extends Action {
                                 json.append("type", type);
                                 json.append("state", 0);
                                 json.append("msg", String.format("您今日已分享过了,不在获得猫粮"));
-                                return JSON;
+                                System.out.println("json:"+json.toString());
+ return JSON;
                             }
                         } else if (type == 2) {//洗澡
                             log.info(String.format("[%s]会员本次操作的动作是[%s],时间是[%s]", uid, catConfig.getName(), time));
@@ -183,7 +187,8 @@ public class OnUserCat extends Action {
                                 json.append("type", type);
                                 json.append("state", 0);
                                 json.append("msg", String.format("您今日已给猫洗过澡了,不在获得猫粮"));
-                                return JSON;
+                                System.out.println("json:"+json.toString());
+ return JSON;
                             }
                         } else if (type == 3) {//喂食
                             name = "喂食";
@@ -196,7 +201,8 @@ public class OnUserCat extends Action {
                                 json.append("type", type);
                                 json.append("state", 0);
                                 json.append("msg", String.format("您今日已给猫喂食了，但是未铲屎，请铲屎后在喂食"));
-                                return JSON;
+                                System.out.println("json:"+json.toString());
+ return JSON;
                             }
                         } else if (type == 4) {//铲屎
                             name = "铲屎";
@@ -211,7 +217,8 @@ public class OnUserCat extends Action {
                                 json.append("type", type);
                                 json.append("state", 0);
                                 json.append("msg", String.format("您尚未给猫喂食了，请在喂食后2小时铲屎"));
-                                return JSON;
+                                System.out.println("json:"+json.toString());
+ return JSON;
                             } else if ((time - savetime) < 7200000) {
                                 //如果时间差小于两小时，则表明有喂食，但是未达到铲屎时间
                                 log.info(String.format("[%s]会员已经给[%s]猫喂食，但是未达到两小时时间，请在喂食后2小时铲屎", uid, id));
@@ -220,7 +227,8 @@ public class OnUserCat extends Action {
                                 json.append("type", type);
                                 json.append("state", 0);
                                 json.append("msg", String.format("尚未达到铲屎时间，请在喂食后2小时铲屎"));
-                                return JSON;
+                                System.out.println("json:"+json.toString());
+ return JSON;
                             }
                         }
                     }
@@ -248,7 +256,8 @@ public class OnUserCat extends Action {
                        if(i < 1){
                            log.info("猫粮存储到CAT_USERINFO表失败");
                            json.addError("获取猫粮失败，请稍后再试");
-                           return JSON;
+                           System.out.println("json:"+json.toString());
+ return JSON;
                        }
                     }else  if(type == 4){
                         //查询最近一条喂食记录，转换成成长值入正表和记录表
@@ -287,7 +296,8 @@ public class OnUserCat extends Action {
                     json.append("catFood", catFood);
                     json.append("grow", grow);
                     json.append("name", name);
-                    return JSON;
+                    System.out.println("json:"+json.toString());
+ return JSON;
 
                 }
             }else {
@@ -298,7 +308,8 @@ public class OnUserCat extends Action {
             e.printStackTrace();
             json.addError("系统错误，请稍后再试");
         }
-        return JSON;
+        System.out.println("json:"+json.toString());
+ return JSON;
     }
 
     /*
@@ -333,7 +344,8 @@ public class OnUserCat extends Action {
             json.append("ver", ver);
             sign = 0;
         }
-        return JSON;
+        System.out.println("json:"+json.toString());
+ return JSON;
     }
 
     /*
@@ -359,7 +371,8 @@ public class OnUserCat extends Action {
         }
         if(i <1){
             json.addError("修改昵称失败，请稍后再试.");
-            return JSON;
+            System.out.println("json:"+json.toString());
+ return JSON;
         }else{
             json.success(API_OK);
             json.addMessage("修改昵称成功");

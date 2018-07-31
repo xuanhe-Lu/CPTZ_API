@@ -32,6 +32,7 @@ public class AtShare extends Action {
 			json.addError(this.getText("system.error.info"));
 		} finally {
 		}
-		return JSON;
+		System.out.println("json:"+json.toString());
+ return JSON;
 	}
 }

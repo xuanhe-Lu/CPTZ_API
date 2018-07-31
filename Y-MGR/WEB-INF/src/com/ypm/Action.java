@@ -192,7 +192,7 @@ public abstract class Action extends ActionSupport implements AState, UserSessio
 			return String.valueOf(m.invoke(this));
 		} catch (Exception e) {
 			this.getAjaxInfo().addError(this.getText("system.error.info"));
-			return JSON;
+ return JSON;
 		} finally {
 			this.cache.clear();
 		}
@@ -203,6 +203,6 @@ public abstract class Action extends ActionSupport implements AState, UserSessio
 	}
 
 	public String index() {
-		return JSON;
+ return JSON;
 	}
 }
