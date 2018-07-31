@@ -310,6 +310,34 @@ public class UserCatServiceImp implements UserCatService {
             JPrepare.close(ps, conn);
         }
     }
+    public int updateCatFood(long uid, int catfood,String remark) throws Exception {
+        log.info(String.format("come in updateCatFood,uid[%s],catfood[%s]", uid, catfood));
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        CatFood cat = new CatFood();
+        try {
+            ps = conn.prepareStatement("update cat_userInfo set  catFood = ? ,remark = ?  where uid = ?  ");
+            ps.setInt(1, catfood);
+            ps.setString(2,remark);
+            ps.setLong(3, uid);
+            int i = 0;
+            i = ps.executeUpdate();
+            log.info(String.format("执行update 影响条数为:[%s]", i));
+            if (i < 1) {
+                log.info(String.format("开始执行insert"));
+                ps = conn.prepareStatement("insert into cat_userInfo (uid,catFood ,time,remark) values(?,?,?,?)  ");
+                ps.setInt(2, catfood);
+                ps.setLong(1, uid);
+                ps.setLong(3, System.currentTimeMillis());
+                ps.setString(4,remark);
+                i = ps.executeUpdate();
+                log.info("insert:" + i);
+            }
+            return i;
+        } finally {
+            JPrepare.close(ps, conn);
+        }
+    }
 
     public int updateIsMember(long uid, int isMember) throws Exception {
         Connection conn = JPrepare.getConnection();

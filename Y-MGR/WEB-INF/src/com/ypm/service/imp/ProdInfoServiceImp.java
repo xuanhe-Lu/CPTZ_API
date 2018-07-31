@@ -448,8 +448,10 @@ public class ProdInfoServiceImp extends AConfig implements ProdInfoService {
 	public void saveProd(ProdInfo info) throws SQLException {
 		info.setTime(GMTime.currentTimeMillis());
 		this.save(info); // 保存数据信息
-		SyncMap.getAll().sender(SYS_A203, "save", info);
-	}
+//		SyncMap.getAll().sender(SYS_A203, "save", info);
+		//修改发标时数据同步的处理方式 add by  luxh
+		this.saveAPI(info);
+ 	}
 
 	public void saveOver() throws SQLException {
 		List<AutoRaws> fs = this.findRawByAll();
@@ -567,5 +569,103 @@ public class ProdInfoServiceImp extends AConfig implements ProdInfoService {
 		long time = GMTime.currentTimeMillis();
 		this.remove(info.getPid(), info.getRid(), time);
 		SyncMap.getAll().add("pid", info.getPid()).add("rid", info.getRid()).add("time", time).sender(SYS_A203, "remove");
+	}
+	public void saveAPI(ProdInfo info) throws SQLException {
+		Connection conn = JPrepare.getConnection();
+		PreparedStatement ps = null;
+		try {
+			conn.setAutoCommit(false);
+			ps = conn.prepareStatement("UPDATE ypiao.prod_info SET Tid=?,AA=?,AB=?,AC=?,AD=?,AE=?,AF=?,AG=?,AH=?,AI=?,AJ=?,AK=?,AL=?,AM=?,AN=?,AO=?,AP=?,AT=?,AU=?,BA=?,BG=?,CA=?,MA=?,MB=?,MC=?,SA=?,SB=?,Adj=?,Adk=?,Ads=?,GmtB=?,GmtC=?,State=?,Stime=?,Time=? WHERE Pid=?");
+			ps.setInt(1, info.getTid());
+			ps.setString(2, info.getAa());
+			ps.setInt(3, info.getAb());
+			ps.setInt(4, info.getAc());
+			ps.setInt(5, info.getAd());
+			ps.setString(6, info.getAe());
+			ps.setString(7, info.getAf());
+			ps.setInt(8, info.getAg());
+			ps.setInt(9, info.getAh());
+			ps.setInt(10, info.getAi());
+			ps.setInt(11, info.getAj());
+			ps.setInt(12, info.getAk());
+			ps.setInt(13, info.getAl());
+			ps.setBigDecimal(14, info.getAm());
+			ps.setBigDecimal(15, info.getAn());
+			ps.setInt(16, info.getAo());
+			ps.setInt(17, info.getAp());
+			ps.setInt(18, info.getAt());
+			ps.setInt(19, info.getAu());
+			ps.setString(20, info.getBa());
+			ps.setString(21, info.getBg());
+			ps.setString(22, info.getCa());
+			ps.setBigDecimal(23, info.getMa());
+			ps.setBigDecimal(24, info.getMb());
+			ps.setBigDecimal(25, info.getMc());
+			ps.setInt(26, info.getSa());
+			ps.setInt(27, info.getSb());
+			ps.setInt(28, info.getAdj());
+			ps.setBigDecimal(29, info.getAdk());
+			ps.setBigDecimal(30, info.getAds());
+			ps.setLong(31, info.getGmtB());
+			ps.setLong(32, info.getGmtC());
+			ps.setInt(33, info.getState());
+			ps.setLong(34, info.getStime());
+			ps.setLong(35, info.getTime());
+			ps.setLong(36, info.getPid());
+			if (ps.executeUpdate() <= 0) {
+				ps.close(); // 检测数据
+				if (this.getAssetRawService().update(conn, info.getRid(), 1, info.getTime()) >= 1) {
+					ps = conn.prepareStatement("INSERT INTO ypiao.prod_info (Pid,Rid,Cid,Tid,AA,AB,AC,AD,AE,AF,AG,AH,AI,AJ,AK,AL,AM,AN,AO,AP,AT,AU,BA,BG,CA,MA,MB,MC,MD,SA,SB,Way,Adj,Adk,Ads,GmtA,GmtB,GmtC,State,Stime,Time) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					ps.setLong(1, info.getPid());
+					ps.setLong(2, info.getRid());
+					ps.setInt(3, info.getCid());
+					ps.setInt(4, info.getTid());
+					ps.setString(5, info.getAa());
+					ps.setInt(6, info.getAb());
+					ps.setInt(7, info.getAc());
+					ps.setInt(8, info.getAd());
+					ps.setString(9, info.getAe());
+					ps.setString(10, info.getAf());
+					ps.setInt(11, info.getAg());
+					ps.setInt(12, info.getAh());
+					ps.setInt(13, info.getAi());
+					ps.setInt(14, info.getAj());
+					ps.setInt(15, info.getAk());
+					ps.setInt(16, info.getAl());
+					ps.setBigDecimal(17, info.getAm());
+					ps.setBigDecimal(18, info.getAn());
+					ps.setInt(19, info.getAo());
+					ps.setInt(20, info.getAp());
+					ps.setInt(21, info.getAt());
+					ps.setInt(22, info.getAu());
+					ps.setString(23, info.getBa());
+					ps.setString(24, info.getBg());
+					ps.setString(25, info.getCa());
+					ps.setBigDecimal(26, info.getMa());
+					ps.setBigDecimal(27, info.getMb());
+					ps.setBigDecimal(28, info.getMc());
+					ps.setBigDecimal(29, info.getMd());
+					ps.setInt(30, info.getSa());
+					ps.setInt(31, info.getSb());
+					ps.setString(32, info.getWay());
+					ps.setInt(33, info.getAdj());
+					ps.setBigDecimal(34, info.getAdk());
+					ps.setBigDecimal(35, info.getAds());
+					ps.setLong(36, info.getGmtA());
+					ps.setLong(37, info.getGmtB());
+					ps.setLong(38, info.getGmtC());
+					ps.setInt(39, info.getState());
+					ps.setLong(40, info.getStime());
+					ps.setLong(41, info.getTime());
+					ps.executeUpdate();
+				}
+			}
+			conn.commit();
+		} catch (SQLException e) {
+			conn.rollback();
+			throw e;
+		} finally {
+			JPrepare.close(ps, conn);
+		}
 	}
 }

@@ -247,6 +247,11 @@ public class ActivityServiceImp extends AConfig implements ActivityService {
 			logger.info(String.format("该用户【%s】当前不是会员，不享受权益",s.getUPS()));
 	}
 
+	@Override
+	public void activityForVipBuy(ProdInfo info, LogOrder log) throws SQLException {
+
+	}
+
 	public UserVipService getUserVipService() {
 		return userVipService;
 	}
