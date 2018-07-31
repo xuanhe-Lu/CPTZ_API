@@ -2,10 +2,7 @@ package com.ypiao.json;
 
 
 import com.ypiao.bean.*;
-import com.ypiao.service.UserAuthService;
-import com.ypiao.service.UserCatService;
-import com.ypiao.service.UserInfoService;
-import com.ypiao.service.UserVipService;
+import com.ypiao.service.*;
 import com.ypiao.util.MonthFound;
 import com.ypiao.util.VeStr;
 import org.apache.log4j.Logger;
@@ -16,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static java.math.BigDecimal.ROUND_HALF_UP;
 /*
  * @CLASSNAME:OnUserVip
  * @DESCRIPTION: 用户会员购买变更
@@ -36,6 +35,7 @@ public class OnUserVip extends Action {
     private UserInfoService userInfoService;
     private UserAuthService userAuthService;
     private UserCatService userCatService;
+    private UserMoneyService userMoneyService;
 
     @Override
     public String index() {
@@ -55,25 +55,35 @@ public class OnUserVip extends Action {
 //        long uid = this.getLong("uid");
         int level = this.getInt("level");
         String Pwd = this.getParameter("pwd");
-        BigDecimal rmb = this.getBigDecimal("rmb");
+        BigDecimal rmb;
+        if (level == 2) {
+            rmb = new BigDecimal(100.00).setScale(2, ROUND_HALF_UP);
+        } else if (level == 3) {
+            rmb = new BigDecimal(1000.00).setScale(2, ROUND_HALF_UP);
+        } else {
+            logger.error("请选择需要购买的会员等级,level:" + level);
+            json.addError("请选择需要购买的会员等级");
+            logger.info("json:" + json.toString());
+            return JSON;
+        }
         try {
             // 检测支付密码
             if (Pwd == null || Pwd.length() < 6) {
                 json.addError(this.getText("user.error.027"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                logger.info("json:" + json.toString());
+                return JSON;
             } // 检测认证信息
             UserAuth a = this.getUserAuthService().findAuthByUid(uid);
             if (a == null) {
                 json.addError(this.getText("user.error.050"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                logger.info("json:" + json.toString());
+                return JSON;
             } // 校对支付密码
             Pwd = VeStr.toMD5(Pwd); // 格式化
             if (!Pwd.equalsIgnoreCase(a.getPays())) {
                 json.addError(this.getText("user.error.028"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                logger.info("json:" + json.toString());
+                return JSON;
             }
             logger.info(String.format("uid为:【%s】,想要变更为【%s】等级", uid, level));
             //1 查询用户会员记录表，校验该用户是否是正在期限内的会员。
@@ -83,31 +93,25 @@ public class OnUserVip extends Action {
             long endTime = 0;
             logger.info(String.format("queryVipLog.uid:[%s],id:[%s]", userVip.getUid(), userVip.getId()));
             //2 如果是期限内的会员，不能购买同级别的会员，购买非同级别的会员则重新计算时间。
-            if (userVip != null && userVip.getId() != 0/* && userVip.getLevel() == level*/) {
-             /*   logger.info(String.format("该用户【%s】目前是会员,并且购买的会员【%s】与现有会员等级一致，会员时间累加", uid, level));
-                //获取当前会员结束时间
-                Date endDate = new Date(userVip.getEndTime());
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(endDate);//把当前时间赋给日历
-                calendar.add(Calendar.MONTH, 3);  //设置为3月后
-                Date dateAfter = calendar.getTime();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //设置时间格式
-                String defaultStartDate = sdf.format(dateAfter);    //格式化3月后的时间
-                endTime = MonthFound.getDataStamp(defaultStartDate, "yyyy-MM-dd");
+            if (userVip != null && userVip.getId() != 0 && userVip.getLevel() >= level) {
 
-                logger.info(String.format("累加之后的时间是【%s】", endTime));*/
-                logger.info(String.format("该用户【%s】已经是会员了，不能重复购买", uid));
-                json.addError(String.format("尊敬的用户，您已经是会员了，不必重复购买"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                logger.info(String.format("该用户【%s】已经是会员了，只能购买等级高于当前的会员", uid));
+                json.addError(String.format("尊敬的用户，您已经是会员了，只能购买等级高于当前的会员"));
+                logger.info("json:" + json.toString());
+                return JSON;
             } else {
-                //获取当前时间
-                Date now = new Date();
+                Date now = null;
+                if (userVip != null && userVip.getId() != 0) {
+                    now = new Date(userVip.getStartTime());
+                } else {
+                    //获取当前时间
+                    now = new Date();
+                }
                 Calendar calendar = Calendar.getInstance(); //得到日历
                 calendar.setTime(now);//把当前时间赋给日历
                 int timecount = 0;
                 if (level == 2) {
-                    timecount = 9;
+                    timecount = 6;
                 } else if (level == 3) {
                     timecount = 12;
                 }
@@ -116,7 +120,7 @@ public class OnUserVip extends Action {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //设置时间格式
                 String defaultStartDate = sdf.format(dateAfter);    //格式化9月后的时间
                 String defaultEndDate = sdf.format(now); //格式化当前时间
-                logger.info(String.format("当前时间是【%s】,会员到期时间是【%s】", now, dateAfter));
+                logger.info(String.format("会员开始时间是【%s】,会员到期时间是【%s】", now, dateAfter));
                 startTime = MonthFound.getDataStamp(defaultEndDate, "yyyy-MM-dd");
                 endTime = MonthFound.getDataStamp(defaultStartDate, "yyyy-MM-dd");
                 userVip.setStartTime(startTime);
@@ -127,18 +131,74 @@ public class OnUserVip extends Action {
             UserStatus s = this.getUserInfoService().findUserStatusByUid(uid);
             if (s == null) {
                 json.addError(this.getText("user.error.888"));
-                System.out.println("json:"+json.toString());
- return JSON;
+                logger.info("json:" + json.toString());
+                return JSON;
             }
             if (s.getMa().compareTo(rmb) < 0 || s.getMb().compareTo(rmb) < 0) {
                 logger.info(String.format("用户[%s]余额不足，请充值后再购买。", uid));
                 json.addError("用户余额不足，请充值后再购买。");
-                System.out.println("json:"+json.toString());
- return JSON;
+                logger.info("json:" + json.toString());
+                return JSON;
             }
             int i = 0;
             //购买会员后，用户余额修改
             i = this.getUserInfoService().updateSubHY(uid, rmb, level);
+            // 修改user_rmbs表中数据
+            // 看是否有邀请人，如果有邀请人，则填入到fid字段。
+            long ups = us.getUPS() >= 10000 ?  us.getUPS():0;
+            UserRmbs rmbs = new UserRmbs();
+            rmbs.setSid(VeStr.getUSid());
+            rmbs.setTid(4);//1,充值,2,提现,3,提现退回,4理财消费,5,理财回款
+            rmbs.setUid(uid);
+            rmbs.setFid(ups);
+            rmbs.setWay("理财消费");
+            rmbs.setEvent("购买会员");
+            rmbs.setCost(s.getMa());//总额
+            rmbs.setAdds(new BigDecimal("-"+rmb));//消费
+            rmbs.setTotal(s.getMa().add(new BigDecimal("-"+rmb)));//进行此次操作后剩余总额
+            rmbs.setState(0);
+            rmbs.setTime(System.currentTimeMillis());
+            this.getUserMoneyService().save(rmbs);
+
+            //购买会员成功后，如果邀请人是会员，则返现到邀请人账户
+            //查找
+            UserStatus sUps = this.getUserInfoService().findUserStatusByUid(ups);
+            if (sUps == null) {
+                json.addError(this.getText("邀请人信息获取失败,ups:"+ups));
+                logger.info("json:" + json.toString());
+            }else {
+                logger.info(String.format("查到邀请人信息,ups[%s]",sUps.getUid()));
+                UserVip userVipUps = this.getUserVipService().queryVipLog(ups, System.currentTimeMillis());
+                logger.info(String.format("userVipUps:[%s]",userVipUps.toString()));
+                if(userVipUps.getUid() ==ups && userVipUps.getLevel() >=2){
+                    int levelUps = userVipUps.getLevel();
+                    UserRmbs rmbUps = new UserRmbs();
+                    rmbUps.setSid(VeStr.getUSid());
+                    rmbUps.setTid(5);//1,充值,2,提现,3,提现退回,4理财消费,5,理财回款
+                    rmbUps.setUid(ups);
+                    rmbUps.setFid(0);
+                    rmbUps.setWay("理财回款");
+                    String mobile = us.getMobile();
+                    mobile = mobile.substring(0, mobile.length() - 8) + "****" + mobile.substring(mobile.length() - 4);
+                    rmbUps.setEvent("邀请好友" + mobile + "购买会员");
+                    BigDecimal adds = new BigDecimal("0.00");
+                    if (levelUps == 2) {
+                        adds = rmb.multiply(new BigDecimal("0.20"));
+                    } else if (levelUps == 3) {
+                        adds = rmb.multiply(new BigDecimal("0.30"));
+                    }
+                    logger.info("adds"+adds.toString());
+                    rmbUps.setAdds(adds);
+                    rmbUps.setCost(sUps.getMa());
+                    rmbUps.setTotal(sUps.getMa().add(adds));
+                    rmbUps.setState(0);
+                    rmbUps.setTime(System.currentTimeMillis());
+                    this.getUserMoneyService().save(rmbUps);
+                }else {
+                    logger.info(String.format("[%s]不是会员,无法享受会员返现奖励"));
+                }
+
+            }
             //4.将变更后的会员信息入表，
             userVip.setLevel(level);
             userVip.setUid(uid);
@@ -176,16 +236,16 @@ public class OnUserVip extends Action {
 
             }
             json.success(API_OK);
-            System.out.println("json:"+json.toString());
- return JSON;
+            logger.info("json:" + json.toString());
+            return JSON;
         } catch (Exception e) {
             e.printStackTrace();
             json.addError(this.getText("user.error.856"));
         }
 
 
-        System.out.println("json:"+json.toString());
- return JSON;
+        logger.info("json:" + json.toString());
+        return JSON;
     }
 
     /*
@@ -220,8 +280,8 @@ public class OnUserVip extends Action {
                 json.append("startTime", 0);
                 json.append("endTime", 4092599349000l);
                 json.append("remark", "注册即为普通会员");
-                System.out.println("json:"+json.toString());
- return JSON;
+                logger.info("json:" + json.toString());
+                return JSON;
             } else {
                 json.success(API_OK);
                 json.add("body");
@@ -233,14 +293,14 @@ public class OnUserVip extends Action {
                 json.append("startTime", userVip.getStartTime());
                 json.append("endTime", userVip.getEndTime());
                 json.append("remark", userVip.getRemark());
-                System.out.println("json:"+json.toString());
- return JSON;
+                logger.info("json:" + json.toString());
+                return JSON;
             }
         } catch (Exception e) {
             e.printStackTrace();
             json.addError("未查到会员信息，请重试！");
-            System.out.println("json:"+json.toString());
- return JSON;
+            logger.info("json:" + json.toString());
+            return JSON;
         }
     }
 
@@ -274,5 +334,13 @@ public class OnUserVip extends Action {
 
     public void setUserCatService(UserCatService userCatService) {
         this.userCatService = userCatService;
+    }
+
+    public UserMoneyService getUserMoneyService() {
+        return userMoneyService;
+    }
+
+    public void setUserMoneyService(UserMoneyService userMoneyService) {
+        this.userMoneyService = userMoneyService;
     }
 }

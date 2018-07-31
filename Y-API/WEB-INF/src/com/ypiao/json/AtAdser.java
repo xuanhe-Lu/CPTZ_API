@@ -54,7 +54,7 @@ public class AtAdser extends Action implements ServletRequestAware {
 			json.addError(this.getText("system.error.info"));
 		}
 		System.out.println("json:"+json.toString());
- return JSON;
+ 		return JSON;
 	}
 	
 	/**

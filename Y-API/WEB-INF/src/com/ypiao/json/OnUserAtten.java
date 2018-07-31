@@ -39,12 +39,12 @@ public class OnUserAtten extends Action {
         UserSession us = this.getUserSession();
         long uid = us.getUid();
         logger.info(String.format("index:time:%s,uid:%s", time, uid));
-        System.out.println(String.format("index:time:%s,uid:%s", time, uid));
+        logger.info(String.format("index:time:%s,uid:%s", time, uid));
         time = Long.parseLong(this.getParameter("time"));
         uid = Long.parseLong(this.getParameter("uid"));
-        System.out.println(String.format("index:time:%s,uid:%s", time, uid));
-        System.out.println("json:"+json.toString());
- return JSON;
+        logger.info(String.format("index:time:%s,uid:%s", time, uid));
+        logger.info("json:" + json.toString());
+        return JSON;
     }
 
     /*
@@ -139,8 +139,8 @@ public class OnUserAtten extends Action {
 
         logger.info(String.format("该用户【%s】count:%s,stats:%s", uid, count, stats));
 
-        System.out.println("json:"+json.toString());
- return JSON;
+        logger.info("json:" + json.toString());
+        return JSON;
     }
 
     /*
@@ -184,8 +184,8 @@ public class OnUserAtten extends Action {
         } else {
             json.addError("用户本次签到失败,请重新签到!");
         }
-        System.out.println("json:"+json.toString());
- return JSON;
+        logger.info("json:" + json.toString());
+        return JSON;
     }
 
     public UserAttenService getUserAttenService() {

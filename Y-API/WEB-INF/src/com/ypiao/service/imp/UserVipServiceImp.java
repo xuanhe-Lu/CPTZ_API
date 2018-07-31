@@ -69,7 +69,7 @@ public class UserVipServiceImp implements UserVipService {
             i = ps.executeUpdate();
             if(i == 0 ){
                 ps.close();
-                ps = conn.prepareStatement("insert into user_viplogs (name,level,receipt,startTime,endTime,remark,uid,memberBenefits) values (?,?,?,?,?,?,?,24)");
+                ps = conn.prepareStatement("insert into user_viplogs (name,level,receipt,startTime,endTime,remark,uid) values (?,?,?,?,?,?,?)");
                 ps.setString(1,userVip.getName());
                 ps.setInt(2,userVip.getLevel());
                 ps.setBigDecimal( 3,userVip.getReceipt());
