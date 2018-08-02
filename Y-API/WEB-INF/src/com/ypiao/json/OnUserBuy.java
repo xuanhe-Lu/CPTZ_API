@@ -38,7 +38,7 @@ public class OnUserBuy extends Action {
     private UserInfoService userInfoService;
     private UserVipService userVipService;
     private UserCatService userCatService;
-
+    private LuckyBagService luckyBagServicel;
     public OnUserBuy() {
         super(true);
     }
@@ -1023,6 +1023,55 @@ public class OnUserBuy extends Action {
                     json.append("time", GMTime.format(log.getTime(), GMTime.CHINA));
                     json.append("gmtb", GMTime.format(log.getGmtB(), GMTime.CHINA, GMTime.OUT_SHORT));
                     json.append("gmtc", GMTime.format(log.getGmtC(), GMTime.CHINA, GMTime.OUT_SHORT));
+                    //保存用户投标获取的猫粮
+                    long time = GMTime.currentTimeMillis();
+                    UserVip userVip = new UserVip();
+                    try {
+                        userVip = this.getUserVipService().queryVipLog(us.getUid(), time);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        logger.error("获取用户VIP信息失败");
+                    }
+                /*
+                catfood 计算方式
+                    普通会员 RMB*0.003*day
+                    白银会员 RMB*0.003*day*1.05
+                    黄金会员 RMB*0.003*day*1.10
+                 */
+                    int catFoodInt = 0;
+                    BigDecimal catFood = s.getTma().multiply(new BigDecimal(s.getRday())).multiply(new BigDecimal(1.00)).multiply(new BigDecimal(0.003));
+                    if (userVip.getLevel() < 2) {
+                        catFoodInt = (catFood.multiply(new BigDecimal(1.05))).intValue();
+                    } else {
+                        catFoodInt = (catFood.multiply(new BigDecimal(1.10))).intValue();
+                    }
+                    try {
+                        this.getUserCatService().updateCatFood(us.getUid(), catFoodInt);
+                    } catch (Exception e) {
+                        logger.error("存储猫粮数据出错");
+                        e.printStackTrace();
+                        json.addError("存储猫粮数据出错,请稍后再试");
+                    }
+                    //投标金额大于等于1000时，产生福袋，返回给前台福袋ID
+                    if( s.getTma().compareTo(new BigDecimal("1000"))>=0){
+                        logger.info(String.format("[%s]投标金额[%s]大于等于1000元，满足福袋生成条件",us.getUid(),s.getTma()));
+                        LuckyBagCondfig luckyBagCondfig = new LuckyBagCondfig();
+                        try {
+                            luckyBagCondfig = this.getLuckyBagServicel().qryLuckyBagConfig(s.getTma());
+                            logger.info(String.format("本次福袋创建规则:[%s]",luckyBagCondfig.toString()));
+                        } catch (Exception e) {
+                            logger.error("查询福袋配置出错，请检查相关配置");
+                            e.printStackTrace();
+                        }
+                        if(luckyBagCondfig.getNum()>1){
+                            logger.info("开始根据福袋产生规则产生福袋");
+
+                        }else {
+
+                        }
+                    }else {
+                        logger.info(String.format("[%s]投标金额[%s]小于1000元，不满足福袋生成条件",us.getUid(),s.getTma()));
+                    }
                 } else {
                     if (state == 1) {
                         s.setState(STATE_DELETE);
@@ -1041,35 +1090,7 @@ public class OnUserBuy extends Action {
                 this.getTradeInfoService().saveOrder(s);
                 logger.info("end saveOrder");
 
-                //保存用户投标获取的猫粮
-                long time = GMTime.currentTimeMillis();
-                UserVip userVip = new UserVip();
-                try {
-                    userVip = this.getUserVipService().queryVipLog(us.getUid(), time);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    logger.error("获取用户VIP信息失败");
-                }
-                /*
-                catfood 计算方式
-                    普通会员 RMB*0.003*day
-                    白银会员 RMB*0.003*day*1.05
-                    黄金会员 RMB*0.003*day*1.10
-                 */
-                int catFoodInt = 0;
-                BigDecimal catFood = s.getTma().multiply(new BigDecimal(s.getRday())).multiply(new BigDecimal(1.00)).multiply(new BigDecimal(0.003));
-                if (userVip.getLevel() < 2) {
-                    catFoodInt = (catFood.multiply(new BigDecimal(1.05))).intValue();
-                } else {
-                    catFoodInt = (catFood.multiply(new BigDecimal(1.10))).intValue();
-                }
-                try {
-                    this.getUserCatService().updateCatFood(us.getUid(), catFoodInt);
-                } catch (Exception e) {
-                    logger.error("存储猫粮数据出错");
-                    e.printStackTrace();
-                    json.addError("存储猫粮数据出错,请稍后再试");
-                }
+
             }
         } catch (SQLException | JAXBException | IOException e) {
             json.addError(this.getText("system.error.info"));
@@ -1094,5 +1115,13 @@ public class OnUserBuy extends Action {
 
     public void setUserCatService(UserCatService userCatService) {
         this.userCatService = userCatService;
+    }
+
+    public LuckyBagService getLuckyBagServicel() {
+        return luckyBagServicel;
+    }
+
+    public void setLuckyBagServicel(LuckyBagService luckyBagServicel) {
+        this.luckyBagServicel = luckyBagServicel;
     }
 }

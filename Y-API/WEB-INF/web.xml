@@ -40,7 +40,7 @@
   <!-- Listener contextConfigLocation -->
   <context-param>
     <param-name>servletfiler</param-name>
-    <param-value>E:\WebRoot\Y-IMG</param-value>
+    <param-value>E:\CPTZ_CODE\Y-IMG</param-value>
   </context-param>
   <context-param>
     <param-name>servletmapping</param-name>

@@ -51,7 +51,6 @@ public class OnUserCat extends Action {
         } else
             type = 2;//根据catId查找
         try {
-
             CatFood catFoodInfo = this.getUserCatService().qryCatFood(uid);
             int catFood = catFoodInfo.getCatFood();
             long time = System.currentTimeMillis();
@@ -92,7 +91,6 @@ public class OnUserCat extends Action {
                     json.append("img", cat.getImg());
                 }
             }
-
             log.info("json:" + json.toString());
             return JSON;
         } catch (Exception e) {
