@@ -86,6 +86,7 @@
 		<action name="user_lottery" class="com.ypiao.json.OnUserLottery" />
 		<action name="user_cat" class="com.ypiao.json.OnUserCat" />
 		<action name="user_activity" class="com.ypiao.json.OnUserActivity" />
+		<action name="index_info" class="com.ypiao.json.OnInformation" />
 
 	</package>
 	<package name="auth_json" extends="Pub-default" namespace="/js">

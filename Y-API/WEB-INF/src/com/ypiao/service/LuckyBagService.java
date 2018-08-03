@@ -55,4 +55,21 @@ public interface LuckyBagService {
      * @VERSION:1.0
      */
     public List<LuckyBagSend> findPersionalBag(long uid,long time)  throws  Exception ;
+
+    /*
+     * @NAME:qryluckyBagHis
+     * @DESCRIPTION:查询该福袋，用户是否已经领取
+     * @AUTHOR:luxh
+     * @DATE:2018/8/3
+     * @VERSION:1.0
+     */
+    public List<LuckyBagReceive> qryluckyBagHis(long uid,long time) throws Exception;
+    /*
+     * @NAME:qryIsExpire
+     * @DESCRIPTION:查询该福袋是否已经过期
+     * @AUTHOR:luxh
+     * @DATE:2018/8/3
+     * @VERSION:1.0
+     */
+    public long qryIsExpire(long giftId) throws Exception;
 }

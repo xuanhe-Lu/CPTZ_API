@@ -116,7 +116,7 @@ public class LuckyBagServiceImp implements LuckyBagService {
         }
     }
 
-    public List<LuckyBagSend> findPersionalBag(long uid,long time ) throws Exception {
+    public List<LuckyBagSend> findPersionalBag(long uid, long time) throws Exception {
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
         try {
@@ -143,5 +143,31 @@ public class LuckyBagServiceImp implements LuckyBagService {
             JPrepare.close(ps, conn);
         }
 
+    }
+
+    public List<LuckyBagReceive> qryluckyBagHis(long uid, long time) throws Exception {
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        ps = conn.prepareStatement("select bagId , redId,uid,money,time ,failureTime  from ypiao.luckyBag_receive where bagId = ? and uid= ?");
+        return null;
+    }
+
+    public long qryIsExpire(long giftId) throws Exception {
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        try {
+            long time = System.currentTimeMillis();
+            ps = conn.prepareStatement("select bagId from ypiao.luckyBag_receive where bagId = ? and failureTime < ?");
+            ps.setLong(1, giftId);
+            ps.setLong(2, time);
+            ResultSet rs = ps.executeQuery();
+            long result = 0;
+            while (rs.next()) {
+                result = rs.getInt(1);
+            }
+            return result;
+        } finally {
+            JPrepare.close(ps, conn);
+        }
     }
 }

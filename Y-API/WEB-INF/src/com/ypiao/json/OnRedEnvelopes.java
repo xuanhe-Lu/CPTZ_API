@@ -138,16 +138,32 @@ public class OnRedEnvelopes extends Action {
 
     /*
      * @NAME:luckyBagHis
-     * @DESCRIPTION:根据福袋ID查询抽取历史
+     * @DESCRIPTION:根据福袋ID，uid查询用户是否抽取
      * @AUTHOR:luxh
      * @DATE:2018/8/3
      * @VERSION:1.0
      */
     public String luckyBagHis(){
         logger.info("COME IN luckyBagHis");
+        AjaxInfo ajaxInfo = this.getAjaxInfo();
         long uid = this.getLong("uid");
         long giftId = this.getLong("giftid");
-
+        //首先查询是否已经过期
+        long result = 0;
+        try {
+            result = this.getLuckyBagService().qryIsExpire(giftId);
+        } catch (Exception e) {
+            logger.error("查询福袋是否过期失败，");
+            e.printStackTrace();
+        }
+        if(result<=0){
+            logger.info("该福袋已经过期了");
+            ajaxInfo.addError("该福袋已经过期了");
+            return JSON;
+        }
+        //查询是否已经领取
+//        this.getLuckyBagService().qryluckyBagHis(uid,giftId);
+        //查询是否已经
 
 
 

@@ -99,19 +99,19 @@ public class AtProdInfo extends Action {
                 // luxh 根据uid获取用户VIP等级和会员权益日，判断是否可以使用两张加息券
                 UserSession us = this.getUserSession();
                 int status = 0;//0为不允许，1为允许
-                BigDecimal vipRate = new BigDecimal(1.00);
+                BigDecimal vipRate = new BigDecimal(1.00).setScale(2, BigDecimal.ROUND_HALF_UP);;
                 if (us.getUid() == 0) {
                     logger.info("用户未登录,无法查询用户VIP等级");
                 } else {
                     long nowTime = System.currentTimeMillis();
                     UserVip userVip = this.getUserVipService().queryVipLog(us.getUid(), nowTime);
                     if (userVip != null && userVip.getUid() == us.getUid()) {
-                        vipRate = new BigDecimal(1.05);
+                        vipRate = new BigDecimal(1.05).setScale(2, BigDecimal.ROUND_HALF_UP);;
                         logger.info(String.format("该用户有会员信息，会员等级为[%s]", userVip.getName()));
                         Calendar cal = Calendar.getInstance();
                         int d = cal.get(Calendar.DATE);
                         if (userVip.getLevel() > 2) {
-                            vipRate = new BigDecimal(1.10);
+                            vipRate = new BigDecimal(1.10).setScale(2, BigDecimal.ROUND_HALF_UP);
                             if (d == userVip.getMemberBenefits()) {
                                 logger.info("该会员享受会员权益日福利");
                                 status = 1;
