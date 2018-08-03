@@ -4,16 +4,16 @@ import com.ypiao.bean.*;
 import com.ypiao.fuiou.*;
 import com.ypiao.service.*;
 import com.ypiao.sign.Fuiou;
-import com.ypiao.util.APState;
-import com.ypiao.util.GMTime;
-import com.ypiao.util.VeRule;
-import com.ypiao.util.VeStr;
+import com.ypiao.util.*;
 import org.apache.log4j.Logger;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class OnUserBuy extends Action {
 
@@ -38,7 +38,9 @@ public class OnUserBuy extends Action {
     private UserInfoService userInfoService;
     private UserVipService userVipService;
     private UserCatService userCatService;
-    private LuckyBagService luckyBagServicel;
+    private LuckyBagService luckyBagService;
+    private static final double MIN = 0.01;
+
     public OnUserBuy() {
         super(true);
     }
@@ -1053,24 +1055,48 @@ public class OnUserBuy extends Action {
                         json.addError("存储猫粮数据出错,请稍后再试");
                     }
                     //投标金额大于等于1000时，产生福袋，返回给前台福袋ID
-                    if( s.getTma().compareTo(new BigDecimal("1000"))>=0){
-                        logger.info(String.format("[%s]投标金额[%s]大于等于1000元，满足福袋生成条件",us.getUid(),s.getTma()));
+                    if (s.getTma().compareTo(new BigDecimal("1000")) >= 0) {
+                        logger.info(String.format("[%s]投标金额[%s]大于等于1000元，满足福袋生成条件", us.getUid(), s.getTma()));
                         LuckyBagCondfig luckyBagCondfig = new LuckyBagCondfig();
                         try {
-                            luckyBagCondfig = this.getLuckyBagServicel().qryLuckyBagConfig(s.getTma());
-                            logger.info(String.format("本次福袋创建规则:[%s]",luckyBagCondfig.toString()));
+                            luckyBagCondfig = this.getLuckyBagService().qryLuckyBagConfig(s.getTma());
+                            logger.info(String.format("本次福袋创建规则:[%s]", luckyBagCondfig.toString()));
                         } catch (Exception e) {
                             logger.error("查询福袋配置出错，请检查相关配置");
                             e.printStackTrace();
                         }
-                        if(luckyBagCondfig.getNum()>1){
+                        if (luckyBagCondfig.getNum() > 1) {
                             logger.info("开始根据福袋产生规则产生福袋");
+                            BigDecimal amountBag = (s.getTma().multiply(new BigDecimal("0.0011")).multiply(new BigDecimal(s.getRday()))).setScale(2, BigDecimal.ROUND_HALF_UP);
+//                            createBag(luckyBagCondfig.getNum(),amountBag,luckyBagCondfig.getLastEnvelopes());
 
-                        }else {
 
+                            try {
+
+                                long bagId = VeStr.getUSid();
+                                //保存福袋到福袋发送表中，time暂时0，等待点击发送后更新time
+                                LuckyBagSend luckyBagSend = new LuckyBagSend();
+                                luckyBagSend.setBagId(bagId);
+                                luckyBagSend.setUid(us.getUid());
+                                luckyBagSend.setLendMoney(s.getTma());
+                                luckyBagSend.setLastEnvelopes(luckyBagCondfig.getLastEnvelopes());
+                                luckyBagSend.setNum(luckyBagCondfig.getNum());
+                                luckyBagSend.setSid(s.getSid());
+                                luckyBagSend.setCreateTime(System.currentTimeMillis());
+                                luckyBagSend.setBagCount(amountBag);
+                                logger.info("luckyBagSend:"+luckyBagSend.toString());
+                                this.getLuckyBagService().insertLuckBag(luckyBagSend);
+                                logger.info("保存福袋成功");
+                                json.append("luckyBag",bagId);
+                            } catch (Exception e) {
+                                logger.error("生成随机红包失败");
+                                e.printStackTrace();
+                            }
+                        } else {
+                            logger.info("查询福袋规则失败");
                         }
-                    }else {
-                        logger.info(String.format("[%s]投标金额[%s]小于1000元，不满足福袋生成条件",us.getUid(),s.getTma()));
+                    } else {
+                        logger.info(String.format("[%s]投标金额[%s]小于1000元，不满足福袋生成条件", us.getUid(), s.getTma()));
                     }
                 } else {
                     if (state == 1) {
@@ -1097,7 +1123,7 @@ public class OnUserBuy extends Action {
         } finally {
             Pwd = null;
         }
-        System.out.println("json:" + json.toString());
+        logger.info("json:" + json.toString());
         return JSON;
     }
 
@@ -1117,11 +1143,31 @@ public class OnUserBuy extends Action {
         this.userCatService = userCatService;
     }
 
-    public LuckyBagService getLuckyBagServicel() {
-        return luckyBagServicel;
+    public LuckyBagService getLuckyBagService() {
+        return luckyBagService;
     }
 
-    public void setLuckyBagServicel(LuckyBagService luckyBagServicel) {
-        this.luckyBagServicel = luckyBagServicel;
+    public void setLuckyBagService(LuckyBagService luckyBagService) {
+        this.luckyBagService = luckyBagService;
+    }
+
+    /*
+     * @NAME:createBag
+     * @DESCRIPTION:红包随机生成
+     * @AUTHOR:luxh
+     * @DATE:2018/8/3
+     * @VERSION:1.0
+     */
+    public List<BigDecimal> createBag(int num, BigDecimal amount, BigDecimal lastEnvelopes) {
+        BigDecimal lastBag = amount.multiply(lastEnvelopes);
+        amount = amount.subtract(lastBag);
+        List<BigDecimal> bigDecimals = new ArrayList<>();
+        boolean flag = false;
+        for (int i = 0; i < num; i++) {
+            if (flag) {
+
+            }
+        }
+        return null;
     }
 }

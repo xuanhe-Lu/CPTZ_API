@@ -290,7 +290,7 @@ public class UserCatServiceImp implements UserCatService {
         PreparedStatement ps = null;
         CatFood cat = new CatFood();
         try {
-            ps = conn.prepareStatement("update cat_userInfo set  catFood = ?   where uid = ?  ");
+            ps = conn.prepareStatement("update cat_userInfo set  catFood = catFood +?   where uid = ?  ");
             ps.setInt(1, catfood);
             ps.setLong(2, uid);
             int i = 0;

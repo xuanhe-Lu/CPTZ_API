@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 /**
  * @NAME:LuckyBag
- * @DESCRIPTION:
+ * @DESCRIPTION:福袋配置
  * @AUTHOR:luxh
  * @DATE:2018/8/2
  * @VERSION:1.0

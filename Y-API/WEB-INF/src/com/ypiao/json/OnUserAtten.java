@@ -168,19 +168,21 @@ public class OnUserAtten extends Action {
             CatConfig catConfig = this.getUserCatService().findcatConfig(vip);
             //签到成功根据会员等级不同,获取不同数量的猫粮
             if (vip < 2) {
-                logger.info(String.format("该用户【%s】为普通会员,签到获取的猫粮【%s】g", uid, catConfig.getSilverRight()));
-                this.getUserCatService().updateCatFood(uid, catConfig.getSilverRight());
+                logger.info(String.format("该用户【%s】为普通会员,签到获取的猫粮【%s】g", uid, catConfig.getOrdinaryRight()));
+                this.getUserCatService().updateCatFood(uid, catConfig.getOrdinaryRight());
                 logger.info(String.format("保存猫粮成功"));
+                json.addMessage(String.format("您为普通会员,签到获取的猫粮【%s】g", uid, catConfig.getOrdinaryRight()));
             } else if (vip == 2) {
                 logger.info(String.format("该用户【%s】为白银会员,签到获取的猫粮【%s】g", uid, catConfig.getSilverRight()));
                 this.getUserCatService().updateCatFood(uid, catConfig.getSilverRight());
                 logger.info(String.format("保存猫粮成功"));
+                json.addMessage(String.format("您为白银会员,签到获取的猫粮【%s】g", uid, catConfig.getSilverRight()));
             } else if (vip == 3) {
-                logger.info(String.format("该用户【%s】为白银会员,签到获取的猫粮【%s】g", uid, catConfig.getGoldRight()));
+                logger.info(String.format("该用户【%s】为黄金会员,签到获取的猫粮【%s】g", uid, catConfig.getGoldRight()));
                 this.getUserCatService().updateCatFood(uid, catConfig.getGoldRight());
                 logger.info(String.format("保存猫粮成功"));
+                json.addMessage(String.format("您为黄金会员,签到获取的猫粮【%s】g", uid, catConfig.getGoldRight()));
             }
-            json.addMessage("OK");
         } else {
             json.addError("用户本次签到失败,请重新签到!");
         }
