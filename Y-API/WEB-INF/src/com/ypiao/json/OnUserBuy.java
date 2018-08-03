@@ -943,11 +943,127 @@ public class OnUserBuy extends Action {
                     return JSON;
                 }
             }
+            UserCoupon uc1 = null;
+            if (s.getCid1() >= USER_UID_MAX) {
+                uc1 = this.getUserCouponService().findCouponBySid(s.getCid1());
+                if (uc1 == null || STATE_NORMAL != uc1.getState()) {
+                    json.addError(this.getText("user.error.857"));
+                    System.out.println("json:" + json.toString());
+                    return JSON;
+                }
+            }
             logger.info("执行投资信息操作");
             // 执行投资信息操作
             synchronized (doLock(us.getUid())) {
                 BigDecimal rmb = s.getTma();
                 LogOrder log = new LogOrder();
+
+
+                if (uc != null && uc1 != null) {
+                    if (uc.getType() == uc1.getType()) {
+                        log.setCid(uc.getSid());
+                        switch (uc.getType()) {
+                            case 1: // 体验券
+                                log.setWay("体验金购买");
+                                rmb = s.getTma().subtract(uc.getTma().add(uc1.getTma()));
+                                break;
+                            case 2: // 加息券
+                                log.setTme((uc.getTmb().add(uc1.getTmb())));
+                                break;
+                            case 3: // 抵扣券
+                            default:
+                                rmb = s.getTma().subtract(uc.getTma().add(uc1.getTma()));
+                        } // 是否足额抵扣
+                        if (rmb.compareTo(BigDecimal.ZERO) <= 0) {
+                            rmb = BigDecimal.ZERO;
+                        } // 扣除金额
+                        if (uc.getType() == 1) {
+                            s.setTmd(s.getTma().subtract(rmb));
+                        }
+                    } else {
+                        s.setCid(uc.getSid());
+                        s.setCid1(uc1.getSid());
+                        switch (uc.getType()) {
+                            case 1: // 体验券
+                                log.setWay("体验金购买");
+                                rmb = s.getTma().subtract(uc.getTma());
+                                break;
+                            case 2: // 加息券
+                                log.setTme(uc.getTmb());
+                                break;
+                            case 3: // 抵扣券
+                            default:
+                                rmb = s.getTma().subtract(uc.getTma());
+                        }
+                        switch (uc1.getType()) {
+                            case 1: // 体验券
+                                log.setWay("体验金购买");
+                                rmb = s.getTma().subtract(uc1.getTma());
+                                break;
+                            case 2: // 加息券
+                                log.setTme(uc.getTmb());
+                                break;
+                            case 3: // 抵扣券
+                            default:
+                                rmb = s.getTma().subtract(uc1.getTma());
+                        }
+                        // 是否足额抵扣
+                        if (rmb.compareTo(BigDecimal.ZERO) <= 0) {
+                            rmb = BigDecimal.ZERO;
+                        } // 扣除金额
+                        if (uc.getType() == 1 || uc1.getType() == 1) {
+                            s.setTmd(s.getTma().subtract(rmb));
+                        }
+                    }
+                } else if (uc != null) {
+                    s.setCid(uc.getSid());
+                    switch (uc.getType()) {
+                        case 1: // 体验券
+                            log.setWay("体验金购买");
+                            rmb = s.getTma().subtract(uc.getTma());
+                            break;
+                        case 2: // 加息券
+                            log.setTme(uc.getTmb());
+                            break;
+                        case 3: // 抵扣券
+                        default:
+                            rmb = s.getTma().subtract(uc.getTma());
+                    } // 是否足额抵扣
+                    if (rmb.compareTo(BigDecimal.ZERO) <= 0) {
+                        rmb = BigDecimal.ZERO;
+                    } // 扣除金额
+                    if (uc.getType() == 1) {
+                        s.setTmd(s.getTma().subtract(rmb));
+                    }
+                }
+
+
+
+
+
+
+
+               /* if (uc != null  ) {
+                    log.setCid(uc.getSid());
+                    switch (uc.getType()) {
+                        case 1: // 体验券
+                            log.setWay("体验金购买");
+                            rmb = s.getTma().subtract(uc.getTma());
+                            break;
+                        case 2: // 加息券
+                            log.setTme(uc.getTmb());
+                            break;
+                        case 3: // 抵扣券
+                        default:
+                            rmb = s.getTma().subtract(uc.getTma());
+                    } // 是否足额抵扣
+                    if (rmb.compareTo(BigDecimal.ZERO) <= 0) {
+                        rmb = BigDecimal.ZERO;
+                    } // 扣除金额
+                    if (uc.getType() == 1) {
+                        log.setTmd(s.getTma().subtract(rmb));
+                    }
+                }
                 if (uc != null) {
                     log.setCid(uc.getSid());
                     switch (uc.getType()) {
@@ -968,7 +1084,11 @@ public class OnUserBuy extends Action {
                     if (uc.getType() == 1) {
                         log.setTmd(s.getTma().subtract(rmb));
                     }
-                } // 检测账户余额是否足
+                }
+*/
+
+
+                // 检测账户余额是否足
                 if (rmb.compareTo(s.getTmb()) == 0) {
                     // Next todo
                 } else {

@@ -67,4 +67,16 @@ public class LuckyBagReceive implements Serializable {
     public void setFailureTime(long failureTime) {
         this.failureTime = failureTime;
     }
+
+    @Override
+    public String toString() {
+        return "LuckyBagReceive{" +
+                "bagId=" + bagId +
+                ", redId=" + redId +
+                ", uid=" + uid +
+                ", money=" + money +
+                ", time=" + time +
+                ", failureTime=" + failureTime +
+                '}';
+    }
 }

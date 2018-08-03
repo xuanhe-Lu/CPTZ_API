@@ -3,8 +3,11 @@ package com.ypiao.service.imp;
 import com.ypiao.bean.LuckyBagCondfig;
 import com.ypiao.bean.LuckyBagReceive;
 import com.ypiao.bean.LuckyBagSend;
+import com.ypiao.bean.UserRmbs;
 import com.ypiao.data.JPrepare;
 import com.ypiao.service.LuckyBagService;
+import com.ypiao.service.UserMoneyService;
+import com.ypiao.util.APState;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -21,6 +24,7 @@ import java.util.List;
  * @VERSION:1.0
  */
 public class LuckyBagServiceImp implements LuckyBagService {
+    private UserMoneyService userMoneyService;
     @Override
     public LuckyBagCondfig qryLuckyBagConfig(BigDecimal money) throws Exception {
         Connection conn = JPrepare.getConnection();
@@ -145,11 +149,22 @@ public class LuckyBagServiceImp implements LuckyBagService {
 
     }
 
-    public List<LuckyBagReceive> qryluckyBagHis(long uid, long time) throws Exception {
+    public LuckyBagReceive qryluckyBagHis(long uid, long giftId) throws Exception {
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
-        ps = conn.prepareStatement("select bagId , redId,uid,money,time ,failureTime  from ypiao.luckyBag_receive where bagId = ? and uid= ?");
-        return null;
+        ps = conn.prepareStatement("select bagId , redId,uid,money,time ,failureTime  from ypiao.luckyBag_receive where bagId = ? and uid= ? limit 1");
+        ps.setLong(1, giftId);
+        ps.setLong(1, uid);
+        ResultSet rs = ps.executeQuery();
+        LuckyBagReceive luckyBagReceive = new LuckyBagReceive();
+        while (rs.next()) {
+            luckyBagReceive.setBagId(rs.getLong(1));
+            luckyBagReceive.setUid(rs.getLong(2));
+            luckyBagReceive.setMoney(rs.getBigDecimal(3));
+            luckyBagReceive.setTime(rs.getLong(4));
+            luckyBagReceive.setFailureTime(rs.getLong(5));
+        }
+        return luckyBagReceive;
     }
 
     public long qryIsExpire(long giftId) throws Exception {
@@ -169,5 +184,123 @@ public class LuckyBagServiceImp implements LuckyBagService {
         } finally {
             JPrepare.close(ps, conn);
         }
+    }
+
+    public List<LuckyBagReceive> qryIsout(long giftId) throws Exception {
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        long time = System.currentTimeMillis();
+        ps = conn.prepareStatement("select redId,uid,money,time,failureTime from  ypiao.luckyBag_receive where  time >0  and bagId =? and failureTime> ? order by redId asc");
+        ps.setLong(1, giftId);
+        ps.setLong(2, time);
+        ResultSet rs = ps.executeQuery();
+        List<LuckyBagReceive> luckyBagReceives = new ArrayList<>();
+        while (rs.next()) {
+            LuckyBagReceive luckyBagReceive = new LuckyBagReceive();
+            luckyBagReceive.setRedId(rs.getInt(1));
+            luckyBagReceive.setUid(rs.getLong(2));
+            luckyBagReceive.setMoney(rs.getBigDecimal(3));
+            luckyBagReceive.setTime(rs.getLong(4));
+            luckyBagReceive.setFailureTime(rs.getLong(5));
+            luckyBagReceives.add(luckyBagReceive);
+        }
+        return luckyBagReceives;
+
+
+    }
+
+    public LuckyBagReceive qryIsNotout(long giftId) throws Exception {
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        long time = System.currentTimeMillis();
+        ps = conn.prepareStatement("select redId,uid,money,time,failureTime from  ypiao.luckyBag_receive where  time = 0 and uid = 0 and bagId =? and failureTime> ? order by redId asc limit 1");
+        ps.setLong(1, giftId);
+        ps.setLong(2, time);
+        ResultSet rs = ps.executeQuery();
+        LuckyBagReceive luckyBagReceive = new LuckyBagReceive();
+        while (rs.next()) {
+
+            luckyBagReceive.setRedId(rs.getInt(1));
+            luckyBagReceive.setUid(rs.getLong(2));
+            luckyBagReceive.setMoney(rs.getBigDecimal(3));
+            luckyBagReceive.setTime(rs.getLong(4));
+            luckyBagReceive.setFailureTime(rs.getLong(5));
+        }
+        return luckyBagReceive;
+    }
+
+    public void updateUidAndTime(LuckyBagReceive luckyBagReceive) throws Exception {
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement("update ypiao.luckyBag_receive set uid =?, time = ? where bagId = ? and redId = ?");
+            ps.setLong(1, luckyBagReceive.getUid());
+            ps.setLong(2, luckyBagReceive.getTime());
+            ps.setLong(3, luckyBagReceive.getBagId());
+            ps.setInt(4, luckyBagReceive.getRedId());
+            while (ps.executeUpdate() > 0) {
+                ps.close();
+                ps = conn.prepareStatement("update ypiao.luckyBag_bonus set total = total+?,remainMoney = remainMoney+? ,failureTime = ? where uid =?");
+                ps.setBigDecimal(1, luckyBagReceive.getMoney());
+                ps.setBigDecimal(2, luckyBagReceive.getMoney());
+                ps.setLong(3, luckyBagReceive.getTime());
+                ps.setLong(4, luckyBagReceive.getUid());
+                while (ps.executeUpdate() <= 0) {
+                    ps.close();
+                    ps = conn.prepareStatement("insert  into ypiao.luckyBag_bonus (total,remainMoney,failureTime,uid,) values (?,?,?,?)");
+                    ps.setBigDecimal(1, luckyBagReceive.getMoney());
+                    ps.setBigDecimal(2, luckyBagReceive.getMoney());
+                    ps.setLong(3, luckyBagReceive.getTime());
+                    ps.setLong(4, luckyBagReceive.getUid());
+                    ps.executeUpdate();
+                }
+            }
+        } finally {
+            JPrepare.close(ps, conn);
+        }
+    }
+
+    public void saveRmbs(LuckyBagReceive luckyBagReceive) throws Exception{
+        Connection conn = JPrepare.getConnection();
+        try {
+            UserRmbs r = this.getUserMoneyService().findMoneyByUid(conn, luckyBagReceive.getUid());
+            r.setSid(luckyBagReceive.getBagId()); // 索引信息
+            r.setTid(APState.TRADE_ADD5);
+            r.setWay(APState.EVENT_P015);
+            r.setEvent("通过福袋获得奖励金"+luckyBagReceive.getMoney());
+            r.add(luckyBagReceive.getMoney());
+            r.setTime(luckyBagReceive.getTime());
+            this.getUserMoneyService().share(r);
+        } finally {
+            JPrepare.close(conn);
+        }
+    }
+    public List<LuckyBagReceive> qryluckyBagHisAll(long uid, long giftId) throws Exception {
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        ps = conn.prepareStatement("select bagId , redId,uid,money,time ,failureTime  from ypiao.luckyBag_receive where bagId = ?  order by redId asc ");
+        ps.setLong(1, giftId);
+        ps.setLong(1, uid);
+        ResultSet rs = ps.executeQuery();
+        List<LuckyBagReceive> luckyBagReceives = new ArrayList<>();
+        while (rs.next()) {
+            LuckyBagReceive luckyBagReceive = new LuckyBagReceive();
+            luckyBagReceive.setBagId(rs.getLong(1));
+            luckyBagReceive.setUid(rs.getLong(2));
+            luckyBagReceive.setMoney(rs.getBigDecimal(3));
+            luckyBagReceive.setTime(rs.getLong(4));
+            luckyBagReceive.setFailureTime(rs.getLong(5));
+            luckyBagReceives.add(luckyBagReceive);
+        }
+        return luckyBagReceives;
+    }
+
+
+    public UserMoneyService getUserMoneyService() {
+        return userMoneyService;
+    }
+
+    public void setUserMoneyService(UserMoneyService userMoneyService) {
+        this.userMoneyService = userMoneyService;
     }
 }

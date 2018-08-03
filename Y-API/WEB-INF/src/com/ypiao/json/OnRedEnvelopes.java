@@ -1,11 +1,10 @@
 package com.ypiao.json;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ypiao.bean.AjaxInfo;
-import com.ypiao.bean.LuckyBagReceive;
-import com.ypiao.bean.LuckyBagSend;
-import com.ypiao.bean.UserSession;
+import com.ypiao.bean.*;
 import com.ypiao.service.LuckyBagService;
+import com.ypiao.service.UserMoneyService;
+import com.ypiao.util.APState;
 import com.ypiao.util.RadomLuckBag;
 import org.apache.log4j.Logger;
 
@@ -28,6 +27,7 @@ public class OnRedEnvelopes extends Action {
     private static Logger logger = Logger.getLogger(OnRedEnvelopes.class);
 
     private LuckyBagService luckyBagService;
+    private UserMoneyService userMoneyService;
 
     public OnRedEnvelopes() {
         super(true);
@@ -137,13 +137,13 @@ public class OnRedEnvelopes extends Action {
     }
 
     /*
-     * @NAME:luckyBagHis
-     * @DESCRIPTION:根据福袋ID，uid查询用户是否抽取
+     * @NAME:luckyBagSave
+     * @DESCRIPTION:领取福袋
      * @AUTHOR:luxh
      * @DATE:2018/8/3
      * @VERSION:1.0
      */
-    public String luckyBagHis(){
+    public String luckyBagSave(){
         logger.info("COME IN luckyBagHis");
         AjaxInfo ajaxInfo = this.getAjaxInfo();
         long uid = this.getLong("uid");
@@ -162,9 +162,60 @@ public class OnRedEnvelopes extends Action {
             return JSON;
         }
         //查询是否已经领取
-//        this.getLuckyBagService().qryluckyBagHis(uid,giftId);
-        //查询是否已经
+        LuckyBagReceive luckyBagReceive = null;
+        try {
+            luckyBagReceive = this.getLuckyBagService().qryluckyBagHis(uid,giftId);
+        } catch (Exception e) {
+            logger.error("查询福袋是否了领取失败，");
+            e.printStackTrace();
+        }
+        if(luckyBagReceive.getUid() == uid){
+            logger.error("该福袋已经领取过了");
+            ajaxInfo.addError("该福袋已经领取过了");
+            //TODO 返回该福袋领取历史
+            return JSON;
+        }
+        //查询是否已经全部领取
+        List<LuckyBagReceive>  luckyBagReceives = new ArrayList<>();
+        try {
+            luckyBagReceives =   this.getLuckyBagService().qryIsout(giftId);
+        } catch (Exception e) {
+            logger.info("查询福袋是否了全部领取失败");
+            e.printStackTrace();
+        }
+        if(luckyBagReceives.size()<=0){
+            logger.error(String.format("%s该福袋已经全部领取",giftId));
+            ajaxInfo.addError("该福袋已经全部领取");
+            return JSON;
+        }else{
+            logger.info(String.format("%s该福袋尚未全部领取",giftId));
+            LuckyBagReceive luckyBagReceive1 = new LuckyBagReceive();
+            try {
+                luckyBagReceive1 =   this.getLuckyBagService().qryIsNotout(giftId);
+            } catch (Exception e) {
+                logger.error("查询福袋尚未领取部分失败");
+                e.printStackTrace();
+            }
+            if(luckyBagReceive1.getMoney().doubleValue() >0){
+              synchronized (doLock(giftId)){
+                //保存领取福袋到receive
+                  luckyBagReceive1.setUid(uid);
+                  luckyBagReceive1.setTime(System.currentTimeMillis());
+                  try {
+                      logger.info("更新福袋记录到福袋记录表,luckyBagReceive1;"+luckyBagReceive1.toString());
+                      this.getLuckyBagService().updateUidAndTime(luckyBagReceive1);
+                      logger.info("增加用户余额,");
+                      this.getLuckyBagService().saveRmbs(luckyBagReceive1);
+                  } catch (Exception e) {
+                      logger.error("保存领取福袋失败");
+                      e.printStackTrace();
+                  }
 
+              }
+            }else{
+
+            }
+        }
 
 
 
@@ -176,5 +227,13 @@ public class OnRedEnvelopes extends Action {
 
     public void setLuckyBagService(LuckyBagService luckyBagService) {
         this.luckyBagService = luckyBagService;
+    }
+
+    public UserMoneyService getUserMoneyService() {
+        return userMoneyService;
+    }
+
+    public void setUserMoneyService(UserMoneyService userMoneyService) {
+        this.userMoneyService = userMoneyService;
     }
 }

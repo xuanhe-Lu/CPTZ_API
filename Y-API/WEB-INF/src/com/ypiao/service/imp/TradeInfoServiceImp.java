@@ -510,7 +510,7 @@ public class TradeInfoServiceImp extends AConfig implements TradeInfoService {
 				s.setUid(rs.getLong(2));
 				s.setPid(rs.getLong(3));
 				s.setCid(rs.getLong(4));
-//				s.setCid1(rs.getLong(5));
+				s.setCid1(rs.getLong(5));
 				s.setTid(rs.getInt(6));
 				s.setName(rs.getString(7));
 				s.setRate(rs.getBigDecimal(8));
