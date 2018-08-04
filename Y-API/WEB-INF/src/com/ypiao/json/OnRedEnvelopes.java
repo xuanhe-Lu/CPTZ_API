@@ -1,10 +1,13 @@
 package com.ypiao.json;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ypiao.bean.*;
+import com.ypiao.bean.AjaxInfo;
+import com.ypiao.bean.LuckyBagReceive;
+import com.ypiao.bean.LuckyBagSend;
+import com.ypiao.bean.UserSession;
 import com.ypiao.service.LuckyBagService;
+import com.ypiao.service.UserFaceService;
 import com.ypiao.service.UserMoneyService;
-import com.ypiao.util.APState;
 import com.ypiao.util.RadomLuckBag;
 import org.apache.log4j.Logger;
 
@@ -28,6 +31,7 @@ public class OnRedEnvelopes extends Action {
 
     private LuckyBagService luckyBagService;
     private UserMoneyService userMoneyService;
+    private UserFaceService userFaceService;
 
     public OnRedEnvelopes() {
         super(true);
@@ -44,8 +48,9 @@ public class OnRedEnvelopes extends Action {
     public String index() {
         logger.info("come in index");
         AjaxInfo json = new AjaxInfo();
-        UserSession us = this.getUserSession();
-        long uid = us.getUid();
+//        UserSession us = this.getUserSession();
+//        long uid = us.getUid();
+        long uid = this.getLong("uid");
         long giftId = this.getLong("giftid");
         //通过giftId 查找luckyBag_send 表中的数据
         LuckyBagSend luckyBagSend = new LuckyBagSend();
@@ -59,10 +64,12 @@ public class OnRedEnvelopes extends Action {
                 json.addError("该福袋已过期，请重新选择分享的福袋");
                 return JSON;
             }
+
         } catch (Exception e) {
             logger.error("查到福袋信息出错,请重新确认");
             e.printStackTrace();
             json.addError("查到福袋信息出错,请重新确认");
+            return JSON;
         }
         logger.info("开始生成随机红包");
         RadomLuckBag radomLuckBag = new RadomLuckBag();
@@ -109,30 +116,30 @@ public class OnRedEnvelopes extends Action {
         long uid = us.getUid();
         int type = this.getInt("type");//获取的数据类型 0，已失效，1，未失效
         long time = 1;
-        if(type == 1){
+        if (type == 1) {
             time = 1;
-        }else{
+        } else {
             time = System.currentTimeMillis();
         }
         List<LuckyBagSend> luckyBagSendList = null;
         try {
-            luckyBagSendList = this.getLuckyBagService().findPersionalBag(uid,time);
+            luckyBagSendList = this.getLuckyBagService().findPersionalBag(uid, time);
         } catch (Exception e) {
             e.printStackTrace();
         }
         JSONObject jsonObject = new JSONObject();
-        List<Map<String,Object>> mapList = new ArrayList<>();
+        List<Map<String, Object>> mapList = new ArrayList<>();
         for (LuckyBagSend luckyBagSend : luckyBagSendList) {
-            Map<String,Object> map = new HashMap<>();
-            map.put("money",luckyBagSend.getBagCount());//福袋总额
-            map.put("name","福袋红包");
-            map.put("startTime",luckyBagSend.getCreateTime());
+            Map<String, Object> map = new HashMap<>();
+            map.put("money", luckyBagSend.getBagCount());//福袋总额
+            map.put("name", "福袋红包");
+            map.put("startTime", luckyBagSend.getCreateTime());
             mapList.add(map);
         }
-        jsonObject.put("bagList",luckyBagSendList);
-        logger.info("json:"+jsonObject.toString());
-        json.addText("body",jsonObject.toString());
-        logger.info("json:"+json.toString());
+        jsonObject.put("bagList", luckyBagSendList);
+        logger.info("json:" + jsonObject.toString());
+        json.addText("body", jsonObject.toString());
+        logger.info("json:" + json.toString());
         return JSON;
     }
 
@@ -143,7 +150,7 @@ public class OnRedEnvelopes extends Action {
      * @DATE:2018/8/3
      * @VERSION:1.0
      */
-    public String luckyBagSave(){
+    public String luckyBagSave() {
         logger.info("COME IN luckyBagHis");
         AjaxInfo ajaxInfo = this.getAjaxInfo();
         long uid = this.getLong("uid");
@@ -156,7 +163,7 @@ public class OnRedEnvelopes extends Action {
             logger.error("查询福袋是否过期失败，");
             e.printStackTrace();
         }
-        if(result<=0){
+        if (result <= 0) {
             logger.info("该福袋已经过期了");
             ajaxInfo.addError("该福袋已经过期了");
             return JSON;
@@ -164,63 +171,120 @@ public class OnRedEnvelopes extends Action {
         //查询是否已经领取
         LuckyBagReceive luckyBagReceive = null;
         try {
-            luckyBagReceive = this.getLuckyBagService().qryluckyBagHis(uid,giftId);
+            luckyBagReceive = this.getLuckyBagService().qryluckyBagHis(uid, giftId);
         } catch (Exception e) {
             logger.error("查询福袋是否了领取失败，");
             e.printStackTrace();
         }
-        if(luckyBagReceive.getUid() == uid){
+        if (luckyBagReceive.getUid() == uid) {
             logger.error("该福袋已经领取过了");
             ajaxInfo.addError("该福袋已经领取过了");
             //TODO 返回该福袋领取历史
             return JSON;
         }
         //查询是否已经全部领取
-        List<LuckyBagReceive>  luckyBagReceives = new ArrayList<>();
+        List<LuckyBagReceive> luckyBagReceives = new ArrayList<>();
         try {
-            luckyBagReceives =   this.getLuckyBagService().qryIsout(giftId);
+            luckyBagReceives = this.getLuckyBagService().qryIsout(giftId);
         } catch (Exception e) {
             logger.info("查询福袋是否了全部领取失败");
             e.printStackTrace();
         }
-        if(luckyBagReceives.size()<=0){
-            logger.error(String.format("%s该福袋已经全部领取",giftId));
+        if (luckyBagReceives.size() <= 0) {
+            logger.error(String.format("%s该福袋已经全部领取", giftId));
             ajaxInfo.addError("该福袋已经全部领取");
             return JSON;
-        }else{
-            logger.info(String.format("%s该福袋尚未全部领取",giftId));
+        } else {
+            logger.info(String.format("%s该福袋尚未全部领取", giftId));
             LuckyBagReceive luckyBagReceive1 = new LuckyBagReceive();
             try {
-                luckyBagReceive1 =   this.getLuckyBagService().qryIsNotout(giftId);
+                luckyBagReceive1 = this.getLuckyBagService().qryIsNotout(giftId);
             } catch (Exception e) {
                 logger.error("查询福袋尚未领取部分失败");
                 e.printStackTrace();
             }
-            if(luckyBagReceive1.getMoney().doubleValue() >0){
-              synchronized (doLock(giftId)){
-                //保存领取福袋到receive
-                  luckyBagReceive1.setUid(uid);
-                  luckyBagReceive1.setTime(System.currentTimeMillis());
-                  try {
-                      logger.info("更新福袋记录到福袋记录表,luckyBagReceive1;"+luckyBagReceive1.toString());
-                      this.getLuckyBagService().updateUidAndTime(luckyBagReceive1);
-                      logger.info("增加用户余额,");
-                      this.getLuckyBagService().saveRmbs(luckyBagReceive1);
-                  } catch (Exception e) {
-                      logger.error("保存领取福袋失败");
-                      e.printStackTrace();
-                  }
-
-              }
-            }else{
-
+            if (luckyBagReceive1.getMoney().doubleValue() > 0) {
+                synchronized (doLock(giftId)) {
+                    //保存领取福袋到receive
+                    luckyBagReceive1.setUid(uid);
+                    luckyBagReceive1.setTime(System.currentTimeMillis());
+                    try {
+                        logger.info("更新福袋记录到福袋记录表,luckyBagReceive1;" + luckyBagReceive1.toString());
+                        this.getLuckyBagService().updateUidAndTime(luckyBagReceive1);
+                        logger.info("增加用户余额,");
+                        this.getLuckyBagService().saveRmbs(luckyBagReceive1);
+                        logger.info("增加用户余额结束");
+                        logger.info("查询该福袋的所有领取记录");
+                        Map<String, Object> objectMap = getbagHis(giftId);
+                        JSONObject jsonObject = new JSONObject(objectMap);
+                        ajaxInfo.success(API_OK);
+                        ajaxInfo.addText("body",jsonObject.toString());
+                    } catch (Exception e) {
+                        logger.error("保存领取福袋失败");
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                logger.info("红包金额为0");
             }
         }
 
 
-
         return JSON;
     }
+
+    /*
+     * @NAME:getbagHis
+     * @DESCRIPTION:获取福袋历史记录对外接口
+     * @AUTHOR:luxh
+     * @DATE:2018/8/4
+     * @VERSION:1.0
+     */
+    public String getbagHis(){
+        AjaxInfo ajaxInfo= this.getAjaxInfo();
+        long bagId = this.getLong("giftId");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject = getbagHis(bagId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ajaxInfo.success(API_OK);
+        ajaxInfo.addText("body",jsonObject.toString());
+        return  JSON;
+    }
+
+
+    /*
+     * @NAME:getbagHis
+     * @DESCRIPTION:获取福袋历史记录
+     * @AUTHOR:luxh
+     * @DATE:2018/8/4
+     * @VERSION:1.0
+     */
+    private JSONObject getbagHis(long giftId) throws Exception {
+        List<LuckyBagReceive> luckyBagReceiveList = this.getLuckyBagService().qryIsout(giftId);
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        for (LuckyBagReceive bagReceive : luckyBagReceiveList) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("redId", bagReceive.getRedId());
+            map.put("uid", bagReceive.getUid());
+            map.put("money", bagReceive.getMoney());
+            map.put("time", bagReceive.getTime());
+            int ver = this.getUserFaceService().findFaceByUid(bagReceive.getUid());
+            Map<String,Object>map1 = new HashMap<>();
+            map1.put("uid",bagReceive.getUid());
+            map1.put("ver",ver);
+            map.put("facer",map1);
+            list.add(map);
+        }
+        Map<String,Object> objectMap = new HashMap<>();
+        objectMap.put("bag",list);
+        JSONObject jsonObject = new JSONObject(objectMap);
+        return jsonObject;
+    }
+
     public LuckyBagService getLuckyBagService() {
         return luckyBagService;
     }
@@ -235,5 +299,13 @@ public class OnRedEnvelopes extends Action {
 
     public void setUserMoneyService(UserMoneyService userMoneyService) {
         this.userMoneyService = userMoneyService;
+    }
+
+    public UserFaceService getUserFaceService() {
+        return userFaceService;
+    }
+
+    public void setUserFaceService(UserFaceService userFaceService) {
+        this.userFaceService = userFaceService;
     }
 }

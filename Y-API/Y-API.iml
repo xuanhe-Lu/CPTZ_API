@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
   <component name="EclipseModuleManager">
-    <libelement value="file://WEB-INF/lib/aliyun-java-sdk-core-3.3.1.jar" />
-    <libelement value="file://WEB-INF/lib/aliyun-java-sdk-dysmsapi-1.0.0.jar" />
-    <libelement value="file://WEB-INF/lib/antgroup.jar" />
-    <libelement value="file://WEB-INF/lib/bcprov-jdk16-145.jar" />
-    <libelement value="file://WEB-INF/lib/freemarker-2.3.24.jar" />
-    <libelement value="file://WEB-INF/lib/gif4j.jar" />
-    <libelement value="file://WEB-INF/lib/JavaPNS_2.2.jar" />
-    <libelement value="file://WEB-INF/lib/javassist-3.11.0.GA.jar" />
-    <libelement value="file://WEB-INF/lib/jsoup-1.8.3.jar" />
-    <libelement value="file://WEB-INF/lib/log4j-1.2.16.jar" />
-    <libelement value="file://WEB-INF/lib/mail.jar" />
-    <libelement value="file://WEB-INF/lib/mysql-5.1.19-bin.jar" />
-    <libelement value="file://WEB-INF/lib/sunsw-all.jar" />
-    <libelement value="file://WEB-INF/lib/zxing.jar" />
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/aliyun-java-sdk-core-3.3.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/aliyun-java-sdk-dysmsapi-1.0.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/antgroup.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/bcprov-jdk16-145.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/freemarker-2.3.24.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/gif4j.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/JavaPNS_2.2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/javassist-3.11.0.GA.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/jsoup-1.8.3.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/log4j-1.2.16.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/mail.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/mysql-5.1.19-bin.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/sunsw-all.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/WEB-INF/lib/zxing.jar!/" />
     <libelement value="file://D:/oxygen/Tomcat9/lib/servlet-api.jar" />
     <libelement value="file://D:/oxygen/Tomcat9/lib/annotations-api.jar" />
     <libelement value="file://D:/oxygen/Tomcat9/lib/el-api.jar" />
@@ -31,9 +31,8 @@
       <sourceFolder url="file://$MODULE_DIR$/WEB-INF/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="module-library">
-      <library>
+      <library name="aliyun-java-sdk-core-3.3.1.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/WEB-INF/lib/aliyun-java-sdk-core-3.3.1.jar!/" />
         </CLASSES>
@@ -42,7 +41,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library>
+      <library name="aliyun-java-sdk-dysmsapi-1.0.0.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/WEB-INF/lib/aliyun-java-sdk-dysmsapi-1.0.0.jar!/" />
         </CLASSES>
@@ -51,7 +50,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library>
+      <library name="antgroup.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/WEB-INF/lib/antgroup.jar!/" />
         </CLASSES>
@@ -60,7 +59,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library>
+      <library name="bcprov-jdk16-145.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/WEB-INF/lib/bcprov-jdk16-145.jar!/" />
         </CLASSES>
@@ -69,7 +68,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library>
+      <library name="freemarker-2.3.24.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/WEB-INF/lib/freemarker-2.3.24.jar!/" />
         </CLASSES>
@@ -78,7 +77,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library>
+      <library name="gif4j.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/WEB-INF/lib/gif4j.jar!/" />
         </CLASSES>
@@ -87,16 +86,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/WEB-INF/lib/JavaPNS_2.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
+      <library name="javassist-3.11.0.GA.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/WEB-INF/lib/javassist-3.11.0.GA.jar!/" />
         </CLASSES>
@@ -105,7 +95,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library>
+      <library name="jsoup-1.8.3.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/WEB-INF/lib/jsoup-1.8.3.jar!/" />
         </CLASSES>
@@ -114,7 +104,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library>
+      <library name="log4j-1.2.16.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/WEB-INF/lib/log4j-1.2.16.jar!/" />
         </CLASSES>
@@ -123,7 +113,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library>
+      <library name="mail.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/WEB-INF/lib/mail.jar!/" />
         </CLASSES>
@@ -132,7 +122,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library>
+      <library name="mysql-5.1.19-bin.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/WEB-INF/lib/mysql-5.1.19-bin.jar!/" />
         </CLASSES>
@@ -141,7 +131,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library>
+      <library name="sunsw-all.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/WEB-INF/lib/sunsw-all.jar!/" />
         </CLASSES>
@@ -150,7 +140,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library>
+      <library name="zxing.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/WEB-INF/lib/zxing.jar!/" />
         </CLASSES>
@@ -158,6 +148,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -350,7 +341,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://D:/worksoft/apache-tomcat-9.0.10/lib/servlet-api.jar!/" />
+          <root url="jar://$MODULE_DIR$/WEB-INF/lib/fastjson-1.2.47.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

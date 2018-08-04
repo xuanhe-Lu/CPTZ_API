@@ -18,6 +18,16 @@ public class OnUserCash extends Action {
 
 	private UserInfoService userInfoService;
 
+	private LuckyBagService luckyBagService;
+
+	public LuckyBagService getLuckyBagService() {
+		return luckyBagService;
+	}
+
+	public void setLuckyBagService(LuckyBagService luckyBagService) {
+		this.luckyBagService = luckyBagService;
+	}
+
 	public OnUserCash() {
 		super(true);
 	}
@@ -67,25 +77,25 @@ public class OnUserCash extends Action {
 			if (min.compareTo(rmb) >= 1) {
 				json.addError(this.getText("user.error.881", new String[] { DF2.format(min) }));
 				System.out.println("json:"+json.toString());
- return JSON;
+ 				return JSON;
 			} // 检测支付密码
 			if (Pwd == null || Pwd.length() < 6) {
 				json.addError(this.getText("user.error.027"));
 				System.out.println("json:"+json.toString());
- return JSON;
+				return JSON;
 			} // 检测认证信息
 			UserSession us = this.getUserSession();
 			UserAuth a = this.getUserAuthService().findAuthByUid(us.getUid());
 			if (a == null) {
 				json.addError(this.getText("user.error.050"));
 				System.out.println("json:"+json.toString());
- return JSON;
+ 				return JSON;
 			} // 校对支付密码
 			Pwd = VeStr.toMD5(Pwd); // 格式化
 			if (!Pwd.equalsIgnoreCase(a.getPays())) {
 				json.addError(this.getText("user.error.028"));
 				System.out.println("json:"+json.toString());
- return JSON;
+ 				return JSON;
 			} // 检测账户信息
 			synchronized (doLock(us.getUid())) {
 				UserStatus s = this.getUserInfoService().findUserStatusByUid(us.getUid());
@@ -94,6 +104,12 @@ public class OnUserCash extends Action {
 				} else if (rmb.compareTo(s.getMb()) >= 1) {
 					json.addError(this.getText("user.error.884"));
 				} else {
+
+
+
+
+					// end
+
 					int m = (sys.getSYSCashByMonth() - s.getNm());
 					UserCash c = new UserCash();
 					c.setSid(VeStr.getUSid());
@@ -113,11 +129,50 @@ public class OnUserCash extends Action {
 						} else if (fee.compareTo(rmb) >= 0) {
 							json.addError(this.getText("user.error.880", new String[] { DF2.format(fee) }));
 							System.out.println("json:"+json.toString());
- return JSON;
+ 						return JSON;
 						} else {
 							c.setTmb(fee);
 						}
-					} // 到账金额
+					}
+
+
+					//增加对提现的判断，提现金额是否包括福袋金额，
+					LuckyBagBouns luckyBagBouns = new LuckyBagBouns();
+					try {
+						luckyBagBouns = this.getLuckyBagService().qryPersionnalBouns(us.getUid());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					BigDecimal bigDecimal = luckyBagBouns.getRemainMoney();
+					BigDecimal sub = s.getMb().subtract(rmb);
+					if(sub.compareTo(bigDecimal)>0){
+						logger.info("剩余金额大于福袋金额");
+					}else {
+						logger.info("剩余金额不大于福袋金额");
+						//提现增加对福袋领取现金的处理，要求必须要有在投产品，
+						if (s.getMc().doubleValue() > 0) {
+							logger.info("有在投产品，可以提取福袋现金");
+							//用户提现金额包含福袋现金，扣除包含部分的福袋现金
+							BigDecimal change = bigDecimal.subtract(sub);
+							try {
+								logger.info("修改用户福袋金额表");
+								this.getLuckyBagService().updateBouns(change,us.getUid());
+								logger.info("修改用户福袋金额表成功");
+							} catch (Exception e) {
+								logger.info("修改用户福袋金额表失败");
+								e.printStackTrace();
+							}
+						} else {
+							logger.info("没有在投产品，不可以提取福袋现金");
+							json.addError("没有在投产品,不能提取福袋现金");
+							return JSON;
+						}
+					}
+
+
+					// end
+
+					// 到账金额
 					c.setTmc(rmb.subtract(c.getTmb()));
 					c.setState(0); // 已申请
 					if (this.getUserCashService().commit(c)) {

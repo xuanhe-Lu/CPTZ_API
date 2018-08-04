@@ -830,6 +830,8 @@ public class OnUserBuy extends Action {
                 return JSON;
             } // 根据信息校验
             UserSession us = this.getUserSession();
+            long uid = us.getUid();
+//            long uid = 107624;
             boolean addM = false;
             int way = this.getInt("way");
             if (way >= 3) {
@@ -842,8 +844,8 @@ public class OnUserBuy extends Action {
                     return JSON;
                 }
                 c.setVercd(code); // 验证码
-                UserProto p = this.getUserChargeService().findProtoByUid(us.getUid());
-                synchronized (doLock(us.getUid())) {
+                UserProto p = this.getUserChargeService().findProtoByUid(uid);
+                synchronized (doLock(uid)) {
                     PayResponse res = null;
                     PayInfo pay = this.getPayInfoService().getInfoByFuiou();
                     if (p == null) {
@@ -893,6 +895,7 @@ public class OnUserBuy extends Action {
                             System.out.println("json:" + json.toString());
                             return JSON;
                         } else {
+                            //TODO
                             us.setMoney(r.getTotal());
                         }
                     } else {
@@ -910,7 +913,7 @@ public class OnUserBuy extends Action {
                 return JSON;
             } else {
                 Pwd = VeStr.toMD5(Pwd);
-                UserAuth a = this.getUserAuthService().findAuthByUid(us.getUid());
+                UserAuth a = this.getUserAuthService().findAuthByUid(uid);
                 if (a == null) {
                     s.setState(STATE_CHECK);
                     s.setStext("实名认证错误！");
@@ -954,10 +957,10 @@ public class OnUserBuy extends Action {
             }
             logger.info("执行投资信息操作");
             // 执行投资信息操作
-            synchronized (doLock(us.getUid())) {
+            synchronized (doLock(uid)) {
                 BigDecimal rmb = s.getTma();
                 LogOrder log = new LogOrder();
-
+                logger.info("uc:"+uc.toString()+"uc1:"+uc1.toString());
 
                 if (uc != null && uc1 != null) {
                     if (uc.getType() == uc1.getType()) {
@@ -1089,6 +1092,7 @@ public class OnUserBuy extends Action {
 
 
                 // 检测账户余额是否足
+                logger.info("rmb:"+rmb+",tmb："+s.getTmb());
                 if (rmb.compareTo(s.getTmb()) == 0) {
                     // Next todo
                 } else {
@@ -1097,7 +1101,7 @@ public class OnUserBuy extends Action {
                     return JSON;
                 }
                 log.setSid(s.getSid());
-                log.setUid(us.getUid());
+                log.setUid(uid);
                 log.setPid(s.getPid());
                 log.setTid(s.getTid());
                 log.setName(s.getName());
@@ -1149,17 +1153,17 @@ public class OnUserBuy extends Action {
                     long time = GMTime.currentTimeMillis();
                     UserVip userVip = new UserVip();
                     try {
-                        userVip = this.getUserVipService().queryVipLog(us.getUid(), time);
+                        userVip = this.getUserVipService().queryVipLog(uid, time);
                     } catch (Exception e) {
                         e.printStackTrace();
                         logger.error("获取用户VIP信息失败");
                     }
-                /*
-                catfood 计算方式
-                    普通会员 RMB*0.003*day
-                    白银会员 RMB*0.003*day*1.05
-                    黄金会员 RMB*0.003*day*1.10
-                 */
+                    /*
+                    catfood 计算方式
+                        普通会员 RMB*0.003*day
+                        白银会员 RMB*0.003*day*1.05
+                        黄金会员 RMB*0.003*day*1.10
+                     */
                     int catFoodInt = 0;
                     BigDecimal catFood = s.getTma().multiply(new BigDecimal(s.getRday())).multiply(new BigDecimal(1.00)).multiply(new BigDecimal(0.003));
                     if (userVip.getLevel() < 2) {
@@ -1168,7 +1172,7 @@ public class OnUserBuy extends Action {
                         catFoodInt = (catFood.multiply(new BigDecimal(1.10))).intValue();
                     }
                     try {
-                        this.getUserCatService().updateCatFood(us.getUid(), catFoodInt);
+                        this.getUserCatService().updateCatFood(uid, catFoodInt);
                     } catch (Exception e) {
                         logger.error("存储猫粮数据出错");
                         e.printStackTrace();
@@ -1176,7 +1180,7 @@ public class OnUserBuy extends Action {
                     }
                     //投标金额大于等于1000时，产生福袋，返回给前台福袋ID
                     if (s.getTma().compareTo(new BigDecimal("1000")) >= 0) {
-                        logger.info(String.format("[%s]投标金额[%s]大于等于1000元，满足福袋生成条件", us.getUid(), s.getTma()));
+                        logger.info(String.format("[%s]投标金额[%s]大于等于1000元，满足福袋生成条件", uid, s.getTma()));
                         LuckyBagCondfig luckyBagCondfig = new LuckyBagCondfig();
                         try {
                             luckyBagCondfig = this.getLuckyBagService().qryLuckyBagConfig(s.getTma());
@@ -1197,7 +1201,7 @@ public class OnUserBuy extends Action {
                                 //保存福袋到福袋发送表中，time暂时0，等待点击发送后更新time
                                 LuckyBagSend luckyBagSend = new LuckyBagSend();
                                 luckyBagSend.setBagId(bagId);
-                                luckyBagSend.setUid(us.getUid());
+                                luckyBagSend.setUid(uid);
                                 luckyBagSend.setLendMoney(s.getTma());
                                 luckyBagSend.setLastEnvelopes(luckyBagCondfig.getLastEnvelopes());
                                 luckyBagSend.setNum(luckyBagCondfig.getNum());
@@ -1216,7 +1220,7 @@ public class OnUserBuy extends Action {
                             logger.info("查询福袋规则失败");
                         }
                     } else {
-                        logger.info(String.format("[%s]投标金额[%s]小于1000元，不满足福袋生成条件", us.getUid(), s.getTma()));
+                        logger.info(String.format("[%s]投标金额[%s]小于1000元，不满足福袋生成条件", uid, s.getTma()));
                     }
                 } else {
                     if (state == 1) {

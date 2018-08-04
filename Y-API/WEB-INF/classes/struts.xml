@@ -87,12 +87,13 @@
 		<action name="user_cat" class="com.ypiao.json.OnUserCat" />
 		<action name="user_activity" class="com.ypiao.json.OnUserActivity" />
 		<action name="index_info" class="com.ypiao.json.OnInformation" />
+		<action name="red_envelopes" class="com.ypiao.json.OnRedEnvelopes" />
 
 	</package>
 	<package name="auth_json" extends="Pub-default" namespace="/js">
 		<default-interceptor-ref name="userAuthInterceptorStack" />
-		<action name="recharge" class="com.ypiao.json.OnRecharge" />
 		<action name="user_buy" class="com.ypiao.json.OnUserBuy" />
+		<action name="recharge" class="com.ypiao.json.OnRecharge" />
 		<action name="user_cash" class="com.ypiao.json.OnUserCash" />
 		<action name="user_order" class="com.ypiao.json.OnUserOrder" />
 		<action name="user_trade" class="com.ypiao.json.OnUserTrade" />

@@ -1,5 +1,6 @@
 package com.ypiao.service;
 
+import com.ypiao.bean.LuckyBagBouns;
 import com.ypiao.bean.LuckyBagCondfig;
 import com.ypiao.bean.LuckyBagReceive;
 import com.ypiao.bean.LuckyBagSend;
@@ -110,4 +111,7 @@ public interface LuckyBagService {
      * @VERSION:1.0
      */
     public void saveRmbs(LuckyBagReceive luckyBagReceive) throws Exception;
+
+    public LuckyBagBouns qryPersionnalBouns(long uid) throws Exception;
+    public  void updateBouns(BigDecimal rmb,long uid) throws Exception ;
 }

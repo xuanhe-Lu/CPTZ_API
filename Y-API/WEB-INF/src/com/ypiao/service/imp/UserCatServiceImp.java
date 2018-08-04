@@ -230,6 +230,7 @@ public class UserCatServiceImp implements UserCatService {
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
         try {
+            //TODO 增加猫新生时的字段，img等
             ps = conn.prepareStatement("insert into cat_status (uid,userName,catLevel,maturity) values (?,?,?,?)");
             ps.setLong(1, cat.getUid());
             ps.setString(2, cat.getUserName());
