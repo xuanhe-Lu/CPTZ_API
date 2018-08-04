@@ -195,7 +195,7 @@ public class OnUserVip extends Action {
                     rmbUps.setTime(System.currentTimeMillis());
                     this.getUserMoneyService().save(rmbUps);
                 }else {
-                    logger.info(String.format("[%s]不是会员,无法享受会员返现奖励"));
+                    logger.info(String.format("[%s]不是会员,无法享受会员返现奖励",uid));
                 }
 
             }

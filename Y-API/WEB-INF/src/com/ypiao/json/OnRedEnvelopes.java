@@ -47,7 +47,7 @@ public class OnRedEnvelopes extends Action {
     @Override
     public String index() {
         logger.info("come in index");
-        AjaxInfo json = new AjaxInfo();
+        AjaxInfo json = this.getAjaxInfo();
 //        UserSession us = this.getUserSession();
 //        long uid = us.getUid();
         long uid = this.getLong("uid");
@@ -60,8 +60,8 @@ public class OnRedEnvelopes extends Action {
             luckyBagSend = this.getLuckyBagService().findLuckBagInfo(giftId, uid, time);
             logger.info(String.format("查到福袋信息为:%s", luckyBagSend.toString()));
             if (luckyBagSend.getBagId() != giftId || luckyBagSend.getUid() != uid) {
-                logger.info("该福袋已过期，请重新选择分享的福袋");
-                json.addError("该福袋已过期，请重新选择分享的福袋");
+                logger.info("该福袋已过期或不存在，请重新选择分享的福袋");
+                json.addError("该福袋已过期或不存在，请重新选择分享的福袋");
                 return JSON;
             }
 
@@ -71,11 +71,24 @@ public class OnRedEnvelopes extends Action {
             json.addError("查到福袋信息出错,请重新确认");
             return JSON;
         }
+        //检查是否已经有该GIFTID的福袋在send
+        long bagId = 0;
+        try {
+            bagId = this.getLuckyBagService().findBagById(luckyBagSend.getBagId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(bagId == luckyBagSend.getBagId()) {
+            logger.info("该福袋已经生成过");
+            json.success(API_OK);
+            return JSON;
+        }
+        logger.info("未找到该福袋，可以生成");
         logger.info("开始生成随机红包");
         RadomLuckBag radomLuckBag = new RadomLuckBag();
         ConcurrentLinkedQueue<BigDecimal> bagList = new ConcurrentLinkedQueue<>();
         try {
-            bagList = radomLuckBag.getBag(luckyBagSend.getBagCount(), luckyBagSend.getNum(), luckyBagSend.getLastEnvelopes());
+            bagList = radomLuckBag.getBag(luckyBagSend.getBagCount(), luckyBagSend.getNum()-1, luckyBagSend.getLastEnvelopes());
         } catch (InterruptedException e) {
             logger.info("生成随机红包失败");
             e.printStackTrace();
@@ -90,14 +103,18 @@ public class OnRedEnvelopes extends Action {
             luckyBagReceive.setBagId(luckyBagSend.getBagId());
             luckyBagReceive.setFailureTime(time);
             luckyBagReceive.setRedId(num);
+            luckyBagReceive.setUid(uid);
             try {
                 logger.info("更新updateSend操作第" + num + "次，参数为:" + luckyBagReceive.toString());
                 this.getLuckyBagService().updateSend(luckyBagReceive);
+                num = num+1;
                 logger.info("更新updateSend操作完成");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        //更新luckyBag_send sendTime
+
         json.success(API_OK);
         return JSON;
     }
@@ -112,12 +129,13 @@ public class OnRedEnvelopes extends Action {
     public String persionalBag() {
         logger.info("come in persionalBag");
         AjaxInfo json = this.getAjaxInfo();
-        UserSession us = this.getUserSession();
-        long uid = us.getUid();
+//        UserSession us = this.getUserSession();
+//        long uid = us.getUid();
+        long uid = this.getLong("uid");
         int type = this.getInt("type");//获取的数据类型 0，已失效，1，未失效
         long time = 1;
         if (type == 1) {
-            time = 1;
+            time = 0;
         } else {
             time = System.currentTimeMillis();
         }
@@ -138,6 +156,7 @@ public class OnRedEnvelopes extends Action {
         }
         jsonObject.put("bagList", luckyBagSendList);
         logger.info("json:" + jsonObject.toString());
+        json.success(API_OK);
         json.addText("body", jsonObject.toString());
         logger.info("json:" + json.toString());
         return JSON;

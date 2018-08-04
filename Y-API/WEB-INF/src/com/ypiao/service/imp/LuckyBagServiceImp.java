@@ -5,6 +5,7 @@ import com.ypiao.data.JPrepare;
 import com.ypiao.service.LuckyBagService;
 import com.ypiao.service.UserMoneyService;
 import com.ypiao.util.APState;
+import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -22,9 +23,11 @@ import java.util.List;
  */
 public class LuckyBagServiceImp implements LuckyBagService {
     private UserMoneyService userMoneyService;
+    private static Logger log  = Logger.getLogger(LuckyBagServiceImp.class);
 
     @Override
     public LuckyBagCondfig qryLuckyBagConfig(BigDecimal money) throws Exception {
+
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
         try {
@@ -71,7 +74,7 @@ public class LuckyBagServiceImp implements LuckyBagService {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement("select bagId,uid,sid,lendMoney,num,lastEnvelopes,createTime,bagCount,failureTime from  ypiao.luckyBag_send where bagId = ?and uid = ? and sendtIme >=  0 and failureTime < ? limit = 1");
+            ps = conn.prepareStatement("select bagId,uid,sid,lendMoney,num,lastEnvelopes,createTime,bagCount,failureTime from  ypiao.luckyBag_send where bagId = ? and uid = ? and sendtIme >=  0 and failureTime < ? limit 1");
             ps.setLong(1, giftId);
             ps.setLong(2, uid);
             ps.setLong(3, time);
@@ -98,6 +101,7 @@ public class LuckyBagServiceImp implements LuckyBagService {
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
         try {
+
             ps = conn.prepareStatement("update ypiao.luckyBag_send set sendTime = ? and failureTime = ? where uid =? and  bagId = ?");
             ps.setLong(1, System.currentTimeMillis());
             ps.setLong(2, luckyBagReceive.getFailureTime());
@@ -105,12 +109,13 @@ public class LuckyBagServiceImp implements LuckyBagService {
             ps.setLong(4, luckyBagReceive.getBagId());
             if (ps.executeUpdate() > 0) {
                 ps.close();
-                ps = conn.prepareStatement("insert into ypiao.luckyBag_receive (bagId,redId,uid,getMoney,failureTime) values  (?,?,?,?,?)");
+//                ps = conn.prepareStatement("insert into ypiao.luckyBag_receive (bagId,redId,/*uid*/,money,failureTime) values  (?,?,/*?,*/?,?)");
+                ps = conn.prepareStatement("insert into ypiao.luckyBag_receive (bagId,redId,money,failureTime) values  (?,?,?,?)");
                 ps.setLong(1, luckyBagReceive.getBagId());
                 ps.setInt(2, luckyBagReceive.getRedId());
-                ps.setLong(3, luckyBagReceive.getUid());
-                ps.setBigDecimal(4, luckyBagReceive.getMoney());
-                ps.setLong(5, luckyBagReceive.getFailureTime());
+//                ps.setLong(3, luckyBagReceive.getUid());
+                ps.setBigDecimal(3, luckyBagReceive.getMoney());
+                ps.setLong(4, luckyBagReceive.getFailureTime());
                 ps.executeUpdate();
             }
         } finally {
@@ -318,13 +323,28 @@ public class LuckyBagServiceImp implements LuckyBagService {
     public  void updateBouns(BigDecimal rmb,long uid)throws Exception{
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
-        ps = conn.prepareStatement("update ypiao.luckyBag_bonus set total = total - ?, remainMoney = remainMoney - ? where uid = ?");
-        ps.setBigDecimal(1,rmb);
-        ps.setBigDecimal(2,rmb);
-        ps.setLong(3,uid);
-        ps.executeUpdate();
+        try {
+            ps = conn.prepareStatement("update ypiao.luckyBag_bonus set total = total - ?, remainMoney = remainMoney - ? where uid = ?");
+            ps.setBigDecimal(1,rmb);
+            ps.setBigDecimal(2,rmb);
+            ps.setLong(3,uid);
+            ps.executeUpdate();
+        } finally {
+            JPrepare.close(ps,conn);
+        }
     }
-
+    public long  findBagById(long giftId)  throws Exception{
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        ps = conn.prepareStatement("select bagId from  ypiao.luckyBag_receive where bagId = ?");
+        ps.setLong(1,giftId);
+        ResultSet rs =  ps.executeQuery();
+        long bagId = 0;
+        while(rs.next()){
+            bagId = rs.getLong(1);
+        }
+        return bagId;
+    }
     public UserMoneyService getUserMoneyService() {
         return userMoneyService;
     }

@@ -113,5 +113,7 @@ public interface LuckyBagService {
     public void saveRmbs(LuckyBagReceive luckyBagReceive) throws Exception;
 
     public LuckyBagBouns qryPersionnalBouns(long uid) throws Exception;
-    public  void updateBouns(BigDecimal rmb,long uid) throws Exception ;
+    public void updateBouns(BigDecimal rmb,long uid) throws Exception ;
+
+    public long  findBagById(long giftId)  throws Exception;
 }
