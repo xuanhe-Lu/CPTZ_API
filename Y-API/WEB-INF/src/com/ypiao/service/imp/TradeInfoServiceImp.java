@@ -221,7 +221,7 @@ public class TradeInfoServiceImp extends AConfig implements TradeInfoService {
 					/******************* xk add end ********************/
 					//TODO 购买成功，是否有邀请人，计算是否累计1W，如果都满足，则邀请人和被邀请人均获得38元现金奖励。
 					//先查询是否有邀请人。注册绑卡后总共投资了多少，是否大于1W，如果大于等于1W，则计算减去当前一笔，是否小于等于1W，如果是，则返现，否则为已经返现。
-					UserInfo userInfo = this.getUserInfoService().findUserInfoByUid(log.getUid());
+					/*UserInfo userInfo = this.getUserInfoService().findUserInfoByUid(log.getUid());
 					if(userInfo.getUid() == log.getUid() && userInfo.getUPS()>=100000){
 						logger.info(String.format("该用户【%s】有邀请人【%s】，满足活动条件",log.getUid(),userInfo.getUPS()));
 						BigDecimal sum = this.getUserMoneyService().findSumMoneyByUid(log.getUid());
@@ -364,7 +364,7 @@ public class TradeInfoServiceImp extends AConfig implements TradeInfoService {
 							logger.info("结束保存邀请人的活动奖励");
 						}
 
-					}
+					}*/
 				}
 			}
 			conn.commit();

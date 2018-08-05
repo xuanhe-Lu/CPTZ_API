@@ -95,7 +95,7 @@ public class OnRedEnvelopes extends Action {
         }
         logger.info("生成随机红包结束，开始存入数据库，bagList：" + bagList.toString());
         int count = bagList.size();
-        long time = luckyBagSend.getFailureTime() + System.currentTimeMillis();//失效时间
+        long time = 86400000 + System.currentTimeMillis();//失效时间
         int num = 1;
         for (BigDecimal bigDecimal : bagList) {
             LuckyBagReceive luckyBagReceive = new LuckyBagReceive();
@@ -134,14 +134,14 @@ public class OnRedEnvelopes extends Action {
         long uid = this.getLong("uid");
         int type = this.getInt("type");//获取的数据类型 0，已失效，1，未失效
         long time = 1;
-        if (type == 1) {
-            time = 0;
+      /*  if (type == 1) {
+            time = 1;
         } else {
             time = System.currentTimeMillis();
-        }
+        }*/
         List<LuckyBagSend> luckyBagSendList = null;
         try {
-            luckyBagSendList = this.getLuckyBagService().findPersionalBag(uid, time);
+            luckyBagSendList = this.getLuckyBagService().findPersionalBag(uid, type);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -190,14 +190,24 @@ public class OnRedEnvelopes extends Action {
         //查询是否已经领取
         LuckyBagReceive luckyBagReceive = null;
         try {
+            logger.info("查询福袋是否领取");
             luckyBagReceive = this.getLuckyBagService().qryluckyBagHis(uid, giftId);
         } catch (Exception e) {
-            logger.error("查询福袋是否了领取失败，");
+            logger.error("查询福袋是否领取失败，");
             e.printStackTrace();
         }
         if (luckyBagReceive.getUid() == uid) {
             logger.error("该福袋已经领取过了");
             ajaxInfo.addError("该福袋已经领取过了");
+            try {
+                Map<String, Object> objectMap = getbagHis(giftId);
+                JSONObject jsonObject = new JSONObject(objectMap);
+                ajaxInfo.success(API_OK);
+                ajaxInfo.addText("body",jsonObject.toString());
+                logger.info("ajaxInfo:"+ajaxInfo.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             //TODO 返回该福袋领取历史
             return JSON;
         }
@@ -206,8 +216,10 @@ public class OnRedEnvelopes extends Action {
         try {
             luckyBagReceives = this.getLuckyBagService().qryIsout(giftId);
         } catch (Exception e) {
-            logger.info("查询福袋是否了全部领取失败");
+            logger.info("查询福袋是否全部领取失败");
             e.printStackTrace();
+            ajaxInfo.addError("查询福袋是否全部领取失败");
+            return JSON;
         }
         if (luckyBagReceives.size() <= 0) {
             logger.error(String.format("%s该福袋已经全部领取", giftId));
@@ -221,6 +233,8 @@ public class OnRedEnvelopes extends Action {
             } catch (Exception e) {
                 logger.error("查询福袋尚未领取部分失败");
                 e.printStackTrace();
+                ajaxInfo.addError("查询福袋尚未领取部分失败");
+                return JSON;
             }
             if (luckyBagReceive1.getMoney().doubleValue() > 0) {
                 synchronized (doLock(giftId)) {
@@ -238,6 +252,8 @@ public class OnRedEnvelopes extends Action {
                         JSONObject jsonObject = new JSONObject(objectMap);
                         ajaxInfo.success(API_OK);
                         ajaxInfo.addText("body",jsonObject.toString());
+                        logger.info("ajaxInfo:"+ajaxInfo.toString());
+                        return JSON;
                     } catch (Exception e) {
                         logger.error("保存领取福袋失败");
                         e.printStackTrace();
@@ -248,7 +264,7 @@ public class OnRedEnvelopes extends Action {
             }
         }
 
-
+        ajaxInfo.success(API_OK);
         return JSON;
     }
 
@@ -282,7 +298,7 @@ public class OnRedEnvelopes extends Action {
      * @VERSION:1.0
      */
     private JSONObject getbagHis(long giftId) throws Exception {
-        List<LuckyBagReceive> luckyBagReceiveList = this.getLuckyBagService().qryIsout(giftId);
+        List<LuckyBagReceive> luckyBagReceiveList = this.getLuckyBagService().qryBagHis(giftId);
         List<Map<String, Object>> list = new ArrayList<>();
 
         for (LuckyBagReceive bagReceive : luckyBagReceiveList) {

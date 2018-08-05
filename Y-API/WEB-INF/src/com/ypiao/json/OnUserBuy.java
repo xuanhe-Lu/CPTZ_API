@@ -1191,7 +1191,7 @@ public class OnUserBuy extends Action {
                         }
                         if (luckyBagCondfig.getNum() > 1) {
                             logger.info("开始根据福袋产生规则产生福袋");
-                            BigDecimal amountBag = (s.getTma().multiply(new BigDecimal("0.0011")).multiply(new BigDecimal(s.getRday()))).setScale(2, BigDecimal.ROUND_HALF_UP);
+                            BigDecimal amountBag = (s.getTma().multiply(new BigDecimal("0.00011")).multiply(new BigDecimal(s.getRday()))).setScale(2, BigDecimal.ROUND_HALF_UP);
 //                            createBag(luckyBagCondfig.getNum(),amountBag,luckyBagCondfig.getLastEnvelopes());
 
 
