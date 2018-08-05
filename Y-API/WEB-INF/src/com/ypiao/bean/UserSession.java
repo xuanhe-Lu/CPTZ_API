@@ -22,7 +22,7 @@ public class UserSession implements AState, Serializable {
 
 	private long ups = 0;
 
-	private int vip = 0;
+	private int vip = 1;
 
 	private int facer = 0;
 

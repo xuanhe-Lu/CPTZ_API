@@ -27,7 +27,6 @@ public class LuckyBagServiceImp implements LuckyBagService {
 
     @Override
     public LuckyBagCondfig qryLuckyBagConfig(BigDecimal money) throws Exception {
-
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
         try {
@@ -36,7 +35,7 @@ public class LuckyBagServiceImp implements LuckyBagService {
             ps.setBigDecimal(2, money);
             ResultSet rs = ps.executeQuery();
             LuckyBagCondfig luckyBagCondfig = new LuckyBagCondfig();
-            while (rs.next()) {
+            while (rs.next()){
                 luckyBagCondfig.setNum(rs.getInt(1));
                 luckyBagCondfig.setLastEnvelopes(rs.getBigDecimal(2));
                 luckyBagCondfig.setFailureTime(rs.getLong(3));
@@ -223,9 +222,9 @@ public class LuckyBagServiceImp implements LuckyBagService {
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
         long time = System.currentTimeMillis();
-        ps = conn.prepareStatement("select redId,uid,money,time,failureTime from  ypiao.luckyBag_receive where  time >0 and uid >0 and bagId =?  order by redId asc");
+        ps = conn.prepareStatement("select redId,uid,money,time,failureTime from  ypiao.luckyBag_receive where  time > 0 and uid > 0 and bagId =?  order by redId asc");
         ps.setLong(1, giftId);
-        ps.setLong(2, time);
+//        ps.setLong(2, time);
         ResultSet rs = ps.executeQuery();
         List<LuckyBagReceive> luckyBagReceives = new ArrayList<>();
         while (rs.next()) {

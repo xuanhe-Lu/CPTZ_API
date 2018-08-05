@@ -48,9 +48,9 @@ public class OnRedEnvelopes extends Action {
     public String index() {
         logger.info("come in index");
         AjaxInfo json = this.getAjaxInfo();
-//        UserSession us = this.getUserSession();
-//        long uid = us.getUid();
-        long uid = this.getLong("uid");
+        UserSession us = this.getUserSession();
+        long uid = us.getUid();
+//        long uid = this.getLong("uid");
         long giftId = this.getLong("giftid");
         //通过giftId 查找luckyBag_send 表中的数据
         LuckyBagSend luckyBagSend = new LuckyBagSend();
@@ -129,9 +129,9 @@ public class OnRedEnvelopes extends Action {
     public String persionalBag() {
         logger.info("come in persionalBag");
         AjaxInfo json = this.getAjaxInfo();
-//        UserSession us = this.getUserSession();
-//        long uid = us.getUid();
-        long uid = this.getLong("uid");
+        UserSession us = this.getUserSession();
+        long uid = us.getUid();
+//        long uid = this.getLong("uid");
         int type = this.getInt("type");//获取的数据类型 0，已失效，1，未失效
         long time = 1;
       /*  if (type == 1) {
@@ -276,8 +276,8 @@ public class OnRedEnvelopes extends Action {
      * @VERSION:1.0
      */
     public String getbagHis(){
+        long bagId = this.getLong("giftid");
         AjaxInfo ajaxInfo= this.getAjaxInfo();
-        long bagId = this.getLong("giftId");
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject = getbagHis(bagId);
