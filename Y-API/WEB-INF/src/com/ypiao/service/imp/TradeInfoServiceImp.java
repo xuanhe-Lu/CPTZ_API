@@ -171,6 +171,7 @@ public class TradeInfoServiceImp extends AConfig implements TradeInfoService {
 	}
 
 	public int commit(ProdInfo info, LogOrder log, UserCoupon uc) throws SQLException {
+		logger.info("come in commit");
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;
 		//ResultSet rs = null;
@@ -186,6 +187,7 @@ public class TradeInfoServiceImp extends AConfig implements TradeInfoService {
 				if (log.getTmb().compareTo(r.getTotal()) >= 1) {
 					// 余额不足
 				} else if (this.getUserInfoService().updateSubTZ(conn, log.getUid(), log.getTmb(), log.getYma(), time) >= 1) {
+					logger.info("余额充足");
 					log.setGmtA(time);
 					log.setGmtD(time);
 					log.setTime(time);
@@ -197,8 +199,14 @@ public class TradeInfoServiceImp extends AConfig implements TradeInfoService {
 					r.sub(log.getTmb());
 					r.setTime(time);
 					this.getUserMoneyService().insert(conn, r);
+					logger.info("更新优惠券1，"+log.getCid());
 					if (log.getCid() >= USER_UID_MAX) {
 						this.getUserCouponService().update(conn, log.getCid(), log.getUid(), log.getSid(), time);
+					}
+					//增加对会员权益日的叠加优惠券的使用
+					logger.info("更新优惠券2，"+log.getCid1());
+					if (log.getCid1() >= USER_UID_MAX) {
+						this.getUserCouponService().update(conn, log.getCid1(), log.getUid(), log.getSid(), time);
 					}
 					log.setState(SALE_A1);
 					this.getUserOrderService().adds(conn, log);

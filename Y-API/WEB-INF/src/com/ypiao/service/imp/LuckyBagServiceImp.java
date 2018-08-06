@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,7 +53,7 @@ public class LuckyBagServiceImp implements LuckyBagService {
         PreparedStatement ps = null;
         int i = 0;
         try {
-            ps = conn.prepareStatement("insert into ypiao.luckyBag_send (bagId,uid,sid,lendMoney,num,lastEnvelopes,createTime,bagCount) values (?,?,?,?,?,?,?,?)");
+            ps = conn.prepareStatement("insert into ypiao.luckyBag_send (bagId,uid,sid,lendMoney,num,lastEnvelopes,createTime,bagCount,failureTime) values (?,?,?,?,?,?,?,?,?)");
             ps.setLong(1, luckyBagSend.getBagId());
             ps.setLong(2, luckyBagSend.getUid());
             ps.setLong(3, luckyBagSend.getSid());
@@ -60,6 +62,15 @@ public class LuckyBagServiceImp implements LuckyBagService {
             ps.setBigDecimal(6, luckyBagSend.getLastEnvelopes());
             ps.setLong(7, luckyBagSend.getCreateTime());
             ps.setBigDecimal(8, luckyBagSend.getBagCount());
+            Calendar calendar = Calendar.getInstance(); //得到日历
+            //获取当前时间
+            Date now = new Date();
+            calendar.setTime(now);//把当前时间赋给日历
+            calendar.add(Calendar.YEAR, 1);  //设置为1年后
+            Date dateAfter = calendar.getTime();
+            long time = dateAfter.getTime();
+            log.info("failureTime:"+dateAfter);
+            ps.setLong(9, time);
             i = ps.executeUpdate();
             return i;
         } finally {

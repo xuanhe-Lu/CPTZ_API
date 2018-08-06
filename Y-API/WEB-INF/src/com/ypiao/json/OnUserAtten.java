@@ -158,9 +158,12 @@ public class OnUserAtten extends Action {
         long uid = us.getUid();
 //        int count = this.getInt("count");
         int count = 0;
-        count = this.getUserAttenService().findUserCountByMaxTime();
-        count = count + 1;
-        int countRe = this.getUserAttenService().save(time, uid, count);
+        int countRe = 1;
+        synchronized (doLock(uid)) {
+            count = this.getUserAttenService().findUserCountByMaxTime();
+            count = count + 1;
+            countRe = this.getUserAttenService().save(time, uid, count);
+        }
         if (countRe == 1) {
             //签到成功，则查询用户会员等级，
             int vip = us.getVIP();

@@ -18,6 +18,8 @@ public class LogOrder implements Serializable {
 
 	private long cid = 0;
 
+	private long cid1 = 0;
+
 	private int tid = 0;
 
 	private String name;
@@ -312,5 +314,13 @@ public class LogOrder implements Serializable {
 
 	public void setTime(long time) {
 		this.time = time;
+	}
+
+	public long getCid1() {
+		return cid1;
+	}
+
+	public void setCid1(long cid1) {
+		this.cid1 = cid1;
 	}
 }

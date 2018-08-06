@@ -8,6 +8,7 @@ import com.ypiao.bean.UserSession;
 import com.ypiao.service.LuckyBagService;
 import com.ypiao.service.UserFaceService;
 import com.ypiao.service.UserMoneyService;
+import com.ypiao.util.GMTime;
 import com.ypiao.util.RadomLuckBag;
 import org.apache.log4j.Logger;
 
@@ -50,7 +51,7 @@ public class OnRedEnvelopes extends Action {
         AjaxInfo json = this.getAjaxInfo();
         UserSession us = this.getUserSession();
         long uid = us.getUid();
-//        long uid = this.getLong("uid");
+//       uid = this.getLong("uid");
         long giftId = this.getLong("giftid");
         //通过giftId 查找luckyBag_send 表中的数据
         LuckyBagSend luckyBagSend = new LuckyBagSend();
@@ -131,7 +132,8 @@ public class OnRedEnvelopes extends Action {
         AjaxInfo json = this.getAjaxInfo();
         UserSession us = this.getUserSession();
         long uid = us.getUid();
-//        long uid = this.getLong("uid");
+        logger.info("uid:"+uid);
+//        uid = this.getLong("uid");
         int type = this.getInt("type");//获取的数据类型 0，已失效，1，未失效
         long time = 1;
       /*  if (type == 1) {
@@ -141,7 +143,9 @@ public class OnRedEnvelopes extends Action {
         }*/
         List<LuckyBagSend> luckyBagSendList = null;
         try {
+            logger.info("come in findPersionalBag");
             luckyBagSendList = this.getLuckyBagService().findPersionalBag(uid, type);
+            logger.info("end findPersionalBag");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -149,12 +153,18 @@ public class OnRedEnvelopes extends Action {
         List<Map<String, Object>> mapList = new ArrayList<>();
         for (LuckyBagSend luckyBagSend : luckyBagSendList) {
             Map<String, Object> map = new HashMap<>();
-            map.put("money", luckyBagSend.getBagCount());//福袋总额
+            map.put("bagCount", luckyBagSend.getBagCount());//福袋总额
+            map.put("bagId",luckyBagSend.getBagId());
             map.put("name", "福袋红包");
-            map.put("startTime", luckyBagSend.getCreateTime());
+            map.put("lendMoney", luckyBagSend.getLendMoney());
+            map.put("num", luckyBagSend.getNum());
+            map.put("startTime", GMTime.format(luckyBagSend.getCreateTime(), GMTime.CHINA));
+//            map.put("startTime", GMTime.format(luckyBagSend.getSendTime(), GMTime.CHINA));
+            map.put("failureTime", GMTime.format(luckyBagSend.getFailureTime(), GMTime.CHINA));
             mapList.add(map);
         }
-        jsonObject.put("bagList", luckyBagSendList);
+//        jsonObject.put("bagList", luckyBagSendList);
+        jsonObject.put("bagList", mapList);
         logger.info("json:" + jsonObject.toString());
         json.success(API_OK);
         json.addText("body", jsonObject.toString());

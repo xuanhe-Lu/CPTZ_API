@@ -960,11 +960,12 @@ public class OnUserBuy extends Action {
             synchronized (doLock(uid)) {
                 BigDecimal rmb = s.getTma();
                 LogOrder log = new LogOrder();
-                logger.info("uc:"+uc.toString()+"uc1:"+uc1.toString());
+                logger.info("uc:"+uc+"uc1:"+uc1);
 
                 if (uc != null && uc1 != null) {
                     if (uc.getType() == uc1.getType()) {
                         log.setCid(uc.getSid());
+                        log.setCid1(uc1.getSid());
                         switch (uc.getType()) {
                             case 1: // 体验券
                                 log.setWay("体验金购买");
@@ -984,8 +985,8 @@ public class OnUserBuy extends Action {
                             s.setTmd(s.getTma().subtract(rmb));
                         }
                     } else {
-                        s.setCid(uc.getSid());
-                        s.setCid1(uc1.getSid());
+                        log.setCid(uc.getSid());
+                        log.setCid1(uc1.getSid());
                         switch (uc.getType()) {
                             case 1: // 体验券
                                 log.setWay("体验金购买");
@@ -1019,7 +1020,7 @@ public class OnUserBuy extends Action {
                         }
                     }
                 } else if (uc != null) {
-                    s.setCid(uc.getSid());
+                    log.setCid(uc.getSid());
                     switch (uc.getType()) {
                         case 1: // 体验券
                             log.setWay("体验金购买");
