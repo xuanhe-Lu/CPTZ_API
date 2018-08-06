@@ -163,12 +163,12 @@ public class OnUserCat extends Action {
                             dateNew = MonthFound.getDataFormat(time, "yyyy-MM-dd");
                             name = "分享";
                             if (date.equals(dateNew)) {
-                                log.info(String.format("[%s]会员今日已分享过了,不在获得猫粮", uid));
+                                log.info(String.format("[%s]会员今日已分享过了,不再获得猫粮", uid));
                                 json.success(API_OK);
                                 json.add("body");
                                 json.append("type", type);
                                 json.append("state", 0);
-                                json.append("msg", String.format("您今日已分享过了,不在获得猫粮"));
+                                json.append("msg", String.format("您今日已分享过了,不再获得猫粮"));
                                 System.out.println("json:" + json.toString());
                                 return JSON;
                             }
@@ -179,12 +179,12 @@ public class OnUserCat extends Action {
                             dateNew = MonthFound.getDataFormat(time, "yyyy-MM-dd");
                             name = "洗澡";
                             if (date.equals(dateNew)) {
-                                log.info(String.format("[%s]会员今日已给[%s]猫洗过澡了,不在获得猫粮", uid, id));
+                                log.info(String.format("[%s]会员今日已给[%s]猫洗过澡了,不再获得猫粮", uid, id));
                                 json.success(API_OK);
                                 json.add("body");
                                 json.append("type", type);
                                 json.append("state", 0);
-                                json.append("msg", String.format("您今日已给猫洗过澡了,不在获得猫粮"));
+                                json.append("msg", String.format("您今日已给猫洗过澡了,不再获得猫粮"));
                                 System.out.println("json:" + json.toString());
                                 return JSON;
                             }

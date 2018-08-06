@@ -108,7 +108,7 @@ public class OnRedEnvelopes extends Action {
         int count = bagList.size();
         long time = 86400000 + System.currentTimeMillis();//失效时间
         int num = 1;
-        BigDecimal moneyMax = new BigDecimal("#.00");
+        BigDecimal moneyMax = new BigDecimal("0.00");
         for (BigDecimal bigDecimal : bagList) {
             LuckyBagReceive luckyBagReceive = new LuckyBagReceive();
             luckyBagReceive.setMoney(bigDecimal);
@@ -131,7 +131,7 @@ public class OnRedEnvelopes extends Action {
         json.success(API_OK);
         json.add("body");
         json.append("count",count);
-        json.append("moneyMax",moneyMax);
+        json.append("moneyMax",moneyMax.setScale(2,BigDecimal.ROUND_HALF_UP));
         return JSON;
     }
 
@@ -173,6 +173,9 @@ public class OnRedEnvelopes extends Action {
             map.put("name", "福袋红包");
             map.put("lendMoney", luckyBagSend.getLendMoney());
             map.put("num", luckyBagSend.getNum());
+            //TODO
+            map.put("moneyMax", (luckyBagSend.getBagCount().multiply(luckyBagSend.getLastEnvelopes())).setScale(2, BigDecimal.ROUND_HALF_UP));
+
             map.put("startTime", GMTime.format(luckyBagSend.getCreateTime(), GMTime.CHINA));
 //            map.put("startTime", GMTime.format(luckyBagSend.getSendTime(), GMTime.CHINA));
             map.put("failureTime", GMTime.format(luckyBagSend.getFailureTime(), GMTime.CHINA));
@@ -256,6 +259,7 @@ public class OnRedEnvelopes extends Action {
         if (luckyBagReceives.size() <= 0) {
             logger.error(String.format("%s该福袋已经全部领取", giftId));
             ajaxInfo.success(API_OK);
+            ajaxInfo.add("body");
             ajaxInfo.append("msg","该福袋已经全部领取");
             ajaxInfo.append("state",2);//全部领取.
             return JSON;
@@ -283,11 +287,11 @@ public class OnRedEnvelopes extends Action {
                         logger.info("增加用户余额结束");
                         logger.info("查询该福袋的所有领取记录");
                         Map<String, Object> objectMap = getbagHis(giftId);
+                        objectMap.put("money",luckyBagReceive1.getMoney());
+                        objectMap.put("state",3);//领取成功
                         JSONObject jsonObject = new JSONObject(objectMap);
                         ajaxInfo.success(API_OK);
                         ajaxInfo.addText("body",jsonObject.toString());
-                        ajaxInfo.append("money",luckyBagReceive1.getMoney());
-                        ajaxInfo.append("state",3);//领取成功
                         logger.info("ajaxInfo:"+ajaxInfo.toString());
                         return JSON;
                     } catch (Exception e) {

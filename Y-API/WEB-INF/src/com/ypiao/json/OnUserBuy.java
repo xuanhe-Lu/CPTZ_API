@@ -1218,6 +1218,8 @@ public class OnUserBuy extends Action {
                                 jsonObject.put("bagId",bagId );
                                 jsonObject.put("bagCount",luckyBagSend.getBagCount());
                                 jsonObject.put("lastEnvelopes",luckyBagSend.getLastEnvelopes());
+                                //TODO 增加红包最大金额
+                                jsonObject.put("moneyMax", (luckyBagSend.getBagCount().multiply(luckyBagSend.getLastEnvelopes())).setScale(2, BigDecimal.ROUND_HALF_UP));
                                 json.addText("luckyBag",jsonObject.toString());
                             } catch (Exception e) {
                                 logger.error("生成随机红包失败");
