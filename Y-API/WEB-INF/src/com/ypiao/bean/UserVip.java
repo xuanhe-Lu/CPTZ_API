@@ -20,7 +20,7 @@ public class UserVip  implements Serializable {
     private long uid;
     private long startTime;
     private long endTime;
-    private BigDecimal receipt;//会员收益
+    private BigDecimal receipt = new BigDecimal( "1.00");//会员收益
     private String remark;
     private int memberBenefits = 24;//会员权益日
 

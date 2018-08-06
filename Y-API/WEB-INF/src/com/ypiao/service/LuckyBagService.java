@@ -104,6 +104,7 @@ public interface LuckyBagService {
      * @VERSION:1.0
      */
     public LuckyBagReceive qryIsNotout(long giftId) throws Exception;
+    public LuckyBagReceive findMaxMoney(long giftId) throws Exception;
     /*
      * @NAME:updateUidAndTime
      * @DESCRIPTION:更新福袋领取记录

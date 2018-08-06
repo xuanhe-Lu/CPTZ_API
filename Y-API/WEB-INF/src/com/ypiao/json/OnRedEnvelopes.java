@@ -51,7 +51,7 @@ public class OnRedEnvelopes extends Action {
         AjaxInfo json = this.getAjaxInfo();
         UserSession us = this.getUserSession();
         long uid = us.getUid();
-//       uid = this.getLong("uid");
+//       long uid = this.getLong("uid");
         long giftId = this.getLong("giftid");
         //通过giftId 查找luckyBag_send 表中的数据
         LuckyBagSend luckyBagSend = new LuckyBagSend();
@@ -80,8 +80,18 @@ public class OnRedEnvelopes extends Action {
             e.printStackTrace();
         }
         if(bagId == luckyBagSend.getBagId()) {
+            LuckyBagReceive luckyBagReceive = new LuckyBagReceive();
+            try {
+                luckyBagReceive = this.getLuckyBagService().findMaxMoney(bagId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             logger.info("该福袋已经生成过");
             json.success(API_OK);
+            json.add("body");
+            json.append("count",luckyBagReceive.getRedId());
+            json.append("moneyMax",luckyBagReceive.getMoney());
             return JSON;
         }
         logger.info("未找到该福袋，可以生成");
@@ -98,6 +108,7 @@ public class OnRedEnvelopes extends Action {
         int count = bagList.size();
         long time = 86400000 + System.currentTimeMillis();//失效时间
         int num = 1;
+        BigDecimal moneyMax = new BigDecimal("#.00");
         for (BigDecimal bigDecimal : bagList) {
             LuckyBagReceive luckyBagReceive = new LuckyBagReceive();
             luckyBagReceive.setMoney(bigDecimal);
@@ -105,6 +116,7 @@ public class OnRedEnvelopes extends Action {
             luckyBagReceive.setFailureTime(time);
             luckyBagReceive.setRedId(num);
             luckyBagReceive.setUid(uid);
+            moneyMax = luckyBagReceive.getMoney();
             try {
                 logger.info("更新updateSend操作第" + num + "次，参数为:" + luckyBagReceive.toString());
                 this.getLuckyBagService().updateSend(luckyBagReceive);
@@ -117,6 +129,9 @@ public class OnRedEnvelopes extends Action {
         //更新luckyBag_send sendTime
 
         json.success(API_OK);
+        json.add("body");
+        json.append("count",count);
+        json.append("moneyMax",moneyMax);
         return JSON;
     }
 
@@ -194,7 +209,11 @@ public class OnRedEnvelopes extends Action {
         }
         if (result <= 0) {
             logger.info("该福袋已经过期了");
-            ajaxInfo.addError("该福袋已经过期了");
+            ajaxInfo.success(API_OK);
+            ajaxInfo.add("body");
+            ajaxInfo.append("msg","该福袋已经过期了");
+            ajaxInfo.append("state",0);//过期
+            logger.info("ajaxInfo:"+ajaxInfo);
             return JSON;
         }
         //查询是否已经领取
@@ -208,9 +227,12 @@ public class OnRedEnvelopes extends Action {
         }
         if (luckyBagReceive.getUid() == uid) {
             logger.error("该福袋已经领取过了");
-            ajaxInfo.addError("该福袋已经领取过了");
+            ajaxInfo.success(API_OK);
+
             try {
                 Map<String, Object> objectMap = getbagHis(giftId);
+                objectMap.put("state",1);//已领取
+                objectMap.put("msg","该福袋已经领取过了");//已领取
                 JSONObject jsonObject = new JSONObject(objectMap);
                 ajaxInfo.success(API_OK);
                 ajaxInfo.addText("body",jsonObject.toString());
@@ -233,7 +255,9 @@ public class OnRedEnvelopes extends Action {
         }
         if (luckyBagReceives.size() <= 0) {
             logger.error(String.format("%s该福袋已经全部领取", giftId));
-            ajaxInfo.addError("该福袋已经全部领取");
+            ajaxInfo.success(API_OK);
+            ajaxInfo.append("msg","该福袋已经全部领取");
+            ajaxInfo.append("state",2);//全部领取.
             return JSON;
         } else {
             logger.info(String.format("%s该福袋尚未全部领取", giftId));
@@ -262,6 +286,8 @@ public class OnRedEnvelopes extends Action {
                         JSONObject jsonObject = new JSONObject(objectMap);
                         ajaxInfo.success(API_OK);
                         ajaxInfo.addText("body",jsonObject.toString());
+                        ajaxInfo.append("money",luckyBagReceive1.getMoney());
+                        ajaxInfo.append("state",3);//领取成功
                         logger.info("ajaxInfo:"+ajaxInfo.toString());
                         return JSON;
                     } catch (Exception e) {
@@ -310,13 +336,20 @@ public class OnRedEnvelopes extends Action {
     private JSONObject getbagHis(long giftId) throws Exception {
         List<LuckyBagReceive> luckyBagReceiveList = this.getLuckyBagService().qryBagHis(giftId);
         List<Map<String, Object>> list = new ArrayList<>();
-
+        LuckyBagReceive luckyBagReceive2 = this.getLuckyBagService().findMaxMoney(giftId);
+        int count = luckyBagReceive2.getRedId();
+        int num = 1;
         for (LuckyBagReceive bagReceive : luckyBagReceiveList) {
+            int state = 0;
+            if(count == num){
+                state =  1;
+            }
             Map<String, Object> map = new HashMap<>();
             map.put("redId", bagReceive.getRedId());
             map.put("uid", bagReceive.getUid());
             map.put("money", bagReceive.getMoney());
             map.put("time", bagReceive.getTime());
+            map.put("state", state);
             int ver = this.getUserFaceService().findFaceByUid(bagReceive.getUid());
             Map<String,Object>map1 = new HashMap<>();
             map1.put("uid",bagReceive.getUid());
@@ -329,6 +362,9 @@ public class OnRedEnvelopes extends Action {
         JSONObject jsonObject = new JSONObject(objectMap);
         return jsonObject;
     }
+
+
+
 
     public LuckyBagService getLuckyBagService() {
         return luckyBagService;

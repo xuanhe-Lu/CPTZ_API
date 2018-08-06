@@ -1,5 +1,6 @@
 package com.ypiao.json;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ypiao.bean.*;
 import com.ypiao.fuiou.*;
 import com.ypiao.service.*;
@@ -1179,6 +1180,7 @@ public class OnUserBuy extends Action {
                         e.printStackTrace();
                         json.addError("存储猫粮数据出错,请稍后再试");
                     }
+                    json.append("catFood",catFoodInt);
                     //投标金额大于等于1000时，产生福袋，返回给前台福袋ID
                     if (s.getTma().compareTo(new BigDecimal("1000")) >= 0) {
                         logger.info(String.format("[%s]投标金额[%s]大于等于1000元，满足福袋生成条件", uid, s.getTma()));
@@ -1197,7 +1199,6 @@ public class OnUserBuy extends Action {
 
 
                             try {
-
                                 long bagId = VeStr.getUSid();
                                 //保存福袋到福袋发送表中，time暂时0，等待点击发送后更新time
                                 LuckyBagSend luckyBagSend = new LuckyBagSend();
@@ -1212,7 +1213,12 @@ public class OnUserBuy extends Action {
                                 logger.info("luckyBagSend:"+luckyBagSend.toString());
                                 this.getLuckyBagService().insertLuckBag(luckyBagSend);
                                 logger.info("保存福袋成功");
-                                json.append("luckyBag",bagId);
+                                JSONObject jsonObject = new JSONObject();
+                                jsonObject.put("num",luckyBagSend.getNum() );
+                                jsonObject.put("bagId",bagId );
+                                jsonObject.put("bagCount",luckyBagSend.getBagCount());
+                                jsonObject.put("lastEnvelopes",luckyBagSend.getLastEnvelopes());
+                                json.addText("luckyBag",jsonObject.toString());
                             } catch (Exception e) {
                                 logger.error("生成随机红包失败");
                                 e.printStackTrace();
