@@ -46,6 +46,8 @@ public class AtUserForget extends Action {
 		String fix = "+86";
 		String Pwd = this.getString( "pwd" );
 		String code = this.getString( "vcode" );
+		// TODO 验证码写死 测试用
+		code = String.valueOf(123456);
 		String mobile = this.getString( "mobile" );
 		
 		try {

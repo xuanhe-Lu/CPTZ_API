@@ -91,6 +91,8 @@ public class OnUserBank extends Action {
 	public String bind() {
 		AjaxInfo json = this.getAjaxInfo();
 		String code = this.getString("vcode");
+		// TODO 验证码写死 测试用
+		code = String.valueOf(123456);
 		String cardNo = this.getString("cardno");
 		try {
 			if (code == null || code.length() < 4) {
@@ -132,6 +134,8 @@ public class OnUserBank extends Action {
 	public String change() {
 		AjaxInfo json = this.getAjaxInfo();
 		String code = this.getString("vcode");
+		// TODO 验证码写死 测试用
+		code = String.valueOf(123456);
 		String cardNo = this.getString("cardno");
 		String mobile = this.getString("mobile");
 		try {
@@ -204,7 +208,9 @@ public class OnUserBank extends Action {
 			long time = GMTime.currentTimeMillis();
 			if (code == null || code.length() < 4) {
 				if ((time - b.getTime()) > USER_TIMEOUT) {
-					b.setCode(String.valueOf(RandomUtils.randomNumeric(100000, 999999)));
+//					b.setCode(String.valueOf(RandomUtils.randomNumeric(100000, 999999)));
+					//TODO 测试用，暂时写死 123456
+					b.setCode(String.valueOf(123456));
 				}
 				this.getUserBankService().saveBank(b);
 				this.getSenderService().sendByBank(b.getMobile(), b.getCode());
@@ -320,7 +326,9 @@ public class OnUserBank extends Action {
 			} // 检测是否更新验证码
 			long time = GMTime.currentTimeMillis();
 			if ((time - b.getTime()) > USER_TIMEOUT) {
-				b.setCode(String.valueOf(RandomUtils.randomNumeric(100000, 999999)));
+//				b.setCode(String.valueOf(RandomUtils.randomNumeric(100000, 999999)));
+				//TODO 测试用，暂时写死 123456
+				b.setCode(String.valueOf(123456));
 			} // 发送绑卡验证码
 			this.getUserBankService().saveBank(b);
 			this.getSenderService().sendByBank(b.getMobile(), b.getCode());

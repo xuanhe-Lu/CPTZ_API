@@ -109,6 +109,8 @@ public class OnUserAuth extends Action {
 		String name = this.getString("name");
 		String mobile = this.getString("mobile");
 		String code = this.getString("vcode");
+		// TODO 验证码写死 测试用
+		code = String.valueOf(123456);
 		String cardNo = this.getString("cardno");
 		String idCard = this.getString("idcard");
 		try {
@@ -234,7 +236,9 @@ public class OnUserAuth extends Action {
 				} // 检测是否重新生成验证码
 				long out = (time - b.getTime());
 				if (out > USER_TIMEOUT) {
-					b.setCode(String.valueOf(RandomUtils.randomNumeric(100000, 999999)));
+//					b.setCode(String.valueOf(RandomUtils.randomNumeric(100000, 999999)));
+					//TODO 测试用，暂时写死 123456
+					b.setCode(String.valueOf(123456));
 				} // 发送绑卡验证码
 				this.getUserBankService().saveBank(b);
 				if (out > GMTime.MILLIS_PER_MIU) {

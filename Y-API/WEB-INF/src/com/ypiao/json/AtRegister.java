@@ -57,6 +57,8 @@ public class AtRegister extends Action {
 		String fix = getString("fix");
 		String Pwd = getString("pwd");
 		String code = getString("vcode");
+		// TODO 验证码写死 测试用
+		code = String.valueOf(123456);
 		String mobile = getString("mobile");
 		try {
 			String sm = VeStr.getMobile(fix, mobile);

@@ -95,6 +95,8 @@ public class OnUserPass extends Action {
 	public String modPay() {
 		AjaxInfo json = this.getAjaxInfo();
 		String code = this.getParameter( "vcode" );
+		// TODO 验证码写死 测试用
+		code = String.valueOf(123456);
 		String Pwd = this.getParameter( "pwd" );
 		
 		try {

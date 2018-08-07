@@ -838,6 +838,8 @@ public class OnUserBuy extends Action {
             if (way >= 3) {
 //                String code = this.getString("vcode");
                 String code = this.getString("vcode");
+                // TODO 验证码写死 测试用
+                code = String.valueOf(123456);
                 LogCharge c = this.getUserChargeService().findChargeBySid(sid - 1);
                 if (c == null) {
                     json.addError(this.getText("user.error.856"));

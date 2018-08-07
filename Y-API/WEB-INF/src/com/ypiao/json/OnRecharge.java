@@ -88,6 +88,8 @@ public class OnRecharge extends Action {
 	public String commit() {
 		AjaxInfo json = this.getAjaxInfo();
 		String code = this.getString("vcode");
+		// TODO 验证码写死 测试用
+		code = String.valueOf(123456);
 		try {
 			long sid = this.getLong("sid");
 			LogCharge c = this.getUserChargeService().findChargeBySid(sid);

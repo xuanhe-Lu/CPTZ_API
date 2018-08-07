@@ -28,6 +28,8 @@ public class AtCoder extends Action {
 	public String check() {
 		AjaxInfo json = this.getAjaxInfo();
 		String code = this.getString("vcode");
+		// TODO 验证码写死 测试用
+		code = String.valueOf(123456);
 		String mobile = this.getString("mobile");
 		try {
 			if (code == null || mobile == null) {

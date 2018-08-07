@@ -128,7 +128,7 @@ public class SendInfoServiceImp extends AConfig implements SendInfoService {
 	}
 
 	private String getCode() {
-		return String.valueOf(RandomUtils.randomNumeric(1000, 9999));
+		return /*String.valueOf(RandomUtils.randomNumeric(1000, 9999))*/ String.valueOf(123456);
 	}
 
 	private SMSInfo getInfoBySid(String sid) throws SQLException {

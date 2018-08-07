@@ -99,6 +99,8 @@ public class AtLogin extends Action {
 		AjaxInfo json = this.getAjaxInfo();
 		String fix = getString("fix");
 		String code = getString("vcode");
+		// TODO 验证码写死 测试用
+		code = String.valueOf(123456);
 		String mobile = getString("mobile");
 		try {
 			if (code == null) {
