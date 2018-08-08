@@ -198,6 +198,7 @@ public class TradeInfoServiceImp extends AConfig implements TradeInfoService {
 					r.setEvent("购买" + log.getName());
 					r.sub(log.getTmb());
 					r.setTime(time);
+					logger.info("time:"+time);
 					this.getUserMoneyService().insert(conn, r);
 					logger.info("更新优惠券1，"+log.getCid());
 					if (log.getCid() >= USER_UID_MAX) {
@@ -378,9 +379,43 @@ public class TradeInfoServiceImp extends AConfig implements TradeInfoService {
 			conn.commit();
 			
 			if (STATE_NORMAL == result) {
+
+				//检查邀请人是否是会员，不是会员不享受投资收益返现
+       /* boolean isVip = false;
+        try {
+            logger.info(String.format("查询【%s】在【%s】时，是否是会员，", s.getUPS(), System.currentTimeMillis()));
+            UserVip userVip = this.getUserVipService().queryVipLog(s.getUPS(), System.currentTimeMillis());
+            logger.info(String.format("该用户【%s】信息为:【%s】", s.getUPS(), userVip.toString()));
+            isVip = userVip.getLevel() < 2 ? false : true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // 处理邀请等信息
+
+        if (isVip) {
+            logger.info(String.format("该用户【%s】当前是会员，享受权益", s.getUPS()));
+            if (s.getUPS() >= USER_UID_BEG) {
+                if (s.getNp() == 1 && log.getTma().intValue() >= 1000) {
+                    this.getTriggerService().invite(s.getUPS(), log.getTime());
+                } // 分享收益加成
+                BigDecimal rmb = log.getTmg().divide(BigDecimal.TEN); // 基础收益10%
+                if (rmb.compareTo(BigDecimal.ZERO) >= 1) {
+                    this.invite(s.getUPS(), log.getUid(), log.getSid(), rmb, log.getTime(),log.getTma(),s.getMobile());
+                }
+            } else {
+                // Ignored
+            }
+        } else
+            logger.info(String.format("该用户【%s】当前不是会员，不享受权益", s.getUPS()));
+
+*/
+
+
+
 //				SyncMap.getAll().sender(SYS_A850, "save", log);
 				this.execute(() -> {
 					try {
+						logger.info("start ActivityService().take ,");
 						this.getActivityService().take(info, log);
 					} catch (SQLException e) {
 						e.printStackTrace();

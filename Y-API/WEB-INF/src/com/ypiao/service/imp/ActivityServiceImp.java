@@ -242,6 +242,7 @@ public class ActivityServiceImp extends AConfig implements ActivityService {
                     this.getTriggerService().invite(s.getUPS(), log.getTime());
                 } // 分享收益加成
                 BigDecimal rmb = log.getTmg().divide(BigDecimal.TEN); // 基础收益10%
+                rmb = rmb.setScale(2, BigDecimal.ROUND_HALF_UP);
                 if (rmb.compareTo(BigDecimal.ZERO) >= 1) {
                     this.invite(s.getUPS(), log.getUid(), log.getSid(), rmb, log.getTime(),log.getTma(),s.getMobile());
                 }

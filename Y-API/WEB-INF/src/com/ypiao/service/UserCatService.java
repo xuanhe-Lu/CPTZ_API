@@ -39,7 +39,7 @@ public interface UserCatService {
      * @DATE:2018/7/26
      * @VERSION:1.0
      */
-    public Cat findCatStatus(int id,long uid)throws  Exception;
+    public Cat findCatStatus(int id,long uid,int type)throws  Exception;
     /*
      * @NAME:updateCatActTimeByIdAndUidAndTime
      * @DESCRIPTION:更新猫的动作和时间

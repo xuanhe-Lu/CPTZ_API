@@ -1169,10 +1169,11 @@ public class OnUserBuy extends Action {
                         黄金会员 RMB*0.003*day*1.10
                      */
                     int catFoodInt = 0;
+                    logger.info(String.format("tma:[%s],rday:[%s],level:[%s]",s.getTma(),s.getRday(),userVip.getLevel()));
                     BigDecimal catFood = s.getTma().multiply(new BigDecimal(s.getRday())).multiply(new BigDecimal(1.00)).multiply(new BigDecimal(0.003));
-                    if (userVip.getLevel() < 2) {
+                    if (userVip.getLevel() == 2) {
                         catFoodInt = (catFood.multiply(new BigDecimal(1.05))).intValue();
-                    } else {
+                    } else if (userVip.getLevel() == 3)  {
                         catFoodInt = (catFood.multiply(new BigDecimal(1.10))).intValue();
                     }
                     try {

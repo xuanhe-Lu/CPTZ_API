@@ -11,4 +11,6 @@ public interface UserIderService {
 
 	// ==================== API 接口层 ====================
 	public UserIder getUserIder(String mobile) throws SQLException;
+	/** 手机号对应UId号 */
+	public UserIder findUserIder(String mobile) throws SQLException;
 }

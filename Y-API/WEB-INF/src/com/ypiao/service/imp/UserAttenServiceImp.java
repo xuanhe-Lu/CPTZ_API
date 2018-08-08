@@ -32,13 +32,14 @@ public class UserAttenServiceImp extends AConfig implements UserAttenService {
      * @VERSION:1.0
      */
     @Override
-    public int findUserCountByMaxTime() throws Exception {
+    public int findUserCountByMaxTime(long uid) throws Exception {
         logger.info("come in findUserCountByMaxTime");
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
         int count = 0;//连续签到天数
         try {
-            ps = conn.prepareStatement("SELECT COUNT FROM " + TBL_USER_ATTEN + " ORDER BY TIME DESC LIMIT  1 ");
+            ps = conn.prepareStatement("SELECT COUNT FROM " + TBL_USER_ATTEN + " where uid =? ORDER BY TIME DESC LIMIT  1 ");
+            ps.setLong(1,uid);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 logger.info(String.format("查询到数据，返回给service"));

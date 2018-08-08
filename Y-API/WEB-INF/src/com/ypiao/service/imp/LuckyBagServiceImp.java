@@ -106,7 +106,33 @@ public class LuckyBagServiceImp implements LuckyBagService {
             JPrepare.close(ps, conn);
         }
     }
+    public LuckyBagSend findLuckBagInfo(long giftId, long time) throws Exception {
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
 
+        try {
+            ps = conn.prepareStatement("select bagId,uid,sid,lendMoney,num,lastEnvelopes,createTime,bagCount,failureTime from  ypiao.luckyBag_send where bagId = ?  and sendtIme >=  0 and failureTime >?  limit 1");
+            ps.setLong(1, giftId);
+//            ps.setLong(2, uid);
+            ps.setLong(2, time);
+            ResultSet rs = ps.executeQuery();
+            LuckyBagSend luckyBagSend = new LuckyBagSend();
+            while (rs.next()) {
+                luckyBagSend.setBagId(rs.getLong(1));
+                luckyBagSend.setUid(rs.getLong(2));
+                luckyBagSend.setSid(rs.getLong(3));
+                luckyBagSend.setLendMoney(rs.getBigDecimal(4));
+                luckyBagSend.setNum(rs.getInt(5));
+                luckyBagSend.setLastEnvelopes(rs.getBigDecimal(6));
+                luckyBagSend.setCreateTime(rs.getLong(7));
+                luckyBagSend.setBagCount(rs.getBigDecimal(8));
+                luckyBagSend.setFailureTime(rs.getLong(9));
+            }
+            return luckyBagSend;
+        } finally {
+            JPrepare.close(ps, conn);
+        }
+    }
     public void updateSend(LuckyBagReceive luckyBagReceive) throws Exception {
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;

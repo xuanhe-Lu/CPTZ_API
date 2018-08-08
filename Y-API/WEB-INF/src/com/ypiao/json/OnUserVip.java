@@ -115,10 +115,10 @@ public class OnUserVip extends Action {
                 } else if (level == 3) {
                     timecount = 12;
                 }
-                calendar.add(Calendar.MONTH, timecount);  //设置为9月后
+                calendar.add(Calendar.MONTH, timecount);  //设置为6月后
                 Date dateAfter = calendar.getTime();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //设置时间格式
-                String defaultStartDate = sdf.format(dateAfter);    //格式化9月后的时间
+                String defaultStartDate = sdf.format(dateAfter);    //格式化6月后的时间
                 String defaultEndDate = sdf.format(now); //格式化当前时间
                 logger.info(String.format("会员开始时间是【%s】,会员到期时间是【%s】", now, dateAfter));
                 startTime = MonthFound.getDataStamp(defaultEndDate, "yyyy-MM-dd");
@@ -164,10 +164,12 @@ public class OnUserVip extends Action {
             //查找
             UserStatus sUps = this.getUserInfoService().findUserStatusByUid(ups);
             if (sUps == null) {
+
                 json.addError(this.getText("邀请人信息获取失败,ups:"+ups));
                 logger.info("json:" + json.toString());
             }else {
-                logger.info(String.format("查到邀请人信息,ups[%s]",sUps.getUid()));
+                long time = System.currentTimeMillis();
+                logger.info(String.format("查到邀请人信息,ups[%s],time[%s]",sUps.getUid(),time));
                 UserVip userVipUps = this.getUserVipService().queryVipLog(ups, System.currentTimeMillis());
                 logger.info(String.format("userVipUps:[%s]",userVipUps.toString()));
                 if(userVipUps.getUid() ==ups && userVipUps.getLevel() >=2){
@@ -232,6 +234,7 @@ public class OnUserVip extends Action {
                 cat.setUserName(String.valueOf(uid));
                 cat.setUid(uid);
                 cat.setCatLevel(level);
+//                cat.setImg();
                 this.getUserCatService().insCat(cat);
 
             }

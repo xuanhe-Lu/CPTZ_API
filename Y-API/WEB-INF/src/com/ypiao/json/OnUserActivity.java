@@ -21,6 +21,7 @@ import java.util.Map;
  * @VERSION:1.0
  */
 public class OnUserActivity extends Action {
+    private static final long serialVersionUID = 8118139925849357456L;
     private static Logger logger = Logger.getLogger(OnUserActivity.class);
     private ActivityService activityService;
 

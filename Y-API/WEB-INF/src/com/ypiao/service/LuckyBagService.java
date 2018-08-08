@@ -126,4 +126,5 @@ public interface LuckyBagService {
     public void updateBouns(BigDecimal rmb,long uid) throws Exception ;
 
     public long  findBagById(long giftId)  throws Exception;
+    public LuckyBagSend findLuckBagInfo(long giftId, long time) throws Exception;
 }

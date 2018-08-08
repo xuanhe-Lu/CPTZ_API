@@ -92,47 +92,54 @@ public class OnRedEnvelopes extends Action {
             json.add("body");
             json.append("count",luckyBagReceive.getRedId());
             json.append("moneyMax",luckyBagReceive.getMoney());
-            return JSON;
-        }
-        logger.info("未找到该福袋，可以生成");
-        logger.info("开始生成随机红包");
-        RadomLuckBag radomLuckBag = new RadomLuckBag();
-        ConcurrentLinkedQueue<BigDecimal> bagList = new ConcurrentLinkedQueue<>();
-        try {
-            bagList = radomLuckBag.getBag(luckyBagSend.getBagCount(), luckyBagSend.getNum()-1, luckyBagSend.getLastEnvelopes());
-        } catch (InterruptedException e) {
-            logger.info("生成随机红包失败");
-            e.printStackTrace();
-        }
-        logger.info("生成随机红包结束，开始存入数据库，bagList：" + bagList.toString());
-        int count = bagList.size();
-        long time = 86400000 + System.currentTimeMillis();//失效时间
-        int num = 1;
-        BigDecimal moneyMax = new BigDecimal("0.00");
-        for (BigDecimal bigDecimal : bagList) {
-            LuckyBagReceive luckyBagReceive = new LuckyBagReceive();
-            luckyBagReceive.setMoney(bigDecimal);
-            luckyBagReceive.setBagId(luckyBagSend.getBagId());
-            luckyBagReceive.setFailureTime(time);
-            luckyBagReceive.setRedId(num);
-            luckyBagReceive.setUid(uid);
-            moneyMax = luckyBagReceive.getMoney();
+        }else {
+            logger.info("未找到该福袋，可以生成");
+            logger.info("开始生成随机红包");
+            RadomLuckBag radomLuckBag = new RadomLuckBag();
+            ConcurrentLinkedQueue<BigDecimal> bagList = new ConcurrentLinkedQueue<>();
             try {
-                logger.info("更新updateSend操作第" + num + "次，参数为:" + luckyBagReceive.toString());
-                this.getLuckyBagService().updateSend(luckyBagReceive);
-                num = num+1;
-                logger.info("更新updateSend操作完成");
-            } catch (Exception e) {
+                bagList = radomLuckBag.getBag(luckyBagSend.getBagCount(), luckyBagSend.getNum() - 1, luckyBagSend.getLastEnvelopes());
+            } catch (InterruptedException e) {
+                logger.info("生成随机红包失败");
                 e.printStackTrace();
             }
+            logger.info("生成随机红包结束，开始存入数据库，bagList：" + bagList.toString());
+            int count = bagList.size();
+            long time = 86400000 + System.currentTimeMillis();//失效时间
+            int num = 1;
+            BigDecimal moneyMax = new BigDecimal("0.00");
+            for (BigDecimal bigDecimal : bagList) {
+                LuckyBagReceive luckyBagReceive = new LuckyBagReceive();
+                luckyBagReceive.setMoney(bigDecimal);
+                luckyBagReceive.setBagId(luckyBagSend.getBagId());
+                luckyBagReceive.setFailureTime(time);
+                luckyBagReceive.setRedId(num);
+                luckyBagReceive.setUid(uid);
+                moneyMax = luckyBagReceive.getMoney();
+                try {
+                    logger.info("更新updateSend操作第" + num + "次，参数为:" + luckyBagReceive.toString());
+                    this.getLuckyBagService().updateSend(luckyBagReceive);
+                    num = num + 1;
+                    logger.info("更新updateSend操作完成");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Map<String, Object> map = new HashMap<>();
+            map.put("count", count);
+            map.put("moneyMax", moneyMax);
+            json.success(API_OK);
+            json.add("body");
+            json.append("count",Integer.parseInt(map.get("count")+""));
+            BigDecimal bigDecimal = new BigDecimal(String.valueOf(map.get("moneyMax")));
+            json.append("moneyMax",bigDecimal.setScale(2,BigDecimal.ROUND_HALF_UP));
         }
-        //更新luckyBag_send sendTime
 
-        json.success(API_OK);
-        json.add("body");
-        json.append("count",count);
-        json.append("moneyMax",moneyMax.setScale(2,BigDecimal.ROUND_HALF_UP));
         return JSON;
+    }
+
+    private void getBagInfo(AjaxInfo json, long uid, long giftId) {
+
     }
 
     /*
@@ -202,6 +209,89 @@ public class OnRedEnvelopes extends Action {
         AjaxInfo ajaxInfo = this.getAjaxInfo();
         long uid = this.getLong("uid");
         long giftId = this.getLong("giftid");
+        //针对安卓，查找是否已生成，未生成红包的先生成红包
+
+
+
+        //通过giftId 查找luckyBag_send 表中的数据
+        LuckyBagSend luckyBagSend = new LuckyBagSend();
+        try {
+            long time = System.currentTimeMillis();
+            logger.info(String.format("查找【%s】福袋,时间是[%s]",  giftId,time));
+            luckyBagSend = this.getLuckyBagService().findLuckBagInfo(giftId, time);
+            logger.info(String.format("查到福袋信息为:%s", luckyBagSend.toString()));
+            if (luckyBagSend.getBagId() != giftId ) {
+                logger.info("该福袋已过期或不存在，请重新选择福袋");
+                ajaxInfo.addError("该福袋已过期或不存在，请重新选择福袋");
+                return JSON;
+            }
+
+        } catch (Exception e) {
+            logger.error("查到福袋信息出错,请重新确认");
+            e.printStackTrace();
+            ajaxInfo.addError("查到福袋信息出错,请重新确认");
+            return JSON;
+        }
+        //检查是否已经有该GIFTID的福袋在send
+        long bagId = 0;
+        try {
+            bagId = this.getLuckyBagService().findBagById(luckyBagSend.getBagId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(bagId == luckyBagSend.getBagId()) {
+            LuckyBagReceive luckyBagReceive = new LuckyBagReceive();
+            try {
+                luckyBagReceive = this.getLuckyBagService().findMaxMoney(bagId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            logger.info("该福袋已经生成过");
+//            ajaxInfo.success(API_OK);
+//            ajaxInfo.add("body");
+//            ajaxInfo.append("count",luckyBagReceive.getRedId());
+//            ajaxInfo.append("moneyMax",luckyBagReceive.getMoney());
+        }else {
+            logger.info("未找到该福袋，可以生成");
+            logger.info("开始生成随机红包");
+            RadomLuckBag radomLuckBag = new RadomLuckBag();
+            ConcurrentLinkedQueue<BigDecimal> bagList = new ConcurrentLinkedQueue<>();
+            try {
+                bagList = radomLuckBag.getBag(luckyBagSend.getBagCount(), luckyBagSend.getNum() - 1, luckyBagSend.getLastEnvelopes());
+            } catch (InterruptedException e) {
+                logger.info("生成随机红包失败");
+                e.printStackTrace();
+            }
+            logger.info("生成随机红包结束，开始存入数据库，bagList：" + bagList.toString());
+            int count = bagList.size();
+            long time = 86400000 + System.currentTimeMillis();//失效时间
+            int num = 1;
+//            BigDecimal moneyMax = new BigDecimal("0.00");
+            for (BigDecimal bigDecimal : bagList) {
+                LuckyBagReceive luckyBagReceive = new LuckyBagReceive();
+                luckyBagReceive.setMoney(bigDecimal);
+                luckyBagReceive.setBagId(luckyBagSend.getBagId());
+                luckyBagReceive.setFailureTime(time);
+                luckyBagReceive.setRedId(num);
+                luckyBagReceive.setUid(luckyBagSend.getUid());
+//                moneyMax = luckyBagReceive.getMoney();
+                try {
+                    logger.info("更新updateSend操作第" + num + "次，参数为:" + luckyBagReceive.toString());
+                    this.getLuckyBagService().updateSend(luckyBagReceive);
+                    num = num + 1;
+                    logger.info("更新updateSend操作完成");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+
+
+
+
         //首先查询是否已经过期
         long result = 0;
         try {
@@ -360,6 +450,7 @@ public class OnRedEnvelopes extends Action {
             map1.put("ver",ver);
             map.put("facer",map1);
             list.add(map);
+            num = num +1;
         }
         Map<String,Object> objectMap = new HashMap<>();
         objectMap.put("bag",list);

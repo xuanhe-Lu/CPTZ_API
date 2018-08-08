@@ -108,10 +108,14 @@ public class AtProdInfo extends Action {
                     if (userVip != null && userVip.getUid() == us.getUid()) {
                         vipRate = new BigDecimal(1.05).setScale(2, BigDecimal.ROUND_HALF_UP);;
                         logger.info(String.format("该用户有会员信息，会员等级为[%s]", userVip.getName()));
+                        logger.info("userVip:"+userVip.toString());
                         Calendar cal = Calendar.getInstance();
                         int d = cal.get(Calendar.DATE);
-                        if (userVip.getLevel() > 2) {
+                        logger.info("userVip.getLevel():"+userVip.getLevel());
+                        logger.info("userVip.getMemberBenefits():"+userVip.getMemberBenefits());
+                        if (Integer.parseInt(userVip.getLevel()+"") > 2) {
                             vipRate = new BigDecimal(1.10).setScale(2, BigDecimal.ROUND_HALF_UP);
+                            logger.info("该会员享受会员权益日福利1111");
                             if (d == userVip.getMemberBenefits()) {
                                 logger.info("该会员享受会员权益日福利");
                                 status = 1;

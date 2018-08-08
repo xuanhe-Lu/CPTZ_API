@@ -14,7 +14,7 @@ import java.util.List;
 public interface UserAttenService {
     public int save(long time,long uid,int count) throws Exception;
 
-    public int findUserCountByMaxTime() throws Exception;
+    public int findUserCountByMaxTime(long uid) throws Exception;
 
     public List<Long> findUserAtten(long date, long uid, AjaxInfo json) throws Exception;
 

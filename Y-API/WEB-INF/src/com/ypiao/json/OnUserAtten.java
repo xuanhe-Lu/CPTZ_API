@@ -66,7 +66,7 @@ public class OnUserAtten extends Action {
         String dateNow = MonthFound.getDataFormat(time, format);
         logger.info(String.format("获取当前日期，%s", dateNow));
         //获取本月第一天的时间戳格式
-        String dateFirst = dateNow.substring(0, dateNow.length() - 2).concat("00");
+        String dateFirst = dateNow.substring(0, dateNow.length() - 2).concat("01");
         format = "yyyy-MM-dd";
         logger.info(String.format("当月第一天时间是:%s,格式为:%s", dateFirst, format));
         long firstDay = 0;
@@ -102,10 +102,10 @@ public class OnUserAtten extends Action {
             if (timeNow - lastTime <= 86400000 && timeNow - lastTime > 0) {//前一天有签到，
                 logger.info(String.format("用户昨天签到了,连续签到生效."));
                 //根据time，查询表中连续签到次数。
-                count = this.getUserAttenService().findUserCountByMaxTime();
+                count = this.getUserAttenService().findUserCountByMaxTime(uid);
                 logger.info(String.format("用户【%s】今天没签到，连续签到天数是%s", uid, count));
             } else if (timeNow - lastTime <= 0) {//今天已签到
-                count = this.getUserAttenService().findUserCountByMaxTime();
+                count = this.getUserAttenService().findUserCountByMaxTime(uid);
                 stats = 1;
                 logger.info(String.format("用户【%s】今天已经签到，连续签到天数是%s", uid, count));
             } else {//用户前一天没有签到，
@@ -160,7 +160,7 @@ public class OnUserAtten extends Action {
         int count = 0;
         int countRe = 1;
         synchronized (doLock(uid)) {
-            count = this.getUserAttenService().findUserCountByMaxTime();
+            count = this.getUserAttenService().findUserCountByMaxTime(uid);
             count = count + 1;
             countRe = this.getUserAttenService().save(time, uid, count);
         }
@@ -168,7 +168,7 @@ public class OnUserAtten extends Action {
             //签到成功，则查询用户会员等级，
             int vip = us.getVIP();
 
-            CatConfig catConfig = this.getUserCatService().findcatConfig(vip);
+            CatConfig catConfig = this.getUserCatService().findcatConfig(5);
             //签到成功根据会员等级不同,获取不同数量的猫粮
             if (vip < 2) {
                 logger.info(String.format("该用户【%s】为普通会员,签到获取的猫粮【%s】g", uid, catConfig.getOrdinaryRight()));
