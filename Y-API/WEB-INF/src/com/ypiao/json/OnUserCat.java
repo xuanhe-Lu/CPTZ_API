@@ -303,11 +303,12 @@ public class OnUserCat extends Action {
                     grow = grow.setScale(2, BigDecimal.ROUND_HALF_UP);//两位小数设置
                     log.info(String.format("start updateCatActTimeByIdAndUidAndTime,uid:[%s],id:[%s],type:[%s],time:[%s],catFoodTemp:[%s] ,catFood:[%s],grow:[%s],name:[%s]", uid, id, type, time, catFoodTemp, catFood, grow, name));
                     this.getUserCatService().updateCatActTimeByIdAndUidAndTime(uid, id, type, time, catFoodTemp, catFood, grow, name, state);
+
                     json.success(API_OK);
                     json.add("body");
                     json.append("state", 1);
                     json.append("type", type);
-                    json.append("catFood", catFood);
+                    json.append("catFood", catFood1.getCatFood()+catFood);
                     json.append("grow", grow);
                     json.append("name", name);
                     System.out.println("json:" + json.toString());

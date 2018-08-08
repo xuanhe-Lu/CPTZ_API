@@ -5,6 +5,7 @@ import com.ypiao.bean.*;
 import com.ypiao.service.*;
 import com.ypiao.util.MonthFound;
 import com.ypiao.util.VeStr;
+import org.apache.catalina.User;
 import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
@@ -164,7 +165,8 @@ public class OnUserVip extends Action {
 
             //购买会员成功后，如果邀请人是会员，则返现到邀请人账户
             //查找
-            UserStatus sUps = this.getUserInfoService().findUserStatusByUid(ups);
+//            UserStatus sUps = this.getUserInfoService().findUserStatusByUid(ups);
+            UserRmbs sUps = this.getUserMoneyService().findMoneyByUid(us.getUPS());
             if (sUps == null) {
 
                 json.addError(this.getText("邀请人信息获取失败,ups:"+ups));
@@ -183,6 +185,7 @@ public class OnUserVip extends Action {
                     rmbUps.setFid(0);
                     rmbUps.setWay("理财回款");
                     String mobile = us.getMobile();
+//                    String mobile = "";
                     mobile = mobile.substring(0, mobile.length() - 8) + "****" + mobile.substring(mobile.length() - 4);
                     rmbUps.setEvent("邀请好友" + mobile + "购买会员");
                     BigDecimal adds = new BigDecimal("0.00");
@@ -193,15 +196,15 @@ public class OnUserVip extends Action {
                     }
                     logger.info("adds"+adds.toString());
                     rmbUps.setAdds(adds);
-                    rmbUps.setCost(sUps.getMa());
-                    rmbUps.setTotal(sUps.getMa().add(adds));
+                    rmbUps.setCost(sUps.getTotal());
+                    rmbUps.setTotal(sUps.getTotal().add(adds));
+//                    rmbUps.add(adds.abs());
                     rmbUps.setState(0);
                     rmbUps.setTime(System.currentTimeMillis());
                     this.getUserMoneyService().save(rmbUps);
                 }else {
                     logger.info(String.format("[%s]不是会员,无法享受会员返现奖励",uid));
                 }
-
             }
             //4.将变更后的会员信息入表，
             userVip.setLevel(level);

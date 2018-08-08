@@ -130,6 +130,7 @@ private static Logger logger = Logger.getLogger(UserMoneyServiceImp.class);
      * 获取当前余额
      */
     public UserRmbs findMoneyByUid(Connection conn, long uid) throws SQLException {
+        logger.info("come in findMoneyByUid ,uid:"+uid);
         PreparedStatement ps = conn.prepareStatement(SQL_BY_RMB);
         try {
             ps.setLong(1, uid);

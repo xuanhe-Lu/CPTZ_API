@@ -164,7 +164,7 @@ public class UserCatServiceImp implements UserCatService {
             ps.setInt(1, state);
             ps.setLong(2, time);
             if (type == 1 || type == 2 || type == 3) {
-                ps.setLong(3, catFood);
+                ps.setLong(3, catFoodChange);
             } else if (type == 4) {
                 ps.setBigDecimal(3, grow);
             }

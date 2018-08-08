@@ -5,6 +5,7 @@ import com.ypiao.data.JPrepare;
 import com.ypiao.service.LuckyBagService;
 import com.ypiao.service.UserMoneyService;
 import com.ypiao.util.APState;
+import com.ypiao.util.VeStr;
 import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
@@ -334,8 +335,11 @@ public class LuckyBagServiceImp implements LuckyBagService {
     public void saveRmbs(LuckyBagReceive luckyBagReceive) throws Exception {
         Connection conn = JPrepare.getConnection();
         try {
+            log.info("saveRmbs,luckyBagReceive:"+luckyBagReceive);
             UserRmbs r = this.getUserMoneyService().findMoneyByUid(conn, luckyBagReceive.getUid());
-            r.setSid(luckyBagReceive.getBagId()); // 索引信息
+            log.info("end findMoneyByUid ,UserRmbs:"+r.toString());
+            r.setSid(VeStr.getUSid()); // 索引信息
+            log.info("r.getSid:"+r.getSid());
             r.setTid(APState.TRADE_ADD5);
             r.setWay(APState.EVENT_P015);
             r.setEvent("通过福袋获得奖励金" + luckyBagReceive.getMoney());
