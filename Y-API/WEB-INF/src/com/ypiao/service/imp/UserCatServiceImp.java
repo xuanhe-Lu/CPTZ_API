@@ -241,11 +241,12 @@ public class UserCatServiceImp implements UserCatService {
         PreparedStatement ps = null;
         try {
             //TODO 增加猫新生时的字段，img等
-            ps = conn.prepareStatement("insert into cat_status (uid,userName,catLevel,maturity) values (?,?,?,?)");
+            ps = conn.prepareStatement("insert into cat_status (uid,userName,catLevel,maturity,img) values (?,?,?,?,?)");
             ps.setLong(1, cat.getUid());
             ps.setString(2, cat.getUserName());
             ps.setInt(3, cat.getCatLevel());
             ps.setBigDecimal(4, cat.getMaturity());
+            ps.setString(5,cat.getImg());
             ps.execute();
         } finally {
             JPrepare.close(ps, conn);

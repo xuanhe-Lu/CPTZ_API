@@ -203,6 +203,7 @@ public class ActivityServiceImp extends AConfig implements ActivityService {
     private void invite(long uid, long fid, long sid, BigDecimal rmb, long time,BigDecimal tma,String mobile) throws SQLException {
         Connection conn = JPrepare.getConnection();
         try {
+            logger.info(String.format("uid:[%s],fid:[%s],sid:[%s],rmb:[%s],time:[%s],tma:[%s],mobile:[%s]", uid,  fid,  sid,  rmb,  time, tma, mobile));
             UserRmbs r = this.getUserMoneyService().findMoneyByUid(conn, uid);
             r.setSid(sid + 1); // 索引信息
             r.setFid(fid); // 信息来源

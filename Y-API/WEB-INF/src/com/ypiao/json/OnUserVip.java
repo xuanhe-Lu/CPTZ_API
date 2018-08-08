@@ -128,13 +128,14 @@ public class OnUserVip extends Action {
 
             }
             //3.扣除用户账户余额，如果不够，则提示该用户进行充值,如果余额充足，则扣除余额，入账户资金记录表。
-            UserStatus s = this.getUserInfoService().findUserStatusByUid(uid);
+//            UserStatus s = this.getUserInfoService().findUserStatusByUid(uid); //findMoneyByUid
+           UserRmbs s = this.getUserMoneyService().findMoneyByUid(uid);
             if (s == null) {
                 json.addError(this.getText("user.error.888"));
                 logger.info("json:" + json.toString());
                 return JSON;
             }
-            if (s.getMa().compareTo(rmb) < 0 || s.getMb().compareTo(rmb) < 0) {
+            if (s.getTotal().compareTo(rmb) < 0 ) {
                 logger.info(String.format("用户[%s]余额不足，请充值后再购买。", uid));
                 json.addError("用户余额不足，请充值后再购买。");
                 logger.info("json:" + json.toString());
@@ -153,11 +154,12 @@ public class OnUserVip extends Action {
             rmbs.setFid(ups);
             rmbs.setWay("理财消费");
             rmbs.setEvent("购买会员");
-            rmbs.setCost(s.getMa());//总额
+            rmbs.setCost(s.getTotal());//总额
             rmbs.setAdds(new BigDecimal("-"+rmb));//消费
-            rmbs.setTotal(s.getMa().add(new BigDecimal("-"+rmb)));//进行此次操作后剩余总额
+            rmbs.setTotal(s.getTotal().add(new BigDecimal("-"+rmb)));//进行此次操作后剩余总额
             rmbs.setState(0);
             rmbs.setTime(System.currentTimeMillis());
+            logger.info("rmbs:"+rmbs.toString());
             this.getUserMoneyService().save(rmbs);
 
             //购买会员成功后，如果邀请人是会员，则返现到邀请人账户
@@ -234,7 +236,11 @@ public class OnUserVip extends Action {
                 cat.setUserName(String.valueOf(uid));
                 cat.setUid(uid);
                 cat.setCatLevel(level);
-//                cat.setImg();
+                if(level == 2){
+                    cat.setImg("app.yingpiaolicai.com/img/cat/home_img_car_nor.png");
+                }else  if( level == 3){
+                    cat.setImg("60.205.191.116:8081/app/images/goldcat.png");
+                }
                 this.getUserCatService().insCat(cat);
 
             }

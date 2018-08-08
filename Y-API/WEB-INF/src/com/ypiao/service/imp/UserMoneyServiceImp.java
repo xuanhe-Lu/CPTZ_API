@@ -6,7 +6,9 @@ import com.ypiao.bean.UserRmbs;
 import com.ypiao.data.JPrepare;
 import com.ypiao.service.UserMoneyService;
 import com.ypiao.util.GMTime;
+import com.ypiao.util.MonthFound;
 import com.ypiao.util.Table;
+import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -15,7 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserMoneyServiceImp extends AConfig implements UserMoneyService {
-
+private static Logger logger = Logger.getLogger(UserMoneyServiceImp.class);
     private static final String TBL_USER_RMBS = "user_rmbs";
 
     private static String SQL_BY_RMB;
@@ -25,6 +27,7 @@ public class UserMoneyServiceImp extends AConfig implements UserMoneyService {
     }
 
     public int insert(Connection conn, UserRmbs r) throws SQLException {
+        logger.info("come in insert:"+r.toString());
         PreparedStatement ps = conn.prepareStatement("INSERT INTO " + TBL_USER_RMBS + " (Sid,Tid,Uid,Fid,Way,Event,Cost,Adds,Total,State,Time) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
         try {
             ps.setLong(1, r.getSid());
@@ -45,6 +48,7 @@ public class UserMoneyServiceImp extends AConfig implements UserMoneyService {
     }
 
     public int update(Connection conn, UserRmbs r) throws SQLException {
+        logger.info("update,r"+r.toString());
         PreparedStatement ps = conn.prepareStatement("UPDATE " + TBL_USER_RMBS + " SET Tid=?,Uid=?,Fid=?,Way=?,Event=?,Cost=?,Adds=?,Total=?,State=?,Time=? WHERE Sid=?");
         try {
             ps.setInt(1, r.getTid());
@@ -65,6 +69,7 @@ public class UserMoneyServiceImp extends AConfig implements UserMoneyService {
     }
 
     public void save(Connection conn, UserRmbs r) throws SQLException {
+        logger.info("save,r"+r.toString());
         if (this.update(conn, r) >= 1) {
             // Ignored
         } else if (this.insert(conn, r) >= 1) {
@@ -92,6 +97,7 @@ public class UserMoneyServiceImp extends AConfig implements UserMoneyService {
     }
 
     public void share(Connection conn, UserRmbs r) throws SQLException {
+        logger.info("share,rmb:"+r.toString());
         if (this.update(conn, r) >= 1) {
             // Ignroed
         } else if (this.insert(conn, r) >= 1) {
@@ -111,6 +117,7 @@ public class UserMoneyServiceImp extends AConfig implements UserMoneyService {
     }
 
     public void share(UserRmbs rmb) throws SQLException {
+        logger.info("share,rmd:"+rmb.toString());
         Connection conn = JPrepare.getConnection();
         try {
             this.share(conn, rmb);
@@ -200,7 +207,8 @@ public class UserMoneyServiceImp extends AConfig implements UserMoneyService {
                 json.append("event", rs.getString(3));
                 json.append("adds", DF2.format(rs.getDouble(4)));
                 json.append("total", DF2.format(rs.getDouble(5)));
-                json.append("time", GMTime.format(rs.getLong(7), GMTime.CHINA));
+//                json.append("time", GMTime.format(rs.getLong(7), GMTime.CHINA));
+                json.append("time", MonthFound.getDataFormat(rs.getLong(7),"yyyy-MM-dd"));
             }
             rs.close();
             return json;

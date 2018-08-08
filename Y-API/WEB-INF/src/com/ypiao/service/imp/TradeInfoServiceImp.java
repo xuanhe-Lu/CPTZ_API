@@ -182,7 +182,8 @@ public class TradeInfoServiceImp extends AConfig implements TradeInfoService {
 			if (this.getProdInfoService().update(conn, log.getPid(), log.getTma()) <= 0) {
 				result = STATE_CHECK; // 产品售罄
 			} else {
-				long time = GMTime.currentTimeMillis();
+//				long time = GMTime.currentTimeMillis();
+				long time = System.currentTimeMillis();
 				UserRmbs r = this.getUserMoneyService().findMoneyByUid(conn, log.getUid());
 				if (log.getTmb().compareTo(r.getTotal()) >= 1) {
 					// 余额不足
