@@ -125,16 +125,16 @@ public class OnUserAuth extends Action {
 				System.out.println("json:"+json.toString());
  return JSON;
 			}
-			if (!VeRule.isIDCard(idCard)) {
+		/*	if (!VeRule.isIDCard(idCard)) {
 				json.addError(this.getText("user.error.053"));
 				System.out.println("json:"+json.toString());
  return JSON;
-			} // 检测银行卡号
-			if (!VeRule.isBank(cardNo)) {
+			} */// 检测银行卡号
+			/*if (!VeRule.isBank(cardNo)) {
 				json.addError(this.getText("user.error.061"));
 				System.out.println("json:"+json.toString());
  return JSON;
-			} // 检测预留手机号
+			} */// 检测预留手机号
 			String sm = VeStr.getMobile(mobile);
 			if (sm == null) {
 				json.addError(this.getText("user.error.062"));
@@ -187,7 +187,7 @@ public class OnUserAuth extends Action {
 			if (code == null || code.length() <= 4) {
 				this.getUserAuthService().save(a);
 				long time = GMTime.currentTimeMillis();
-				if (!sm.equalsIgnoreCase(b.getMobile())) {
+				/*if (!sm.equalsIgnoreCase(b.getMobile())) {
 					PayInfo pay = this.getPayInfoService().getInfoByFuiou();
 					CardBinResponse res = Fuiou.cardBinQry(pay.getSellid(), pay.getSecret(), cardNo);
 					if (!res.getRcd().equals("0000")) {
@@ -233,13 +233,34 @@ public class OnUserAuth extends Action {
 					b.setName(a.getName());
 					b.setGmtA(time);
 					b.setState(STATE_NORMAL);
-				} // 检测是否重新生成验证码
+				}*/ // 检测是否重新生成验证码
 				long out = (time - b.getTime());
 				if (out > USER_TIMEOUT) {
 //					b.setCode(String.valueOf(RandomUtils.randomNumeric(100000, 999999)));
 					//TODO 测试用，暂时写死 123456
 					b.setCode(String.valueOf(123456));
 				} // 发送绑卡验证码
+
+
+				// TODO 测试用
+				b = new UserBank();
+				b.setUid(us.getUid());
+				b.setBankId("0");
+				b.setBankName("招商银行");
+				b.setBinId(AUtils.toInt(cardNo.substring(0, 6)));
+				b.setBinStat(1);
+				//b.setCardName("");
+				b.setCardTy("D");
+				b.setBid(102);
+				b.setCardNo(cardNo);
+				b.setChannel("CUPS");
+				b.setMobile(sm);
+				b.setName(a.getName());
+				b.setGmtA(time);
+				b.setState(STATE_NORMAL);
+
+
+
 				this.getUserBankService().saveBank(b);
 				if (out > GMTime.MILLIS_PER_MIU) {
 					boolean sendOK = this.getSenderService().sendByBank(b.getMobile(), b.getCode());

@@ -199,7 +199,7 @@ public class OnUserActivity extends Action {
         for (UserRmbs userRmbs : userRmbsList) {
             String s = userRmbs.getEvent();
             String mobile = s.substring(2, s.indexOf("投"));
-            String amt = s.substring(s.indexOf("资"), s.indexOf("获"));
+            String amt = s.substring(s.indexOf("资")+1, s.indexOf("获"));
             BigDecimal rmb = userRmbs.getAdds();
             Map<String, Object> map1 = new HashMap<>();
             map1.put("mobile", mobile);

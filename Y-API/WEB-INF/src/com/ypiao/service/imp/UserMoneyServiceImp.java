@@ -209,7 +209,7 @@ private static Logger logger = Logger.getLogger(UserMoneyServiceImp.class);
                 json.append("adds", DF2.format(rs.getDouble(4)));
                 json.append("total", DF2.format(rs.getDouble(5)));
 //                json.append("time", GMTime.format(rs.getLong(7), GMTime.CHINA));
-                json.append("time", MonthFound.getDataFormat(rs.getLong(7),"yyyy-MM-dd"));
+                json.append("time", MonthFound.getDataFormat(rs.getLong(7),"yyyy-MM-dd HH:mm:ss"));
             }
             rs.close();
             return json;

@@ -60,18 +60,19 @@ public class OnUserInfo extends Action {
 			}
 			UserSession us = this.getUserSession();
 			UserInfo info = this.getUserInfoService().findUserInfoByUid(us.getUid());
-			if (info == null) {
-				json.addError(this.getText( "system.error.login" ));
-			} else if (info.getPassword() == null || info.getPassword().equalsIgnoreCase( "=auto=" )) {
+			LOGGER.info("info:"+info+"uid"+us.getUid());
+//			if (info == null) {
+//				json.addError(this.getText( "system.error.login" ));
+//			} else if (info.getPassword() == null || info.getPassword().equalsIgnoreCase( "=auto=" )) {
 				if (Pwd.length() == 32) {
 					this.getUserInfoService().updatePwd( us.getUid(), Pwd.toUpperCase() );
 				} else {
 					this.getUserInfoService().updatePwd( us.getUid(), VeStr.MD5(Pwd) );
 				} // 设置密码
 				json.success(API_OK);
-			} else {
-				json.addError(this.getText( "user.error.018" ));
-			}
+//			} else {
+//				json.addError(this.getText( "user.error.018" ));
+//			}
 		} catch (Exception e) {
 			LOGGER.info( "用户设置密码失败，异常信息：" + e.getMessage() );
 			json.addError(this.getText( "system.error.info" ));
@@ -88,10 +89,15 @@ public class OnUserInfo extends Action {
 	 */
 	public String score() {
 		AjaxInfo json = this.getAjaxInfo();
-		
+
 		try {
 			int score = this.getInt( "nc" );
 			long uid = this.getUserSession().getUid();
+			if(uid <100000){
+				LOGGER.info("session 中没有获取到uid，");
+				uid = this.getLong("uid");
+			}
+			LOGGER.info( "score:" +score+"uid:"+uid );
 			int nc = this.getUserInfoService().updateNC( uid, score );
 			json.addObject();
 			json.append( "nc", nc );

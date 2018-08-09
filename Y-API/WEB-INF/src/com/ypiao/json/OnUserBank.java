@@ -2,6 +2,8 @@ package com.ypiao.json;
 
 import java.io.IOException;
 import java.sql.SQLException;
+
+import com.ypiao.util.AUtils;
 import org.commons.lang.RandomUtils;
 import com.ypiao.bean.*;
 import com.ypiao.fuiou.BankResponse;
@@ -97,20 +99,20 @@ public class OnUserBank extends Action {
 		try {
 			if (code == null || code.length() < 4) {
 				json.addError(this.getText("user.error.007"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  return JSON;
-			} else if (!VeRule.isBank(cardNo)) {
+			} /*else if (!VeRule.isBank(cardNo)) {
 				json.addError(this.getText("user.error.065"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  return JSON;
-			}
+			}*/
 			UserSession us = this.getUserSession();
 			UserBank b = this.getUserBankService().findBankByCNo(cardNo);
 			if (b == null) {
 				json.addError(this.getText("user.error.063"));
-			} else if (b.getUid() != us.getUid()) {
+			} else/* if (b.getUid() != us.getUid()) {
 				json.addError(this.getText("user.error.065"));
-			} else if (code.equalsIgnoreCase(b.getCode())) {
+			} else*/ if (code.equalsIgnoreCase(b.getCode())) {
 				this.getUserBankService().saveBind(b);
 				us.setBinds(STATE_CHECK); // 已绑卡
 				this.getUserLogerService().update(us);
@@ -124,7 +126,7 @@ public class OnUserBank extends Action {
 		} finally {
 			cardNo = code = null;
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 
@@ -141,20 +143,20 @@ public class OnUserBank extends Action {
 		try {
 			if (!VeRule.isBank(cardNo)) {
 				json.addError(this.getText("user.error.061"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  return JSON;
 			} // 检测预留手机号
 			String sm = VeStr.getMobile(mobile);
 			if (sm == null) {
 				json.addError(this.getText("user.error.062"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  return JSON;
 			} // 检测是否实名
 			UserSession us = this.getUserSession();
 			UserAuth a = this.getUserAuthService().findAuthByUid(us.getUid());
 			if (a == null || a.getRtime() <= USER_TIME) {
 				json.addError(this.getText("user.error.063"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  return JSON;
 			} // 卡号已绑定
 			boolean checked = true;
@@ -163,7 +165,7 @@ public class OnUserBank extends Action {
 				// Ignroed
 			} else if (b.getState() == STATE_READER) {
 				json.addError(this.getText("user.error.067"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  return JSON;
 			} else if (b.getUid() == us.getUid()) {
 				checked = false;
@@ -173,13 +175,13 @@ public class OnUserBank extends Action {
 				CardBinResponse res = Fuiou.cardBinQry(pay.getSellid(), pay.getSecret(), cardNo);
 				if (!res.getRcd().equals("0000")) {
 					json.addError(this.getText(res.getRdesc()));
-					System.out.println("json:"+json.toString());
+					logger.info("json:"+json.toString());
  return JSON;
 				} // 调用京东万象数据接口
 				BankResponse r = Checker.bankcard4(a.getName(), a.getIdCard(), cardNo, sm);
 				if (!r.isFlag()) {
 					json.addError(this.getText("user.error.065"));
-					System.out.println("json:"+json.toString());
+					logger.info("json:"+json.toString());
  return JSON;
 				} // 将卡号信息存入数据库
 				BankResponse.Data d = r.getResult().getData();
@@ -244,7 +246,7 @@ public class OnUserBank extends Action {
 		} finally {
 			mobile = cardNo = code = null;
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 
@@ -253,27 +255,27 @@ public class OnUserBank extends Action {
 		String cardNo = this.getString("cardno");
 		String mobile = this.getString("mobile");
 		try {
-			if (!VeRule.isBank(cardNo)) {
+			/*if (!VeRule.isBank(cardNo)) {
 				json.addError(this.getText("user.error.061"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  return JSON;
-			} // 检测预留手机号
+			} */// 检测预留手机号
 			String sm = VeStr.getMobile(mobile);
 			if (sm == null) {
 				json.addError(this.getText("user.error.062"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  return JSON;
 			} // 检测是否实名
 			UserSession us = this.getUserSession();
 			UserAuth a = this.getUserAuthService().findAuthByUid(us.getUid());
 			if (a == null || a.getRtime() <= USER_TIME) {
 				json.addError(this.getText("user.error.063"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  return JSON;
 			} // 卡号已绑定
 			if (a.getBtime() > USER_TIME) {
 				json.addError(this.getText("user.error.064"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  return JSON;
 			} // 根据卡号获取记录
 			boolean checked = true;
@@ -282,23 +284,23 @@ public class OnUserBank extends Action {
 				// Ignroed
 			} else if (b.getState() == STATE_READER) {
 				json.addError(this.getText("user.error.064"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  return JSON;
 			} else if (b.getUid() == us.getUid()) {
 				checked = false;
 			} // 检测数据
-			if (checked) {
+			/*if (checked) {
 				PayInfo pay = this.getPayInfoService().getInfoByFuiou();
 				CardBinResponse res = Fuiou.cardBinQry(pay.getSellid(), pay.getSecret(), cardNo);
 				if (!res.getRcd().equals("0000")) {
 					json.addError(this.getText(res.getRdesc()));
-					System.out.println("json:"+json.toString());
+					logger.info("json:"+json.toString());
  return JSON;
 				} // 调用京东万象数据接口
 				BankResponse r = Checker.bankcard4(a.getName(), a.getIdCard(), cardNo, sm);
 				if (!r.isFlag()) {
 					json.addError(this.getText("user.error.065"));
-					System.out.println("json:"+json.toString());
+					logger.info("json:"+json.toString());
  return JSON;
 				} // 将卡号信息存入数据库
 				BankResponse.Data d = r.getResult().getData();
@@ -330,15 +332,41 @@ public class OnUserBank extends Action {
 				//TODO 测试用，暂时写死 123456
 				b.setCode(String.valueOf(123456));
 			} // 发送绑卡验证码
+
+			*/
+
+			//TODO
+
+			b = new UserBank();
+			b.setUid(us.getUid());
+			b.setBankId("0");
+			b.setBankName("招商银行");
+			b.setBinId(AUtils.toInt(cardNo.substring(0, 6)));
+			b.setBinStat(1);
+			//b.setCardName("");
+			b.setCardTy("D");
+			b.setBid(102);
+			b.setCardNo(cardNo);
+			b.setChannel("CUPS");
+			b.setMobile(sm);
+			b.setName(a.getName());
+			b.setGmtA(1533777300000l);
+			b.setState(STATE_NORMAL);
+			b.setCode("123456");
+
+
+
+
+
 			this.getUserBankService().saveBank(b);
 			this.getSenderService().sendByBank(b.getMobile(), b.getCode());
 			json.success(API_OK);
-		} catch (SQLException | IOException e) {
+		} catch (Exception e) {
 			json.addError(this.getText("user.error.065"));
 		} finally {
 			mobile = cardNo = null;
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 
@@ -350,7 +378,7 @@ public class OnUserBank extends Action {
 		} catch (SQLException e) {
 			json.addError(this.getText("system.error.get"));
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 
@@ -363,7 +391,7 @@ public class OnUserBank extends Action {
 			e.printStackTrace();
 			json.addError(this.getText("system.error.get"));
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 

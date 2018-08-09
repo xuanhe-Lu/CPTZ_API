@@ -109,6 +109,7 @@ public class TriggerServiceImp extends AConfig implements TriggerService {
     }
 
     public void register(UserInfo info) throws SQLException {
+        logger.info("come in register ,info:"+info.toString());
         this.compute(1, info.getUid(), info.getTime());
         //新增邀请好友送邀请人1%加息券
         if (info.getUPS() != 0 && info.getUPS() >= 100000) {
@@ -131,7 +132,7 @@ public class TriggerServiceImp extends AConfig implements TriggerService {
                 }else if(userVip.getLevel() == 2){
                     try {
                         logger.info(String.format("该用户【%s】是白银会员", info.getUPS()));
-                        this.getUserCatService().updateCatFood(info.getUPS(),150,"邀请好友["+info.getUid()+"]注册得猫粮");
+                        this.getUserCatService().updateCatFood(info.getUPS(),100,"邀请好友["+info.getUid()+"]注册得猫粮");
                     } catch (Exception e) {
                         logger.error("保存猫粮失败");
                         e.printStackTrace();
@@ -139,7 +140,7 @@ public class TriggerServiceImp extends AConfig implements TriggerService {
                 }else if(userVip.getLevel() == 3){
                     try {
                         logger.info(String.format("该用户【%s】是黄金会员", info.getUPS()));
-                        this.getUserCatService().updateCatFood(info.getUPS(),200,"邀请好友["+info.getUid()+"]注册得猫粮");
+                        this.getUserCatService().updateCatFood(info.getUPS(),150,"邀请好友["+info.getUid()+"]注册得猫粮");
                     } catch (Exception e) {
                         logger.error("保存猫粮失败");
                         e.printStackTrace();
@@ -174,7 +175,7 @@ public class TriggerServiceImp extends AConfig implements TriggerService {
                 }else if(userVip.getLevel() == 2){
                     try {
                         logger.info(String.format("该用户【%s】是白银会员", userInfo.getUPS()));
-                        this.getUserCatService().updateCatFood(userInfo.getUPS(),350,"邀请好友["+userInfo.getUid()+"]绑卡得猫粮");
+                        this.getUserCatService().updateCatFood(userInfo.getUPS(),400,"邀请好友["+userInfo.getUid()+"]绑卡得猫粮");
                     } catch (Exception e) {
                         logger.error("保存猫粮失败");
                         e.printStackTrace();
@@ -182,7 +183,7 @@ public class TriggerServiceImp extends AConfig implements TriggerService {
                 }else if(userVip.getLevel() == 3){
                     try {
                         logger.info(String.format("该用户【%s】是黄金会员", userInfo.getUPS()));
-                        this.getUserCatService().updateCatFood(userInfo.getUPS(),500,"邀请好友["+userInfo.getUid()+"]绑卡得猫粮");
+                        this.getUserCatService().updateCatFood(userInfo.getUPS(),600,"邀请好友["+userInfo.getUid()+"]绑卡得猫粮");
                     } catch (Exception e) {
                         logger.error("保存猫粮失败");
                         e.printStackTrace();
@@ -190,7 +191,7 @@ public class TriggerServiceImp extends AConfig implements TriggerService {
                 }
             }
         }else
-            logger.info(String.format("用户【%s】没有邀请人,不享受邀请奖励."));
+            logger.info(String.format("用户【%s】没有邀请人,不享受邀请奖励.",uid));
     }
 
     public void invite(long uid, long time) throws SQLException {

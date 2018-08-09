@@ -10,6 +10,7 @@ import com.ypiao.bean.AjaxInfo;
 import com.ypiao.data.JPrepare;
 import com.ypiao.sign.JSON;
 import com.ypiao.util.GMTime;
+import com.ypiao.util.MonthFound;
 
 public class TestMain {
 
@@ -61,12 +62,14 @@ public class TestMain {
 //		ajaxInfo.append("test2",3);
 
 //		return ajaxInfo.toString();
-		int i = 100;
-		for (int i1 = 0; i1 < i; i1++) {
-			System.out.println((int)(Math.random()*1000+1));
-
-		}
+//		int i = 100;
+//		for (int i1 = 0; i1 < i; i1++) {
+//			System.out.println((int)(Math.random()*1000+1));
+//
+//		}
 //		"SELECT time,Monthcount  FROM USER_ATTEN  WHERE UID = ? and time > = ?
+
+		System.out.println(MonthFound.getDataFormat(1533668948385L,"yyyy-MM-dd HH:mm:ss"));
 
 	}
 

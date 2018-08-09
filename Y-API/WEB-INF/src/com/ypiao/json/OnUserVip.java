@@ -233,7 +233,9 @@ public class OnUserVip extends Action {
             logger.info(String.format("用户[%s]的猫舍现有[%s]只猫", uid, catList.size()));
             if (catList.size() >= 2) {
                 json.addMessage("因猫舍中猫的数量已达上限,小猫无法出生.");
-            } else {
+            } else if(catList.size() == 1){
+                logger.info("");
+            }else{
                 //根据购买的会员等级，新增相对应的猫
                 Cat cat = new Cat();
                 cat.setUserName(String.valueOf(uid));
@@ -241,8 +243,10 @@ public class OnUserVip extends Action {
                 cat.setCatLevel(level);
                 if(level == 2){
                     cat.setImg("app.yingpiaolicai.com/img/cat/home_img_car_nor.png");
+                    cat.setMaturity(new BigDecimal("1000.00"));
                 }else  if( level == 3){
                     cat.setImg("60.205.191.116:8081/app/images/goldcat.png");
+                    cat.setMaturity(new BigDecimal("10000.00"));
                 }
                 this.getUserCatService().insCat(cat);
 

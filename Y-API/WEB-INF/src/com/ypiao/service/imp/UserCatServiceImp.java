@@ -201,7 +201,7 @@ public class UserCatServiceImp implements UserCatService {
         PreparedStatement ps = null;
         List<Cat> catList;
         try {
-            ps = conn.prepareStatement("select id,uid,userName,catName,growth,catLevel from cat_status order by growth desc limit 100");
+            ps = conn.prepareStatement("select id,uid,userName,catName,growth,catLevel from cat_status order by  catlevel desc,growth desc  limit 100");
             ResultSet rs = ps.executeQuery();
             catList = new ArrayList<>();
             while (rs.next()) {
@@ -297,18 +297,19 @@ public class UserCatServiceImp implements UserCatService {
     }
 
     public int updateCatFood(long uid, int catfood) throws Exception {
-        log.info(String.format("come in updateCatFood,uid[%s],catfood[%s]", uid, catfood));
+        log.info(String.format("---come in updateCatFood,uid[%s],catfood[%s]", uid, catfood));
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
         CatFood cat = new CatFood();
         try {
-            ps = conn.prepareStatement("update cat_userInfo set  catFood = catFood +?   where uid = ?  ");
+            ps = conn.prepareStatement("update cat_userInfo set  catFood = (catFood + ?)   where uid = ?  ");
             ps.setInt(1, catfood);
             ps.setLong(2, uid);
             int i = 0;
             i = ps.executeUpdate();
             log.info(String.format("执行update 影响条数为:[%s]", i));
             if (i < 1) {
+                ps.close();
                 log.info(String.format("开始执行insert"));
                 ps = conn.prepareStatement("insert into cat_userInfo (uid,catFood ,time) values(?,?,?)  ");
                 ps.setInt(2, catfood);
@@ -328,7 +329,7 @@ public class UserCatServiceImp implements UserCatService {
         PreparedStatement ps = null;
         CatFood cat = new CatFood();
         try {
-            ps = conn.prepareStatement("update cat_userInfo set  catFood = ? ,remark = ?  where uid = ?  ");
+            ps = conn.prepareStatement("update cat_userInfo set  catFood = (catFood +?) ,remark = ?  where uid = ?  ");
             ps.setInt(1, catfood);
             ps.setString(2,remark);
             ps.setLong(3, uid);

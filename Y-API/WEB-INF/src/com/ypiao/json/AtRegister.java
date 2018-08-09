@@ -14,7 +14,7 @@ public class AtRegister extends Action {
 	private SendInfoService sendInfoService;
 
 	private UserInfoService userInfoService;
-
+private TriggerService triggerService;
 	private UserLogerService userLogerService;
 
 	public AtRegister() {
@@ -100,6 +100,7 @@ public class AtRegister extends Action {
 				reg.setRemote(VeStr.getRemoteAddr(request));
 				this.getUserLogerService().register(reg);
 				json.addMessage("恭喜你注册成功！");
+				this.getTriggerService().register(reg);
 			} else {
 				json.addError(this.getText("您已注册过！"));
 			}
@@ -110,5 +111,13 @@ public class AtRegister extends Action {
 		}
 		System.out.println("json:"+json.toString());
  return JSON;
+	}
+
+	public TriggerService getTriggerService() {
+		return triggerService;
+	}
+
+	public void setTriggerService(TriggerService triggerService) {
+		this.triggerService = triggerService;
 	}
 }

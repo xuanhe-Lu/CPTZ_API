@@ -10,7 +10,7 @@ public class UserInfo implements Serializable {
 
 	private long uid, ups;
 
-	private int VIP = 0;
+	private int VIP = 1;
 
 	private int iOS = 0;
 
@@ -192,5 +192,31 @@ public class UserInfo implements Serializable {
 
 	public void setTime(long time) {
 		this.time = time;
+	}
+
+	@Override
+	public String toString() {
+		return "UserInfo{" +
+				"sid='" + sid + '\'' +
+				", uid=" + uid +
+				", ups=" + ups +
+				", VIP=" + VIP +
+				", iOS=" + iOS +
+				", account='" + account + '\'' +
+				", username='" + username + '\'' +
+				", password='" + password + '\'' +
+				", fta='" + fta + '\'' +
+				", ftb='" + ftb + '\'' +
+				", facer=" + facer +
+				", gender=" + gender +
+				", gider='" + gider + '\'' +
+				", nicer='" + nicer + '\'' +
+				", binds=" + binds +
+				", reals=" + reals +
+				", rtime=" + rtime +
+				", state=" + state +
+				", login=" + login +
+				", time=" + time +
+				'}';
 	}
 }

@@ -14,7 +14,7 @@ public class AuthUtils {
 	public static IDModel realName(String name, String idCard) {
 		IDModel m = new IDModel();
 		String key = name + idCard;
-		String body = _rds.get(key);
+		/*String body = _rds.get(key);
 		try {
 			if (body == null) {
 				Document res = Jsoup.connect("https://way.jd.com/idcard/idcard").data("name", name.replace("·", "")).data("cardno", idCard).data("appkey", "65d4b4096b618e60ed3466030a88fc32").timeout(10000).ignoreContentType(true).post();
@@ -45,7 +45,15 @@ public class AuthUtils {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
+
+		//TODO 修改测试用
+		m.setMsg("查询成功");
+		m.setFlag(true);
+
+		m.setAddress("杭州");
+		m.setBirthday("1229");
+		m.setSex("男");
 		return m;
 	}
 }

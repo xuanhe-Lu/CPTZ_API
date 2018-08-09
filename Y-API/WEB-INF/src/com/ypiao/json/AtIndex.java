@@ -62,6 +62,10 @@ public class AtIndex extends Action {
 			this.getAderNoteService().sendIndex(json);
 			this.getProdInfoService().sendIndex(json);
 			this.getXuerInfoService().sendIndex(json);
+			//TODO	增加平台投资总额和投资人数
+			json.append("allMoney",7000);
+			json.append("allPeople",5);
+
 		} catch (SQLException e) {
 			json.addText("error", e.getMessage());
 		}
