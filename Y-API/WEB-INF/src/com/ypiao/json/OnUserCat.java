@@ -156,12 +156,15 @@ public class OnUserCat extends Action {
                     String date = "";
                     String dateNew = "";
                     String name = "";
-                    if (cat.getState() == 1) {
+                   /* if (cat.getState() == 1) {
                         log.info("该猫已经是成熟期了");
                         //TODO 成熟期返回数据
                         System.out.println("json:" + json.toString());
                         return JSON;
-                    } else {
+                    }
+                    if(cat.getState()  == 2) {
+                        log.info("该猫可以升级了");
+                    }else*/{
                         if (type == 1) {//分享
                             log.info(String.format("[%s]会员本次操作的动作是[%s],时间是[%s]", uid, catConfig.getName(), time));
                             savetime = cat.getShareTime();
@@ -252,14 +255,7 @@ public class OnUserCat extends Action {
                         catFood  =  catFood /*+catFood1.getCatFood()*/;
                     } else if (type == 3) {
                         catFood = /*catFood1.getCatFood() - */catFoodRe*-1;
-                    }/*else if(type ==4){
-                        if(level == 2){
-                            grow = grow.multiply(catConfig.getSilverGrowthAdd());
-                        }else if(level == 3){
-                            grow = grow.multiply(catConfig.getGoldGrowthAdd());
-                        }else
-                            grow = grow.multiply(catConfig.getOrdinaryGrowthAdd());
-                    }*/
+                    }
 
 
                     //保存猫粮和成长值到正表和历史表中。
@@ -277,16 +273,20 @@ public class OnUserCat extends Action {
                         }
                     } else if (type == 4) {
                         //查询最近一条喂食记录，转换成成长值入正表和记录表
-                        //TODO
+                        //更改需求，铲屎后成长值平均分配给每只猫。 查询到猫粮后，如果猫粮大于0 则查询用户
                         Cat cat1 = new Cat();
                         log.info("come in qryCatHis,uid" + uid + "id：" + id);
                         cat1 = this.getUserCatService().qryCatHis(uid, id, 3);
                         log.info("end  qryCatHis,cat1" + cat1.toString());
                         grow = grow.multiply(new BigDecimal(cat1.getCatFood() * 0.1));
                         grow = grow.add(cat.getGrowth());
-                        if (grow.add(cat.getGrowth()) == cat.getMaturity()) {
+                        //改需求，成长值平均分配，故state 暂时不变
+                        /*if ((grow.add(cat.getGrowth())).compareTo(cat.getMaturity())>0) {
+                            log.info(String.format("【%s】下的【%s】成长值已经达到成熟标准。"));
                             state = 1;
-                        }
+                        }*/
+                        //查找用户下的猫数量，然后平均分配成长值。
+                        this.getUserCatService().qryCatInfo(uid,1);//1根据uid查询
                         catFood = 0;
                     }
                     int catFoodTemp = 0;
@@ -311,7 +311,7 @@ public class OnUserCat extends Action {
                     json.append("catFood", catFood1.getCatFood()+catFood);
                     json.append("grow", grow);
                     json.append("name", name);
-                    System.out.println("json:" + json.toString());
+                    log.info("json:" + json.toString());
                     return JSON;
 
                 }
@@ -418,6 +418,22 @@ public class OnUserCat extends Action {
             json.addMessage("修改昵称成功");
         }
         return JSON;
+    }
+
+
+    /*
+     * @NAME:recovery
+     * @DESCRIPTION:猫成熟后回寄，
+     * @AUTHOR:luxh
+     * @DATE:2018/8/10
+     * @VERSION:1.0
+     */
+    public String recovery(){
+        AjaxInfo ajaxInfo = this.getAjaxInfo();
+        //首先判断该用户账号下的所有猫的成长值，如果有符合的，则将符合的猫进行回寄，
+        long uid = this.getLong("uid");
+//        this.getUserCatService().findCatStatus(0,uid,1);//type = 1
+return JSON;
     }
 
     public UserCatService getUserCatService() {

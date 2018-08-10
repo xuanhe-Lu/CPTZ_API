@@ -15,8 +15,8 @@ public class LuckyBagBouns implements Serializable {
     private long uid;
     private long time;
     private BigDecimal total;//总计
-    private BigDecimal cashMoney;//已提现金额
-    private BigDecimal remainMoney;//剩余金额
+    private BigDecimal cashMoney= new BigDecimal("0.00");//已提现金额
+    private BigDecimal remainMoney = new BigDecimal("0.00");//剩余金额
 
     public long getUid() {
         return uid;

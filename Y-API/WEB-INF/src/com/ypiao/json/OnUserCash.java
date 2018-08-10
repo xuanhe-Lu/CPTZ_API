@@ -143,9 +143,12 @@ public class OnUserCash extends Action {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					BigDecimal bigDecimal = luckyBagBouns.getRemainMoney();
-					BigDecimal sub = s.getMb().subtract(rmb);
-					if(sub.compareTo(bigDecimal)>0){
+					BigDecimal bigDecimal = new BigDecimal("0.00");
+					bigDecimal =luckyBagBouns.getRemainMoney();
+					BigDecimal sub = new BigDecimal("0.00");
+					sub = sub.add(s.getMb().subtract(rmb));
+					logger.info("剩余金额:"+sub+"福袋金额:"+bigDecimal);
+					if(sub.compareTo(bigDecimal)>=0){
 						logger.info("剩余金额大于福袋金额");
 					}else {
 						logger.info("剩余金额不大于福袋金额");
