@@ -154,7 +154,7 @@ public class UserCatServiceImp implements UserCatService {
             } else if (type == 3) {
                 word = " feedTime  = ? ,catFood = ? where uid = ? and id = ?  and state <1";
             } else if (type == 4) {
-                word = " clearTime  = ? , growth = ? where uid = ? and id = ?  and state <1";
+                word = " clearTime  = ? , growth =(growth +?),catfood = 0 where uid = ?   and state <1";
             }
             String finalSql = sql + word ;
 
@@ -169,7 +169,7 @@ public class UserCatServiceImp implements UserCatService {
                 ps.setBigDecimal(3, grow);
             }
             ps.setLong(4, uid);
-            if(type != 1){
+            if(type != 1 && type != 4){
                 ps.setInt(5, id);
             }
             //更新正表

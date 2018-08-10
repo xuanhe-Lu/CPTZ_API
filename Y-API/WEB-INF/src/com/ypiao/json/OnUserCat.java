@@ -140,13 +140,15 @@ public class OnUserCat extends Action {
                     int catFood = 0;
                     BigDecimal grow = new BigDecimal(0.00);
                     if (level == 2) {//白银会员
-                        log.info(String.format("level:[%s]", level));
+                        log.info(String.format("level:[%s]", level+",grow:"+grow));
                         catFood = catConfig.getSilverRight();
                         grow = catConfig.getSilverGrowthAdd();
+                        log.info(String.format("level:[%s],grow:[%s]", level,grow));
                     } else if (level == 3) {
-                        log.info(String.format("level:[%s]", level));
+                        log.info(String.format("level:[%s]", level+",grow:"+grow));
                         catFood = catConfig.getGoldRight();
                         grow = catConfig.getGoldGrowthAdd();
+                        log.info(String.format("level:[%s],grow:[%s]", level,grow));
                     }
                     //检查猫的状态和动作时间
                     Cat cat = this.getUserCatService().findCatStatus(id, uid,type);
@@ -286,7 +288,11 @@ public class OnUserCat extends Action {
                             state = 1;
                         }*/
                         //查找用户下的猫数量，然后平均分配成长值。
-                        this.getUserCatService().qryCatInfo(uid,1);//1根据uid查询
+                        List<Cat> list = this.getUserCatService().qryCatInfo(uid,1);//1根据uid查询
+                        int count = list.size() == 0?1:list.size();
+                        log.info("count:"+count+",grow:"+grow);
+                        grow = grow.divide(new BigDecimal(count+""),2,BigDecimal.ROUND_HALF_UP);
+                        log.info("grow:"+grow);
                         catFood = 0;
                     }
                     int catFoodTemp = 0;
