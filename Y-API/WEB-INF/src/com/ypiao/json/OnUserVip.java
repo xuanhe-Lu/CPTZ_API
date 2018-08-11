@@ -3,6 +3,7 @@ package com.ypiao.json;
 
 import com.ypiao.bean.*;
 import com.ypiao.service.*;
+import com.ypiao.util.Constant;
 import com.ypiao.util.MonthFound;
 import com.ypiao.util.VeStr;
 import org.apache.catalina.User;
@@ -242,10 +243,10 @@ public class OnUserVip extends Action {
                 cat.setUid(uid);
                 cat.setCatLevel(level);
                 if(level == 2){
-                    cat.setImg("app.yingpiaolicai.com/img/cat/home_img_car_nor.png");
+                    cat.setImg(Constant.SILVER_CAT_IMG);
                     cat.setMaturity(new BigDecimal("1000.00"));
                 }else  if( level == 3){
-                    cat.setImg("60.205.191.116:8081/app/images/goldcat.png");
+                    cat.setImg(Constant.GOLD_CAT_IMG);
                     cat.setMaturity(new BigDecimal("10000.00"));
                 }
                 this.getUserCatService().insCat(cat);

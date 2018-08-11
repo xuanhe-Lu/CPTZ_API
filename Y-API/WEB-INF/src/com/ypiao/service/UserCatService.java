@@ -134,4 +134,22 @@ public interface UserCatService {
      * @VERSION:1.0
      */
     public int delCatInfo(long uid,int catId) throws  Exception;
+
+    /*
+     * @NAME:updateCatInfo
+     * @DESCRIPTION:更新猫信息
+     * @AUTHOR:luxh
+     * @DATE:2018/8/11
+     * @VERSION:1.0
+     */
+    public int updateCatInfo(Cat cat) throws   Exception;
+
+    /*
+     * @NAME:qryCatInfoByUidAndId
+     * @DESCRIPTION:根据uid和Id查询猫信息
+     * @AUTHOR:luxh
+     * @DATE:2018/8/11
+     * @VERSION:1.0
+     */
+    public Cat qryCatInfoByUidAndId(Long uid, int catId) throws Exception;
 }

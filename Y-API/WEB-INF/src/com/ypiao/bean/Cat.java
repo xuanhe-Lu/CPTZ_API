@@ -29,7 +29,7 @@ public class Cat implements Serializable {
     private int IsShovel = 0;//是否铲屎，0未铲屎，1铲屎
     private String remark;//备注
     private String img;//猫的图片地址
-
+    private int isCopulatory = 0; //是否交配，0是未交配，1是已交配
 
     public int getIsShovel() {
         return IsShovel;
@@ -159,6 +159,14 @@ public class Cat implements Serializable {
         this.feedTime = feedTime;
     }
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     @Override
     public String toString() {
         return "Cat{" +
@@ -179,14 +187,15 @@ public class Cat implements Serializable {
                 ", IsShovel=" + IsShovel +
                 ", remark='" + remark + '\'' +
                 ", img='" + img + '\'' +
+                ", isCopulatory=" + isCopulatory +
                 '}';
     }
 
-    public String getImg() {
-        return img;
+    public int getIsCopulatory() {
+        return isCopulatory;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setIsCopulatory(int isCopulatory) {
+        this.isCopulatory = isCopulatory;
     }
 }

@@ -79,4 +79,12 @@ public class Constant {
 	public static boolean USE_DEBUG = false;
 	/** 静态化地址 */
 	public static boolean USE_REWRITE = true;
+
+	// 网站地址
+	public static String URL = "chinamtea.com";
+	//白银猫图片地址
+	public static String SILVER_CAT_IMG = "app.yingpiaolicai.com/img/cat/home_img_car_nor.png";
+	//黄金猫图片地址
+	public static String GOLD_CAT_IMG = "60.205.191.116:8081/app/images/goldcat.png";
+
 }

@@ -6,16 +6,13 @@ import com.ypiao.service.UserCatService;
 import com.ypiao.service.UserFaceService;
 import com.ypiao.service.UserMoneyService;
 import com.ypiao.service.UserVipService;
+import com.ypiao.util.Constant;
 import com.ypiao.util.MonthFound;
 import com.ypiao.util.VeStr;
 import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @NAME:OnUserCat
@@ -209,7 +206,7 @@ public class OnUserCat extends Action {
                         } else if (type == 3) {//喂食
                             name = "喂食";
                             log.info(String.format("[%s]会员本次操作的动作是[%s],时间是[%s]", uid, catConfig.getName(), time));
-                            if (cat.getCatFood() < catFoodRe) {
+                            if (catFood1.getCatFood() < catFoodRe) {
                                 log.info(String.format("喂食的猫粮数量超过当前拥有的猫粮数量，请重新输入"));
                                 json.success(API_OK);
                                 json.add("body");
@@ -304,7 +301,11 @@ public class OnUserCat extends Action {
                         }*/
                         //查找用户下的猫数量，然后平均分配成长值。
                         List<Cat> list = this.getUserCatService().qryCatInfo(uid, 1);//1根据uid查询
-                        int count = list.size() == 0 ? 1 : list.size();
+                        if (list == null) {
+                            json.addError("该用户下没有猫信息");
+                            return JSON;
+                        }
+                        int count = list.size() <= 1 ? 1 : list.size();
                         log.info("count:" + count + ",grow:" + grow);
                         grow = grow.divide(new BigDecimal(count + ""), 2, BigDecimal.ROUND_HALF_UP);
                         log.info("grow:" + grow);
@@ -451,22 +452,28 @@ public class OnUserCat extends Action {
         AjaxInfo ajaxInfo = this.getAjaxInfo();
         //首先判断该用户账号下的所有猫的成长值，如果有符合的，则将符合的猫进行回寄，
         long uid = this.getLong("uid");
+        int catId = this.getInt("id");
         log.info("uid:" + uid);
-        List<Cat> catList = new ArrayList<>();
+        Cat cat = new Cat();
         try {
-            catList = this.getUserCatService().qryCatInfo(uid, 1);//type = 1
+            cat = this.getUserCatService().qryCatInfoByUidAndId(uid , catId);//type = 1
         } catch (Exception e) {
             log.error("查询猫信息出错");
             e.printStackTrace();
+            ajaxInfo.addError("查询猫信息出错");
+            return JSON;
         }
-        if (catList.size() == 0 || catList == null) {
+        if (cat.getUid()!=uid && cat.getId() !=catId) {
             log.info(String.format("用户【%s】没有猫", uid));
-            ajaxInfo.addError("猫舍没有猫,无法进行回寄");
+//            ajaxInfo.addError("猫舍没有猫,无法进行回寄");
+            ajaxInfo.success(API_OK);
+            ajaxInfo.add("body");
+            ajaxInfo.append("state", 0);//猫舍没有猫,无法进行回寄
+            ajaxInfo.append("msg", "猫舍没有猫,无法进行回寄");
             return JSON;
         } else {
-            log.info(String.format("用户【%s】有【%s】猫", uid, catList.size()));
+            log.info(String.format("用户【%s】有猫", uid));
             //循环判断猫信息，成长值是否符合回寄标准。
-            for (Cat cat : catList) {
                 log.info("cat:" + cat.toString());
                 if (cat.getGrowth().compareTo(cat.getMaturity()) >= 0) {
                     log.info(String.format("【%s】猫已经到达成熟期。可以回寄", cat));
@@ -474,46 +481,197 @@ public class OnUserCat extends Action {
                     if (cat.getCatLevel() == 2) {
                         log.info("猫等级为2，回寄获得99元，1%进行捐献");
                         changeMoney = changeMoney.add(new BigDecimal("99.00"));
-                    }else if(cat.getCatLevel() ==3){
+                    } else if (cat.getCatLevel() == 3) {
                         log.info("猫等级为3，回寄获得999元，1%进行捐献");
                         changeMoney = changeMoney.add(new BigDecimal("999.00"));
                     }
-                    changeMoney = changeMoney.setScale(2,BigDecimal.ROUND_HALF_UP);
+                    changeMoney = changeMoney.setScale(2, BigDecimal.ROUND_HALF_UP);
 
-                        try {
-                            //将猫舍中的猫删除 根据CATID
-                            log.info("开始删除猫信息,catId:"+cat.getId());
-                            int delCount = 0;
-                            delCount = this.getUserCatService().delCatInfo(uid,cat.getId());
-                            if(delCount <1){
-                                log.info("删除猫信息失败,catId:"+cat.getId());
-                                ajaxInfo.addError("猫咪回寄失败，请稍后重新尝试");
-                            }else{
-                                log.info("删除猫信息成功,catId:"+cat.getId());
-                                log.info("开始增加用户余额");
-                                UserRmbs s = this.getUserMoneyService().findMoneyByUid(uid);
-                                UserRmbs rmbs = new UserRmbs();
-                                rmbs.setSid(VeStr.getUSid());
-                                rmbs.setTid(5);//1,充值,2,提现,3,提现退回,4理财消费,5,理财回款
-                                rmbs.setUid(uid);
-                                rmbs.setWay("理财回款");
-                                rmbs.setEvent("猫咪回寄");
-                                rmbs.setCost(s.getTotal());//总额
-                                rmbs.setAdds(changeMoney);//返现
-                                rmbs.setTotal(s.getTotal().add(changeMoney));//进行此次操作后剩余总额
-                                rmbs.setState(0);
-                                rmbs.setTime(System.currentTimeMillis());
-                                logger.info("rmbs:" + rmbs.toString());
-                                this.getUserMoneyService().save(rmbs);
-                                ajaxInfo.success(API_OK);
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                    try {
+                        //将猫舍中的猫删除 根据CATID
+                        log.info("开始删除猫信息,catId:" + cat.getId());
+                        int delCount = 0;
+                        delCount = this.getUserCatService().delCatInfo(uid, cat.getId());
+                        if (delCount < 1) {
+                            log.info("删除猫信息失败,catId:" + cat.getId());
+//                            ajaxInfo.addError("猫咪回寄失败，请稍后重新尝试");
+                            ajaxInfo.success(API_OK);
+                            ajaxInfo.add("body");
+                            ajaxInfo.append("state", 3);//猫咪回寄失败，请稍后重新尝试
+                            ajaxInfo.append("msg", "猫咪回寄失败，请稍后重新尝试");
+                        } else {
+                            log.info("删除猫信息成功,catId:" + cat.getId());
+                            log.info("开始增加用户余额");
+                            UserRmbs s = this.getUserMoneyService().findMoneyByUid(uid);
+                            UserRmbs rmbs = new UserRmbs();
+                            rmbs.setSid(VeStr.getUSid());
+                            rmbs.setTid(5);//1,充值,2,提现,3,提现退回,4理财消费,5,理财回款
+                            rmbs.setUid(uid);
+                            rmbs.setWay("理财回款");
+                            rmbs.setEvent("猫咪回寄");
+                            rmbs.setCost(s.getTotal());//总额
+                            rmbs.setAdds(changeMoney);//返现
+                            rmbs.setTotal(s.getTotal().add(changeMoney));//进行此次操作后剩余总额
+                            rmbs.setState(0);
+                            rmbs.setTime(System.currentTimeMillis());
+                            logger.info("rmbs:" + rmbs.toString());
+                            this.getUserMoneyService().save(rmbs);
+                            ajaxInfo.success(API_OK);
+                            ajaxInfo.add("body");
+                            ajaxInfo.append("state", 1);//猫咪成长值没有达到要求，无法回寄
+                            ajaxInfo.append("msg", "猫咪回寄成功");
                         }
-                }else{
-                    ajaxInfo.addError("猫咪成长值没有达到要求，无法回寄");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+//                    ajaxInfo.addError("猫咪成长值没有达到要求，无法回寄");
+                    ajaxInfo.success(API_OK);
+                    ajaxInfo.add("body");
+                    ajaxInfo.append("state", 2);//猫咪成长值没有达到要求，无法回寄
+                    ajaxInfo.append("msg", "猫咪成长值没有达到要求，无法回寄");
                 }
+
+        }
+        return JSON;
+    }
+
+    /*
+     * @NAME:mating
+     * @DESCRIPTION:交配
+     * @AUTHOR:luxh
+     * @DATE:2018/8/11
+     * @VERSION:1.0
+     */
+    public String copulation() {
+        AjaxInfo ajaxInfo = this.getAjaxInfo();
+        log.info("come in  copulation");
+        long uid = this.getLong("uid");
+        if (uid < 100000) {
+            ajaxInfo.addError("未找到该用户信息，请重新登陆");
+            return JSON;
+        }
+        //根据uid查询猫舍中猫的数量，
+        List<Cat> catList = new ArrayList<>();
+        try {
+            log.info("开始查询猫舍信息,uid:" + uid);
+            catList = this.getUserCatService().qryCatInfo(uid, 1);
+        } catch (Exception e) {
+            log.info("查询猫舍信息出错");
+            e.printStackTrace();
+        }
+        if (catList == null || catList.size() == 0) {
+            log.info("该用户下的猫舍没有猫信息");
+            ajaxInfo.addError("该用户下的猫舍没有猫信息");
+            return JSON;
+        } else if (catList.size() >= 2) {
+            log.info("该用户猫舍中数量已达上限，不能交配");
+            ajaxInfo.success(API_OK);
+            ajaxInfo.add("body");
+            ajaxInfo.append("state", 3);//该用户猫舍中数量已达上限，不能交配
+            ajaxInfo.append("msg", "该用户猫舍中数量已达上限，不能交配");
+            return JSON;
+        }
+
+        //查询猫状态
+        Cat cat = catList.get(0);
+        if (cat.getIsCopulatory() != 0) {
+            log.info("猫咪已经交配过了，不能在进行交配");
+            ajaxInfo.success(API_OK);
+            ajaxInfo.add("body");
+            ajaxInfo.append("state", 2);//猫咪已经交配过了，不能在进行交配
+            ajaxInfo.append("msg", "猫咪已经交配过了，不能在进行交配");
+        } else {
+            log.info("猫咪没有交配，可以进行交配");
+            //新增一个猫咪 白银会员只能得白银猫，黄金会员可以得黄金猫
+            Random random = new Random();
+            int num = 0;
+            num = random.nextInt(11) + 1;
+            Cat cat1 = new Cat();
+            cat1.setUserName(String.valueOf(uid));
+            cat1.setUid(uid);
+            if (num == 11) {
+                log.info("随机生成数字为11,新增黄金猫咪到用户:" + uid);
+                //根据购买的会员等级，新增相对应的猫
+//                Cat cat1 =
+                cat1.setCatLevel(3);
+                cat1.setImg(Constant.GOLD_CAT_IMG);
+                cat1.setMaturity(new BigDecimal("10000.00"));
+
+            } else {
+                log.info("随机生成数字不为11,新增白银猫咪到用户:" + uid);
+                cat1.setCatLevel(2);
+                cat1.setImg(Constant.SILVER_CAT_IMG);
+                cat1.setMaturity(new BigDecimal("1000.00"));
             }
+            try {
+                this.getUserCatService().insCat(cat1);
+                ajaxInfo.success(API_OK);
+                ajaxInfo.add("body");
+                ajaxInfo.append("state", 1);//成功交配
+                ajaxInfo.append("msg", "交配成功");
+            } catch (Exception e) {
+                log.error("新增猫咪失败，请检查参数,cat:" + cat1.toString());
+                e.printStackTrace();
+                ajaxInfo.success(API_OK);
+                ajaxInfo.add("body");
+                ajaxInfo.append("state", 0);//交配失败
+                ajaxInfo.append("msg", "交配失败");
+            }
+        }
+        return JSON;
+    }
+
+    /*
+     * @NAME:updateLevel
+     * @DESCRIPTION:更新猫咪等级
+     * @AUTHOR:luxh
+     * @DATE:2018/8/11
+     * @VERSION:1.0
+     */
+    public String updateLevel() {
+        AjaxInfo json = this.getAjaxInfo();
+        /**
+         * 猫咪升级，查看当前成长值，符合条件升级后扣除相应成长值，提升猫咪等级
+         */
+        long uid = this.getLong("uid");
+        int catId = this.getInt("id");
+        log.info("查询猫信息,catId," + catId + ",uid:" + uid);
+        Cat cat = null;
+        try {
+            cat = this.getUserCatService().findCatStatus(catId, uid, 0);
+        } catch (Exception e) {
+            log.error("查看猫信息失败");
+            e.printStackTrace();
+            json.success(API_OK);
+            json.add("body");
+            json.append("state", 2);//查看猫信息失败
+            json.append("msg", "查看猫信息失败");
+        }
+        log.info("查询到猫信息:cat:" + cat.toString());
+        if (cat.getCatLevel() == 2) {
+            log.info("猫咪的等级为2，可以升级");
+            if (cat.getGrowth().compareTo(cat.getMaturity()) > 0) {
+                log.info("成长值大于所需成长值，可以升级");
+                int count = 0;
+                try {
+                    count = this.getUserCatService().updateCatInfo(cat);
+                } catch (Exception e) {
+                    log.error("更新猫等级失败");
+                    e.printStackTrace();
+                }
+                log.info("影响" + count + "条数据");
+                json.success(API_OK);
+                json.add("body");
+                json.append("state", 1);//成功
+                json.append("msg", "更新猫等级成功");
+            }
+        } else {
+            log.info("猫咪的等级不为2，不可以升级");
+            json.success(API_OK);
+            json.add("body");
+            json.append("state", 3);//猫咪的等级不为2，不可以升级
+            json.append("msg", "猫咪的等级不为2，不可以升级");
         }
         return JSON;
     }

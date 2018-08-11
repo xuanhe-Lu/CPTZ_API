@@ -37,7 +37,7 @@ public class UserCatServiceImp implements UserCatService {
         PreparedStatement ps = null;
         List<Cat> catList = new ArrayList<>();
         try {
-            ps = conn.prepareStatement("SELECT id,uid,catName,catLevel,gender,catFood,state,maturity,growth,bathTime,clearTime,shareTime,IsShovel,userName,img,feedTime FROM cat_status where state < 2 AND " + sqlSuffix);
+            ps = conn.prepareStatement("SELECT id,uid,catName,catLevel,gender,catFood,state,maturity,growth,bathTime,clearTime,shareTime,IsShovel,userName,img,feedTime,isCopulatory FROM cat_status where state < 2 AND " + sqlSuffix);
             ps.setLong(1, uid);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -393,6 +393,54 @@ public class UserCatServiceImp implements UserCatService {
         } finally {
             JPrepare.close(ps, conn);
         }
+    }
+    public int updateCatInfo(Cat cat) throws   Exception{
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement("update cat_status set catLevel  = (catLevel +1),growth = (growth - maturity), maturity = maturity * 10 where uid = ? and id = ?");
+            ps.setLong(1, cat.getUid());
+            ps.setInt(2, cat.getId());
+            return ps.executeUpdate();
+        } finally {
+            JPrepare.close(ps, conn);
+        }
+    }
+
+    @Override
+    public Cat qryCatInfoByUidAndId(Long uid, int catId) throws Exception {
+        log.info("come in qryCatInfo,uid " + uid + "catId:" + catId);
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        Cat cat = new Cat();
+        try {
+            ps = conn.prepareStatement("SELECT id,uid,catName,catLevel,gender,catFood,state,maturity,growth,bathTime,clearTime,shareTime,IsShovel,userName,img,feedTime,isCopulatory FROM cat_status where state < 2 AND  uid = ? and id = ? limit 1" );
+            ps.setLong(1, uid);
+            ps.setInt(2, catId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                log.info("查到数据");
+                cat.setId(rs.getInt(1));
+                cat.setUid(rs.getLong(2));
+                cat.setCatName(rs.getString(3));
+                cat.setCatLevel(rs.getInt(4));
+                cat.setGender(rs.getInt(5));
+                cat.setCatFood(rs.getInt(6));
+                cat.setState(rs.getInt(7));
+                cat.setMaturity(rs.getBigDecimal(8));
+                cat.setGrowth(rs.getBigDecimal(9));
+                cat.setBathTime(rs.getLong(10));
+                cat.setClearTime(rs.getLong(11));
+                cat.setShareTime(rs.getLong(12));
+                cat.setIsShovel(rs.getInt(13));
+                cat.setUserName(rs.getString(14));
+                cat.setImg(rs.getString(15));
+                cat.setFeedTime(rs.getLong(16));
+            }
+        } finally {
+            JPrepare.close(ps, conn);
+        }
+        return cat;
     }
 
 }
