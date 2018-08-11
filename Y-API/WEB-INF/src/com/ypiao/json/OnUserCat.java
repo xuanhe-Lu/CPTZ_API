@@ -461,35 +461,57 @@ public class OnUserCat extends Action {
         }
         if (catList.size() == 0 || catList == null) {
             log.info(String.format("用户【%s】没有猫", uid));
+            ajaxInfo.addError("猫舍没有猫,无法进行回寄");
+            return JSON;
         } else {
             log.info(String.format("用户【%s】有【%s】猫", uid, catList.size()));
             //循环判断猫信息，成长值是否符合回寄标准。
             for (Cat cat : catList) {
                 log.info("cat:" + cat.toString());
                 if (cat.getGrowth().compareTo(cat.getMaturity()) >= 0) {
-                    log.info(String.format("【%s】猫已经到达成熟期。可以回寄",cat));
+                    log.info(String.format("【%s】猫已经到达成熟期。可以回寄", cat));
+                    BigDecimal changeMoney = new BigDecimal("0.00");
                     if (cat.getCatLevel() == 2) {
                         log.info("猫等级为2，回寄获得99元，1%进行捐献");
+                        changeMoney = changeMoney.add(new BigDecimal("99.00"));
+                    }else if(cat.getCatLevel() ==3){
+                        log.info("猫等级为3，回寄获得999元，1%进行捐献");
+                        changeMoney = changeMoney.add(new BigDecimal("999.00"));
+                    }
+                    changeMoney = changeMoney.setScale(2,BigDecimal.ROUND_HALF_UP);
+
                         try {
-                        UserRmbs s = this.getUserMoneyService().findMoneyByUid(uid);
-                        UserRmbs rmbs = new UserRmbs();
-                        rmbs.setSid(VeStr.getUSid());
-                        rmbs.setTid(5);//1,充值,2,提现,3,提现退回,4理财消费,5,理财回款
-                        rmbs.setUid(uid);
-                        rmbs.setWay("理财回款");
-                        rmbs.setEvent("猫咪回寄");
-                        rmbs.setCost(s.getTotal());//总额
-                        rmbs.setAdds(new BigDecimal("99.00"));//返现
-                        rmbs.setTotal(s.getTotal().add(new BigDecimal("99.00")));//进行此次操作后剩余总额
-                        rmbs.setState(0);
-                        rmbs.setTime(System.currentTimeMillis());
-                        logger.info("rmbs:"+rmbs.toString());
-                            this.getUserMoneyService().save(rmbs);
-                        } catch (SQLException e) {
+                            //将猫舍中的猫删除 根据CATID
+                            log.info("开始删除猫信息,catId:"+cat.getId());
+                            int delCount = 0;
+                            delCount = this.getUserCatService().delCatInfo(uid,cat.getId());
+                            if(delCount <1){
+                                log.info("删除猫信息失败,catId:"+cat.getId());
+                                ajaxInfo.addError("猫咪回寄失败，请稍后重新尝试");
+                            }else{
+                                log.info("删除猫信息成功,catId:"+cat.getId());
+                                log.info("开始增加用户余额");
+                                UserRmbs s = this.getUserMoneyService().findMoneyByUid(uid);
+                                UserRmbs rmbs = new UserRmbs();
+                                rmbs.setSid(VeStr.getUSid());
+                                rmbs.setTid(5);//1,充值,2,提现,3,提现退回,4理财消费,5,理财回款
+                                rmbs.setUid(uid);
+                                rmbs.setWay("理财回款");
+                                rmbs.setEvent("猫咪回寄");
+                                rmbs.setCost(s.getTotal());//总额
+                                rmbs.setAdds(changeMoney);//返现
+                                rmbs.setTotal(s.getTotal().add(changeMoney));//进行此次操作后剩余总额
+                                rmbs.setState(0);
+                                rmbs.setTime(System.currentTimeMillis());
+                                logger.info("rmbs:" + rmbs.toString());
+                                this.getUserMoneyService().save(rmbs);
+                                ajaxInfo.success(API_OK);
+                            }
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
-
-                    }
+                }else{
+                    ajaxInfo.addError("猫咪成长值没有达到要求，无法回寄");
                 }
             }
         }

@@ -126,4 +126,12 @@ public interface UserCatService {
      */
 
     public int updateCatFood(long uid, int catfood,String remark) throws Exception;
+    /*
+     * @NAME:delCatInfo
+     * @DESCRIPTION:删除猫信息
+     * @AUTHOR:luxh
+     * @DATE:2018/8/11
+     * @VERSION:1.0
+     */
+    public int delCatInfo(long uid,int catId) throws  Exception;
 }

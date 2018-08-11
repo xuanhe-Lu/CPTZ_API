@@ -381,6 +381,18 @@ public class UserCatServiceImp implements UserCatService {
         }
 
     }
-
+    public int delCatInfo(long uid,int catId) throws  Exception{
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        CatFood cat = new CatFood();
+        try {
+            ps = conn.prepareStatement("delete from cat_status where growth >= maturity and uid = ? and id =?");
+            ps.setLong(1, uid);
+            ps.setInt(2, catId);
+            return ps.executeUpdate();
+        } finally {
+            JPrepare.close(ps, conn);
+        }
+    }
 
 }
