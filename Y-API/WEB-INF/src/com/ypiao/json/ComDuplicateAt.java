@@ -152,7 +152,7 @@ public class ComDuplicateAt extends Action{
 			logger.info("e:"+e.getMessage());
 			json.addError(this.getText("system.error.get"));
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 }

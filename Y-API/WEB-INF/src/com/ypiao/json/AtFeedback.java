@@ -45,7 +45,7 @@ public class AtFeedback extends Action {
 		} finally {
 			content = mobile = null;
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 }

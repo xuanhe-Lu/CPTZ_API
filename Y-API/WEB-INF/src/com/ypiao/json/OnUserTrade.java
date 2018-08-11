@@ -42,7 +42,7 @@ public class OnUserTrade extends Action {
 			json.addError(this.getText( "system.error.get" ));
 		}
 		
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 }

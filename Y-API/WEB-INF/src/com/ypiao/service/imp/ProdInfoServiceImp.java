@@ -9,9 +9,11 @@ import com.ypiao.data.JPrepare;
 import com.ypiao.service.*;
 import com.ypiao.util.Table;
 import com.ypiao.util.VeRule;
+import org.apache.log4j.Logger;
 
 public class ProdInfoServiceImp extends AConfig implements ProdInfoService {
 
+	private static Logger logger = Logger.getLogger(ProdInfoServiceImp.class);
 	private AssetRawService assetRawService;
 
 	private ProdModelService prodModelService;
@@ -485,7 +487,7 @@ public class ProdInfoServiceImp extends AConfig implements ProdInfoService {
 			}
 			rs.close();
 			json.close();
-			System.out.println("json:"+json.toString());
+			logger.info("json:"+json.toString());
 		} finally {
 			JPrepare.close(ps, conn);
 		}

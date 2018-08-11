@@ -48,9 +48,9 @@ public class AtAbout extends Action implements ConfigKey {
 			LOGGER.info( "获取关于信息失败，异常信息：" + e.getMessage() );
 			e.printStackTrace();
 			json.addError(this.getText( "system.error.get" ));
-		} 
-		
-		System.out.println("json:"+json.toString());
+		}
+
+		LOGGER.info("json:"+json.toString());
  return JSON;
 	}
 }

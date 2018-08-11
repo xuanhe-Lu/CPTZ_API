@@ -69,7 +69,7 @@ public class AtIndex extends Action {
 		} catch (SQLException e) {
 			json.addText("error", e.getMessage());
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 }

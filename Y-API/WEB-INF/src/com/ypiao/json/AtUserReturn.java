@@ -35,7 +35,7 @@ public class AtUserReturn extends Action {
 		} catch (SQLException e) {
 			json.addError(this.getText("system.error.get"));
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 
@@ -51,7 +51,7 @@ public class AtUserReturn extends Action {
 		} catch (SQLException e) {
 			json.addError(this.getText("system.error.get"));
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 }

@@ -190,7 +190,7 @@ public class OnUserLottery extends Action {
                 }
                 logger.info(String.format("该用户【%s】的本次抽奖结果入表成功,", uid));
 
-//                System.out.println("json:"+json.toString());
+//                logger.info("json:"+json.toString());
                 return JSON;
             } else if (lottery.getType() == 2 || lottery.getType() == 3 || lottery.getType() == 1) { //1是体验金，2是加息券，3是现金券,
                 //到期时间，起投金额，开始时间，结束时间。 使用期限是领取开始一个月内
@@ -228,7 +228,7 @@ public class OnUserLottery extends Action {
                     logger.error(String.format("抽奖奖励存储失败"));
                     e.printStackTrace();
                     json.addError("抽奖奖励存储失败");
-//                    System.out.println("json:"+json.toString());
+//                    logger.info("json:"+json.toString());
                     return JSON;
                 }
                 //TODO 抽奖记录入表
@@ -260,7 +260,7 @@ public class OnUserLottery extends Action {
                 json.append("id", lottery.getId());
                 json.append("name", lottery.getName());
                 json.append("money", lottery.getMoney());
-                System.out.println("json:"+json.toString());
+                logger.info("json:"+json.toString());
  return JSON;*/
             } else if (lottery.getType() == 4) {//4是返现
                 logger.info(String.format("该用户【%s】的本次抽奖结果为：%s", uid, lottery.getName()));

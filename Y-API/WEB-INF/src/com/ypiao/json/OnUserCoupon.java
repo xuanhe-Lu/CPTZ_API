@@ -44,7 +44,7 @@ public class OnUserCoupon extends Action implements ServletRequestAware {
 		} catch (SQLException e) {
 			json.addError(this.getText("system.error.get"));
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 	
@@ -73,7 +73,7 @@ public class OnUserCoupon extends Action implements ServletRequestAware {
 			json.addError(this.getText( "system.error.get" ));
 		}
 		
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 }

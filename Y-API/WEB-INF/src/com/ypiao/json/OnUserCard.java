@@ -110,7 +110,7 @@ public class OnUserCard extends Action {
 			json.addError(this.getText("system.error.info"));
 		}
 		
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 }

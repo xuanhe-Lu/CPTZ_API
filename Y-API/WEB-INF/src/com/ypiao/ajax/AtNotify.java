@@ -44,14 +44,14 @@ public class AtNotify extends Action {
 	public String index() {
 		AjaxInfo json = this.getAjaxInfo();
 		json.addFailure();
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 
 	public String ok() {
 		AjaxInfo json = this.getAjaxInfo();
 		json.addMessage("50");
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 
@@ -65,7 +65,7 @@ public class AtNotify extends Action {
 			LogCharge c = this.getUserChargeService().findChargeBySid(sid);
 			if (c == null) {
 				json.addFailure();
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  return JSON;
 			} // 验证数据信息
 			String res_code = map.get("RESPONSECODE");
@@ -99,7 +99,7 @@ public class AtNotify extends Action {
 		} finally {
 			map.clear();
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 }

@@ -64,7 +64,7 @@ private TriggerService triggerService;
 			String sm = VeStr.getMobile(fix, mobile);
 			if (!this.getSendInfoService().isCode(sm, code)) {
 				json.addError(this.getText("user.error.008"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  return JSON;
 			} // 获取用户信息
 			UserInfo info = this.getUserInfoService().findUserInfoBySM(sm);
@@ -109,7 +109,7 @@ private TriggerService triggerService;
 		} finally {
 			fix = code = mobile = null;
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 

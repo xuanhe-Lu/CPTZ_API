@@ -50,7 +50,7 @@ public class AtCoder extends Action {
 		} finally {
 			code = mobile = null;
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 
@@ -77,25 +77,25 @@ public class AtCoder extends Action {
 			System.out.println(cache);
 			if (mobile == null) {
 				json.addError(this.getText("user.error.010"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  return JSON;
 			} // 转换手机号码
 			String sm = VeStr.getMobile(fix, mobile);
 			if (sm == null) {
 				json.addError(this.getText("user.error.010"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  return JSON;
 			} else if (ALL == exist) {
 				// Ignored
 			} else if (this.getSendInfoService().isUser(sm)) {
 				if (NOT == exist) {
 					json.addError(this.getText("user.error.011"));
-					System.out.println("json:"+json.toString());
+					logger.info("json:"+json.toString());
  return JSON;
 				}
 			} else if (YES == exist) {
 				json.addError(this.getText("user.error.013"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  return JSON;
 			} // 检测发送状态
 			String addr = VeStr.getRemoteAddr(request);
@@ -124,7 +124,7 @@ public class AtCoder extends Action {
 		} finally {
 			fix = mobile = null;
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 }

@@ -29,7 +29,7 @@ public class AtBank extends Action {
 		} catch (SQLException e) {
 			json.addError(this.getText("system.error.info"));
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 }

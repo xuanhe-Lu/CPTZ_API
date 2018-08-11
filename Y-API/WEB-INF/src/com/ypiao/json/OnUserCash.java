@@ -76,25 +76,25 @@ public class OnUserCash extends Action {
 			} // 检测提现金额
 			if (min.compareTo(rmb) >= 1) {
 				json.addError(this.getText("user.error.881", new String[] { DF2.format(min) }));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  				return JSON;
 			} // 检测支付密码
 			if (Pwd == null || Pwd.length() < 6) {
 				json.addError(this.getText("user.error.027"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
 				return JSON;
 			} // 检测认证信息
 			UserSession us = this.getUserSession();
 			UserAuth a = this.getUserAuthService().findAuthByUid(us.getUid());
 			if (a == null) {
 				json.addError(this.getText("user.error.050"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  				return JSON;
 			} // 校对支付密码
 			Pwd = VeStr.toMD5(Pwd); // 格式化
 			if (!Pwd.equalsIgnoreCase(a.getPays())) {
 				json.addError(this.getText("user.error.028"));
-				System.out.println("json:"+json.toString());
+				logger.info("json:"+json.toString());
  				return JSON;
 			} // 检测账户信息
 			synchronized (doLock(us.getUid())) {
@@ -128,7 +128,7 @@ public class OnUserCash extends Action {
 							// Ignored
 						} else if (fee.compareTo(rmb) >= 0) {
 							json.addError(this.getText("user.error.880", new String[] { DF2.format(fee) }));
-							System.out.println("json:"+json.toString());
+							logger.info("json:"+json.toString());
  						return JSON;
 						} else {
 							c.setTmb(fee);
@@ -191,7 +191,7 @@ public class OnUserCash extends Action {
 		} finally {
 			Pwd = null;
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 
@@ -220,7 +220,7 @@ public class OnUserCash extends Action {
 		} catch (SQLException e) {
 			json.addError(this.getText("system.error.get"));
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 
@@ -232,7 +232,7 @@ public class OnUserCash extends Action {
 		} catch (SQLException e) {
 			json.addError(this.getText("system.error.get"));
 		}
-		System.out.println("json:"+json.toString());
+		logger.info("json:"+json.toString());
  return JSON;
 	}
 }
