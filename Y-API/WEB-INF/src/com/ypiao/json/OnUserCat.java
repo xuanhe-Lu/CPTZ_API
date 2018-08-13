@@ -482,8 +482,8 @@ public class OnUserCat extends Action {
                         log.info("猫等级为2，回寄获得99元，1%进行捐献");
                         changeMoney = changeMoney.add(new BigDecimal("99.00"));
                     } else if (cat.getCatLevel() == 3) {
-                        log.info("猫等级为3，回寄获得999元，1%进行捐献");
-                        changeMoney = changeMoney.add(new BigDecimal("999.00"));
+                        log.info("猫等级为3，回寄获得990元，1%进行捐献");
+                        changeMoney = changeMoney.add(new BigDecimal("990.00"));
                     }
                     changeMoney = changeMoney.setScale(2, BigDecimal.ROUND_HALF_UP);
 
@@ -581,44 +581,54 @@ public class OnUserCat extends Action {
             ajaxInfo.add("body");
             ajaxInfo.append("state", 2);//猫咪已经交配过了，不能在进行交配
             ajaxInfo.append("msg", "猫咪已经交配过了，不能在进行交配");
-        } else {
-            log.info("猫咪没有交配，可以进行交配");
-            //新增一个猫咪 白银会员只能得白银猫，黄金会员可以得黄金猫
-            Random random = new Random();
-            int num = 0;
-            num = random.nextInt(11) + 1;
-            Cat cat1 = new Cat();
-            cat1.setUserName(String.valueOf(uid));
-            cat1.setUid(uid);
-            if (num == 11) {
-                log.info("随机生成数字为11,新增黄金猫咪到用户:" + uid);
-                //根据购买的会员等级，新增相对应的猫
+        } else if(cat.getGrowth().compareTo(cat.getMaturity())<0) {
+            log.info("猫咪成长值不符合要求，无法交配");
+            ajaxInfo.success(API_OK);
+            ajaxInfo.add("body");
+            ajaxInfo.append("state", 4);//猫咪成长值不符合要求，无法交配
+            ajaxInfo.append("msg", "猫咪成长值不符合要求，无法交配");
+        }else {
+                log.info("猫咪没有交配，可以进行交配");
+                //新增一个猫咪 白银会员只能得白银猫，黄金会员可以得黄金猫
+                Random random = new Random();
+                int num = 0;
+                num = random.nextInt(11) + 1;
+                Cat cat1 = new Cat();
+                cat1.setUserName(String.valueOf(uid));
+                cat1.setUid(uid);
+                if (num == 11) {
+                    log.info("随机生成数字为11,新增黄金猫咪到用户:" + uid);
+                    //根据购买的会员等级，新增相对应的猫
 //                Cat cat1 =
-                cat1.setCatLevel(3);
-                cat1.setImg(Constant.GOLD_CAT_IMG);
-                cat1.setMaturity(new BigDecimal("10000.00"));
+                    cat1.setCatLevel(3);
+                    cat1.setImg(Constant.GOLD_CAT_IMG);
+                    cat1.setMaturity(new BigDecimal("10000.00"));
 
-            } else {
-                log.info("随机生成数字不为11,新增白银猫咪到用户:" + uid);
-                cat1.setCatLevel(2);
-                cat1.setImg(Constant.SILVER_CAT_IMG);
-                cat1.setMaturity(new BigDecimal("1000.00"));
+                } else {
+                    log.info("随机生成数字不为11,新增白银猫咪到用户:" + uid);
+                    cat1.setCatLevel(2);
+                    cat1.setImg(Constant.SILVER_CAT_IMG);
+                    cat1.setMaturity(new BigDecimal("1000.00"));
+                }
+                try {
+                    log.info("开始新增猫咪");
+                    this.getUserCatService().insCat(cat1);
+                    log.info("对已经交配的猫咪标记");
+                    this.getUserCatService().updateCatCopulatory(cat);
+                    ajaxInfo.success(API_OK);
+                    ajaxInfo.add("body");
+                    ajaxInfo.append("state", 1);//成功交配
+                    ajaxInfo.append("msg", "交配成功");
+                } catch (Exception e) {
+                    log.error("新增猫咪失败，请检查参数,cat:" + cat1.toString());
+                    e.printStackTrace();
+                    ajaxInfo.success(API_OK);
+                    ajaxInfo.add("body");
+                    ajaxInfo.append("state", 0);//交配失败
+                    ajaxInfo.append("msg", "交配失败");
+                }
             }
-            try {
-                this.getUserCatService().insCat(cat1);
-                ajaxInfo.success(API_OK);
-                ajaxInfo.add("body");
-                ajaxInfo.append("state", 1);//成功交配
-                ajaxInfo.append("msg", "交配成功");
-            } catch (Exception e) {
-                log.error("新增猫咪失败，请检查参数,cat:" + cat1.toString());
-                e.printStackTrace();
-                ajaxInfo.success(API_OK);
-                ajaxInfo.add("body");
-                ajaxInfo.append("state", 0);//交配失败
-                ajaxInfo.append("msg", "交配失败");
-            }
-        }
+
         return JSON;
     }
 
@@ -651,10 +661,12 @@ public class OnUserCat extends Action {
         log.info("查询到猫信息:cat:" + cat.toString());
         if (cat.getCatLevel() == 2) {
             log.info("猫咪的等级为2，可以升级");
-            if (cat.getGrowth().compareTo(cat.getMaturity()) > 0) {
+            BigDecimal updateLevel = new BigDecimal("3000.00");
+            if (cat.getGrowth().compareTo(updateLevel) >= 0) {
                 log.info("成长值大于所需成长值，可以升级");
                 int count = 0;
                 try {
+                    cat.setImg(Constant.GOLD_CAT_IMG);
                     count = this.getUserCatService().updateCatInfo(cat);
                 } catch (Exception e) {
                     log.error("更新猫等级失败");
@@ -665,6 +677,12 @@ public class OnUserCat extends Action {
                 json.add("body");
                 json.append("state", 1);//成功
                 json.append("msg", "更新猫等级成功");
+            }else{
+                log.info("成长值不满足条件，不可以升级");
+                json.success(API_OK);
+                json.add("body");
+                json.append("state", 4);//成功
+                json.append("msg", "成长值不满足条件，不可以升级");
             }
         } else {
             log.info("猫咪的等级不为2，不可以升级");

@@ -9,7 +9,7 @@ public class UserStatus implements Serializable {
 
 	private long uid, ups;
 
-	private int vip = 0;
+	private int vip = 1;
 
 	private int pay = 0;
 

@@ -250,7 +250,7 @@ public class OnUserVip extends Action {
                     cat.setMaturity(new BigDecimal("10000.00"));
                 }
                 this.getUserCatService().insCat(cat);
-
+                us.setVIP(level);
             }
             json.success(API_OK);
             logger.info("json:" + json.toString());

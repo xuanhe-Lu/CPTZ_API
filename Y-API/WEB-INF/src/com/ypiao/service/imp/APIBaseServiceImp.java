@@ -3,6 +3,8 @@ package com.ypiao.service.imp;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.apache.log4j.Logger;
 import org.framework.context.ApplicationContext;
 import com.ypiao.bean.Manager;
 import com.ypiao.bean.NetService;
@@ -13,6 +15,8 @@ import com.ypiao.service.APInterService;
 import com.ypiao.service.Abstracter;
 
 public class APIBaseServiceImp implements APIBaseService {
+
+	private static Logger logger = Logger.getLogger(APIBaseServiceImp.class);
 
 	private Abstracter apis;
 
@@ -70,6 +74,7 @@ public class APIBaseServiceImp implements APIBaseService {
 	}
 
 	public final void sendAdmin(Manager mgr) throws IOException {
+		logger.info("come in sendAdmin");
 		APInterService service = this.apis.getInterface(mgr.getClazz());
 		try {
 			if (service == null) {

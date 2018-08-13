@@ -398,9 +398,23 @@ public class UserCatServiceImp implements UserCatService {
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("update cat_status set catLevel  = (catLevel +1),growth = (growth - maturity), maturity = maturity * 10 where uid = ? and id = ?");
-            ps.setLong(1, cat.getUid());
-            ps.setInt(2, cat.getId());
+            ps = conn.prepareStatement("update cat_status set catLevel  = (catLevel +1),growth = (growth - 3000), maturity = maturity * 10,img = ? where uid = ? and id = ?");
+            ps.setString(1,cat.getImg());
+            ps.setLong(2, cat.getUid());
+            ps.setInt(3, cat.getId());
+            return ps.executeUpdate();
+        } finally {
+            JPrepare.close(ps, conn);
+        }
+    }
+    public int updateCatCopulatory(Cat cat) throws   Exception{
+        Connection conn = JPrepare.getConnection();
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement("update cat_status set isCopulatory = ? where uid = ? and id = ?");
+            ps.setInt(1,1);
+            ps.setLong(2, cat.getUid());
+            ps.setInt(3, cat.getId());
             return ps.executeUpdate();
         } finally {
             JPrepare.close(ps, conn);

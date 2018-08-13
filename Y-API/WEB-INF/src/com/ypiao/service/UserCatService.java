@@ -3,7 +3,6 @@ package com.ypiao.service;
 import com.ypiao.bean.Cat;
 import com.ypiao.bean.CatConfig;
 import com.ypiao.bean.CatFood;
-import com.ypiao.bean.UserInfo;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,7 +22,8 @@ public interface UserCatService {
      * @DATE:2018/7/25
      * @VERSION:1.0
      */
-    public List<Cat> qryCatInfo(Long uid,int type)throws  Exception;
+    public List<Cat> qryCatInfo(Long uid, int type) throws Exception;
+
     /*
      * @NAME:findcatConfig
      * @DESCRIPTION:根据ID查找配置
@@ -31,7 +31,8 @@ public interface UserCatService {
      * @DATE:2018/7/26
      * @VERSION:1.0
      */
-    public CatConfig findcatConfig(int id)throws  Exception;
+    public CatConfig findcatConfig(int id) throws Exception;
+
     /*
      * @NAME:findCatStatus
      * @DESCRIPTION:查找猫的动作当天是否已经完成。
@@ -39,7 +40,8 @@ public interface UserCatService {
      * @DATE:2018/7/26
      * @VERSION:1.0
      */
-    public Cat findCatStatus(int id,long uid,int type)throws  Exception;
+    public Cat findCatStatus(int id, long uid, int type) throws Exception;
+
     /*
      * @NAME:updateCatActTimeByIdAndUidAndTime
      * @DESCRIPTION:更新猫的动作和时间
@@ -47,7 +49,7 @@ public interface UserCatService {
      * @DATE:2018/7/27
      * @VERSION:1.0
      */
-    public void updateCatActTimeByIdAndUidAndTime(long uid, int id, int type, long time, int catfoodCahnge ,int catFood, BigDecimal grow,String name,int state )throws Exception ;
+    public void updateCatActTimeByIdAndUidAndTime(long uid, int id, int type, long time, int catfoodCahnge, int catFood, BigDecimal grow, String name, int state) throws Exception;
 
     /*
      * @NAME:findRankList
@@ -57,6 +59,7 @@ public interface UserCatService {
      * @VERSION:1.0
      */
     public List<Cat> findRankList() throws Exception;
+
     /*
      * @NAME:updateName
      * @DESCRIPTION:修改猫姓名
@@ -64,7 +67,8 @@ public interface UserCatService {
      * @DATE:2018/7/27
      * @VERSION:1.0
      */
-    public int updateName(long id,String name) throws Exception;
+    public int updateName(long id, String name) throws Exception;
+
     /*
      * @NAME:insCat
      * @DESCRIPTION:创建猫
@@ -72,7 +76,7 @@ public interface UserCatService {
      * @DATE:2018/7/27
      * @VERSION:1.0
      */
-    public void insCat(Cat cat)throws  Exception;
+    public void insCat(Cat cat) throws Exception;
 
     /*
      * @NAME:qryCatHis
@@ -81,7 +85,7 @@ public interface UserCatService {
      * @DATE:2018/7/28
      * @VERSION:1.0
      */
-    public Cat qryCatHis(long uid,int id ,int type )throws Exception ;
+    public Cat qryCatHis(long uid, int id, int type) throws Exception;
 
     /*
      * @NAME:qryCatFood
@@ -90,7 +94,7 @@ public interface UserCatService {
      * @DATE:2018/7/29
      * @VERSION:1.0
      */
-    public CatFood qryCatFood(long uid)throws Exception ;
+    public CatFood qryCatFood(long uid) throws Exception;
 
     /*
      * @NAME:updateCatFood
@@ -99,7 +103,8 @@ public interface UserCatService {
      * @DATE:2018/7/29
      * @VERSION:1.0
      */
-    public int updateCatFood(long uid ,int catfood) throws Exception ;
+    public int updateCatFood(long uid, int catfood) throws Exception;
+
     /*
      * @NAME:updateIsMember
      * @DESCRIPTION:购买会员后修改isMember字段为1
@@ -107,7 +112,8 @@ public interface UserCatService {
      * @DATE:2018/7/29
      * @VERSION:1.0
      */
-    public int updateIsMember(long uid ,int isMember) throws Exception;
+    public int updateIsMember(long uid, int isMember) throws Exception;
+
     /*
      * @NAME:updateuserName
      * @DESCRIPTION:更新用户昵称
@@ -115,7 +121,7 @@ public interface UserCatService {
      * @DATE:2018/7/29
      * @VERSION:1.0
      */
-    public int updateuserName(long uid ,String userName) throws Exception;
+    public int updateuserName(long uid, String userName) throws Exception;
 
     /*
      * @NAME:updateuserName
@@ -125,7 +131,8 @@ public interface UserCatService {
      * @VERSION:1.0
      */
 
-    public int updateCatFood(long uid, int catfood,String remark) throws Exception;
+    public int updateCatFood(long uid, int catfood, String remark) throws Exception;
+
     /*
      * @NAME:delCatInfo
      * @DESCRIPTION:删除猫信息
@@ -133,7 +140,7 @@ public interface UserCatService {
      * @DATE:2018/8/11
      * @VERSION:1.0
      */
-    public int delCatInfo(long uid,int catId) throws  Exception;
+    public int delCatInfo(long uid, int catId) throws Exception;
 
     /*
      * @NAME:updateCatInfo
@@ -142,7 +149,7 @@ public interface UserCatService {
      * @DATE:2018/8/11
      * @VERSION:1.0
      */
-    public int updateCatInfo(Cat cat) throws   Exception;
+    public int updateCatInfo(Cat cat) throws Exception;
 
     /*
      * @NAME:qryCatInfoByUidAndId
@@ -152,4 +159,13 @@ public interface UserCatService {
      * @VERSION:1.0
      */
     public Cat qryCatInfoByUidAndId(Long uid, int catId) throws Exception;
+
+    /*
+     * @NAME:updateCatCopulatory
+     * @DESCRIPTION:更新猫的交配标记
+     * @AUTHOR:luxh
+     * @DATE:2018/8/13
+     * @VERSION:1.0
+     */
+    public int updateCatCopulatory(Cat cat) throws Exception;
 }
