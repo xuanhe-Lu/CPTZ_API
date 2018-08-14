@@ -310,4 +310,5 @@ public class Fuiou {
 	}
 
 
+//	public static
 }

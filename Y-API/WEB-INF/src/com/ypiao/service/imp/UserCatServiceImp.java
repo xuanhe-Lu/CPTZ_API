@@ -331,7 +331,7 @@ public class UserCatServiceImp implements UserCatService {
         try {
             ps = conn.prepareStatement("update cat_userInfo set  catFood = (catFood +?) ,remark = ?  where uid = ?  ");
             ps.setInt(1, catfood);
-            ps.setString(2,remark);
+            ps.setString(2,remark.concat(String.valueOf(catfood)));
             ps.setLong(3, uid);
             int i = 0;
             i = ps.executeUpdate();

@@ -302,9 +302,11 @@ public class LuckyBagServiceImp implements LuckyBagService {
     }
 
     public void updateUidAndTime(LuckyBagReceive luckyBagReceive) throws Exception {
+        log.info("come in updateUidAndTime,luckyBagReceive:"+luckyBagReceive.toString());
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
         try {
+            log.info("开始更新luckyBag_receive");
             ps = conn.prepareStatement("update ypiao.luckyBag_receive set uid =?, time = ? where bagId = ? and redId = ?");
             ps.setLong(1, luckyBagReceive.getUid());
             ps.setLong(2, luckyBagReceive.getTime());
@@ -312,6 +314,7 @@ public class LuckyBagServiceImp implements LuckyBagService {
             ps.setInt(4, luckyBagReceive.getRedId());
             if (ps.executeUpdate() > 0) {
                 ps.close();
+                log.info("开始更新luckyBag_bonus");
                 PreparedStatement ps1 = conn.prepareStatement("update ypiao.luckyBag_bonus set total = total+?,remainMoney = remainMoney+? ,time = ? where uid =?");
                 ps1.setBigDecimal(1, luckyBagReceive.getMoney());
                 ps1.setBigDecimal(2, luckyBagReceive.getMoney());
@@ -319,11 +322,13 @@ public class LuckyBagServiceImp implements LuckyBagService {
                 ps1.setLong(4, luckyBagReceive.getUid());
                 if (ps1.executeUpdate() <= 0) {
                     ps1.close();
+                    log.info("开始插入luckyBag_bonus");
                     PreparedStatement ps2 = conn.prepareStatement("insert  into ypiao.luckyBag_bonus (total,remainMoney,time,uid) values (?,?,?,?)");
                     ps2.setBigDecimal(1, luckyBagReceive.getMoney());
                     ps2.setBigDecimal(2, luckyBagReceive.getMoney());
                     ps2.setLong(3, luckyBagReceive.getTime());
                     ps2.setLong(4, luckyBagReceive.getUid());
+                    ps2.executeUpdate();
                     ps2.close();
                 }
             }
