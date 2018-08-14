@@ -14,7 +14,7 @@ public class AtRegister extends Action {
 	private SendInfoService sendInfoService;
 
 	private UserInfoService userInfoService;
-private TriggerService triggerService;
+	private TriggerService triggerService;
 	private UserLogerService userLogerService;
 
 	public AtRegister() {

@@ -43,7 +43,7 @@
       <sourceFolder url="file://$MODULE_DIR$/WEB-INF/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/work" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="module-library">
       <library name="JavaPNS_2.2.jar">
         <CLASSES>

@@ -41,7 +41,6 @@ public class Action extends ActionSupport implements UserRequestAware {
 
 	public void setHttpRequest(HttpServletRequest request) {
 		this.request = request;
-		System.out.println("!!!!!!!!!!,request:"+request.toString());
 		Enumeration<String> es = request.getParameterNames();
 		while (es.hasMoreElements()) {
 			String name = es.nextElement();

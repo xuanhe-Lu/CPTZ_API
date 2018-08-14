@@ -104,12 +104,6 @@ public class OnUserCash extends Action {
 				} else if (rmb.compareTo(s.getMb()) >= 1) {
 					json.addError(this.getText("user.error.884"));
 				} else {
-
-
-
-
-					// end
-
 					int m = (sys.getSYSCashByMonth() - s.getNm());
 					UserCash c = new UserCash();
 					c.setSid(VeStr.getUSid());

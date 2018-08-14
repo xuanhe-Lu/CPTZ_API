@@ -16,13 +16,13 @@ public class UserVip  implements Serializable {
     private static final long serialVersionUID = -1566393143542146651L;
     private int id;
     private String name;
-    private int level = 0;
+    private int level = 1;
     private long uid;
     private long startTime;
     private long endTime;
     private BigDecimal receipt = new BigDecimal( "1.00");//会员收益
     private String remark;
-    private int memberBenefits = 24;//会员权益日
+    private int memberBenefits = 14;//会员权益日
 
     public int getMemberBenefits() {
         return memberBenefits;

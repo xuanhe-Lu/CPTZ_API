@@ -3,8 +3,10 @@ package com.ypiao.json;
 import com.ypiao.bean.AjaxInfo;
 import com.ypiao.bean.CatConfig;
 import com.ypiao.bean.UserSession;
+import com.ypiao.bean.UserVip;
 import com.ypiao.service.UserAttenService;
 import com.ypiao.service.UserCatService;
+import com.ypiao.service.UserVipService;
 import com.ypiao.service.imp.UserAttenServiceImp;
 import com.ypiao.util.MonthFound;
 import org.commons.logs.Logger;
@@ -28,6 +30,7 @@ public class OnUserAtten extends Action {
     private UserAttenService userAttenService;
     private UserCatService userCatService;
 
+    private UserVipService userVipService;
     public OnUserAtten() {
         super(true);
     }
@@ -166,7 +169,8 @@ public class OnUserAtten extends Action {
         }
         if (countRe == 1) {
             //签到成功，则查询用户会员等级，
-            int vip = us.getVIP();
+            UserVip vips = this.getUserVipService().queryVipLog(uid,System.currentTimeMillis());
+            int vip = vips.getLevel();
 
             CatConfig catConfig = this.getUserCatService().findcatConfig(5);
             //签到成功根据会员等级不同,获取不同数量的猫粮
@@ -207,5 +211,13 @@ public class OnUserAtten extends Action {
 
     public void setUserCatService(UserCatService userCatService) {
         this.userCatService = userCatService;
+    }
+
+    public UserVipService getUserVipService() {
+        return userVipService;
+    }
+
+    public void setUserVipService(UserVipService userVipService) {
+        this.userVipService = userVipService;
     }
 }

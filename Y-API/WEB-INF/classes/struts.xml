@@ -165,8 +165,6 @@
 		
 		<!-- 优惠券弹窗 -->
 		<action name="alert_coupon" class="com.ypiao.json.OnUserCoupon" method="alert"/>
-		<!--&lt;!&ndash; 抽奖&ndash;&gt;
-		<action name="user_lottery" class="com.ypiao.json.OnUserLottery" />-->
 
 	</package>
 
