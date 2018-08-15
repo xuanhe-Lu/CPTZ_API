@@ -1,6 +1,10 @@
 package com.ypiao.json;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import com.ypiao.bean.*;
 import com.ypiao.fuiou.*;
 import com.ypiao.service.*;
@@ -195,6 +199,7 @@ public class OnRecharge extends Action {
 				logger.info("json:"+json.toString());
  return JSON;
 			} // 执行充值操作
+			logger.info("开始执行充值操作");
 			LogCharge c = new LogCharge();
 			c.setSid(VeStr.getUSid()); // 订单编号
 			c.setUid(us.getUid());
@@ -209,6 +214,26 @@ public class OnRecharge extends Action {
 			int amt = VeRule.toPer(rmb).intValue(); // 金额处理
 			PayInfo pay = this.getPayInfoService().getInfoByFuiou();
 			c.setBackUrl(pay.getNotifyUrl());
+			//TODO 协议支付增加 luxh
+			FuiouPayRequest req = new FuiouPayRequest();
+			req.setVersion("1.0");
+			req.setMchntcd(pay.getSellid());
+			req.setUserId(c.getUid());
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(new Date());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //设置时间格式
+			String date = sdf.format(calendar);
+			req.setTradeDate( date);
+			req.setMchntssn(VeStr.getUSid());
+			req.setAccount(b.getName());
+			req.setCardNo(b.getCardNo());
+
+
+
+
+
+
+
 			UserProto p = this.getUserChargeService().findProtoByUid(us.getUid());
 			/*synchronized (doLock(us.getUid())) {
 				OrderResponse res = null;

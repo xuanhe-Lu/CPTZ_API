@@ -87,4 +87,11 @@ public class Constant {
 	//黄金猫图片地址
 	public static String GOLD_CAT_IMG = "60.205.191.116:8081/app/images/goldcat.png";
 
+	// 富有协议卡绑定地址 测试地址在上
+	public static  String SEND_SMS = "http://www-1.fuiou.com:18670/mobile_pay/newpropay/bindMsg.pay";//测试地址
+//	public static  String SEND_SMS = "https://mpay.fuiou.com/newpropay/bindMsg.pay";//生产地址
+	public static  String PROTOCOL_BIND =  "http://www-1.fuiou.com:18670/mobile_pay/newpropay/bindCommit.pay"; //测试地址
+//	public static  String PROTOCOL_BIND =  "https://mpay.fuiou.com/newpropay/bindCommit.pay";//生产地址
+
+
 }

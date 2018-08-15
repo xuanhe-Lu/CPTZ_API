@@ -310,5 +310,15 @@ public class Fuiou {
 	}
 
 
-//	public static
+	/*
+	 * @NAME:sendSMS
+	 * @DESCRIPTION:富有协议支付首次发送短信绑定
+	 * @AUTHOR:luxh
+	 * @DATE:2018/8/15
+	 * @VERSION:1.0
+	 */
+	public static PayResponse sendSMS (Map<String,Object> map ){
+
+return null;
+	}
 }

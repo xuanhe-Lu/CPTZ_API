@@ -137,7 +137,7 @@ public class UserCashServiceImp extends AConfig implements UserCashService {
 		try {
 			boolean result = false;
 			conn.setAutoCommit(false);
-			long time = GMTime.currentTimeMillis();
+			long time = System.currentTimeMillis();
 			UserRmbs r = this.getUserMoneyService().findMoneyByUid(conn, c.getUid());
 			if (c.getTma().compareTo(r.getTotal()) >= 1) {
 				// 余额不足
