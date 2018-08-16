@@ -216,17 +216,22 @@ public class OnRecharge extends Action {
 			c.setBackUrl(pay.getNotifyUrl());
 			//TODO 协议支付增加 luxh
 			FuiouPayRequest req = new FuiouPayRequest();
-			req.setVersion("1.0");
+			req.setVersion("3.0");
 			req.setMchntcd(pay.getSellid());
-			req.setUserId(c.getUid());
+			req.setUserId(String.valueOf(c.getUid()));
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(new Date());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //设置时间格式
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd"); //设置时间格式
 			String date = sdf.format(calendar);
 			req.setTradeDate( date);
-			req.setMchntssn(VeStr.getUSid());
+			req.setMchntssn(String.valueOf(VeStr.getUSid()));
 			req.setAccount(b.getName());
 			req.setCardNo(b.getCardNo());
+			req.setIdType("0");
+			req.setIdCard(b.getCardNo());
+			req.setMobileNo(b.getMobile());
+			Fuiou.sendSMS(req,pay.getSecret());
+
 
 
 
@@ -300,6 +305,6 @@ public class OnRecharge extends Action {
 			json.addError(this.getText("system.error.info"));
 		}
 		logger.info("json:"+json.toString());
- return JSON;
+ 		return JSON;
 	}
 }

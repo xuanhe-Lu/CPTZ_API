@@ -88,10 +88,11 @@ public class Constant {
 	public static String GOLD_CAT_IMG = "60.205.191.116:8081/app/images/goldcat.png";
 
 	// 富有协议卡绑定地址 测试地址在上
-	public static  String SEND_SMS = "http://www-1.fuiou.com:18670/mobile_pay/newpropay/bindMsg.pay";//测试地址
-//	public static  String SEND_SMS = "https://mpay.fuiou.com/newpropay/bindMsg.pay";//生产地址
+//	public static  String SEND_SMS = "http://www-1.fuiou.com:18670/mobile_pay/newpropay/bindMsg.pay";//测试地址
+	public static  String SEND_SMS = "https://mpay.fuiou.com/newpropay/bindMsg.pay";//生产地址
 	public static  String PROTOCOL_BIND =  "http://www-1.fuiou.com:18670/mobile_pay/newpropay/bindCommit.pay"; //测试地址
 //	public static  String PROTOCOL_BIND =  "https://mpay.fuiou.com/newpropay/bindCommit.pay";//生产地址
 
-
+	public static String FUIOU_PUB_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCBCcvUDkw3ONsVx7Rzh9IJoKKurwBnKSjJEJbLXQWDKIPZMtmxcHa5jNu6OgpQ0BatOYl4p4BmgH3HzVwWyn6iDOsDlxwZezFzArtPjtECq241nfmoGhbz9lMr7T56yY5PhATws32Dm1ZQbY8DvsFvTe2hKgmIGbZQ030seRnfSwIDAQAB";
+	public static String FUIOU_PRI_KEY = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIbA52JWbirSYa2iTd/P7G6NGgOAAmgGFcTaktRVhHtgeeTHd24iT2MNTCIw/3ykcWu/55hbpHBcZIiLf/XZ940iaeSgIGmfoJa9xdVmZ5l4ElPUVtLJMntUfbPdAMP8SEwjMP8Nr6PvzjcKXS5GCfCuTW/F/dKz1mR1LOcxAkLBAgMBAAECgYBjkzBoLk4CPqwHTqQU+uRPXN0YMQOWMsjrSkittvPK56OrNuo97ASVwUG9Ek/4ntthL9HHeBCvJtbzP4Iy/fo6sevZVcaURNb3mn1R/gdIitwFur8bdF+VA5mZX8cTR4D4liZZvBHwx+UtvdWClzoOSeSpFZn7/6nMXpYzam3WQQJBALvXIHeAdPrtktmRtqmdVNYGqmgtE7jqkaqZ9VgUMcIt8W01oPEDp27NtmGTM06nneIk/ajagq97nsbc6JPa6PUCQQC3pm9RM782qnL/5fzNsv7HyTjFAlIg3Q+PNlSj1d3ekNlqRJ0hv4/aLiqrLqtqbfHu98aeGt4JsdilT/Z9rwMdAkEAlFgwFtBHEkh/Wf3ewRM0hZZcC8vVsIrnoVDXVskUBuNbsEDTKqQVHceuSl8C/RIY+Rj3jtuKq+W4HhsmPmZ65QJAbtbypG244ENreOrT80ou32Gg87Z83vzMoUDHQMKZT/TYY3zZ4T5+kc3/TqWyK2AD/photY+9pthByzRBroVsOQJAMUQ/c+Mngb8kKxU+mF/CwDSlwbL8/lM/xoDnT/qQxmxTiEysohd3jO98C0BA3+YHFswaXKtY7/Tp/H1VeX9EdA==";
 }

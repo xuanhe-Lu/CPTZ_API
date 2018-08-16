@@ -51,4 +51,14 @@ public class FuiouPayResponse implements Serializable {
     public void setMchntssn(String mchntssn) {
         this.mchntssn = mchntssn;
     }
+
+    @Override
+    public String toString() {
+        return "FuiouPayResponse{" +
+                "version='" + version + '\'' +
+                ", responseCode='" + responseCode + '\'' +
+                ", responseMsg='" + responseMsg + '\'' +
+                ", mchntssn='" + mchntssn + '\'' +
+                '}';
+    }
 }

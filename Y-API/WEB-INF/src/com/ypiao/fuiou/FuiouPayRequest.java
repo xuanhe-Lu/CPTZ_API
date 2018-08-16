@@ -16,9 +16,9 @@ public class FuiouPayRequest implements Serializable {
     private static final long serialVersionUID = -2603658202312438600L;
     private String version; //版本号
     private String mchntcd;//分配给各合作商户的唯一识别码
-    private long userId;//商户端用户的唯一编号，即用户 ID
+    private String userId;//商户端用户的唯一编号，即用户 ID
     private String tradeDate;//交易请求日期  20180417
-    private long mchntssn; //商户流水号，保持唯一
+    private String mchntssn; //商户流水号，保持唯一
     private String account;//银行卡账户名称
     private String cardNo;//银行卡号
     private String idType;//证件类型 0：身份证
@@ -42,11 +42,11 @@ public class FuiouPayRequest implements Serializable {
         this.mchntcd = mchntcd;
     }
 
-    public long getUserId() {
+    public String getUserId() {
         return userId;
     }
     @XmlElement(name = "USERID")
-    public void setUserId(long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -58,11 +58,11 @@ public class FuiouPayRequest implements Serializable {
         this.tradeDate = tradeDate;
     }
 
-    public long getMchntssn() {
+    public String getMchntssn() {
         return mchntssn;
     }
     @XmlElement(name = "MCHNTSSN")
-    public void setMchntssn(long mchntssn) {
+    public void setMchntssn(String mchntssn) {
         this.mchntssn = mchntssn;
     }
 
@@ -112,5 +112,22 @@ public class FuiouPayRequest implements Serializable {
     @XmlElement(name = "SIGN")
     public void setSign(String sign) {
         this.sign = sign;
+    }
+
+    @Override
+    public String toString() {
+        return "FuiouPayRequest{" +
+                "version='" + version + '\'' +
+                ", mchntcd='" + mchntcd + '\'' +
+                ", userId='" + userId + '\'' +
+                ", tradeDate='" + tradeDate + '\'' +
+                ", mchntssn='" + mchntssn + '\'' +
+                ", account='" + account + '\'' +
+                ", cardNo='" + cardNo + '\'' +
+                ", idType='" + idType + '\'' +
+                ", idCard='" + idCard + '\'' +
+                ", mobileNo='" + mobileNo + '\'' +
+                ", sign='" + sign + '\'' +
+                '}';
     }
 }

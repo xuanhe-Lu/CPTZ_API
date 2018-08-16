@@ -4,6 +4,14 @@ import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 import javax.xml.bind.JAXBException;
+
+import com.alibaba.fastjson.JSONObject;
+import com.fuiou.mpay.encrypt.DESCoderFUIOU;
+import com.fuiou.mpay.encrypt.RSAUtils;
+import com.fuiou.mpay.encrypt.RSAUtilsFUIOU;
+import com.fuiou.util.MD5;
+import com.ypiao.util.VeStr;
+import org.apache.log4j.Logger;
 import org.commons.code.DigestUtils;
 import org.commons.code.Suncoder;
 import com.sunsw.http.*;
@@ -19,6 +27,8 @@ import com.ypiao.util.AUtils;
 import com.ypiao.util.Constant;
 
 public class Fuiou {
+
+	private static Logger logger = Logger.getLogger(Fuiou.class);
 
 	private static final String TEST_PAY_URL_QUERY_CARDBIN = "https://mpay.fuiou.com:16128/findPay/cardBinQuery.pay"; // 查询卡号是否支持
 
@@ -257,7 +267,7 @@ public class Fuiou {
 
 	/** 使用协议号进行支付调用的接口 */
 	public static PayResponse toPay(ProtoPayRequest req, String key) throws JAXBException, IOException {
-		/*req.setType("03");
+		req.setType("03");
 		req.setVersion("3.0");
 		req.setRem2("");
 		req.setRem3("");
@@ -288,8 +298,8 @@ public class Fuiou {
 		} finally {
 			sb.setLength(0);
 			skey = null;
-		}*/
-		return null;
+		}
+//		return null;
 	}
 
 	/** 验签操作 */
@@ -317,8 +327,91 @@ public class Fuiou {
 	 * @DATE:2018/8/15
 	 * @VERSION:1.0
 	 */
-	public static PayResponse sendSMS (Map<String,Object> map ){
+	public static FuiouPayResponse sendSMS (FuiouPayRequest fuiouPayRequest,String secret ) throws IOException{
+		logger.info("come in sendSMS");
+		try {
 
-return null;
+
+			String version = "1.0";
+			String mchntSsn =fuiouPayRequest.getMchntssn();
+			String tradeDate = fuiouPayRequest.getTradeDate();
+			String mchntcd =fuiouPayRequest.getMchntcd();
+			String key = secret;
+			String userid = fuiouPayRequest.getUserId();
+			String account = fuiouPayRequest.getAccount();
+			String cardNo = fuiouPayRequest.getCardNo();
+			String idType =fuiouPayRequest.getIdType();
+			String idCard =fuiouPayRequest.getIdCard();
+			String mobileNo = fuiouPayRequest.getMobileNo();
+
+			NewProtocolBindXmlBeanReq beanReq = new NewProtocolBindXmlBeanReq();
+			beanReq.setVersion(version);
+			beanReq.setTradeDate(tradeDate);
+			beanReq.setMchntCd(mchntcd);
+			beanReq.setUserId(userid);
+			beanReq.setAccount(account);
+			beanReq.setCardNo(cardNo);
+			beanReq.setIdType(idType);
+			beanReq.setIdCard(idCard);
+			beanReq.setMobileNo(mobileNo);
+			beanReq.setMchntSsn(mchntSsn);
+			beanReq.setSign(getSign(beanReq.sendMsgSignStr(key), "MD5", Constant.FUIOU_PRI_KEY));
+			System.out.println("sign:"+beanReq.getSign());
+
+			Map<String,String> map = new HashMap<String, String>();
+			//String url = "http://www-1.fuiou.com:18670/mobile_pay/newpropay/bindMsg.pay";
+			String url =Constant.SEND_SMS;
+			String APIFMS =XMapUtil.toXML(beanReq, "UTF-8");;
+			APIFMS = DESCoderFUIOU.desEncrypt(APIFMS, DESCoderFUIOU.getKeyLength8(key));
+			map.put("MCHNTCD",mchntcd);
+			map.put("APIFMS", APIFMS);
+			String result = new HttpPoster(url).postStr(map);
+			result = DESCoderFUIOU.desDecrypt(result,DESCoderFUIOU.getKeyLength8(key));
+			System.out.println(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return  null;
 	}
+	/**
+	 * 获取签名
+	 * @param signStr  签名串
+	 * @param signtp   签名类型
+	 * @param key      密钥
+	 * @return
+	 * @throws Exception
+	 */
+	public static String getSign(String signStr,String signtp,String key) throws  Exception{
+		String sign = "";
+		if ("md5".equalsIgnoreCase(signtp)) {
+			sign = MD5.MD5Encode(signStr);
+		} else {
+			sign =	RSAUtils.sign(signStr.getBytes("utf-8"), key);
+		}
+		RSAUtilsFUIOU.getKeyInfo();
+		return sign;
+	}
+
+	public static void main(String[] args) {
+		RSAUtilsFUIOU.getKeyInfo();
+		FuiouPayRequest fuiouPayRequest = new FuiouPayRequest();
+		// UPDATE ypiao.user_bank SET Bid = 101, Code = '194448', BankId = '1020000', BankName = '工商银行', BinId = 621226, BinStat = 1, CardName = '牡丹卡普卡', CardTy = 'D', Channel = 'CUPS', Mobile = '+86-13074149273', Name = '芦炫赫', GmtA = 1534399793211, GmtB = 1534399800780, GmtC = 0, Gdef = 0, State = 2, Time = 1534399800780 WHERE Uid = 107918 AND CNo = '6212263400021079107';
+		fuiouPayRequest.setMobileNo("13074149273");
+		fuiouPayRequest.setCardNo("6212263400021079107");
+		fuiouPayRequest.setVersion("3.0");
+		fuiouPayRequest.setMchntcd("0003310F1078099");
+		fuiouPayRequest.setIdType("0");
+		fuiouPayRequest.setMchntssn(String.valueOf(VeStr.getUSid()));
+		fuiouPayRequest.setIdCard("210504199010262112");
+		fuiouPayRequest.setTradeDate("20180816");
+		fuiouPayRequest.setUserId("107918");
+		fuiouPayRequest.setAccount("芦炫赫");
+		String s = Suncoder.decode("IlpHEVZFXTgWJnNZSQh2dzwLFBRhYAEFElkuBAs8RBU=");
+		try {
+			sendSMS(fuiouPayRequest,s);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
