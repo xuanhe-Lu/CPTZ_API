@@ -3,17 +3,18 @@
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/TradeInfoServiceImp.java" line="419" />
     <bookmark url="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/UserCatServiceImp.java" line="243" />
+    <bookmark url="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/fuiou/FuiouPayResponse.java" line="19" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df216d91-10de-4e76-9241-3fe8f61d7ae0" name="Default" comment="功能完善">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="df216d91-10de-4e76-9241-3fe8f61d7ae0" name="Default" comment="猫舍成熟升级功能增加">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserCat.java" beforeDir="false" afterPath="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserCat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/UserCatServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/UserCatServiceImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Y-MGR/WEB-INF/classes/init.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Y-MGR/WEB-INF/classes/init.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Y-MGR/Y-MGR.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Y-MGR/Y-MGR.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/fuiou/NewProtocolBindXmlBeanReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/fuiou/NewProtocolBindXmlBeanReq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/SenderServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/SenderServiceImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/sign/AuthUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/sign/AuthUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/sign/Fuiou.java" beforeDir="false" afterPath="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/sign/Fuiou.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/test/TestMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/test/TestMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Y-API/Y-API.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Y-API/Y-API.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Y-MGR/cache/dict/upgrade.method.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Y-MGR/cache/dict/upgrade.method.txt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/Y-API/WEB-INF/classes/" />
     <ignored path="$PROJECT_DIR$/Y-MGR/WEB-INF/classes/" />
@@ -50,88 +51,87 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AtIndex.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/AtIndex.java">
+      <file leaf-file-name="Fuiou.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/sign/Fuiou.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="67" lean-forward="true" selection-start-line="67" selection-end-line="67" />
+            <state relative-caret-position="473">
+              <caret line="373" column="32" lean-forward="true" selection-start-line="373" selection-start-column="32" selection-end-line="373" selection-end-column="32" />
+              <folding>
+                <element signature="e#10639#10655#0" expanded="true" />
+                <element signature="e#13133#13149#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OnUserCash.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserCash.java">
+      <file leaf-file-name="AuthUtils.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/sign/AuthUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="139" column="70" selection-start-line="139" selection-start-column="70" selection-end-line="139" selection-end-column="70" />
+            <state relative-caret-position="-49">
+              <caret line="19" column="75" selection-start-line="19" selection-start-column="75" selection-end-line="19" selection-end-column="75" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LuckyBagBouns.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/bean/LuckyBagBouns.java">
+      <file leaf-file-name="console.sql" pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/161a4082-e7a4-402a-8181-774be3add853/console.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="69" column="5" lean-forward="true" selection-start-line="69" selection-start-column="5" selection-end-line="69" selection-end-column="5" />
+            <state relative-caret-position="310">
+              <caret line="215" column="64" selection-start-line="215" selection-start-column="64" selection-end-line="215" selection-end-column="64" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OnUserCat.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserCat.java">
+      <file leaf-file-name="SmsUtils.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/util/SmsUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="423">
-              <caret line="153" column="83" lean-forward="true" selection-start-line="153" selection-start-column="83" selection-end-line="153" selection-end-column="83" />
+            <state relative-caret-position="309">
+              <caret line="79" column="39" lean-forward="true" selection-start-line="79" selection-start-column="39" selection-end-line="79" selection-end-column="39" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="init.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/init.properties">
-          <provider selected="true" editor-type-id="text-editor" />
+      <file leaf-file-name="SendSms.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/test/SendSms.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="190">
+              <caret line="34" column="59" lean-forward="true" selection-start-line="34" selection-start-column="59" selection-end-line="34" selection-end-column="59" />
+            </state>
+          </provider>
         </entry>
       </file>
-      <file leaf-file-name="console_5.sql" pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/161a4082-e7a4-402a-8181-774be3add853/console_5.sql">
+      <file leaf-file-name="struts.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/struts.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="19">
-              <caret line="1" column="22" selection-start-line="1" selection-end-line="1" selection-end-column="32" />
+              <caret line="102" column="60" selection-start-line="102" selection-start-column="60" selection-end-line="102" selection-end-column="60" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserCatService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/UserCatService.java">
+      <file leaf-file-name="OnUserBank.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserBank.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="49" column="16" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
+            <state relative-caret-position="142">
+              <caret line="361" column="41" selection-start-line="361" selection-start-column="41" selection-end-line="361" selection-end-column="41" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AderNoteServiceImp.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/AderNoteServiceImp.java">
+      <file leaf-file-name="SenderService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/SenderService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="241">
-              <caret line="118" column="25" lean-forward="true" selection-start-line="118" selection-start-column="25" selection-end-line="118" selection-end-column="25" />
+            <state relative-caret-position="152">
+              <caret line="8" column="19" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserCatServiceImp.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/UserCatServiceImp.java">
+      <file leaf-file-name="SenderServiceImp.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/SenderServiceImp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="155" column="35" lean-forward="true" selection-start-line="155" selection-start-column="35" selection-end-line="155" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AderInfoServiceImp.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/AderInfoServiceImp.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="404">
-              <caret line="212" column="32" lean-forward="true" selection-start-line="212" selection-start-column="32" selection-end-line="212" selection-end-column="32" />
+            <state relative-caret-position="157">
+              <caret line="38" column="10" selection-start-line="38" selection-start-column="8" selection-end-line="84" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -148,40 +148,42 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>system</find>
-      <find>user_auth</find>
-      <find>\u8ba4\u8bc1\u5931\u8d25\uff0c\u8bf7\u68c0\u67e5\u4fe1\u606f\u662f\u5426\u6709\u8bef\uff01</find>
-      <find>加息券</find>
-      <find>时，是否是会员</find>
-      <find>register</find>
-      <find>come in updateCatFood</find>
-      <find>maturity</find>
-      <find>score</find>
-      <find>Pub-default</find>
-      <find>userAuthInterceptorStack</find>
-      <find>\u9274\u6743\u5931\u8d25</find>
-      <find>system.error.login</find>
-      <find>\u60a8\u7684\u9a8c\u8bc1\u7801\u9519\u8bef\u6216\u5df2\u5931\u6548\uff01</find>
-      <find>user.error.008</find>
-      <find>====&quot;</find>
-      <find>invoke</find>
-      <find>come in qryCatInfo</find>
-      <find>getUserCatService().qryCatHis</find>
-      <find>OnUserCash</find>
-      <find>ader_</find>
-      <find>移动端</find>
-      <find>tids</find>
-      <find>updateCatActTimeByIdAndUidAndTime</find>
-      <find>ader</find>
-      <find>index</find>
-      <find>&quot;ad5&quot;</find>
-      <find>ad5</find>
-      <find>ader&quot;</find>
-      <find>福袋金额</find>
+      <find>猫粮</find>
+      <find>company</find>
+      <find>req</find>
+      <find>MySSLSocketFactory</find>
+      <find>返回xml</find>
+      <find>CardPro sendMsgSignStr</find>
+      <find>私钥</find>
+      <find>公钥:</find>
+      <find>公钥</find>
+      <find>[请求信息：]</find>
+      <find>CardPro sendMsgSignSt</find>
+      <find>apinewpay/orderAction.pay</find>
+      <find>recharge</find>
+      <find>TEST_PAY_URL_ORDER_ACTION_PAY</find>
+      <find>req.getParameter</find>
+      <find>System.out.println</find>
+      <find>c</find>
+      <find>cardBinQry</find>
+      <find>认证失败，</find>
+      <find>\u8ba4\u8bc1\u5931\u8d25\uff0c\u8bf7\u68c0\u67e5\u4fe1\u606f\u662f\u5426\u6709\u8bef</find>
+      <find>user.error.055</find>
+      <find>jd.com</find>
+      <find>动态加载数据库中配置的短信验证码账户及密码成功</find>
+      <find>发送短信验证码【res转entity】</find>
+      <find>动态加载数据库中配置的短信发送签名成功</find>
+      <find>发送短信验证码</find>
+      <find>user_bank</find>
+      <find>65d4b4096b618e60ed3466030a88fc32</find>
+      <find>TEST_PAY_URL_QUERY_CARDBIN</find>
+      <find>绑定银行卡</find>
     </findStrings>
     <replaceStrings>
       <replace>不再获得猫粮</replace>
       <replace>logger.info(</replace>
+      <replace>logger.info(&quot;json:&quot; + json.toString());</replace>
+      <replace>logger.info</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -193,57 +195,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/bean/luckyBagBonus.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserLottery.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/InformationService.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/bean/Information.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/InformationServiceImp.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnInformation.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/bean/LuckyBagReceive.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/bean/UserSession.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/bean/LuckyBagSend.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/bean/LogOrder.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/bean/UserVip.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/AtCoder.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/ajax/AtCoder.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/server/SendNoder.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/UserIderService.java" />
-        <option value="$PROJECT_DIR$/Y-MGR/WEB-INF/src/com/ypm/service/imp/UserIderServiceImp.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/UserAttenService.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/AtProdInfo.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserAtten.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/UserAttenServiceImp.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/LuckyBagService.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserBuy.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnRedEnvelopes.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/UserCatService.java" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/161a4082-e7a4-402a-8181-774be3add853/console_2.sql" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/TradeInfoServiceImp.java" />
         <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/struts.xml" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/LuckyBagServiceImp.java" />
         <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserActivity.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/test/TestMain.java" />
         <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/UserMoneyServiceImp.java" />
         <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/ActivityServiceImp.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/AtIndex.java" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/161a4082-e7a4-402a-8181-774be3add853/console_3.sql" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/161a4082-e7a4-402a-8181-774be3add853/console.sql" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/161a4082-e7a4-402a-8181-774be3add853/console_4.sql" />
         <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/UserIderServiceImp.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/sign/AuthUtils.java" />
         <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserAuth.java" />
         <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserBank.java" />
         <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/bean/UserInfo.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/AtRegister.java" />
         <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserInfo.java" />
         <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/TriggerServiceImp.java" />
         <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/SendInfoServiceImp.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserVip.java" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/161a4082-e7a4-402a-8181-774be3add853/console_5.sql" />
         <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserCash.java" />
         <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/bean/LuckyBagBouns.java" />
-        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/UserCatServiceImp.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/bean/Cat.java" />
+        <option value="$PROJECT_DIR$/Y-MGR/WEB-INF/src/init.properties" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/UserCatService.java" />
         <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserCat.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/APIBaseServiceImp.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/aps/Abstract.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/bean/UserStatus.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/server/ReadBodys.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/aps/APIAt211.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserVip.java" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/161a4082-e7a4-402a-8181-774be3add853/console_6.sql" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/UserVipServiceImp.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/bean/UserVip.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserAtten.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/UserCatServiceImp.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/AtRegister.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/LuckyBagServiceImp.java" />
+        <option value="$PROJECT_DIR$/Y-MGR/WEB-INF/src/struts.xml" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/UserCashServiceImp.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/AtIndex.java" />
+        <option value="$PROJECT_DIR$/ymjf.plist" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/fuiou/FuiouPayRequest.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/fuiou/FuiouPayResponse.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/fuiou/XMapUtil.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/util/HttpPoster.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/util/HttpPostUtil.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/fuiou/HttpPoster.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/util/Constant.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnRecharge.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/fuiou/NewProtocolBindXmlBeanReq.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/sign/AuthUtils.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/sign/Fuiou.java" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/test/TestMain.java" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/161a4082-e7a4-402a-8181-774be3add853/console.sql" />
+        <option value="$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/SenderServiceImp.java" />
       </list>
     </option>
   </component>
@@ -281,6 +283,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -316,30 +319,23 @@
             </path>
             <path>
               <item name="CPTZ_CODE" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Y-MGR" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CPTZ_CODE" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Y-MGR" type="462c0819:PsiDirectoryNode" />
-              <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CPTZ_CODE" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Y-MGR" type="462c0819:PsiDirectoryNode" />
+              <item name="Y-API" type="462c0819:PsiDirectoryNode" />
               <item name="WEB-INF" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="ypiao" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
-      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="tids&#9;FILE&#9;file://E:/CPTZ_CODE/Y-MGR/cache/dict/coo.ader.tids.txt&#10;TriggerServiceImp&#9;FILE&#9;file://E:/CPTZ_CODE/Y-API/WEB-INF/src/com/ypiao/service/imp/TriggerServiceImp.java&#10;SenderServiceImp&#9;FILE&#9;file://E:/CPTZ_CODE/Y-API/WEB-INF/src/com/ypiao/service/imp/SenderServiceImp.java&#10;UserIderServiceImp&#9;FILE&#9;file://E:/CPTZ_CODE/Y-API/WEB-INF/src/com/ypiao/service/imp/UserIderServiceImp.java&#10;UserLogerServiceImp&#9;PSI&#9;JAVA://com.ypiao.service.imp.UserLogerServiceImp&#10;ActivityServiceImp&#9;FILE&#9;file://E:/CPTZ_CODE/Y-API/WEB-INF/src/com/ypiao/service/imp/ActivityServiceImp.java&#10;updateCatActTimeByIdAndUidAndTime&#9;PSI&#9;JAVA://com.ypiao.service.UserCatService#updateCatActTimeByIdAndUidAndTime&#10;updateCatFood&#9;PSI&#9;JAVA://com.ypiao.service.UserCatService#updateCatFood&#10;OnUserActivity&#9;PSI&#9;JAVA://com.ypiao.json.OnUserActivity&#10;AjaxInfo&#9;PSI&#9;JAVA://com.ypiao.bean.AjaxInfo&#10;qryCatInfo&#9;PSI&#9;JAVA://com.ypiao.service.UserCatService#qryCatInfo&#10;findUserIder&#9;PSI&#9;JAVA://com.ypiao.service.imp.UserIderServiceImp#findUserIder&#10;SendNoder&#9;PSI&#9;JAVA://com.ypiao.server.SendNoder&#10;sendSMS&#9;PSI&#9;JAVA://com.ypiao.service.SysConfig#sendSMS&#10;AtRegister&#9;PSI&#9;JAVA://com.ypiao.json.AtRegister&#10;OnRedEnvelopes&#9;FILE&#9;file://E:/CPTZ_CODE/Y-API/WEB-INF/src/com/ypiao/json/OnRedEnvelopes.java&#10;getbagHis&#9;PSI&#9;JAVA://com.ypiao.json.OnRedEnvelopes#getbagHis&#10;OnUserBuy&#9;PSI&#9;JAVA://com.ypiao.json.OnUserBuy&#10;verify&#9;FILE&#9;file://E:/CPTZ_CODE/Y-API/WEB-INF/src/com/ypiao/verify&#10;info&#9;PSI&#9;JAVA://com.ypiao.json.AtProdInfo#info" />
+    <property name="SearchEverywhereHistoryKey" value="Cons&#9;PSI&#9;JAVA://com.ypiao.util.Constant&#10;Const&#9;PSI&#9;JAVA://com.ypiao.util.Constant&#10;android&#9;PSI&#9;JAVA://com.ypiao.json.AtConfig#android&#10;AtProdInfo&#9;PSI&#9;JAVA://com.ypiao.json.AtProdInfo&#10;tids&#9;FILE&#9;file://E:/CPTZ_CODE/Y-MGR/cache/dict/coo.ader.tids.txt&#10;TriggerServiceImp&#9;FILE&#9;file://E:/CPTZ_CODE/Y-API/WEB-INF/src/com/ypiao/service/imp/TriggerServiceImp.java&#10;SenderServiceImp&#9;FILE&#9;file://E:/CPTZ_CODE/Y-API/WEB-INF/src/com/ypiao/service/imp/SenderServiceImp.java&#10;UserIderServiceImp&#9;FILE&#9;file://E:/CPTZ_CODE/Y-API/WEB-INF/src/com/ypiao/service/imp/UserIderServiceImp.java&#10;UserLogerServiceImp&#9;PSI&#9;JAVA://com.ypiao.service.imp.UserLogerServiceImp&#10;ActivityServiceImp&#9;FILE&#9;file://E:/CPTZ_CODE/Y-API/WEB-INF/src/com/ypiao/service/imp/ActivityServiceImp.java&#10;updateCatActTimeByIdAndUidAndTime&#9;PSI&#9;JAVA://com.ypiao.service.UserCatService#updateCatActTimeByIdAndUidAndTime&#10;updateCatFood&#9;PSI&#9;JAVA://com.ypiao.service.UserCatService#updateCatFood&#10;OnUserActivity&#9;PSI&#9;JAVA://com.ypiao.json.OnUserActivity&#10;AjaxInfo&#9;PSI&#9;JAVA://com.ypiao.bean.AjaxInfo&#10;qryCatInfo&#9;PSI&#9;JAVA://com.ypiao.service.UserCatService#qryCatInfo&#10;findUserIder&#9;PSI&#9;JAVA://com.ypiao.service.imp.UserIderServiceImp#findUserIder&#10;SendNoder&#9;PSI&#9;JAVA://com.ypiao.server.SendNoder&#10;sendSMS&#9;PSI&#9;JAVA://com.ypiao.service.SysConfig#sendSMS&#10;AtRegister&#9;PSI&#9;JAVA://com.ypiao.json.AtRegister&#10;OnRedEnvelopes&#9;FILE&#9;file://E:/CPTZ_CODE/Y-API/WEB-INF/src/com/ypiao/json/OnRedEnvelopes.java&#10;getbagHis&#9;PSI&#9;JAVA://com.ypiao.json.OnRedEnvelopes#getbagHis&#10;OnUserBuy&#9;PSI&#9;JAVA://com.ypiao.json.OnUserBuy&#10;verify&#9;FILE&#9;file://E:/CPTZ_CODE/Y-API/WEB-INF/src/com/ypiao/verify&#10;info&#9;PSI&#9;JAVA://com.ypiao.json.AtProdInfo#info" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
@@ -348,10 +344,10 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
-    <property name="database.console.LAST_STATE" value="false" />
-    <property name="database.data.extractors.current.id" value="SQL Inserts" />
+    <property name="database.console.LAST_STATE" value="true" />
+    <property name="database.data.extractors.current.id" value="HTML Table" />
     <property name="extract.method.default.visibility" value="private" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Y-MGR" />
+    <property name="last_opened_file_path" value="E:/富有代收付文档/手机支付Demo/手机支付Demo/手机支付demo（Java）/ms/WebContent/WEB-INF/lib/xmap.jar!/" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -360,12 +356,126 @@
     <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\CPTZ_CODE\Y-API\WEB-INF\src\com\ypiao\util" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.ypiao.util" />
+      <recent name="com.ypiao.fuiou" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\CPTZ_CODE\Y-API\WEB-INF\lib" />
     </key>
+  </component>
+  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
+    <UpdatedFiles>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Updated from server" />
+        <option name="myStatusName" value="Changed on server" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="CHANGED_ON_SERVER" />
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated" />
+          <option name="myStatusName" value="Changed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UPDATED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Created" />
+          <option name="myStatusName" value="Created" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CREATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/ymjf.plist</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Deleted" />
+          <option name="myStatusName" value="Deleted" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="true" />
+          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Restored" />
+          <option name="myStatusName" value="Will be restored" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="RESTORED" />
+        </FILE-GROUP>
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Modified" />
+        <option name="myStatusName" value="Modified" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MODIFIED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Skipped" />
+        <option name="myStatusName" value="Skipped" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SKIPPED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with conflicts" />
+        <option name="myStatusName" value="Will be merged with conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_CONFLICTS" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with tree conflicts" />
+        <option name="myStatusName" value="Merged with tree conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with property conflicts" />
+        <option name="myStatusName" value="Will be merged with property conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged" />
+        <option name="myStatusName" value="Will be merged" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Not in repository" />
+        <option name="myStatusName" value="Not in repository" />
+        <option name="mySupportsDeletion" value="true" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="UNKNOWN" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally added" />
+        <option name="myStatusName" value="Locally added" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_ADDED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally removed" />
+        <option name="myStatusName" value="Locally removed" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_REMOVED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Switched" />
+        <option name="myStatusName" value="Switched" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SWITCHED" />
+      </FILE-GROUP>
+    </UpdatedFiles>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -379,8 +489,19 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Tomcat Server.API">
-    <configuration name="RadomLuckBag" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.Fuiou">
+    <configuration name="Fuiou" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.ypiao.sign.Fuiou" />
+      <module name="Y-API" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ypiao.sign.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+    </configuration>
+    <configuration name="RadomLuckBag" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.ypiao.util.RadomLuckBag" />
       <module name="Y-API" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -444,6 +565,7 @@
       <listeners />
     </configuration>
     <configuration name="API" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.0.53" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8087/" />
       <option name="BROWSER_ID" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
       <option name="SHOW_DIALOG_ON_UPDATE" value="false" />
       <option name="UPDATING_POLICY" value="restart-server" />
@@ -456,7 +578,7 @@
       </deployment>
       <server-settings>
         <option name="BASE_DIRECTORY_NAME" value="Unnamed_CPTZ_CODE_5" />
-        <option name="HTTP_PORT" value="8088" />
+        <option name="HTTP_PORT" value="8087" />
         <option name="JNDI_PORT" value="2099" />
       </server-settings>
       <predefined_log_file id="Tomcat" enabled="true" />
@@ -514,7 +636,6 @@
       </ConfigurationWrapper>
     </configuration>
     <configuration name="MGR" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.0.53" ALTERNATIVE_JRE_ENABLED="false">
-      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8081/" />
       <option name="BROWSER_ID" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
@@ -534,7 +655,7 @@
       <predefined_log_file id="Tomcat Host Manager" enabled="false" />
       <predefined_log_file id="Tomcat Localhost Access" enabled="false" />
       <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="57269" />
+        <option name="DEBUG_PORT" value="57265" />
       </RunnerSettings>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
         <option name="USE_ENV_VARIABLES" value="true" />
@@ -583,15 +704,16 @@
       </ConfigurationWrapper>
     </configuration>
     <list>
+      <item itemvalue="Application.RadomLuckBag" />
       <item itemvalue="Tomcat Server.MGR" />
       <item itemvalue="Tomcat Server.API" />
-      <item itemvalue="Application.RadomLuckBag" />
       <item itemvalue="Application.TestMain" />
+      <item itemvalue="Application.Fuiou" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Fuiou" />
         <item itemvalue="Application.TestMain" />
-        <item itemvalue="Application.RadomLuckBag" />
       </list>
     </recent_temporary>
   </component>
@@ -607,7 +729,8 @@
       <updated>1533030541365</updated>
       <workItem from="1533030549719" duration="95363000" />
       <workItem from="1533459029893" duration="143496000" />
-      <workItem from="1533868868063" duration="12533000" />
+      <workItem from="1533868868063" duration="88222000" />
+      <workItem from="1534300842208" duration="60455000" />
     </task>
     <task id="LOCAL-00001" summary="更新活动BUG">
       <created>1533115961294</created>
@@ -721,11 +844,81 @@
       <option name="project" value="LOCAL" />
       <updated>1533888246487</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="功能完善">
+      <created>1533892800205</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1533892800205</updated>
+    </task>
+    <task id="LOCAL-00018" summary="猫舍回寄功能增加">
+      <created>1533960707276</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1533960707276</updated>
+    </task>
+    <task id="LOCAL-00019" summary="猫舍成熟升级功能增加">
+      <created>1533975954688</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1533975954688</updated>
+    </task>
+    <task id="LOCAL-00020" summary="猫舍成熟升级功能增加">
+      <created>1534144371136</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1534144371136</updated>
+    </task>
+    <task id="LOCAL-00021" summary="猫舍成熟升级功能增加">
+      <created>1534215788610</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1534215788610</updated>
+    </task>
+    <task id="LOCAL-00022" summary="猫舍成熟升级功能增加">
+      <created>1534241965389</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1534241965389</updated>
+    </task>
+    <task id="LOCAL-00023" summary="猫舍成熟升级功能增加">
+      <created>1534322563396</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1534322563396</updated>
+    </task>
+    <task id="LOCAL-00024" summary="猫舍成熟升级功能增加">
+      <created>1534322983732</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1534322983732</updated>
+    </task>
+    <task id="LOCAL-00025" summary="猫舍成熟升级功能增加">
+      <created>1534324393870</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1534324393870</updated>
+    </task>
+    <task id="LOCAL-00026" summary="富有协议支付短信开通接口">
+      <created>1534410623822</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1534410623822</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="251392000" />
+    <option name="totallyTimeSpent" value="387536000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -743,18 +936,18 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" visible="true" weight="0.3690476" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" weight="0.3690476" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.49946696" weight="0.32900432" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
+      <window_info anchor="bottom" id="Java Enterprise" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="bottom" id="File Transfer" order="7" sideWeight="0.49946696" weight="0.32900432" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32900432" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49946696" weight="0.32900432" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32900432" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info anchor="bottom" id="Database Console" order="7" sideWeight="0.49946696" weight="0.4891775" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18176973" />
+      <window_info active="true" anchor="bottom" id="Database Console" order="7" sideWeight="0.49946696" visible="true" weight="0.4935065" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18336888" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32900432" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -764,13 +957,14 @@
       <window_info anchor="right" x="0" y="0" width="434" height="856" id="Documentation" order="3" side_tool="true" weight="0.32995737" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="File Transfer" order="7" sideWeight="0.49946696" weight="0.32900432" />
     </layout>
     <layout-to-restore>
       <window_info anchor="bottom" id="Application Servers" order="7" weight="0.32900432" />
       <window_info id="Designer" order="5" />
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" id="Remote Host" order="4" weight="0.32995737" />
-      <window_info active="true" anchor="bottom" id="Database Console" order="8" sideWeight="0.49946696" visible="true" weight="0.4891775" />
+      <window_info active="true" anchor="bottom" id="Database Console" order="8" sideWeight="0.49946696" visible="true" weight="0.50108224" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32900432" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -785,7 +979,7 @@
       <window_info anchor="bottom" id="File Transfer" order="12" sideWeight="0.49946696" weight="0.32900432" />
       <window_info anchor="right" x="0" y="0" width="434" height="856" id="Documentation" order="6" side_tool="true" weight="0.32995737" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18017058" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18176973" />
       <window_info id="Image Layers" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="13" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="14" />
@@ -813,9 +1007,12 @@
     <MESSAGE value="会员使用两张优惠券" />
     <MESSAGE value="福袋完善" />
     <MESSAGE value="短信接口写死，方便测试" />
-    <MESSAGE value="功能完善" />
     <MESSAGE value="提现福袋金额处理" />
-    <option name="LAST_COMMIT_MESSAGE" value="提现福袋金额处理" />
+    <MESSAGE value="功能完善" />
+    <MESSAGE value="猫舍回寄功能增加" />
+    <MESSAGE value="猫舍成熟升级功能增加" />
+    <MESSAGE value="富有协议支付短信开通接口" />
+    <option name="LAST_COMMIT_MESSAGE" value="富有协议支付短信开通接口" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -834,7 +1031,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserCat.java</url>
-          <line>117</line>
+          <line>118</line>
           <properties />
           <option name="timeStamp" value="16" />
         </line-breakpoint>
@@ -846,19 +1043,19 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserCat.java</url>
-          <line>204</line>
+          <line>202</line>
           <properties />
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserVip.java</url>
-          <line>51</line>
+          <line>52</line>
           <properties />
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserVip.java</url>
-          <line>179</line>
+          <line>180</line>
           <properties />
           <option name="timeStamp" value="20" />
         </line-breakpoint>
@@ -888,21 +1085,63 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserCat.java</url>
-          <line>276</line>
+          <line>286</line>
           <properties />
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserCat.java</url>
-          <line>310</line>
+          <line>323</line>
           <properties />
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserCat.java</url>
-          <line>126</line>
+          <line>127</line>
           <properties />
           <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/aps/APIAt211.java</url>
+          <line>21</line>
+          <properties />
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/aps/APIAt128.java</url>
+          <line>21</line>
+          <properties />
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Y-MGR/WEB-INF/src/com/ypm/asset/ProdAModel.java</url>
+          <line>127</line>
+          <properties />
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Y-MGR/WEB-INF/src/com/ypm/service/imp/ProdModelServiceImp.java</url>
+          <line>249</line>
+          <properties />
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Y-MGR/WEB-INF/src/com/ypm/service/imp/ProdModelServiceImp.java</url>
+          <line>260</line>
+          <properties />
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/aps/APIAt211.java</url>
+          <line>22</line>
+          <properties />
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/sign/Fuiou.java</url>
+          <line>368</line>
+          <properties />
+          <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/util/VeStr.java</url>
@@ -913,7 +1152,7 @@
           <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="30" />
+      <option name="time" value="43" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory">
@@ -926,10 +1165,305 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="das://161a4082-e7a4-402a-8181-774be3add853/schema/ymgr/table/user_cash.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="43" column="28" lean-forward="true" selection-start-line="43" selection-start-column="28" selection-end-line="43" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ymjf.plist">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="28" column="7" lean-forward="true" selection-start-line="28" selection-start-column="7" selection-end-line="28" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/fuiou/OrderRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="6" selection-start-line="6" selection-end-line="6" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/aps/APIAt991.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="19" column="18" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/UserBankServiceImp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/Y-API/WEB-INF/lib/sunsw-all.jar!/org/commons/code/Hex.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="42" column="25" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/sign/XML.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/JDK/src.zip!/java/lang/Object.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="234" column="18" selection-start-line="234" selection-start-column="18" selection-end-line="234" selection-end-column="18" />
+          <folding>
+            <element signature="e#10065#10066#0" expanded="true" />
+            <element signature="e#10148#10149#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/Y-API/WEB-INF/lib/sunsw-all.jar!/org/commons/code/Suncoder.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="281">
+          <caret line="63" column="25" selection-start-line="63" selection-start-column="25" selection-end-line="63" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/fuiou/FuiouPayResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="605">
+          <caret line="55" column="18" selection-start-line="55" selection-start-column="18" selection-end-line="55" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1235#1236#0" expanded="true" />
+            <element signature="e#1266#1267#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/Y-API/WEB-INF/lib/sunsw-all.jar!/org/commons/code/DigestUtils.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="387">
+          <caret line="47" column="25" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="25" />
+          <folding>
+            <element signature="e#785#786#0" expanded="true" />
+            <element signature="e#835#836#0" expanded="true" />
+            <element signature="e#1200#1201#0" expanded="true" />
+            <element signature="e#1259#1260#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/fuiou/FuiouPayRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="20" column="36" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#873#874#0" expanded="true" />
+            <element signature="e#903#904#0" expanded="true" />
+            <element signature="e#982#983#0" expanded="true" />
+            <element signature="e#1020#1021#0" expanded="true" />
+            <element signature="e#1054#1055#0" expanded="true" />
+            <element signature="e#1084#1085#0" expanded="true" />
+            <element signature="e#1163#1164#0" expanded="true" />
+            <element signature="e#1201#1202#0" expanded="true" />
+            <element signature="e#1234#1235#0" expanded="true" />
+            <element signature="e#1263#1264#0" expanded="true" />
+            <element signature="e#1339#1340#0" expanded="true" />
+            <element signature="e#1375#1376#0" expanded="true" />
+            <element signature="e#1411#1412#0" expanded="true" />
+            <element signature="e#1443#1444#0" expanded="true" />
+            <element signature="e#1528#1529#0" expanded="true" />
+            <element signature="e#1570#1571#0" expanded="true" />
+            <element signature="e#1605#1606#0" expanded="true" />
+            <element signature="e#1636#1637#0" expanded="true" />
+            <element signature="e#1718#1719#0" expanded="true" />
+            <element signature="e#1758#1759#0" expanded="true" />
+            <element signature="e#1792#1793#0" expanded="true" />
+            <element signature="e#1822#1823#0" expanded="true" />
+            <element signature="e#1901#1902#0" expanded="true" />
+            <element signature="e#1939#1940#0" expanded="true" />
+            <element signature="e#1972#1973#0" expanded="true" />
+            <element signature="e#2001#2002#0" expanded="true" />
+            <element signature="e#2077#2078#0" expanded="true" />
+            <element signature="e#2113#2114#0" expanded="true" />
+            <element signature="e#2146#2147#0" expanded="true" />
+            <element signature="e#2175#2176#0" expanded="true" />
+            <element signature="e#2251#2252#0" expanded="true" />
+            <element signature="e#2287#2288#0" expanded="true" />
+            <element signature="e#2320#2321#0" expanded="true" />
+            <element signature="e#2349#2350#0" expanded="true" />
+            <element signature="e#2425#2426#0" expanded="true" />
+            <element signature="e#2461#2462#0" expanded="true" />
+            <element signature="e#2496#2497#0" expanded="true" />
+            <element signature="e#2527#2528#0" expanded="true" />
+            <element signature="e#2609#2610#0" expanded="true" />
+            <element signature="e#2649#2650#0" expanded="true" />
+            <element signature="e#2680#2681#0" expanded="true" />
+            <element signature="e#2707#2708#0" expanded="true" />
+            <element signature="e#2777#2778#0" expanded="true" />
+            <element signature="e#2809#2810#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/AtAbout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
+          <folding>
+            <element signature="e#519#520#0" expanded="true" />
+            <element signature="e#542#543#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/JDK/src.zip!/java/security/KeyPair.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="68" column="21" selection-start-line="68" selection-start-column="21" selection-end-line="68" selection-end-column="21" />
+          <folding>
+            <element signature="e#1438#1439#0" expanded="true" />
+            <element signature="e#1470#1471#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/util/HttpPoster.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="186" column="61" selection-start-line="186" selection-start-column="61" selection-end-line="186" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/util/HttpPostUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-505">
+          <caret line="223" column="24" selection-start-line="223" selection-start-column="6" selection-end-line="223" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/fuiou/HttpPoster.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="113">
+          <caret line="227" lean-forward="true" selection-start-line="227" selection-end-line="227" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/fuiou/XMapUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="149" column="32" lean-forward="true" selection-start-line="149" selection-start-column="32" selection-end-line="149" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/JDK/jre/lib/ext/sunjce_provider.jar!/com/sun/crypto/provider/CipherCore.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="491" selection-start-line="491" selection-end-line="491" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/JDK/jre/lib/ext/sunjce_provider.jar!/com/sun/crypto/provider/DESCipher.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="72" selection-start-line="72" selection-end-line="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/Y-API/WEB-INF/lib/fuiou-encrypt.jar!/com/fuiou/mpay/encrypt/RSAUtilsFUIOU.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-76">
+          <caret line="20" column="54" selection-start-line="20" selection-start-column="44" selection-end-line="20" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/fuiou/PayResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-345">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/bean/PayInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="78" column="18" selection-start-line="78" selection-start-column="18" selection-end-line="78" selection-end-column="18" />
+          <folding>
+            <element signature="e#1106#1107#0" expanded="true" />
+            <element signature="e#1126#1127#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/PayInfoService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/Y-API/WEB-INF/lib/fuiou-encrypt.jar!/com/fuiou/mpay/encrypt/RSAUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="843">
+          <caret line="110" column="25" selection-start-line="110" selection-start-column="25" selection-end-line="110" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/PayInfoServiceImp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="265">
+          <caret line="64" column="54" selection-start-line="64" selection-start-column="34" selection-end-line="64" selection-end-column="54" />
+          <folding>
+            <element signature="e#669#670#0" expanded="true" />
+            <element signature="e#702#703#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/Y-API/WEB-INF/lib/fuiou-encrypt.jar!/com/fuiou/mpay/encrypt/DESCoderFUIOU.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/fuiou/NewProtocolBindXmlBeanReq.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="759">
+          <caret line="214" column="34" selection-start-line="214" selection-start-column="34" selection-end-line="214" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-MGR/WEB-INF/src/struts.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="18" column="60" selection-start-line="18" selection-start-column="60" selection-end-line="18" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/UserChargeService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnRecharge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1325">
+          <caret line="122" column="34" lean-forward="true" selection-start-line="122" selection-start-column="34" selection-end-line="122" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserBuy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="1234" column="58" lean-forward="true" selection-start-line="1234" selection-start-column="58" selection-end-line="1234" selection-end-column="58" />
+        <state relative-caret-position="518">
+          <caret line="749" column="30" selection-start-line="749" selection-start-column="30" selection-end-line="749" selection-end-column="30" />
           <folding>
             <element signature="e#2637#2638#0" expanded="true" />
             <element signature="e#2677#2678#0" expanded="true" />
@@ -939,355 +1473,144 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnInformation.java">
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/ajax/AtNotify.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="29" column="18" selection-start-line="29" selection-start-column="18" selection-end-line="29" selection-end-column="18" />
+        <state relative-caret-position="76">
+          <caret line="15" column="15" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/UserInfoService.java">
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/UserChargeServiceImp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="43" column="15" selection-start-line="43" selection-start-column="15" selection-end-line="43" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/UserInfoServiceImp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="563" column="37" lean-forward="true" selection-start-line="563" selection-start-column="37" selection-end-line="563" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/UserIderService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/UserIderServiceImp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1276">
-          <caret line="124" column="47" lean-forward="true" selection-start-line="124" selection-start-column="47" selection-end-line="124" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/Action.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="743">
-          <caret line="163" column="27" selection-start-line="163" selection-start-column="27" selection-end-line="163" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/TriggerService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="9" column="16" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/TriggerServiceImp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="719">
-          <caret line="141" column="63" selection-start-line="141" selection-start-column="58" selection-end-line="141" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/ActivityService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="35" column="59" lean-forward="true" selection-start-line="35" selection-start-column="59" selection-end-line="35" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2475">
-          <caret line="143" column="24" lean-forward="true" selection-start-line="143" selection-start-column="24" selection-end-line="143" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="97" column="12" lean-forward="true" selection-start-line="97" selection-start-column="12" selection-end-line="97" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/verify/UserSessionInterceptor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="415">
-          <caret line="58" column="70" lean-forward="true" selection-start-line="58" selection-start-column="70" selection-end-line="58" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/UserLogerService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/Y-API/WEB-INF/lib/sunsw-all.jar!/com/sunsw/xwork2/DefaultActionInvocation.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-329">
-          <caret line="182" column="18" selection-start-line="182" selection-start-column="18" selection-end-line="182" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/Y-API/WEB-INF/lib/sunsw-all.jar!/com/sunsw/xwork2/ActionInvocation.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="30" column="11" selection-start-line="30" selection-start-column="11" selection-end-line="30" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/verify/UserLoginInterceptor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="518">
-          <caret line="79" column="21" selection-start-line="79" selection-start-column="21" selection-end-line="79" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/JDK/src.zip!/java/util/regex/Matcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="621" column="27" lean-forward="true" selection-start-line="621" selection-start-column="27" selection-end-line="621" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/util/VeRule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2318">
-          <caret line="135" column="78" selection-start-line="135" selection-start-column="78" selection-end-line="135" selection-end-column="78" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/SendInfoService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/AtRegister.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1159">
-          <caret line="80" column="32" selection-start-line="80" selection-start-column="32" selection-end-line="80" selection-end-column="32" />
-          <folding>
-            <element signature="e#3059#3060#0" expanded="true" />
-            <element signature="e#3087#3088#0" expanded="true" />
-            <element signature="e#3152#3153#0" expanded="true" />
-            <element signature="e#3195#3196#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-33">
+          <caret line="268" column="26" selection-start-line="268" selection-start-column="25" selection-end-line="268" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/source_zh_CN.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="17" selection-start-line="17" selection-end-line="17" selection-end-column="14" />
+        <state relative-caret-position="298">
+          <caret line="45" selection-start-line="45" selection-end-line="45" selection-end-column="14" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/UserLogerServiceImp.java">
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/util/Constant.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3857">
-          <caret line="223" column="35" selection-start-line="223" selection-start-column="35" selection-end-line="223" selection-end-column="35" />
+        <state relative-caret-position="624">
+          <caret line="91" column="36" selection-start-line="91" selection-start-column="36" selection-end-line="91" selection-end-column="36" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/SendInfoServiceImp.java">
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserAuth.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="49" selection-start-line="49" selection-end-line="49" />
+        <state relative-caret-position="140">
+          <caret line="114" column="15" selection-start-line="114" selection-start-column="15" selection-end-line="114" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserVip.java">
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/test/TestMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4142">
-          <caret line="239" column="36" selection-start-line="239" selection-start-column="36" selection-end-line="239" selection-end-column="36" />
+        <state relative-caret-position="113">
+          <caret line="74" column="46" selection-start-line="74" selection-start-column="46" selection-end-line="74" selection-end-column="56" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Y-MGR/WEB-INF/src/com/ypm/coo/AderInfo.java">
+    <entry file="jar://$PROJECT_DIR$/Y-API/WEB-INF/lib/sunsw-all.jar!/com/sunsw/http/client/HttpClient.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+        <state relative-caret-position="285">
+          <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Y-MGR/cache/dict/coo.ader.tids.txt">
+    <entry file="jar://$PROJECT_DIR$/Y-API/WEB-INF/lib/sunsw-all.jar!/com/sunsw/http/core/client/CloseableHttpClient.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="77" selection-start-column="77" selection-end-column="77" />
+        <state relative-caret-position="298">
+          <caret line="60" column="33" selection-start-line="60" selection-start-column="33" selection-end-line="60" selection-end-column="33" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Y-MGR/WEB-INF/src/com/ypm/coo/AderNoteAction.java">
+    <entry file="jar://$PROJECT_DIR$/Y-API/WEB-INF/lib/jsoup-1.8.3.jar!/org/jsoup/Jsoup.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="172" column="44" selection-start-line="172" selection-start-column="44" selection-end-line="172" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-MGR/WEB-INF/src/com/ypm/service/AderNoteService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="31" column="19" selection-start-line="31" selection-start-column="19" selection-end-line="31" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/JDK/src.zip!/java/sql/PreparedStatement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="94" column="8" selection-start-line="94" selection-start-column="8" selection-end-line="94" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-MGR/WEB-INF/src/com/ypm/service/imp/AderNoteServiceImp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="266" column="39" lean-forward="true" selection-start-line="266" selection-start-column="39" selection-end-line="266" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-MGR/WEB-INF/src/struts.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="96" column="59" selection-start-line="96" selection-start-column="59" selection-end-line="96" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/view/Index.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        <state relative-caret-position="158">
+          <caret line="35" column="29" selection-start-line="35" selection-start-column="29" selection-end-line="35" selection-end-column="29" />
+          <folding>
+            <element signature="e#923#924#0" expanded="true" />
+            <element signature="e#973#974#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/struts.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="69" column="55" selection-start-line="69" selection-start-column="55" selection-end-line="69" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/ProdInfoService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="37" column="16" selection-start-line="37" selection-start-column="16" selection-end-line="37" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/AderInfoService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="23" column="16" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/XuerInfoService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/ProdInfoServiceImp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="403" selection-start-line="403" selection-end-line="403" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/XuerInfoServiceImp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="59" selection-start-line="59" selection-end-line="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/AderNoteService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="37" column="16" selection-start-line="37" selection-start-column="16" selection-end-line="37" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/AderInfoServiceImp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="212" column="32" lean-forward="true" selection-start-line="212" selection-start-column="32" selection-end-line="212" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/AtIndex.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="67" lean-forward="true" selection-start-line="67" selection-end-line="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/bean/luckyBagBonus.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="70">
-          <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/bean/LuckyBagBouns.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="69" column="5" lean-forward="true" selection-start-line="69" selection-start-column="5" selection-end-line="69" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserCash.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="139" column="70" selection-start-line="139" selection-start-column="70" selection-end-line="139" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/UserCatService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="49" column="16" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/161a4082-e7a4-402a-8181-774be3add853/console_5.sql">
-      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19">
-          <caret line="1" column="22" selection-start-line="1" selection-end-line="1" selection-end-column="32" />
+          <caret line="102" column="60" selection-start-line="102" selection-start-column="60" selection-end-line="102" selection-end-column="60" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/AderNoteServiceImp.java">
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserBank.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="118" column="25" lean-forward="true" selection-start-line="118" selection-start-column="25" selection-end-line="118" selection-end-column="25" />
+        <state relative-caret-position="142">
+          <caret line="361" column="41" selection-start-line="361" selection-start-column="41" selection-end-line="361" selection-end-column="41" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/init.properties">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/UserCatServiceImp.java">
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/SenderService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="155" column="35" lean-forward="true" selection-start-line="155" selection-start-column="35" selection-end-line="155" selection-end-column="35" />
+        <state relative-caret-position="152">
+          <caret line="8" column="19" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/json/OnUserCat.java">
+    <entry file="das://161a4082-e7a4-402a-8181-774be3add853/schema/ypiao/table/user_info.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="423">
-          <caret line="153" column="83" lean-forward="true" selection-start-line="153" selection-start-column="83" selection-end-line="153" selection-end-column="83" />
+        <state relative-caret-position="260">
+          <caret line="30" column="7" selection-start-line="30" selection-start-column="2" selection-end-line="30" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/util/SmsUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="79" column="39" lean-forward="true" selection-start-line="79" selection-start-column="39" selection-end-line="79" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/161a4082-e7a4-402a-8181-774be3add853/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="215" column="64" selection-start-line="215" selection-start-column="64" selection-end-line="215" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/sign/AuthUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-49">
+          <caret line="19" column="75" selection-start-line="19" selection-start-column="75" selection-end-line="19" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/sign/Fuiou.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="473">
+          <caret line="373" column="32" lean-forward="true" selection-start-line="373" selection-start-column="32" selection-end-line="373" selection-end-column="32" />
+          <folding>
+            <element signature="e#10639#10655#0" expanded="true" />
+            <element signature="e#13133#13149#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/test/SendSms.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="34" column="59" lean-forward="true" selection-start-line="34" selection-start-column="59" selection-end-line="34" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Y-API/WEB-INF/src/com/ypiao/service/imp/SenderServiceImp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="38" column="10" selection-start-line="38" selection-start-column="8" selection-end-line="84" selection-end-column="11" />
         </state>
       </provider>
     </entry>

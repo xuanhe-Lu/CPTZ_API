@@ -201,6 +201,24 @@ public class NewProtocolBindXmlBeanReq {
 		System.out.println("CardPro querySignStr:"+sb.toString());
 		return sb.toString();
 	}
-	
 
+	@Override
+	public String toString() {
+		return "NewProtocolBindXmlBeanReq{" +
+				"version='" + version + '\'' +
+				", tradeDate='" + tradeDate + '\'' +
+				", mchntSsn='" + mchntSsn + '\'' +
+				", mchntCd='" + mchntCd + '\'' +
+				", userId='" + userId + '\'' +
+				", idCard='" + idCard + '\'' +
+				", idType='" + idType + '\'' +
+				", account='" + account + '\'' +
+				", cardNo='" + cardNo + '\'' +
+				", mobileNo='" + mobileNo + '\'' +
+				", msgCode='" + msgCode + '\'' +
+				", protocolNo='" + protocolNo + '\'' +
+				", sign='" + sign + '\'' +
+				", cvn='" + cvn + '\'' +
+				'}';
+	}
 }

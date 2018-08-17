@@ -56,7 +56,7 @@ public class SenderServiceImp extends AConfig implements SenderService {
 			ns.add(new BasicNameValuePair( "account", account ));
 			ns.add(new BasicNameValuePair( "pswd", pswd ));
 			ns.add(new BasicNameValuePair( "mobile", log.getMobile().replace("+86-", "")) );
-			ns.add(new BasicNameValuePair( "msg", signName + log.getContent()) );
+			ns.add(new BasicNameValuePair( "msg", signName ) );
 			ns.add(new BasicNameValuePair( "needstatus", "true" ));
 			post.setEntity(new UrlEncodedFormEntity( ns, Constant.SYS_UTF8 ));
 			post.setHeader( HTTP.CONTENT_TYPE, "application/x-www-form-urlencoded" );

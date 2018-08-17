@@ -71,7 +71,7 @@ public class Fuiou {
 			post.setHeader(HTTP.USER_AGENT, "sunsw-HttpClient");
 			HttpResponse res = hc.execute(post);
 			int code = res.getStatusLine().getStatusCode();
-			System.out.println(code + "\t" + url);
+			logger.info(code + "\t" + url);
 			HttpEntity entity = res.getEntity();
 			if (entity == null) {
 				// Ignored
@@ -125,7 +125,7 @@ public class Fuiou {
 			Map<String, String> ms = new HashMap<String, String>(1);
 			ms.put("FMS", XML.convert2Xml(req));
 			String body = post(TEST_PAY_URL_PROTO_UNBIND_CARD, ms);
-			System.out.println(req.getUserId() + "==" + body);
+			logger.info(req.getUserId() + "==" + body);
 		} finally {
 			sb.setLength(0);
 		}*/
@@ -143,7 +143,7 @@ public class Fuiou {
 		Map<String, String> ms = new HashMap<String, String>(1);
 		ms.put("FMS", XML.convert2Xml(req));
 		String body = post(TEST_PAY_URL_PROTO_QUERY_CARDBIND, ms);
-		System.out.println(req.getUserId() + "==" + body);*/
+		logger.info(req.getUserId() + "==" + body);*/
 	}
 
 	/** 首次支付 */
@@ -176,11 +176,11 @@ public class Fuiou {
 			Map<String, String> ms = new HashMap<String, String>(2);
 			ms.put("MCHNTCD", req.getMchntcd());
 			ms.put("APIFMS", Suncoder.enCrypt(body, skey, Constant.SYS_UTF8));
-			System.out.println("[请求信息：]" + body);
+			logger.info("[请求信息：]" + body);
 			body = post(TEST_PAY_URL_ORDER_ACTION_PAY, ms);
 			ms.clear(); // 清除请求参数
 			body = Suncoder.deCrypt(body, skey, Constant.SYS_UTF8);
-			System.out.println("[返回数据：]" + body);
+			logger.info("[返回数据：]" + body);
 			return XML.convert2Bean(body, OrderResponse.class);
 		} finally {
 			sb.setLength(0);
@@ -215,11 +215,11 @@ public class Fuiou {
 			Map<String, String> ms = new HashMap<String, String>(2);
 			ms.put("MCHNTCD", req.getMchntcd());
 			ms.put("APIFMS", Suncoder.enCrypt(body, skey, Constant.SYS_UTF8));
-			System.out.println("[请求信息：]" + body);
+			logger.info("[请求信息：]" + body);
 			body = post(TEST_PAY_URL_PROTO_ORDER_ACTION_PAY, ms);
 			ms.clear(); // 清除请求参数
 			body = Suncoder.deCrypt(body, skey, Constant.SYS_UTF8);
-			System.out.println("[返回数据：]" + body);
+			logger.info("[返回数据：]" + body);
 			return XML.convert2Bean(body, OrderResponse.class);
 		} finally {
 			sb.setLength(0);
@@ -252,11 +252,11 @@ public class Fuiou {
 			Map<String, String> ms = new HashMap<String, String>(2);
 			ms.put("MCHNTCD", req.getMchntcd());
 			ms.put("APIFMS", Suncoder.enCrypt(body, skey, Constant.SYS_UTF8));
-			System.out.println("[请求信息：]" + body);
+			logger.info("[请求信息：]" + body);
 			body = post(TEST_PAY_URL_PAY_ACTION, ms);
 			ms.clear(); // 清除请求参数
 			body = Suncoder.deCrypt(body, skey, Constant.SYS_UTF8);
-			System.out.println("[返回数据：]" + body);
+			logger.info("[返回数据：]" + body);
 			return XML.convert2Bean(body, PayResponse.class);
 		} finally {
 			sb.setLength(0);
@@ -289,11 +289,11 @@ public class Fuiou {
 			Map<String, String> ms = new HashMap<String, String>(2);
 			ms.put("MCHNTCD", req.getMchntcd());
 			ms.put("APIFMS", Suncoder.enCrypt(body, skey, Constant.SYS_UTF8));
-			System.out.println("[请求信息：]" + body);
+			logger.info("[请求信息：]" + body);
 			body = post(TEST_PAY_URL_PROTO_PAY_ACTION, ms);
 			ms.clear(); // 清除请求参数
 			body = Suncoder.deCrypt(body, skey, Constant.SYS_UTF8);
-			System.out.println("[返回数据：]" + body);
+			logger.info("[返回数据：]" + body);
 			return XML.convert2Bean(body, PayResponse.class);
 		} finally {
 			sb.setLength(0);
@@ -327,7 +327,7 @@ public class Fuiou {
 	 * @DATE:2018/8/15
 	 * @VERSION:1.0
 	 */
-	public static FuiouPayResponse sendSMS (FuiouPayRequest fuiouPayRequest,String secret ) throws IOException{
+	public static String sendSMS (FuiouPayRequest fuiouPayRequest,String secret ) throws IOException{
 		logger.info("come in sendSMS");
 		try {
 
@@ -356,8 +356,8 @@ public class Fuiou {
 			beanReq.setMobileNo(mobileNo);
 			beanReq.setMchntSsn(mchntSsn);
 			beanReq.setSign(getSign(beanReq.sendMsgSignStr(key), "MD5", Constant.FUIOU_PRI_KEY));
-			System.out.println("sign:"+beanReq.getSign());
-
+			logger.info("sign:"+beanReq.getSign());
+			logger.info("【调取富有协议支付首次发送短信绑定接口传递参数】"+beanReq.toString());
 			Map<String,String> map = new HashMap<String, String>();
 			//String url = "http://www-1.fuiou.com:18670/mobile_pay/newpropay/bindMsg.pay";
 			String url =Constant.SEND_SMS;
@@ -367,12 +367,71 @@ public class Fuiou {
 			map.put("APIFMS", APIFMS);
 			String result = new HttpPoster(url).postStr(map);
 			result = DESCoderFUIOU.desDecrypt(result,DESCoderFUIOU.getKeyLength8(key));
-			System.out.println(result);
+			logger.info("【调取富有协议支付首次发送短信绑定接口返回参数】"+result);
+			XML.convert2Bean(result,FuiouPayResponse.class);
+			return  result;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return  null;
 	}
+
+	/*
+	 * @NAME:protoBind
+	 * @DESCRIPTION:协议卡绑定
+	 * @AUTHOR:luxh
+	 * @DATE:2018/8/17
+	 * @VERSION:1.0
+	 */
+	public  static String  protoBind(Map<String,String> map ,String secret){
+		String result = "";
+		try {
+			String version = "1.0";
+			String mchntSsn = map.get("MCHNTSSN");
+			String tradeDate = map.get("TRADEDATE");
+			String mchntcd = map.get("MCHNTCD");
+			String key = map.get("KEY");
+			String userid = map.get("USERID");
+			String account = map.get("ACCOUNT");
+			String cardNo = map.get("CARDNO");
+			String idType = map.get("IDTYPE");
+			String idCard = map.get("IDCARD");
+			String mobileNo = map.get("MOBILENO");
+			String msgcode = map.get("MSGCODE");
+
+			NewProtocolBindXmlBeanReq beanReq = new NewProtocolBindXmlBeanReq();
+			beanReq.setVersion(version);
+			beanReq.setTradeDate(tradeDate);
+			beanReq.setMchntCd(mchntcd);
+			beanReq.setUserId(userid);
+			beanReq.setAccount(account);
+			beanReq.setCardNo(cardNo);
+			beanReq.setIdType(idType);
+			beanReq.setIdCard(idCard);
+			beanReq.setMobileNo(mobileNo);
+			beanReq.setMchntSsn(mchntSsn);
+			beanReq.setMsgCode(msgcode);
+			beanReq.setSign(getSign(beanReq.proBindSignStr(key), "MD5", Constant.FUIOU_PRI_KEY));
+
+
+			map.clear();
+			//String url = "http://www-1.fuiou.com:18670/mobile_pay/newpropay/bindCommit.pay";
+			String APIFMS =XMapUtil.toXML(beanReq, "UTF-8");;
+			APIFMS = DESCoderFUIOU.desEncrypt(APIFMS, DESCoderFUIOU.getKeyLength8(key));
+			map.put("MCHNTCD",mchntcd);
+			map.put("APIFMS", APIFMS);
+			result = new HttpPoster(Constant.PROTOCOL_BIND).postStr(map);
+			result = DESCoderFUIOU.desDecrypt(result,DESCoderFUIOU.getKeyLength8(key));
+			logger.info(result);
+			result.getBytes("utf8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return  result;
+	}
+
+
+//	public static String
 	/**
 	 * 获取签名
 	 * @param signStr  签名串

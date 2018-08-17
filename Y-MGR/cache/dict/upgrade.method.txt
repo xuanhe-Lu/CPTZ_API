@@ -1,1 +1,1 @@
-[{"ID":351,"SNO":"upgrade.method","SORTID":1,"REFID":"1","REFVALUE":"可选升级","DEFCHECK":"1"},{"ID":352,"SNO":"upgrade.method","SORTID":2,"REFID":"2","REFVALUE":"强制升级","DEFCHECK":"0"}]
+[{"ID":335,"SNO":"upgrade.method","SORTID":1,"REFID":"1","REFVALUE":"可选升级","DEFCHECK":"1"},{"ID":336,"SNO":"upgrade.method","SORTID":2,"REFID":"2","REFVALUE":"强制升级","DEFCHECK":"0"}]
