@@ -120,7 +120,14 @@ public class OnRecharge extends Action {
 					req.setSignpay(c.getSignpay());
 					req.setRem1(String.valueOf(c.getUid()));
 					req.setUserIP(c.getHSIP());
+					//TODO 富有绑卡验证短信
 					res = Fuiou.toPay(req, pay.getSecret());
+
+
+
+
+
+
 				} else {
 					ProtoPayRequest req = new ProtoPayRequest();
 					req.setMchntcd(pay.getSellid());
@@ -132,6 +139,7 @@ public class OnRecharge extends Action {
 					req.setSignpay(c.getSignpay());
 					req.setRem1(String.valueOf(c.getUid()));
 					req.setUserIP(c.getHSIP());
+					// 	TODO  使用协议号进行支付
 					res = Fuiou.toPay(req, pay.getSecret());
 				} // 执行付款操作
 				boolean addM = false;
@@ -214,23 +222,7 @@ public class OnRecharge extends Action {
 			int amt = VeRule.toPer(rmb).intValue(); // 金额处理
 			PayInfo pay = this.getPayInfoService().getInfoByFuiou();
 			c.setBackUrl(pay.getNotifyUrl());
-			//TODO 协议支付增加 luxh
-			FuiouPayRequest req = new FuiouPayRequest();
-			req.setVersion("3.0");
-			req.setMchntcd(pay.getSellid());
-			req.setUserId(String.valueOf(c.getUid()));
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(new Date());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd"); //设置时间格式
-			String date = sdf.format(calendar);
-			req.setTradeDate( date);
-			req.setMchntssn(String.valueOf(VeStr.getUSid()));
-			req.setAccount(b.getName());
-			req.setCardNo(b.getCardNo());
-			req.setIdType("0");
-			req.setIdCard(b.getCardNo());
-			req.setMobileNo(b.getMobile());
-			Fuiou.sendSMS(req,pay.getSecret());
+
 
 
 
@@ -240,10 +232,31 @@ public class OnRecharge extends Action {
 
 
 			UserProto p = this.getUserChargeService().findProtoByUid(us.getUid());
-			/*synchronized (doLock(us.getUid())) {
+			synchronized (doLock(us.getUid())) {
 				OrderResponse res = null;
+				FuiouPayResponse fuiouPayResponse = null;
 				if (p == null) {
-					OrderRequest req = new OrderRequest();
+
+					//TODO 协议支付增加 luxh
+					//首次绑定协议支付
+					FuiouPayRequest req = new FuiouPayRequest();
+					req.setVersion("3.0");
+					req.setMchntcd(pay.getSellid());
+					req.setUserId(String.valueOf(c.getUid()));
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(new Date());
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd"); //设置时间格式
+					String date = sdf.format(calendar);
+					req.setTradeDate( date);
+					req.setMchntssn(String.valueOf(VeStr.getUSid()));
+					req.setAccount(b.getName());
+					req.setCardNo(b.getCardNo());
+					req.setIdType("0");
+					req.setIdCard(b.getCardNo());
+					req.setMobileNo(b.getMobile());
+					 fuiouPayResponse = Fuiou.sendSMS(req,pay.getSecret());
+
+					/*OrderRequest req = new OrderRequest();
 					req.setMchntcd(pay.getSellid());
 					req.setMchntorderid(String.valueOf(c.getSid()));
 					req.setUserId(c.getUid());
@@ -255,8 +268,12 @@ public class OnRecharge extends Action {
 					req.setBackurl(c.getBackUrl());
 					req.setRem1(c.getHSIP());
 					req.setUserIP(c.getHSIP());
-					res = Fuiou.order(req, pay.getSecret()); // 首次充值
+					res = Fuiou.order(req, pay.getSecret()); // 首次充值*/
 				} else if (p.getCNo().equalsIgnoreCase(b.getCardNo())) {
+					//已经协议支付过的用户
+
+
+
 					ProtoRequest req = new ProtoRequest();
 					req.setMchntcd(pay.getSellid());
 					req.setMchntorderid(String.valueOf(c.getSid()));
@@ -298,7 +315,7 @@ public class OnRecharge extends Action {
 				}
 				c.setRes_code(res.getResponsecode());
 				c.setRes_msg(res.getResponsemsg());
-			}*/
+			}
 			this.getUserChargeService().saveLog(c);
 		} catch (Throwable e) {
 			e.printStackTrace();

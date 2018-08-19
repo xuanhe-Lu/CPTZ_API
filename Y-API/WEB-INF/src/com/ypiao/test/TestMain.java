@@ -11,6 +11,7 @@ import com.ypiao.data.JPrepare;
 import com.ypiao.sign.JSON;
 import com.ypiao.util.GMTime;
 import com.ypiao.util.MonthFound;
+import com.ypiao.util.VeStr;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -72,9 +73,9 @@ public class TestMain {
 //		"SELECT time,Monthcount  FROM USER_ATTEN  WHERE UID = ? and time > = ?
 
 //		System.out.println(MonthFound.getDataFormat(1533668948385L,"yyyy-MM-dd HH:mm:ss"));
-		Document res = Jsoup.connect("https://way.jd.com/idcard/idcard").data("name", "池慧滢".replace("·", "")).data("cardno", "350426199605293528").data("appkey", "65d4b4096b618e60ed3466030a88fc32").timeout(10000).ignoreContentType(true).post();
-		String body = res.body().text();
-		System.out.println("AUTH:\t" + body);
+//		Document res = Jsoup.connect("https://way.jd.com/idcard/idcard").data("name", "池慧滢".replace("·", "")).data("cardno", "350426199605293528").data("appkey", "65d4b4096b618e60ed3466030a88fc32").timeout(10000).ignoreContentType(true).post();
+//		String body = res.body().text();
+//		System.out.println("AUTH:\t" + body);
 	}
 
 	private static void dateFormat(String data2,long ts1) throws ParseException {

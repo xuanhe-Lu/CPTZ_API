@@ -43,7 +43,8 @@ public class UserSessionInterceptor extends AbstractInterceptor {
 					us = this.get(ac, request, response);
 				}
 				act.setHttpRequest(request);
-				System.out.println("request:"+request.toString());
+				logger.info("request:"+request.toString());
+				logger.info("request,"+request.getRequestURI());
 				act.setHttpResponse(response);
 				act.setUserSession(us);
 			}

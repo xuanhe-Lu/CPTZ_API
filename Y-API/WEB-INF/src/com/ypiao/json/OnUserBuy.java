@@ -735,6 +735,8 @@ public class OnUserBuy extends Action {
                         req.setRem1(c.getHSIP());
                         req.setUserIP(c.getHSIP());
                         res = Fuiou.order(req, pay.getSecret()); // 首次充值
+                        //TODO 协议支付 首次短信验证
+                        Fuiou.sendSMS(new FuiouPayRequest(), pay.getSecret());
                     } else if (p.getCNo().equalsIgnoreCase(b.getCardNo())) {
                         ProtoRequest req = new ProtoRequest();
                         req.setMchntcd(pay.getSellid());

@@ -5,8 +5,11 @@ import com.ypiao.bean.FileInfo;
 import com.ypiao.bean.Manager;
 import com.ypiao.bean.RawInfo;
 import com.ypiao.service.AssetRawService;
+import org.apache.log4j.Logger;
 
 public class APIAt202 extends Abstract {
+
+	private static Logger logger = Logger.getLogger(APIAt202.class);
 
 	private AssetRawService assetRawService;
 
@@ -54,7 +57,9 @@ public class APIAt202 extends Abstract {
 
 	public void save(Manager mgr) {
 		try {
+			logger.info("come in save ,mgr:"+mgr.toString());
 			RawInfo r = mgr.getObject(RawInfo.class);
+			logger.info("come in save ,r:"+r.toString());
 			this.getAssetRawService().save(r);
 		} catch (SQLException e) {
 			mgr.addError(DATA_SAVE_FAILED);
