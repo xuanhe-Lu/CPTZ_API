@@ -136,16 +136,16 @@ public class Constant {
     public static String SEND_SMS = "https://mpay.fuiou.com/newpropay/bindMsg.pay";//生产地址
 
     // 富有协议卡绑定地址
-    public static String PROTOCOL_BIND = "http://www-1.fuiou.com:18670/mobile_pay/newpropay/bindCommit.pay"; //测试地址
-//    	public static  String PROTOCOL_BIND =  "https://mpay.fuiou.com/newpropay/bindCommit.pay";//生产地址
+//    public static String PROTOCOL_BIND = "http://www-1.fuiou.com:18670/mobile_pay/newpropay/bindCommit.pay"; //测试地址
+    	public static  String PROTOCOL_BIND =  "https://mpay.fuiou.com/newpropay/bindCommit.pay";//生产地址
 
 //	协议解绑接口
-    public static String UNBIND = "http://www-1.fuiou.com:18670/mobile_pay/newpropay/unbind.pay"; //测试地址
-//    	public static  String UNBIND =  "https://mpay.fuiou.com/newpropay/unbind.pay"; //生产地址
+//    public static String UNBIND = "http://www-1.fuiou.com:18670/mobile_pay/newpropay/unbind.pay"; //测试地址
+    	public static  String UNBIND =  "https://mpay.fuiou.com/newpropay/unbind.pay"; //生产地址
 
     //协议支付接口
-    public static String ORDER = "http://www-1.fuiou.com:18670/mobile_pay/newpropay/order.pay";//测试地址
-//    public static String ORDER = "https://mpay.fuiou.com/newpropay/order.pay";//生产地址
+//    public static String ORDER = "http://www-1.fuiou.com:18670/mobile_pay/newpropay/order.pay";//测试地址
+    public static String ORDER = "https://mpay.fuiou.com/newpropay/order.pay";//生产地址
 
     //商户支持卡 Bin 查询接口
     public static String CARD_BIN_QUERY = "http://www-1.fuiou.com:18670/mobile_pay/findPay/cardBinQuery.pay";//测试地址

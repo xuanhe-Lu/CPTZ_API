@@ -1,31 +1,22 @@
 package com.ypiao.sign;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.Map.Entry;
-import javax.xml.bind.JAXBException;
-
-import com.alibaba.fastjson.JSONObject;
 import com.fuiou.mpay.encrypt.DESCoderFUIOU;
 import com.fuiou.mpay.encrypt.RSAUtils;
 import com.fuiou.mpay.encrypt.RSAUtilsFUIOU;
 import com.fuiou.util.MD5;
+import com.ypiao.fuiou.*;
+import com.ypiao.util.AUtils;
+import com.ypiao.util.Constant;
 import com.ypiao.util.HttpPostUtil;
 import com.ypiao.util.VeStr;
 import org.apache.log4j.Logger;
 import org.commons.code.DigestUtils;
 import org.commons.code.Suncoder;
-import com.sunsw.http.*;
-import com.sunsw.http.client.HttpClient;
-import com.sunsw.http.client.UrlEncodedFormEntity;
-import com.sunsw.http.message.BasicNameValuePair;
-import com.sunsw.http.methods.HttpPost;
-import com.sunsw.http.protocol.HTTP;
-import com.sunsw.http.util.EntityUtils;
-import com.ypiao.fuiou.*;
-import com.ypiao.service.PoolService;
-import com.ypiao.util.AUtils;
-import com.ypiao.util.Constant;
+
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Fuiou {
 
@@ -425,7 +416,7 @@ public class Fuiou {
             map.clear();
             //String url = "http://www-1.fuiou.com:18670/mobile_pay/newpropay/bindCommit.pay";
             String APIFMS = XMapUtil.toXML(beanReq, "UTF-8");
-            logger.info("APIFMS:"+APIFMS);
+            logger.info("APIFMS:" + APIFMS);
             APIFMS = DESCoderFUIOU.desEncrypt(APIFMS, DESCoderFUIOU.getKeyLength8(key));
             map.put("MCHNTCD", mchntcd);
             map.put("APIFMS", APIFMS);
@@ -464,7 +455,7 @@ public class Fuiou {
             String rem2 = "";
             String rem3 = "";
             String key = mapIn.get("KEY");
-            String orderalivetime = mapIn.get("ORDERALIVETIME");
+//            String orderalivetime = mapIn.get("ORDERALIVETIME");
 
 
             NewProtocolOrderXmlBeanReq beanReq = new NewProtocolOrderXmlBeanReq();
@@ -479,7 +470,7 @@ public class Fuiou {
             beanReq.setRem1(rem1);
             beanReq.setRem2(rem2);
             beanReq.setRem3(rem3);
-            beanReq.setOrderAliveTime(orderalivetime);
+//            beanReq.setOrderAliveTime(orderalivetime);
             beanReq.setUserIp(userip);
             beanReq.setNeedSendMsg(needsendmsg);
             beanReq.setSignTp(Constant.SIGN_TP);
@@ -510,7 +501,7 @@ public class Fuiou {
      * @DATE:2018/8/20  0:33
      * @VERSION:1.0
      */
-    public static  FuiouPayResponse queryBin(Map<String, String> mapIn) {
+    public static FuiouPayResponse queryBin(Map<String, String> mapIn) {
         logger.info("come in queryBin");
         String cardNo = mapIn.get("CARDNO");
         String mchntCd = mapIn.get("MCHNTCD");
@@ -519,7 +510,7 @@ public class Fuiou {
         String fm = new StringBuffer().append("<FM>").append("<MchntCd>").append(mchntCd)
                 .append("</MchntCd>").append("<Ono>").append(cardNo).append("</Ono>").append("<Sign>").append(sign)
                 .append("</Sign>").append("</FM>").toString();
-        Map <String, String> params = new HashMap <String, String>();
+        Map<String, String> params = new HashMap<String, String>();
         params.put("FM", fm);
         logger.info("[调用富有商户支持卡 Bin 查询接口]" + params);
         try {
@@ -539,8 +530,7 @@ public class Fuiou {
             fuiouPayResponse.setInsCd(insCd);
             fuiouPayResponse.setSign(rSign);
             return fuiouPayResponse;
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -607,8 +597,8 @@ public class Fuiou {
     }
 
     public static void main(String[] args) {
-        HashMap<String,String>map = new HashMap();
-        /*RSAUtilsFUIOU.getKeyInfo();
+        HashMap<String, String> map = new HashMap();
+       /*  RSAUtilsFUIOU.getKeyInfo();
         FuiouPayRequest fuiouPayRequest = new FuiouPayRequest();
         // UPDATE ypiao.user_bank SET Bid = 101, Code = '194448', BankId = '1020000', BankName = '工商银行', BinId = 621226, BinStat = 1, CardName = '牡丹卡普卡', CardTy = 'D', Channel = 'CUPS', Mobile = '+86-13074149273', Name = '芦炫赫', GmtA = 1534399793211, GmtB = 1534399800780, GmtC = 0, Gdef = 0, State = 2, Time = 1534399800780 WHERE Uid = 107918 AND CNo = '6212263400021079107';
         fuiouPayRequest.setMobileNo("13074149273");
@@ -631,9 +621,9 @@ public class Fuiou {
         }*/
 
         // 协议卡绑定
-     /*   map.put("MCHNTSSN",*//*String.valueOf(VeStr.getUSid())*//*"20170630009"); //20170630009
+       /* map.put("MCHNTSSN","1808201004042053"); //20170630009
         map.put("TRADEDATE","20180816");
-        map.put("MCHNTCD","0002900F0096235");
+        map.put("MCHNTCD","0003310F1078099");
         map.put("KEY",Suncoder.decode("IlpHEVZFXTgWJnNZSQh2dzwLFBRhYAEFElkuBAs8RBU="));
         map.put("USERID","107918");
         map.put("ACCOUNT","芦炫赫");
@@ -641,31 +631,29 @@ public class Fuiou {
         map.put("IDTYPE","0");
         map.put("IDCARD","210504199010262112");
         map.put("MOBILENO","13074149273");
-        map.put("MSGCODE","022798");
+        map.put("MSGCODE","744902");
 //        FuiouPayResponse fuiouPayResponse = protoBind(map,Suncoder.decode("5old71wihg2tqjug9kkpxnhx9hiujoqj"));
-        FuiouPayResponse fuiouPayResponse = protoBind(map,"5old71wihg2tqjug9kkpxnhx9hiujoqj");
-        System.out.println("fuiouPayResponse:"+fuiouPayResponse);
-*/
+        FuiouPayResponse fuiouPayResponse = protoBind(map,Suncoder.decode("IlpHEVZFXTgWJnNZSQh2dzwLFBRhYAEFElkuBAs8RBU="));
+        System.out.println("fuiouPayResponse:"+fuiouPayResponse);*/
         // 协议解绑
         FuiouPayResponse fuiouPayResponse = new FuiouPayResponse();
         map.clear();
-        map.put("MCHNTCD","0002900F0096235");//商户代码
-        map.put("USERID","1236985478");// 用户编号
-        map.put("PROTOCOLNO","14908601655875030001"); //协议号
-        map.put("KEY","00b16e8292ff75851ef8e8b02645fa50");//密钥
+        map.put("MCHNTCD","0003310F1078099");//商户代码
+        map.put("USERID","107918");// 用户编号
+        map.put("PROTOCOLNO","DYAT4A100002265385XBAG"); //协议号
+        map.put("KEY",Suncoder.decode("IlpHEVZFXTgWJnNZSQh2dzwLFBRhYAEFElkuBAs8RBU="));//密钥
          fuiouPayResponse = unbind(map);
 
 
-
         // 协议支付
-      /*   map.put("USERID","1236985478");//用户编号
-        map.put("MCHNTORDERID","14909408631788350725");//商户订单号
-        map.put("PROTOCOLNO","1490776393898663163");//协议号
-        map.put("AMT","100");//交易金额
-        map.put("USERIP","116.239.4.19");//客户 IP
-        map.put("MCHNTCD","0002900F0096235");//商户代码
-        map.put("BACKURL","http://www.baidu.com");//回调地址
-        map.put("KEY",Suncoder.decode("5old71wihg2tqjug9kkpxnhx9hiujoqj"));
+        /*map.put("USERID", "107918");//用户编号
+        map.put("MCHNTORDERID", VeStr.getUSid() + "");//商户订单号
+        map.put("PROTOCOLNO", "N6J2WY100002162752PBGK");//协议号
+        map.put("AMT", "2");//交易金额
+        map.put("USERIP", "116.239.4.19");//客户 IP
+        map.put("MCHNTCD", "0003310F1078099");//商户代码
+        map.put("BACKURL", "http://121.196.195.179:8081/fuiou.html");//回调地址
+        map.put("KEY", Suncoder.decode("IlpHEVZFXTgWJnNZSQh2dzwLFBRhYAEFElkuBAs8RBU="));
         order(map);*/
     }
 
