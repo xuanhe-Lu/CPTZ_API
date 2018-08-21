@@ -47,7 +47,7 @@ public class GMTime {
 		TimeZone tz = TimeZone.getDefault();
 		OFFSET = tz.getOffset(time); // 标准时差
 		OFFSETHOUR = (int) (OFFSET / MILLIS_PER_HOUR);
-		return GMTime.currentTimeMillis();
+		return System.currentTimeMillis();
 	}
 
 	/** 格林威治标准时间 */
@@ -297,7 +297,7 @@ public class GMTime {
 	}
 
 	public static final int getHours(int offset) {
-		return getHours(GMTime.currentTimeMillis(), offset);
+		return getHours(System.currentTimeMillis(), offset);
 	}
 
 	public static final int getHours(long time, int offset) {
@@ -485,7 +485,7 @@ public class GMTime {
 
 	public static final long valueOf(String tday, int offset) {
 		if (tday == null || tday.length() < 8) {
-			return GMTime.currentTimeMillis();
+			return System.currentTimeMillis();
 		}
 		String str = tday.trim();
 		Calendar c = Calendar.getInstance();

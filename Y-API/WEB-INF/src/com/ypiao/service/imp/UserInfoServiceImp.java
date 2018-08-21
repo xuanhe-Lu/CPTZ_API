@@ -575,7 +575,7 @@ public class UserInfoServiceImp extends AConfig implements UserInfoService {
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				if (score >= 1) {
-					time = GMTime.currentTimeMillis();
+					time = System.currentTimeMillis();
 					rs.updateInt(2, score);
 					rs.updateLong(3, time);
 					rs.updateRow();
@@ -594,7 +594,7 @@ public class UserInfoServiceImp extends AConfig implements UserInfoService {
 	}
 
 	public void updatePwd(long uid, String Pwd) throws SQLException {
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		if (this.updatePwd(uid, Pwd, time) >= 1) {
 //			SyncMap.getAll().add("uid", uid).add("pwd", Pwd).add("time", time).sender(SYS_A123, "modPwd");
 		}
@@ -605,7 +605,7 @@ public class UserInfoServiceImp extends AConfig implements UserInfoService {
 		PreparedStatement ps = null;
 		try {
 			long uid = 0;
-			long time = GMTime.currentTimeMillis();
+			long time = System.currentTimeMillis();
 			ps = JPrepare.prepareStatement(conn, "SELECT Uid,PassWord,Time FROM " + TBL_USER_INFO + " WHERE Account=?");
 			ps.setString(1, sm);
 			ResultSet rs = ps.executeQuery();

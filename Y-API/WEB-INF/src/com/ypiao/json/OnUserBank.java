@@ -204,10 +204,10 @@ public class OnUserBank extends Action {
 				b.setChannel(d.getChannel());
 				b.setMobile(sm);
 				b.setName(a.getName());
-				b.setGmtA(GMTime.currentTimeMillis());
+				b.setGmtA(System.currentTimeMillis());
 				b.setState(STATE_NORMAL);
 			} // 检测是否发送验证码
-			long time = GMTime.currentTimeMillis();
+			long time = System.currentTimeMillis();
 			if (code == null || code.length() < 4) {
 				if ((time - b.getTime()) > USER_TIMEOUT) {
 //					b.setCode(String.valueOf(RandomUtils.randomNumeric(100000, 999999)));
@@ -323,10 +323,10 @@ public class OnUserBank extends Action {
 				b.setChannel(d.getChannel());
 				b.setMobile(sm);
 				b.setName(a.getName());
-				b.setGmtA(GMTime.currentTimeMillis());
+				b.setGmtA(System.currentTimeMillis());
 				b.setState(STATE_NORMAL);
 			} // 检测是否更新验证码
-			long time = GMTime.currentTimeMillis();
+			long time = System.currentTimeMillis();
 			if ((time - b.getTime()) > USER_TIMEOUT) {
 //				b.setCode(String.valueOf(RandomUtils.randomNumeric(100000, 999999)));
 				//TODO 测试用，暂时写死 123456

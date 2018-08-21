@@ -68,7 +68,7 @@ public class UserIderServiceImp extends AConfig implements UserIderService {
 			mgr = SyncMap.getAdm().add("mobile", mobile).send(SYS_A121, "getUid");
 			if (mgr.isObject()) {
 				u = mgr.getObject(UserIder.class);
-				u.setTime(GMTime.currentTimeMillis());
+				u.setTime(System.currentTimeMillis());
 				this.cache.put(mobile, u);
 				this.saveIder(u);
 			}
@@ -94,7 +94,7 @@ public class UserIderServiceImp extends AConfig implements UserIderService {
 				ider.setTime(rs.getLong(5));
 				if (ider.getState() == STATE_READER) {
 					ider.setState(STATE_NORMAL);
-					ider.setTime(GMTime.currentTimeMillis());
+					ider.setTime(System.currentTimeMillis());
 					rs.updateLong(5, ider.getTime());
 					rs.updateRow();
 				}
@@ -117,7 +117,7 @@ public class UserIderServiceImp extends AConfig implements UserIderService {
 					ps.close();
 					ider = new UserIder();
 					ider.setState(STATE_NORMAL);
-					ider.setTime(GMTime.currentTimeMillis());
+					ider.setTime(System.currentTimeMillis());
 					ider.setUid(findUserId(conn, ider.getTime()));
 					ider.setMobile(mobile);
 					ps = conn.prepareStatement("UPDATE " + TBL_USER_IDER + " SET Mobile=?,State=? WHERE Uid=?");
@@ -140,7 +140,7 @@ public class UserIderServiceImp extends AConfig implements UserIderService {
 		UserIder u = this.cache.get(mobile);
 		if (u == null) {
 			return this.findUserIder(mobile);
-		} else if (u.getState() == STATE_NORMAL && (GMTime.currentTimeMillis() - u.getTime()) > 10000) {
+		} else if (u.getState() == STATE_NORMAL && (System.currentTimeMillis() - u.getTime()) > 10000) {
 			return this.findUserIder(mobile);
 		}
 		return u;
@@ -165,7 +165,7 @@ public class UserIderServiceImp extends AConfig implements UserIderService {
 			try {
 				ps.close();
 				long beg = sid; // begin user id
-				long time = GMTime.currentTimeMillis();
+				long time = System.currentTimeMillis();
 				conn.setAutoCommit(false);
 				ps = conn.prepareStatement("INSERT INTO " + TBL_USER_IDER + " (Uid,State,Time) VALUES (?,?,?)");
 				for (int i = 200; i > 10; i--) {

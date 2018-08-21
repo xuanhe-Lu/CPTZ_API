@@ -1,6 +1,7 @@
 package com.ypiao.json;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,7 +17,7 @@ import com.ypiao.util.VeRule;
 import com.ypiao.util.VeStr;
 
 /**
- * 用户充值接口. 
+ * 用户充值接口.
  */
 public class OnRecharge extends Action {
 
@@ -33,6 +34,8 @@ public class OnRecharge extends Action {
 	private UserBankService userBankService;
 
 	private UserChargeService userChargeService;
+
+	private UserMoneyService userMoneyService;
 
 	public OnRecharge() {
 		super(false);
@@ -86,23 +89,29 @@ public class OnRecharge extends Action {
 		this.userChargeService = userChargeService;
 	}
 
+	public UserMoneyService getUserMoneyService() {
+		return userMoneyService;
+	}
+
+	public void setUserMoneyService(UserMoneyService userMoneyService) {
+		this.userMoneyService = userMoneyService;
+	}
+
 	/**
 	 * @return string
-	 * 
-	 * 充值提交 
+	 *
+	 * 充值提交
 	 */
 	public String commit() {
 		AjaxInfo json = this.getAjaxInfo();
 		String code = this.getString("vcode");
-		// TODO 验证码写死 测试用
-		code = String.valueOf(123456);
 		try {
 			long sid = this.getLong("sid");
 			LogCharge c = this.getUserChargeService().findChargeBySid(sid);
 			if (c == null) {
 				json.addError(this.getText("system.error.none"));
 				logger.info("json:"+json.toString());
- return JSON;
+				return JSON;
 			} // 构建付款信息
 			c.setVercd(code); // 验证码
 			UserSession us = this.getUserSession();
@@ -128,23 +137,60 @@ public class OnRecharge extends Action {
 
 					//TODO 协议支付增加 luxh
 					//首次绑定协议支付
-					FuiouPayRequest req = new FuiouPayRequest();
+					/*FuiouPayRequest req = new FuiouPayRequest();
 					req.setVersion("3.0");
 					req.setMchntcd(pay.getSellid());
 					req.setUserId(String.valueOf(c.getUid()));
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(new Date());
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd"); //设置时间格式
-					String date = sdf.format(calendar);
+					long now = System.currentTimeMillis();
+					String date = sdf.format(now);
 					req.setTradeDate( date);
 					req.setMchntssn(String.valueOf(VeStr.getUSid()));
 					req.setAccount(c.getName());
 					req.setCardNo(c.getBankCard());
 					req.setIdType("0");
 					req.setIdCard(c.getIdCard());
-					req.setMobileNo(c.getMobile().replace("+86-",""));
-					fuiouPayResponse = Fuiou.sendSMS(req,pay.getSecret());
+					req.setMobileNo(c.getMobile().replace("+86-",""));*/
+					Map<String,String> map = new HashMap<>();
+					map.put("MCHNTSSN",c.getOrderId());
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd"); //设置时间格式
+					long now = System.currentTimeMillis();
+					String date = sdf.format(now);
+					map.put("TRADEDATE",date);
+					map.put("MCHNTCD",pay.getSellid());
+					map.put("KEY",pay.getSecret());
+					map.put("USERID",us.getUid()+"");
+					map.put("ACCOUNT",c.getName());
+					map.put("CARDNO",c.getBankCard());
+					map.put("IDTYPE","0");
+					map.put("IDCARD",c.getIdCard());
+					map.put("MOBILENO",c.getMobile().replace("+86-",""));
+					map.put("MSGCODE",code);
+					fuiouPayResponse = Fuiou.protoBind(map,pay.getSecret());
 
+					// 绑定成功进行支付
+					if("0000".equals(fuiouPayResponse.getResponseCode())){
+						logger.info("绑定成功,对返回参数进行保存");
+						String protocolNo = fuiouPayResponse.getProtocolNo();//用户协议号
+						if(protocolNo!=null){
+							logger.info("开始进行保存");
+							this.getUserChargeService().bindProto(c, protocolNo);
+							//调用协议支付接口
+							Map<String,String>mapIn = new HashMap<>();
+							mapIn.put("USERID",String.valueOf(us.getUid()));
+							mapIn.put("MCHNTORDERID",VeStr.getUSid()+"");
+							mapIn.put("PROTOCOLNO",protocolNo);
+							mapIn.put("AMT",String.valueOf(c.getAmount()/*.multiply(new BigDecimal("100"))*/.intValue()));
+							mapIn.put("USERIP",String.valueOf(VeStr.getRemoteAddr(request)));
+							mapIn.put("MCHNTCD",String.valueOf(pay.getSellid()));
+							mapIn.put("BACKURL",String.valueOf(pay.getNotifyUrl()));
+							mapIn.put("KEY",pay.getSecret());
+							fuiouPayResponse = new FuiouPayResponse();
+							fuiouPayResponse = Fuiou.order(mapIn);
+						}
+					}
 
 
 
@@ -166,7 +212,7 @@ public class OnRecharge extends Action {
 					mapIn.put("USERID",String.valueOf(us.getUid()));
 					mapIn.put("MCHNTORDERID",VeStr.getUSid()+"");
 					mapIn.put("PROTOCOLNO",String.valueOf(p.getSNo()));
-					mapIn.put("AMT",String.valueOf(Integer.parseInt(c.getAmount().multiply(new BigDecimal("100"))+"")));
+					mapIn.put("AMT",String.valueOf(c.getAmount()/*.multiply(new BigDecimal("100"))*/.intValue()));
 					mapIn.put("USERIP",String.valueOf(VeStr.getRemoteAddr(request)));
 					mapIn.put("MCHNTCD",String.valueOf(pay.getSellid()));
 					mapIn.put("BACKURL",String.valueOf(pay.getNotifyUrl()));
@@ -178,7 +224,7 @@ public class OnRecharge extends Action {
 				} // 执行付款操作
 				boolean addM = false;
 				if (fuiouPayResponse.getResponseCode().equals("0000")) {
-					c.setState(APState.ORDER_PAY_NO_BACK);
+					c.setState(APState.ORDER_SUCCESS);
 					addM = true;
 				} else {
 					c.setState(APState.ORDER_USER_PAY_FAIL);
@@ -205,12 +251,12 @@ public class OnRecharge extends Action {
 			json.addError(this.getText("system.error.info"));
 		}
 		logger.info("json:"+json.toString());
- return JSON;
+		return JSON;
 	}
 
 	/**
-	 * @return string 
-	 * 
+	 * @return string
+	 *
 	 * 充值页面
 	 */
 	public String index() {
@@ -222,24 +268,24 @@ public class OnRecharge extends Action {
 			if (us.getBinds() != STATE_DISABLE) {
 				json.addError(this.getText("user.error.070"));
 				logger.info("json:"+json.toString());
- return JSON;
+				return JSON;
 			}
 			if (rmb.compareTo(BigDecimal.ZERO) <= 0) {
 				json.addError(this.getText("user.error.071", new String[] { "2" }));
 				logger.info("json:"+json.toString());
- return JSON;
+				return JSON;
 			}
 			UserBank b = this.getUserBankService().findBankByUid(us.getUid());
 			if (b == null) {
 				json.addError(this.getText("user.error.070"));
 				logger.info("json:"+json.toString());
- return JSON;
+				return JSON;
 			} // 获取银行限额
 			BankInfo info = this.getBankInfoService().getBankByBid(b.getBid());
 			if (info != null && rmb.compareTo(info.getToall()) >= 1) {
 				json.addError(this.getText("user.error.072", new String[] { DF2.format(info.getToall()) }));
 				logger.info("json:"+json.toString());
- return JSON;
+				return JSON;
 			} // 执行充值操作
 			logger.info("开始执行充值操作");
 			LogCharge c = new LogCharge();
@@ -253,24 +299,17 @@ public class OnRecharge extends Action {
 			c.setBankCard(b.getCardNo());
 			c.setSigntp("MD5");
 			c.setHSIP(VeStr.getRemoteAddr(request));
+			c.setTime(System.currentTimeMillis());
+			logger.info("time:"+System.currentTimeMillis());
 			int amt = VeRule.toPer(rmb).intValue(); // 金额处理
 			PayInfo pay = this.getPayInfoService().getInfoByFuiou();
 			c.setBackUrl(pay.getNotifyUrl());
-
-
-
-
-
-
-
-
-
 			UserProto p = this.getUserChargeService().findProtoByUid(us.getUid());
 			synchronized (doLock(us.getUid())) {
 				OrderResponse res = null;
 				FuiouPayResponse fuiouPayResponse = null;
 				if (p == null) {
-
+					logger.info("协议支付卡号为空");
 					//TODO 协议支付增加 luxh
 					//首次绑定协议支付
 					FuiouPayRequest req = new FuiouPayRequest();
@@ -279,90 +318,45 @@ public class OnRecharge extends Action {
 					req.setUserId(String.valueOf(c.getUid()));
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(new Date());
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd"); //设置时间格式
-					String date = sdf.format(calendar);
-					req.setTradeDate( date);
+					long now=System.currentTimeMillis();
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //设置时间格式
+					String date = sdf.format(now);
+					req.setTradeDate( date.replace("-",""));
 					req.setMchntssn(String.valueOf(VeStr.getUSid()));
 					req.setAccount(b.getName());
 					req.setCardNo(b.getCardNo());
 					req.setIdType("0");
-					req.setIdCard(b.getCardNo());
-					req.setMobileNo(b.getMobile());
+					req.setIdCard(b.getIdCard());
+					req.setMobileNo(b.getMobile().replace("+86-",""));
 					fuiouPayResponse = Fuiou.sendSMS(req,pay.getSecret());
 
-					/*OrderRequest req = new OrderRequest();
-					req.setMchntcd(pay.getSellid());
-					req.setMchntorderid(String.valueOf(c.getSid()));
-					req.setUserId(c.getUid());
-					req.setAmt(amt); // 支付金额
-					req.setBankcard(c.getBankCard());
-					req.setName(c.getName());
-					req.setIdno(c.getIdCard());
-					req.setMobile(c.getMobile().replace("+86-", ""));
-					req.setBackurl(c.getBackUrl());
-					req.setRem1(c.getHSIP());
-					req.setUserIP(c.getHSIP());
-					res = Fuiou.order(req, pay.getSecret()); // 首次充值*/
 				} else if (p.getCNo().equalsIgnoreCase(b.getCardNo())) {
+					logger.info("协议支付卡号与输入相符");
 					//已经协议支付过的用户
 					Map<String,String> mapIn = new HashMap<>();
-					/*String userid = mapIn.get("USERID");//用户编号
-					String mchntorderid = mapIn.get("MCHNTORDERID");//商户订单号
-					String protocolno = mapIn.get("PROTOCOLNO");//协议号
-					String amt = mapIn.get("AMT");//交易金额
-					String userip = mapIn.get("USERIP");//客户 IP
-					String needsendmsg = "0";//是否需要发送短信 0
-					String mchntcd = mapIn.get("MCHNTCD");//商户代码
-					String backurl = mapIn.get("BACKURL");//回调地址
-					String rem1 = "";
-					String rem2 = "";
-					String rem3 = "";
-					String key = mapIn.get("KEY");
-					String orderalivetime = mapIn.get("ORDERALIVETIME");*/
 
 					mapIn.put("USERID",String.valueOf(us.getUid()));
-					mapIn.put("MCHNTORDERID",String.valueOf(us.getUid()));
-					mapIn.put("PROTOCOLNO",String.valueOf(us.getUid()));
-					mapIn.put("AMT",String.valueOf(us.getUid()));
-					mapIn.put("USERIP",String.valueOf(us.getUid()));
-					mapIn.put("MCHNTCD",String.valueOf(us.getUid()));
-					mapIn.put("BACKURL",String.valueOf(us.getUid()));
+					mapIn.put("MCHNTORDERID",VeStr.getUSid()+"");
+					mapIn.put("PROTOCOLNO",String.valueOf(p.getSNo()));
+					mapIn.put("AMT",String.valueOf(c.getAmount()/*.multiply(new BigDecimal("100"))*/.intValue()));
+					mapIn.put("USERIP",String.valueOf(VeStr.getRemoteAddr(request)));
+					mapIn.put("MCHNTCD",String.valueOf(pay.getSellid()));
+					mapIn.put("BACKURL",String.valueOf(pay.getNotifyUrl()));
 					mapIn.put("KEY",pay.getSecret());
 					fuiouPayResponse = Fuiou.order(mapIn);
-
-
-					/*ProtoRequest req = new ProtoRequest();
-					req.setMchntcd(pay.getSellid());
-					req.setMchntorderid(String.valueOf(c.getSid()));
-					req.setUserId(p.getUserId());
-					req.setAmt(amt); // 支付金额
-					req.setProtocolno(p.getSNo()); // 协议号
-					req.setBackurl(c.getBackUrl());
-					req.setRem1(c.getHSIP());
-					req.setUserIP(c.getHSIP());
-					res = Fuiou.order(req, pay.getSecret()); // 协议支付*/
 				} else {
-					/*Fuiou.unBindCard(pay.getSellid(), pay.getSecret(), p.getUserId(), p.getSNo());
-					p.setState(STATE_CHECK); // 更新状态信息
-					this.getUserChargeService().unBindProto(p);
-					OrderRequest req = new OrderRequest();
-					req.setMchntcd(pay.getSellid());
-					req.setMchntorderid(String.valueOf(c.getSid()));
-					req.setUserId(c.getUid());
-					req.setAmt(amt); // 支付金额
-					req.setBankcard(c.getBankCard());
-					req.setName(c.getName());
-					req.setIdno(c.getIdCard());
-					req.setMobile(c.getMobile().replace("+86-", ""));
-					req.setBackurl(c.getBackUrl());
-					req.setRem1(c.getHSIP());
-					req.setUserIP(c.getHSIP());
-					res = Fuiou.order(req, pay.getSecret()); // 新卡首次充值*/
+					logger.info("协议支付卡号与输入不符");
 				} // 记录充值信息
 				c.setSignpay(fuiouPayResponse.getSign());
 				if (fuiouPayResponse.getResponseCode().equals("0000")) {
-					c.setOrderId(fuiouPayResponse.getOrderId());
-					c.setState(APState.ORDER_USER_NO_VERCD);
+					if(fuiouPayResponse.getOrderId()!= null){
+						c.setOrderId(fuiouPayResponse.getOrderId());
+						c.setState(APState.ORDER_SUCCESS);
+					}else if(fuiouPayResponse.getMchntssn()!= null){
+						c.setOrderId(fuiouPayResponse.getMchntssn());
+						c.setState(APState.ORDER_PAY_NO_BACK);
+					}
+
 					json.addObject();
 					json.append("sid", c.getSid());
 					json.append("orderid", c.getOrderId());
@@ -379,6 +373,38 @@ public class OnRecharge extends Action {
 			json.addError(this.getText("system.error.info"));
 		}
 		logger.info("json:"+json.toString());
- 		return JSON;
+		return JSON;
+	}
+
+	/*
+	 * @NAME:isProto
+	 * @DESCRIPTION:查询用户是否协议支付过，如果协议支付绑定过，则返回1 否则返回0
+	 * @AUTHOR:luxh
+	 * @DATE:2018/8/21
+	 * @VERSION:1.0
+	 */
+	public String isProto(){
+		AjaxInfo ajaxInfo = this.getAjaxInfo();
+		UserSession us = this.getUserSession();
+		UserProto p = null;
+		try {
+			p = this.getUserChargeService().findProtoByUid(us.getUid());
+		} catch (SQLException e) {
+			logger.error("查询用户协议支付出错,");
+			e.printStackTrace();
+			ajaxInfo.addError("查询用户协议支付出错");
+			return JSON;
+		}
+		ajaxInfo.success(API_OK);
+		ajaxInfo.add("body");
+		if(p!=null && p.getUid() == us.getUid()){
+			logger.info("用户已经绑定过协议支付，不用发送验证码，直接支付");
+			ajaxInfo.append("status","1");
+		}else{
+			logger.info("用户没有绑定过协议支付，需要送验证码，不能直接支付");
+			ajaxInfo.append("status","0");
+		}
+		logger.info("JSON:"+ajaxInfo.toString());
+		return JSON;
 	}
 }

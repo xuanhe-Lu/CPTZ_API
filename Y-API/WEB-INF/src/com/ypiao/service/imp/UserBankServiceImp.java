@@ -323,7 +323,7 @@ public class UserBankServiceImp extends AConfig implements UserBankService {
 	public void saveBank(UserBank b) throws SQLException {
 		Connection conn = JPrepare.getConnection();
 		try {
-			b.setTime(GMTime.currentTimeMillis());
+			b.setTime(System.currentTimeMillis());
 			this.save(conn, b); // 保存数据信息
 //			SyncMap.getAll().sender(SYS_A125, "save", b);
 		} finally {
@@ -334,7 +334,7 @@ public class UserBankServiceImp extends AConfig implements UserBankService {
 	public void saveBker(UserBker b) throws SQLException {
 		Connection conn = JPrepare.getConnection();
 		try {
-			b.setTime(GMTime.currentTimeMillis());
+			b.setTime(System.currentTimeMillis());
 			this.save(conn, b); // 保存数据信息
 //			SyncMap.getAll().sender(SYS_A125, "saveBker", b);
 		} finally {
@@ -345,7 +345,7 @@ public class UserBankServiceImp extends AConfig implements UserBankService {
 	public void saveBind(UserBank b) throws SQLException {
 		Connection conn = JPrepare.getConnection();
 		try {
-			long time = GMTime.currentTimeMillis();
+			long time = System.currentTimeMillis();
 			b.setGmtB(time); // 完成绑卡
 			b.setState(STATE_READER);
 			b.setTime(time);

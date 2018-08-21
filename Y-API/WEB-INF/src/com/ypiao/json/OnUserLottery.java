@@ -178,7 +178,7 @@ public class OnUserLottery extends Action {
                     lotteryLog.setName(lottery.getName());
                     lotteryLog.setSign("D");
                     lotteryLog.setRemark("成功抽取一次奖励.");
-                    lotteryLog.setCreateTime(GMTime.currentTimeMillis());
+                    lotteryLog.setCreateTime(System.currentTimeMillis());
 
                     Calendar t = Calendar.getInstance();
                     t.setTimeInMillis(GState.USER_TODAX);
@@ -209,21 +209,21 @@ public class OnUserLottery extends Action {
                 BigDecimal toall = new BigDecimal(100000.00);
                 uc.setToall(toall);//累计限额
                 uc.setToday(30);//理财天数
-                uc.setSday(GMTime.currentTimeMillis());
-//                uc.setEday(GMTime.currentTimeMillis()+2592000000l);//30天
+                uc.setSday(System.currentTimeMillis());
+//                uc.setEday(System.currentTimeMillis()+2592000000l);//30天
                 Calendar t = Calendar.getInstance();
                 t.setTimeInMillis(GState.USER_TODAX);
                 t.add(Calendar.DATE, 30);
                 uc.setEday(t.getTimeInMillis() - 1000);//30天
                 uc.setRemark(lottery.getRemark());
-                uc.setGmtA(GMTime.currentTimeMillis());
+                uc.setGmtA(System.currentTimeMillis());
                 uc.setGmtB(0); // 未使用
                 uc.setState(STATE_NORMAL);
-                uc.setTime(GMTime.currentTimeMillis());
+                uc.setTime(System.currentTimeMillis());
                 List<UserCoupon> userCouponList = new ArrayList<>();
                 userCouponList.add(uc);
                 try {
-                    this.getUserCouponService().save(userCouponList, GMTime.currentTimeMillis());
+                    this.getUserCouponService().save(userCouponList, System.currentTimeMillis());
                 } catch (SQLException e) {
                     logger.error(String.format("抽奖奖励存储失败"));
                     e.printStackTrace();
@@ -241,7 +241,7 @@ public class OnUserLottery extends Action {
                     lotteryLog.setName(lottery.getName());
                     lotteryLog.setSign("D");
                     lotteryLog.setRemark("成功抽取一次奖励.");
-                    lotteryLog.setCreateTime(GMTime.currentTimeMillis());
+                    lotteryLog.setCreateTime(System.currentTimeMillis());
 
                     t = Calendar.getInstance();
                     t.setTimeInMillis(GState.USER_TODAX);
@@ -274,7 +274,7 @@ public class OnUserLottery extends Action {
                 lotteryLog.setName(lottery.getName());
                 lotteryLog.setSign("D");
                 lotteryLog.setRemark("成功抽取一次奖励.");
-                lotteryLog.setCreateTime(GMTime.currentTimeMillis());
+                lotteryLog.setCreateTime(System.currentTimeMillis());
 
                 Calendar t = Calendar.getInstance();
                 t.setTimeInMillis(GState.USER_TODAX);

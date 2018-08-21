@@ -176,7 +176,7 @@ public class OnUserBuy extends Action {
             } // 优惠券信息
             long cid = this.getLong("sid");
             long cid1 = this.getLong("sid1");
-            long time = GMTime.currentTimeMillis();
+            long time = System.currentTimeMillis();
             UserSession us = this.getUserSession();
             UserCoupon uc = this.getUserCouponService().findCouponBySid(cid);
             UserCoupon uc1 = new UserCoupon();
@@ -503,7 +503,7 @@ public class OnUserBuy extends Action {
             }
             //add by luxh 会员权益日当天黄金会员可以使用两张加息券
             UserSession us = this.getUserSession();
-            long time = GMTime.currentTimeMillis();
+            long time = System.currentTimeMillis();
             UserVip userVip = new UserVip();
             boolean isVipTwo = false;
             try {
@@ -825,7 +825,7 @@ public class OnUserBuy extends Action {
                 logger.info("json:" + json.toString());
                 return JSON;
             }
-            long now = GMTime.currentTimeMillis();
+            long now = System.currentTimeMillis();
             if ((now - 1800000) > s.getTime()) {
                 s.setState(6); // 超时关闭
                 this.getTradeInfoService().saveOrder(s);
@@ -1156,7 +1156,7 @@ public class OnUserBuy extends Action {
                     json.append("gmtb", GMTime.format(log.getGmtB(), GMTime.CHINA, GMTime.OUT_SHORT));
                     json.append("gmtc", GMTime.format(log.getGmtC(), GMTime.CHINA, GMTime.OUT_SHORT));
                     //保存用户投标获取的猫粮
-                    long time = GMTime.currentTimeMillis();
+                    long time = System.currentTimeMillis();
                     UserVip userVip = new UserVip();
                     try {
                         userVip = this.getUserVipService().queryVipLog(uid, time);

@@ -31,7 +31,7 @@ public class Config implements Serializable {
 		} else if (content == null) {
 			return true;
 		} else {
-			return (GMTime.currentTimeMillis() > timeout);
+			return (System.currentTimeMillis() > timeout);
 		}
 	}
 

@@ -89,7 +89,7 @@ public class AderNoteServiceImp extends AConfig implements AderNoteService {
 			ps = conn.prepareStatement("SELECT Sid,Tid,Title,State,Time FROM " + TBL_ADER_NOTE + " WHERE Position<=? AND State=? AND Sday<=? ORDER BY Sid DESC");
 			ps.setInt(1, 2);
 			ps.setInt(2, STATE_CHECK);
-			ps.setLong(3, GMTime.currentTimeMillis());
+			ps.setLong(3, System.currentTimeMillis());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				json.formater();
@@ -144,7 +144,7 @@ public class AderNoteServiceImp extends AConfig implements AderNoteService {
 			sql = sql.append( "SELECT Sid, Tid, Position, Title, Author, Detail, Sday, State, Time FROM " + TBL_ADER_NOTE + " WHERE State = ? AND Sday <= ? AND (Position = ? OR Position = ?) ORDER BY Time DESC" );
 			preparedStatement = conn.prepareStatement(sql.toString());
 			preparedStatement.setInt( 1, ENABLE );
-			preparedStatement.setLong( 2, GMTime.currentTimeMillis() );
+			preparedStatement.setLong( 2, System.currentTimeMillis() );
 			preparedStatement.setInt( 3, ALL );
 			preparedStatement.setInt( 4, SITE );
 			ResultSet resultSet = preparedStatement.executeQuery();

@@ -116,7 +116,7 @@ public class UserAuthServiceImp extends AConfig implements UserAuthService {
 	public void saveAuth(UserAuth a) throws SQLException {
 		Connection conn = JPrepare.getConnection();
 		try {
-			a.setTime(GMTime.currentTimeMillis());
+			a.setTime(System.currentTimeMillis());
 			this.save(conn, a); // 保存数据信息
 //			SyncMap.getAll().sender(SYS_A124, "save", a);
 		} finally {

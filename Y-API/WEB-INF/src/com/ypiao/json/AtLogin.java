@@ -238,7 +238,7 @@ public class AtLogin extends Action {
 			us.setNicer(reg.getNicer());
 			us.setBinds(reg.getBinds());
 			us.setReals(reg.getReals());
-			us.setTime(GMTime.currentTimeMillis());
+			us.setTime(System.currentTimeMillis());
 			this.getUserLogerService().login(us, reg.getDevice(), reg.getModel());
 			int fee = this.getSysConfig().getSYSCashByMonth(); // 免费提现
 			UserStatus s = this.getUserInfoService().findUserStatusByUid(us.getUid());
@@ -310,7 +310,7 @@ public class AtLogin extends Action {
 				us.setNicer(info.getNicer());
 				us.setBinds(info.getBinds());
 				us.setReals(info.getReals());
-				us.setTime(GMTime.currentTimeMillis());
+				us.setTime(System.currentTimeMillis());
 				this.getUserLogerService().login(us, dev, model);
 				int fee = this.getSysConfig().getSYSCashByMonth(); // 免费提现
 				UserStatus s = this.getUserInfoService().findUserStatusByUid(us.getUid());

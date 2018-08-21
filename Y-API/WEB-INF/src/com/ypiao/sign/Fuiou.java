@@ -640,7 +640,7 @@ public class Fuiou {
         map.clear();
         map.put("MCHNTCD","0003310F1078099");//商户代码
         map.put("USERID","107918");// 用户编号
-        map.put("PROTOCOLNO","DYAT4A100002265385XBAG"); //协议号
+        map.put("PROTOCOLNO","94VSKG100003838037A7VF"); //协议号
         map.put("KEY",Suncoder.decode("IlpHEVZFXTgWJnNZSQh2dzwLFBRhYAEFElkuBAs8RBU="));//密钥
          fuiouPayResponse = unbind(map);
 

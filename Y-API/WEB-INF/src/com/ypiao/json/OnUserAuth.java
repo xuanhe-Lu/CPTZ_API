@@ -167,7 +167,7 @@ public class OnUserAuth extends Action {
 					a.setName(name);
 					a.setIdCard(idCard);
 					a.setGender(VeRule.toGender(m.getSex()));
-					a.setRtime(GMTime.currentTimeMillis());
+					a.setRtime(System.currentTimeMillis());
 				} else {
 					json.addError(this.getText("user.error.055"));
 					logger.info("json:"+json.toString());
@@ -186,7 +186,7 @@ public class OnUserAuth extends Action {
 			} // 检测验证码发送
 			if (code == null || code.length() <= 4) {
 				this.getUserAuthService().save(a);
-				long time = GMTime.currentTimeMillis();
+				long time = System.currentTimeMillis();
 				/*if (!sm.equalsIgnoreCase(b.getMobile())) {
 					PayInfo pay = this.getPayInfoService().getInfoByFuiou();
 					CardBinResponse res = Fuiou.cardBinQry(pay.getSellid(), pay.getSecret(), cardNo);
@@ -319,7 +319,7 @@ public class OnUserAuth extends Action {
 					a.setName(name);
 					a.setIdCard(idCard);
 					a.setGender(VeRule.toGender(m.getSex()));
-					a.setRtime(GMTime.currentTimeMillis());
+					a.setRtime(System.currentTimeMillis());
 					this.getUserAuthService().saveAuth(a);
 					us.setGender(a.getGender());
 					us.setReals(STATE_CHECK);

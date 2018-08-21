@@ -182,7 +182,7 @@ public class TradeInfoServiceImp extends AConfig implements TradeInfoService {
 			if (this.getProdInfoService().update(conn, log.getPid(), log.getTma()) <= 0) {
 				result = STATE_CHECK; // 产品售罄
 			} else {
-//				long time = GMTime.currentTimeMillis();
+//				long time = System.currentTimeMillis();
 				long time = System.currentTimeMillis();
 				UserRmbs r = this.getUserMoneyService().findMoneyByUid(conn, log.getUid());
 				if (log.getTmb().compareTo(r.getTotal()) >= 1) {
@@ -444,7 +444,7 @@ public class TradeInfoServiceImp extends AConfig implements TradeInfoService {
 	}
 
 	public void saveOrder(SysOrder s) throws SQLException {
-		s.setTime(GMTime.currentTimeMillis());
+		s.setTime(System.currentTimeMillis());
 		if (USER_TIME >= s.getGmtA()) {
 			s.setGmtA(s.getTime());
 			s.setGmtD(s.getTime());

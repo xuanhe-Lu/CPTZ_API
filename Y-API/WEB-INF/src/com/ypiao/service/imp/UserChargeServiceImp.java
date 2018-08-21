@@ -214,7 +214,7 @@ public class UserChargeServiceImp extends AConfig implements APState, UserCharge
 	public void saveLog(LogCharge c) throws SQLException {
 		Connection conn = JPrepare.getConnection();
 		try {
-			c.setTime(GMTime.currentTimeMillis());
+			c.setTime(System.currentTimeMillis());
 			this.save(conn, c); // 保存操作
 			if (ORDER_SUCCESS == c.getState()) {
 				UserRmbs r = this.getUserMoneyService().findMoneyByUid(conn, c.getUid());
@@ -295,7 +295,7 @@ public class UserChargeServiceImp extends AConfig implements APState, UserCharge
 	}
 
 	public void unBindProto(UserProto p) throws SQLException {
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		if (this.update(p.getCNo(), p.getState(), time) >= 1) {
 			p.setTime(time);
 //			SyncMap.getAll().add("cno", p.getCNo()).add("state", p.getState()).add("time", time).sender(SYS_A129, "unBind");

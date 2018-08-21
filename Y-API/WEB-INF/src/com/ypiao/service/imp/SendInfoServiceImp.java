@@ -174,7 +174,7 @@ public class SendInfoServiceImp extends AConfig implements SendInfoService {
 			} else if (GState.USER_TODAX > s.getSday()) {
 				// 全新一天，重新统计
 			} else {
-				long out = (GMTime.currentTimeMillis() - s.getTime());
+				long out = (System.currentTimeMillis() - s.getTime());
 				if (INTERVAL >= out) {
 					return STD;
 				} else if (ANUM_MAX > s.getAnum()) {
@@ -205,7 +205,7 @@ public class SendInfoServiceImp extends AConfig implements SendInfoService {
 				return false;
 			} else if (code.equals(s.getCode())) {
 				if (STATE_NORMAL == s.getState()) {
-					long out = GMTime.currentTimeMillis() - s.getTime();
+					long out = System.currentTimeMillis() - s.getTime();
 					return (TIMEOUT >= out);
 				}
 			}
@@ -228,7 +228,7 @@ public class SendInfoServiceImp extends AConfig implements SendInfoService {
 			return true;
 		} // 检测发送条件
 		SMSInfo s = this.getInfoBySid(sm);
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		if (s == null) {
 			s = new SMSInfo();
 			s.setSid(sm); // 主键信息

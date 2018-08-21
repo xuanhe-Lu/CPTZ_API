@@ -60,7 +60,7 @@ public class FeedBackServiceImp extends AConfig implements FeedBackService {
 	 * @throws SQLException
 	 */
 	public void saveFeed(FeedInfo f) throws SQLException {
-		f.setTime(GMTime.currentTimeMillis());
+		f.setTime(System.currentTimeMillis());
 		// 保存反馈信息
 		this.save(f); 
 		// 同步数据

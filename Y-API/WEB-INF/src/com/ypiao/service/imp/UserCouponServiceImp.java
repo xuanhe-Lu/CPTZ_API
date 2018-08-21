@@ -64,7 +64,7 @@ public class UserCouponServiceImp extends AConfig implements UserCouponService {
 	public void expired() throws SQLException {
 		Set<Long> set = new HashSet<Long>();
 		while (this.loadByAll(set) >= 1) {
-			long time = GMTime.currentTimeMillis();
+			long time = System.currentTimeMillis();
 			for (Long uid : set) {
 				this.expired(uid.longValue(), time);
 			}
@@ -224,7 +224,7 @@ public class UserCouponServiceImp extends AConfig implements UserCouponService {
 			set.clear();
 			ps = conn.prepareStatement(SQL_BY_EXPIRED);
 			ps.setInt(1, STATE_NORMAL);
-			ps.setLong(2, GMTime.currentTimeMillis());
+			ps.setLong(2, System.currentTimeMillis());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				set.add(rs.getLong(1));
@@ -242,7 +242,7 @@ public class UserCouponServiceImp extends AConfig implements UserCouponService {
 		try {
 			int na = 0;
 			json.datas(API_OK);
-			long time = GMTime.currentTimeMillis();
+			long time = System.currentTimeMillis();
 			ps = conn.prepareStatement("SELECT Sid,Name,Type,TMA,TMB,Toall,Today,Eday,State,Time FROM " + TBL_USER_COUPON + " WHERE Uid=? AND State=? AND Eday>=? AND Sday<=? AND Today<=? ORDER BY Eday ASC");
 			ps.setLong(1, uid);
 			ps.setInt(2, STATE_NORMAL);
@@ -274,7 +274,7 @@ public class UserCouponServiceImp extends AConfig implements UserCouponService {
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;
 		try {
-			long time = GMTime.currentTimeMillis();
+			long time = System.currentTimeMillis();
 			if (STATE_ENABLE == state) {
 				ps = conn.prepareStatement("SELECT Sid,Name,Type,TMA,TMB,Toall,Today,Eday,State,Time FROM " + TBL_USER_COUPON + " WHERE Uid=? AND State=? AND Eday>=? ORDER BY Eday ASC");
 				ps.setLong(1, uid);
@@ -322,7 +322,7 @@ public class UserCouponServiceImp extends AConfig implements UserCouponService {
 		PreparedStatement ps = null;
 		
 		try {
-			long curTime = GMTime.currentTimeMillis();
+			long curTime = System.currentTimeMillis();
 			
 			if (uid == 0) {
 				json.datas(API_OK);

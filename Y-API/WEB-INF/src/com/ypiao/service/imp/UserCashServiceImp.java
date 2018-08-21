@@ -54,7 +54,7 @@ public class UserCashServiceImp extends AConfig implements UserCashService {
 			ps.setInt(14, c.getState());
 			ps.setLong(15, c.getTime());
 			ps.setLong(16, c.getAdm());
-			ps.setLong(17, GMTime.currentTimeMillis());
+			ps.setLong(17, System.currentTimeMillis());
 			ps.setString(18, c.getAdn());
 			return ps.executeUpdate();
 		} finally {

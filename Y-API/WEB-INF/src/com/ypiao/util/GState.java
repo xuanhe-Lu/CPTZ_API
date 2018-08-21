@@ -17,7 +17,7 @@ public class GState implements AState, APState {
 	public static String TODAY = "2018-03-12";
 
 	public static void reToday() {
-		reToday(GMTime.currentTimeMillis());
+		reToday(System.currentTimeMillis());
 	}
 
 	public static void reToday(long time) {

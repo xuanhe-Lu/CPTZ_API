@@ -80,7 +80,7 @@ public class UserLogerServiceImp extends AConfig implements UserLogerService {
 			UserIder u = this.getUserIderService().getUserIder(reg.getAccount());
 			reg.setUid(u.getUid());
 		}
-		reg.setRtime(GMTime.currentTimeMillis());
+		reg.setRtime(System.currentTimeMillis());
 		reg.setTime(reg.getRtime()); // 注册时间
 		this.getUserInfoService().register(reg);
 	}

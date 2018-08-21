@@ -51,7 +51,7 @@ public class CodecAdapter extends IoFilterAdapter {
 
 	private void received(NextFilter filter, IoSession session, ByteBuffer dst, CodecHandler handler, SendFuture future, int timeout, byte bk) throws Exception {
 		byte kv = dst.get(); // 语言
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		session.setAttribute("locale", APIServer.getLocale(kv));
 		session.setSecretKey(APIServer.get(bk), time);
 		DataOutputStream dos = session.getDataOutputStream();
@@ -71,7 +71,7 @@ public class CodecAdapter extends IoFilterAdapter {
 
 	private void received(NextFilter filter, IoSession session, ByteBuffer dst, CodecHandler handler, SendFuture future, int timeout, String key) throws Exception {
 		byte kv = dst.get(); // 语言
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		session.setAttribute("locale", APIServer.getLocale(kv));
 		session.setSecretKey(key, time); // 首次密钥
 		DataOutputStream dos = session.getDataOutputStream();

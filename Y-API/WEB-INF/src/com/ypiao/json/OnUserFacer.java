@@ -62,7 +62,7 @@ public class OnUserFacer extends Action {
 				f.setUid(us.getUid());
 				f.setVer(ver);
 				f.setState(STATE_NORMAL);
-				f.setTime(GMTime.currentTimeMillis());
+				f.setTime(System.currentTimeMillis());
 				this.getUserFaceService().saveFace(f, file, true);
 				us.setFacer(f.getVer());
 				this.getUserLogerService().update(us);
