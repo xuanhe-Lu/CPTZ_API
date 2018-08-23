@@ -146,7 +146,7 @@ public class ChannelAction extends Action {
 					channel.setName(name);
 					channel.setRaddr(raddr);
 					channel.setDaddr(daddr);
-					channel.setTime(GMTime.currentTimeMillis());
+					channel.setTime(System.currentTimeMillis());
 				}
 			} else { // 新增保存
 				channel = new Channel();
@@ -155,7 +155,7 @@ public class ChannelAction extends Action {
 				channel.setName(this.getString( "Name" ));
 				channel.setRaddr(this.getString( "Raddr" ));
 				channel.setDaddr(this.getString( "Daddr" ));
-				channel.setTime(GMTime.currentTimeMillis());
+				channel.setTime(System.currentTimeMillis());
 			}
 			
 			if (channel != null) {

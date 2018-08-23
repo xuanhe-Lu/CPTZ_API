@@ -491,7 +491,7 @@ public class AssetRawServiceImp extends AConfig implements AssetRawService {
 				r.setMb(rs.getBigDecimal(7));
 				if (SALE_A2 == rs.getInt(14)) {
 					r.setState(SALE_A3);
-					r.setTime(GMTime.currentTimeMillis());
+					r.setTime(System.currentTimeMillis());
 				} else {
 					r.setState(rs.getInt(14));
 					r.setTime(rs.getLong(15));
@@ -514,7 +514,7 @@ public class AssetRawServiceImp extends AConfig implements AssetRawService {
 
 	public void saveOrder(long rid, String ids) throws SQLException {
 		String[] ts = this.toSplit(ids);
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		this.saveOrder(ts, time); // 基础数据更新
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;
@@ -541,7 +541,7 @@ public class AssetRawServiceImp extends AConfig implements AssetRawService {
 	}
 
 	public void saveRawImgs(FileInfo f, long rid) throws SQLException, IOException {
-		f.setTime(GMTime.currentTimeMillis());
+		f.setTime(System.currentTimeMillis());
 		this.saveFile(f); // 保存相关文件
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;
@@ -572,7 +572,7 @@ public class AssetRawServiceImp extends AConfig implements AssetRawService {
 		Connection conn = JPrepare.getConnection();
 		try {
 			r.setBu(f.getPid(r.getBu()));
-			r.setTime(GMTime.currentTimeMillis());
+			r.setTime(System.currentTimeMillis());
 			this.save(conn, r); // 保存数据
 		} finally {
 			JPrepare.close(conn);

@@ -280,7 +280,7 @@ public class CfoCompanyServiceImp extends AConfig implements CfoCompanyService {
 	}
 
 	public int updatePay(ComRaws r) throws SQLException {
-		r.setTime(GMTime.currentTimeMillis());
+		r.setTime(System.currentTimeMillis());
 		if (this.update(r) >= 1) {
 			SyncMap.getAll().sender(SYS_A852, "money", r);
 		}

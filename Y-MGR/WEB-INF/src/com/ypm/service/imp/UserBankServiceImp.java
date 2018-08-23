@@ -275,7 +275,7 @@ public class UserBankServiceImp extends AConfig implements UserBankService {
 	}
 
 	public void update(UserBker b) throws SQLException {
-		b.setTime(GMTime.currentTimeMillis());
+		b.setTime(System.currentTimeMillis());
 		this.used(b); // 保存数据信息
 		SyncMap.getAll().sender(SYS_A125, "saveUsed", b);
 	}

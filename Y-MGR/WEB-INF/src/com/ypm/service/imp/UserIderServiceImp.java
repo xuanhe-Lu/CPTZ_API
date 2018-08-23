@@ -43,7 +43,7 @@ public class UserIderServiceImp extends AConfig implements UserIderService {
 			try {
 				ps.close();
 				long beg = sid; // begin user id
-				long time = GMTime.currentTimeMillis();
+				long time = System.currentTimeMillis();
 				conn.setAutoCommit(false);
 				ps = conn.prepareStatement("INSERT INTO " + TBL_USER_IDER + " (Uid,State,Time) VALUES (?,?,?)");
 				for (int i = 200; i > 10; i--) {
@@ -156,7 +156,7 @@ public class UserIderServiceImp extends AConfig implements UserIderService {
 				ider.setTime(rs.getLong(5));
 				if (ider.getState() == STATE_READER) {
 					ider.setState(STATE_NORMAL);
-					ider.setTime(GMTime.currentTimeMillis());
+					ider.setTime(System.currentTimeMillis());
 					rs.updateLong(5, ider.getTime());
 					rs.updateRow();
 				}
@@ -179,7 +179,7 @@ public class UserIderServiceImp extends AConfig implements UserIderService {
 					ps.close();
 					ider = new UserIder();
 					ider.setState(STATE_NORMAL);
-					ider.setTime(GMTime.currentTimeMillis());
+					ider.setTime(System.currentTimeMillis());
 					ider.setUid(findUserId(conn, ider.getTime()));
 					ider.setMobile(sm);
 					ps = conn.prepareStatement("UPDATE " + TBL_USER_IDER + " SET Mobile=?,State=? WHERE Uid=?");

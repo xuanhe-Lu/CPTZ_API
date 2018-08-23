@@ -47,7 +47,7 @@ public class NodeInfoServiceImp extends AConfig implements NodeInfoService {
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;
 		try {
-			info.setTime(GMTime.currentTimeMillis());
+			info.setTime(System.currentTimeMillis());
 			info.setState(STATE_NORMAL); // 正常服务
 			ps = conn.prepareStatement("SELECT Sid,Mfk,Mfs,Name,IPer,Port,State,Time FROM " + TBL_COMM_SERVER + " WHERE Mfk=? AND Mfs=?");
 			ps.setString(1, info.getMfk());

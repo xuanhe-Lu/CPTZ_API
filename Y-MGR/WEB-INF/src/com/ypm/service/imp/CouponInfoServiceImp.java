@@ -474,7 +474,7 @@ public class CouponInfoServiceImp extends AConfig implements CouponInfoService {
 			if (info.getCid() <= 0) {
 				info.setCid(this.getId(conn, Table.TBL_COUPON_INFO, "Cid"));
 			}
-			info.setTime(GMTime.currentTimeMillis());
+			info.setTime(System.currentTimeMillis());
 			this.save(conn, info);
 		} finally {
 			JPrepare.close(conn);
@@ -483,7 +483,7 @@ public class CouponInfoServiceImp extends AConfig implements CouponInfoService {
 	}
 
 	public void saveState(String ids, int state) throws SQLException {
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		if (this.update(ids, state, time) >= 1) {
 			SyncMap.getAll().add("ids", ids).add("state", state).add("time", time).sender(SYS_A511, "state");
 		}
@@ -618,7 +618,7 @@ public class CouponInfoServiceImp extends AConfig implements CouponInfoService {
 	public void saveInfo(CouponRule rule) throws SQLException {
 		Connection conn = JPrepare.getConnection();
 		try {
-			rule.setTime(GMTime.currentTimeMillis());
+			rule.setTime(System.currentTimeMillis());
 			this.save(conn, rule);
 		} finally {
 			JPrepare.close(conn);
@@ -627,7 +627,7 @@ public class CouponInfoServiceImp extends AConfig implements CouponInfoService {
 	}
 
 	public void saveSok(String ids) throws SQLException {
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		this.saveSok(ids, time);
 		SyncMap.getAll().add("ids", ids).add("time", time).sender(SYS_A511, "sok");
 	}
@@ -764,7 +764,7 @@ public class CouponInfoServiceImp extends AConfig implements CouponInfoService {
 					ps.close();
 				}
 				sql.setLength(0);
-				long time = GMTime.currentTimeMillis();
+				long time = System.currentTimeMillis();
 				sql.append("SELECT Uid,Mobile,Name FROM ").append(Table.TBL_USER_STATUS).append(" WHERE Uid IN (?");
 				for (int i = 1; i < a; i++) {
 					sql.append(",?");
@@ -817,7 +817,7 @@ public class CouponInfoServiceImp extends AConfig implements CouponInfoService {
 
 	public void refuse(CouponRule r) throws SQLException {
 		r.setState(STATE_CHECK);
-		r.setTime(GMTime.currentTimeMillis());
+		r.setTime(System.currentTimeMillis());
 		if (this.update(r.getRid(), r.getState(), r.getTime()) >= 1) {
 			SyncMap.getAll().add("rid", r.getRid()).add("time", r.getTime()).sender(SYS_A511, "refuse");
 		}
@@ -825,7 +825,7 @@ public class CouponInfoServiceImp extends AConfig implements CouponInfoService {
 
 	public void sendQM(CouponRule rule) throws SQLException {
 		rule.setState(STATE_ERRORS);
-		rule.setTime(GMTime.currentTimeMillis());
+		rule.setTime(System.currentTimeMillis());
 		long eday = rule.getEday();
 		if (rule.getStid() == 0) {
 			// Ignroed

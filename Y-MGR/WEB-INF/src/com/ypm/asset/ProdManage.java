@@ -311,7 +311,7 @@ public class ProdManage extends Action {
 						info.setAj(r.getBj()); // 期限
 						info.setAm(r.getBm());
 						info.setMa(r.getBm());
-						info.setGmtA(GMTime.currentTimeMillis());
+						info.setGmtA(System.currentTimeMillis());
 						save = true;
 					}
 				}

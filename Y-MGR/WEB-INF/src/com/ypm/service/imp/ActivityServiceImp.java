@@ -143,7 +143,7 @@ public class ActivityServiceImp extends AConfig implements ActivityService {
 			json.append("text", "默认（无）");
 			json.append("adk", "-");
 			conn = JPrepare.getConnection();
-			long time = GMTime.currentTimeMillis();
+			long time = System.currentTimeMillis();
 			ps = conn.prepareStatement("SELECT Adj,Name,Rate FROM " + TBL_ACT_INFO + " WHERE State=? AND Eday>=? ORDER BY Adj DESC");
 			ps.setInt(1, STATE_ENABLE);
 			ps.setLong(2, time);
@@ -213,7 +213,7 @@ public class ActivityServiceImp extends AConfig implements ActivityService {
 			if (info.getAdj() <= 0) {
 				info.setAdj(this.getId(conn, TBL_ACT_INFO, "Adj"));
 			}
-			info.setTime(GMTime.currentTimeMillis());
+			info.setTime(System.currentTimeMillis());
 			this.save(conn, info);
 			conn.commit();
 		} catch (SQLException e) {
@@ -226,7 +226,7 @@ public class ActivityServiceImp extends AConfig implements ActivityService {
 	}
 
 	public void saveState(String ids, int state) throws SQLException {
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		if (this.update(ids, state, time) >= 1) {
 			SyncMap.getAll().add("ids", ids).add("state", state).add("time", time).sender(SYS_A513, "saveState");
 		}

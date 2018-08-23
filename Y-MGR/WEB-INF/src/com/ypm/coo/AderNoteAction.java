@@ -129,7 +129,7 @@ public class AderNoteAction extends Action {
 					aderNote.setDetail(detail);
 					aderNote.setSday(sday);
 					aderNote.setState(state);
-					aderNote.setTime(GMTime.currentTimeMillis());
+					aderNote.setTime(System.currentTimeMillis());
 				}
 			} else { // 新增保存
 				aderNote = new AderNote();
@@ -141,7 +141,7 @@ public class AderNoteAction extends Action {
 				aderNote.setDetail(this.getString( "Detail" ));
 				aderNote.setSday(sday);
 				aderNote.setState(this.getInt( "State" ));
-				aderNote.setTime(GMTime.currentTimeMillis());
+				aderNote.setTime(System.currentTimeMillis());
 			}
 			
 			if (aderNote != null) {

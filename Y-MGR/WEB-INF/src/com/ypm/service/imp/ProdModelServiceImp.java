@@ -252,7 +252,7 @@ public class ProdModelServiceImp extends AConfig implements ProdModelService {
 			if (m.getTid() <= 0) {
 				m.setTid(this.getId(conn, TBL_PROD_MODEL, "Tid"));
 			}
-			m.setTime(GMTime.currentTimeMillis());
+			m.setTime(System.currentTimeMillis());
 			save(conn, m); // 保存数据
 			_PMs.put(m.getTid(), m.getName());
 		} finally {
@@ -262,7 +262,7 @@ public class ProdModelServiceImp extends AConfig implements ProdModelService {
 	}
 
 	public void saveState(String ids, int state) throws SQLException {
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		if (this.update(ids, state, time) >= 1) {
 			SyncMap.getAll().add("ids", ids).add("state", state).add("time", time).sender(SYS_A211, "state");
 		}

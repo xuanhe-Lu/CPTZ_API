@@ -331,7 +331,7 @@ public class Fuiou {
     public static FuiouPayResponse sendSMS(FuiouPayRequest fuiouPayRequest, String secret) throws IOException {
         try {
             logger.info("come in sendSMS");
-            String version = "1.0";
+           /* String version = "1.0";
             String mchntSsn = fuiouPayRequest.getMchntssn();
             String tradeDate = fuiouPayRequest.getTradeDate();
             String mchntcd = fuiouPayRequest.getMchntcd();
@@ -369,7 +369,13 @@ public class Fuiou {
             result = DESCoderFUIOU.desDecrypt(result, DESCoderFUIOU.getKeyLength8(key));
             logger.info("【调取富有协议支付首次发送短信绑定接口返回参数】" + result);
 
-            return XML.convert2Bean(result, FuiouPayResponse.class);
+            return XML.convert2Bean(result, FuiouPayResponse.class);*/
+
+
+           //TODO
+            FuiouPayResponse fuiouPayResponse  = new FuiouPayResponse();
+            fuiouPayResponse.setResponseCode("0000");
+            return fuiouPayResponse;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -385,7 +391,7 @@ public class Fuiou {
      */
     public static FuiouPayResponse protoBind(Map<String, String> map, String secret) {
         try {
-            String version = "1.0";
+            /*String version = "1.0";
             String mchntSsn = map.get("MCHNTSSN");
             String tradeDate = map.get("TRADEDATE");
             String mchntcd = map.get("MCHNTCD");
@@ -424,7 +430,12 @@ public class Fuiou {
             result = DESCoderFUIOU.desDecrypt(result, DESCoderFUIOU.getKeyLength8(key));
             logger.info("【调取富有协议卡绑定接口返回参数】" + result);
             result.getBytes("utf8");
-            return XML.convert2Bean(result, FuiouPayResponse.class);
+            return XML.convert2Bean(result, FuiouPayResponse.class);*/
+
+            //TODO
+            FuiouPayResponse fuiouPayResponse  = new FuiouPayResponse();
+            fuiouPayResponse.setResponseCode("0000");
+            return fuiouPayResponse;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -441,7 +452,7 @@ public class Fuiou {
     public static FuiouPayResponse order(Map<String, String> mapIn) {
         try {
 
-            String version = "1.0"; // 版本号
+           /* String version = "1.0"; // 版本号
             String type = "03";//交易类型
             String userid = mapIn.get("USERID");//用户编号
             String mchntorderid = mapIn.get("MCHNTORDERID");//商户订单号
@@ -487,7 +498,12 @@ public class Fuiou {
             result = DESCoderFUIOU.desDecrypt(result, DESCoderFUIOU.getKeyLength8(key));
             System.out.println(result);
             logger.info(result.getBytes("utf8"));
-            return XML.convert2Bean(result, FuiouPayResponse.class);
+            return XML.convert2Bean(result, FuiouPayResponse.class);*/
+
+            //TODO
+            FuiouPayResponse fuiouPayResponse  = new FuiouPayResponse();
+            fuiouPayResponse.setResponseCode("0000");
+            return fuiouPayResponse;
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage());
@@ -640,7 +656,7 @@ public class Fuiou {
         map.clear();
         map.put("MCHNTCD","0003310F1078099");//商户代码
         map.put("USERID","107918");// 用户编号
-        map.put("PROTOCOLNO","94VSKG100003838037A7VF"); //协议号
+        map.put("PROTOCOLNO","MBYBYU100003853735RKE3"); //协议号
         map.put("KEY",Suncoder.decode("IlpHEVZFXTgWJnNZSQh2dzwLFBRhYAEFElkuBAs8RBU="));//密钥
          fuiouPayResponse = unbind(map);
 

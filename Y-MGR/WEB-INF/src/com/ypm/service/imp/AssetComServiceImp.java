@@ -198,7 +198,7 @@ public class AssetComServiceImp extends AConfig implements AssetComService {
 				c.setCid(this.getId(conn, TBL_ASSET_COMS, "Cid"));
 			}
 			c.setCc(f.getPid(c.getCc()));
-			c.setTime(GMTime.currentTimeMillis());
+			c.setTime(System.currentTimeMillis());
 			save(conn, c); // 保存数据
 		} finally {
 			JPrepare.close(conn);
@@ -237,7 +237,7 @@ public class AssetComServiceImp extends AConfig implements AssetComService {
 				ps.setString(11, c.getCh());
 				ps.setInt(12, c.getCk());
 				ps.setInt(13, STATE_CHECK);
-				ps.setLong(14, GMTime.currentTimeMillis());
+				ps.setLong(14, System.currentTimeMillis());
 				if (ps.executeUpdate() >= 1) {
 					ps.close();
 					ps = null; // 更新上级汇总数据

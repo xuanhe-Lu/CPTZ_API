@@ -230,7 +230,7 @@ public class BankInfoServiceImp extends AConfig implements BankInfoService {
 			if (b.getBid() <= 0) {
 				b.setBid(this.getId(conn, TBL_COMM_BANK, "Bid"));
 			}
-			b.setTime(GMTime.currentTimeMillis());
+			b.setTime(System.currentTimeMillis());
 			save(conn, b); // 保存数据
 		} finally {
 			JPrepare.close(conn);
@@ -240,7 +240,7 @@ public class BankInfoServiceImp extends AConfig implements BankInfoService {
 
 	public void saveOrder(String ids) throws SQLException {
 		Set<Integer> set = this.toInt(ids);
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;
 		try {
@@ -265,7 +265,7 @@ public class BankInfoServiceImp extends AConfig implements BankInfoService {
 	}
 
 	public void saveState(String ids, int state) throws SQLException {
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		if (this.update(ids, state, time) >= 1) {
 			SyncMap.getAll().add("ids", ids).add("state", state).add("time", time).sender(SYS_A991, "state");
 		}

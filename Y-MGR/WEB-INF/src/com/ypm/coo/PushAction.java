@@ -125,7 +125,7 @@ public class PushAction extends Action {
 					push.setTarget(target);
 					push.setUid(uid);
 					push.setState(state);
-					push.setTime(GMTime.currentTimeMillis());
+					push.setTime(System.currentTimeMillis());
 				}
 			} else { // 新增保存
 				push = new Push();
@@ -137,7 +137,7 @@ public class PushAction extends Action {
 				push.setTarget(this.getInt( "Target" ));
 				push.setUid(this.getLong( "Uid" ));
 				//push.setState(this.getInt( "State" ));
-				push.setTime(GMTime.currentTimeMillis());
+				push.setTime(System.currentTimeMillis());
 			}
 			
 			if (push != null) {

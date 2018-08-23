@@ -21,7 +21,7 @@ public class JobService {
 		PreparedStatement ps = null;
 		try {
 			loadSystem(0); // 加载系统信息 time=下次操作时间,todo=运行时间
-			//long time = GMTime.currentTimeMillis();
+			//long time = System.currentTimeMillis();
 			ps = conn.prepareStatement("UPDATE comm_jobs SET State=? WHERE State=?");
 			ps.setInt(1, 2);
 			ps.setInt(2, 1);
@@ -138,7 +138,7 @@ public class JobService {
 		try {
 			conn = JPrepare.getConnection();
 			ps = conn.prepareStatement("UPDATE comm_jobs SET Rlast=?,Rnext=?,State=? WHERE Id=?");
-			ps.setLong(1, GMTime.currentTimeMillis());
+			ps.setLong(1, System.currentTimeMillis());
 			ps.setLong(2, job.getNext());
 			ps.setInt(3, 2); // 执行完毕
 			ps.setString(4, job.getId());

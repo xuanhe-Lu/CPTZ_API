@@ -556,7 +556,7 @@ public class UserInfoServiceImp extends AConfig implements UserInfoService {
 	}
 
 	public void updatePwd(long uid, String Pwd) throws SQLException {
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		if (this.updatePwd(uid, Pwd, time) >= 1) {
 			SyncMap.getAll().add("uid", uid).add("pwd", Pwd).add("time", time).sender(SYS_A123, "modPwd");
 		}

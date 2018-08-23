@@ -136,7 +136,7 @@ public class WelfareAction extends Action {
 					welfare.setState(state);
 					welfare.setTitle(title);
 					welfare.setUrl(url);
-					welfare.setTime(GMTime.currentTimeMillis());
+					welfare.setTime(System.currentTimeMillis());
 				}
 			} else if (!fileInfo.image()) {// 非图片
 				json.addError(this.getText( "coo.error.023" ));
@@ -149,7 +149,7 @@ public class WelfareAction extends Action {
 				welfare.setState(this.getInt( "State" ));
 				welfare.setTitle(this.getString( "Title" ));
 				welfare.setUrl(this.getString( "Url" ));
-				welfare.setTime(GMTime.currentTimeMillis());
+				welfare.setTime(System.currentTimeMillis());
 			}
 			
 			if (welfare != null) {

@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.ypm.bean.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -32,12 +33,6 @@ import org.apache.http.util.EntityUtils;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
 
-import com.ypm.bean.AjaxInfo;
-import com.ypm.bean.ExportInfo;
-import com.ypm.bean.SyncMap;
-import com.ypm.bean.UserCash;
-import com.ypm.bean.UserRmbs;
-import com.ypm.bean.UserSession;
 import com.ypm.data.JPrepare;
 import com.ypm.office.ExcelSheet;
 import com.ypm.office.ExcelWriter;
@@ -91,7 +86,7 @@ public class UserCashServiceImp extends AConfig implements UserCashService {
 			ps.setInt(14, c.getState());
 			ps.setLong(15, c.getTime());
 			ps.setLong(16, c.getAdm());
-			ps.setLong(17, GMTime.currentTimeMillis());
+			ps.setLong(17, System.currentTimeMillis());
 //			ps.setLong(17,c.getLsDh());
 			ps.setString(18, c.getAdn());
 			return ps.executeUpdate();
@@ -308,7 +303,7 @@ public class UserCashServiceImp extends AConfig implements UserCashService {
 				rcv = rs.getInt(1);
 			}
 			rs.close();
-			long time = GMTime.currentTimeMillis(); // 当前时间
+			long time = System.currentTimeMillis(); // 当前时间
 			List<UserCash> fs = new ArrayList<UserCash>(set.size());
 			for (Long sid : set) {
 				ps.close();
@@ -408,7 +403,7 @@ public class UserCashServiceImp extends AConfig implements UserCashService {
 	class RemindTask extends TimerTask {
 		private static final int SYS_A880 = 880;
 		int numWarningBeeps = 3;
-		long time = GMTime.currentTimeMillis(); // 当前时间
+		long time = System.currentTimeMillis(); // 当前时间
         public void run() {
 //            System.out.println("Time's up!");
 //			toolkit.beep();
@@ -435,7 +430,7 @@ public class UserCashServiceImp extends AConfig implements UserCashService {
 						System.out.println(st.next().longValue());
 					}
 					rs.close();
-					long time = GMTime.currentTimeMillis(); // 当前时间
+					long time = System.currentTimeMillis(); // 当前时间
 					List<UserCash> fs = new ArrayList<UserCash>(set.size());
 					for (Long sid : set) {
 						ps.close();
@@ -504,7 +499,42 @@ public class UserCashServiceImp extends AConfig implements UserCashService {
 	public static void main(String[] args){
 //		String jieguo = str.substring(str.indexOf("")+3,str.indexOf(""));
 //		System.out.println(jieguo);
-    }
+		UserCash uc= new UserCash();
+		System.out.println("流水单号：20180820334499");
+		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>"+
+				"<payforreq>"+
+				"<ver>1.00</ver>"+
+				"<merdt>20180820</merdt>"+
+				"<orderno>"+"20180820334499" +"</orderno>"+
+//		    			"<bankno>0308</bankno>"+//总行代码
+				"<bankno>"+"0102</bankno>"+
+				"<cityno>1000</cityno>"+//城市代码
+				//"<branchnm>中国银行股份有限公司北京西单支行</branchnm>"+可不填，如果填写，一定要填对，否则影响交易；但对公户、城商行、农商行、信用社必须填支行，且需正确的支行信息
+				"<accntno>6212263400021079107</accntno>"+//默认测试账号
+				"<accntnm>芦炫赫</accntnm>"+
+//		    			"<amt>"+uc.getTma().multiply(bdTma)+"</amt>"+//单笔最少三元  单位分
+				"<amt>50000</amt>"+
+				"<mobile>"+"13074149273"+"</mobile>"+
+				"<addDesc>1</addDesc>"+
+				"</payforreq>";
+		String macSource = "0003310F1078099|a2djik32kyx9v7azi8pzhotksvcsmw4v|"+"payforreq"+"|"+xml;
+		System.out.println("xml="+xml);
+		String mac = MD5Util.encode(macSource, "UTF-8").toUpperCase();
+		String loginUrl = "https://fht.fuiou.com/req.do";//生产环境
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("merid", "0003310F1078099"));
+		params.add(new BasicNameValuePair("reqtype", "payforreq"));
+		params.add(new BasicNameValuePair("xml", xml));
+		params.add(new BasicNameValuePair("mac", mac));
+		try {
+			requestPost(loginUrl,params,uc);
+			System.out.println("success");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
+	}
 	public static void requestPost(String url,List<NameValuePair> params,UserCash c) throws ClientProtocolException, IOException {
 	    CloseableHttpClient httpclient = HttpClientBuilder.create().build();
 	    HttpPost httppost = new HttpPost(url);
@@ -613,6 +643,9 @@ public class UserCashServiceImp extends AConfig implements UserCashService {
 	    	e.printStackTrace();
 	    }
 	}
+
+
+
 	
 	//查询  - 富友接口
 	public static void qryTrans(UserCash uc) {
@@ -716,7 +749,7 @@ public class UserCashServiceImp extends AConfig implements UserCashService {
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;
 		try {
-			long time = GMTime.currentTimeMillis();
+			long time = System.currentTimeMillis();
 			c.setState(STATE_ERRORS);
 			c.setGmtB(time);
 			c.setTime(time);

@@ -119,7 +119,7 @@ public class HelpAction extends Action {
 					help.setAnswer(answer);
 					help.setSortid(sortid);
 					help.setState(state);
-					help.setTime(GMTime.currentTimeMillis());
+					help.setTime(System.currentTimeMillis());
 				}
 			} else { // 新增保存
 				help = new Help();
@@ -129,7 +129,7 @@ public class HelpAction extends Action {
 				help.setAnswer(this.getString( "Answer" ));
 				help.setSortid(this.getInt( "Sortid" ));
 				help.setState(this.getInt( "State" ));
-				help.setTime(GMTime.currentTimeMillis());
+				help.setTime(System.currentTimeMillis());
 			}
 			
 			if (help != null) {

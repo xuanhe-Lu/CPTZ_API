@@ -137,7 +137,7 @@ public class XuesAction extends Action {
 					xues.setPosition(position);
 					xues.setDetail(detail);
 					xues.setState(state);
-					xues.setTime(GMTime.currentTimeMillis());
+					xues.setTime(System.currentTimeMillis());
 				}
 			} else if (!fileInfo.image()) {// 非图片
 				json.addError(this.getText( "coo.error.023" ));
@@ -152,7 +152,7 @@ public class XuesAction extends Action {
 				xues.setAuthor(this.getUserSession().getUserName());
 				xues.setDetail(this.getString( "Detail" ));
 				xues.setState(this.getInt( "State" ));
-				xues.setTime(GMTime.currentTimeMillis());
+				xues.setTime(System.currentTimeMillis());
 			}
 			
 			if (xues != null) {

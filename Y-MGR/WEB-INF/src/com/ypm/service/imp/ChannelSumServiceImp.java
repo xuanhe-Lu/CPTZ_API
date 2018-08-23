@@ -118,7 +118,7 @@ public class ChannelSumServiceImp extends AConfig implements ChannelSumService {
 //				ps.setBigDecimal(13, rs.getBigDecimal(13));//新手投资赠送...已去掉
 				ps.setBigDecimal(13, new BigDecimal(czsxf));//用户充值手续费...
 				ps.setBigDecimal(14, rs.getBigDecimal(19));//用户提现手续费
-				ps.setLong(15,GMTime.currentTimeMillis());
+				ps.setLong(15,System.currentTimeMillis());
 				ps.execute();
 				ps.close();
 			}

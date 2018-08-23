@@ -113,7 +113,7 @@ public class OnUserActivity extends Action {
         json.formates();
         for (Map<String, Object> map213 : list) {
             BigDecimal money = new BigDecimal(String.valueOf(map213.get("adds")));
-            if (String.valueOf(money).startsWith("2")) {
+            if ((money.compareTo(new BigDecimal("100.00"))<0)) {
                 countS += 1;
                 isS = true;
             }
@@ -125,7 +125,7 @@ public class OnUserActivity extends Action {
         }
         json.append("countSri", countS);
         json.append("countGold", list.size() - countS);
-
+        logger.info("JSON:"+json.toString());
         return JSON;
     }
 

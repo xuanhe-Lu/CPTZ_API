@@ -27,7 +27,7 @@ public class SiteAreaServiceImp extends AConfig implements SiteAreaService {
 
 	public void saveRegion(RegionInfo info) throws Exception {
 		info.setState(STATE_ENABLE);
-		info.setTime(GMTime.currentTimeMillis());
+		info.setTime(System.currentTimeMillis());
 		SyncMap.getAll().send(SYS_A990, "sync", info).successfully();
 		String code = info.getCode();
 		int len = code.length(); // 编码长度
@@ -240,7 +240,7 @@ public class SiteAreaServiceImp extends AConfig implements SiteAreaService {
 		int len = (code == null) ? 0 : code.length();
 		if (len < 2)
 			return; // Ignored
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		SyncMap.getAll().add("code", code).send(SYS_A990, "remove").successfully();
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;

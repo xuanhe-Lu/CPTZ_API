@@ -131,13 +131,13 @@ public class OnUserVip extends Action {
             }
             //3.扣除用户账户余额，如果不够，则提示该用户进行充值,如果余额充足，则扣除余额，入账户资金记录表。
 //            UserStatus s = this.getUserInfoService().findUserStatusByUid(uid); //findMoneyByUid
-           UserRmbs s = this.getUserMoneyService().findMoneyByUid(uid);
+            UserRmbs s = this.getUserMoneyService().findMoneyByUid(uid);
             if (s == null) {
                 json.addError(this.getText("user.error.888"));
                 logger.info("json:" + json.toString());
                 return JSON;
             }
-            if (s.getTotal().compareTo(rmb) < 0 ) {
+            if (s.getTotal().compareTo(rmb) < 0) {
                 logger.info(String.format("用户[%s]余额不足，请充值后再购买。", uid));
                 json.addError("用户余额不足，请充值后再购买。");
                 logger.info("json:" + json.toString());
@@ -148,7 +148,7 @@ public class OnUserVip extends Action {
             i = this.getUserInfoService().updateSubHY(uid, rmb, level);
             // 修改user_rmbs表中数据
             // 看是否有邀请人，如果有邀请人，则填入到fid字段。
-            long ups = us.getUPS() >= 10000 ?  us.getUPS():0;
+            long ups = us.getUPS() >= 10000 ? us.getUPS() : 0;
             UserRmbs rmbs = new UserRmbs();
             rmbs.setSid(VeStr.getUSid());
             rmbs.setTid(4);//1,充值,2,提现,3,提现退回,4理财消费,5,理财回款
@@ -157,11 +157,11 @@ public class OnUserVip extends Action {
             rmbs.setWay("理财消费");
             rmbs.setEvent("购买会员");
             rmbs.setCost(s.getTotal());//总额
-            rmbs.setAdds(new BigDecimal("-"+rmb));//消费
-            rmbs.setTotal(s.getTotal().add(new BigDecimal("-"+rmb)));//进行此次操作后剩余总额
+            rmbs.setAdds(new BigDecimal("-" + rmb));//消费
+            rmbs.setTotal(s.getTotal().add(new BigDecimal("-" + rmb)));//进行此次操作后剩余总额
             rmbs.setState(0);
             rmbs.setTime(System.currentTimeMillis());
-            logger.info("rmbs:"+rmbs.toString());
+            logger.info("rmbs:" + rmbs.toString());
             this.getUserMoneyService().save(rmbs);
 
             //购买会员成功后，如果邀请人是会员，则返现到邀请人账户
@@ -170,14 +170,14 @@ public class OnUserVip extends Action {
             UserRmbs sUps = this.getUserMoneyService().findMoneyByUid(us.getUPS());
             if (sUps == null) {
 
-                json.addError(this.getText("邀请人信息获取失败,ups:"+ups));
+                json.addError(this.getText("邀请人信息获取失败,ups:" + ups));
                 logger.info("json:" + json.toString());
-            }else {
+            } else {
                 long time = System.currentTimeMillis();
-                logger.info(String.format("查到邀请人信息,ups[%s],time[%s]",sUps.getUid(),time));
+                logger.info(String.format("查到邀请人信息,ups[%s],time[%s]", sUps.getUid(), time));
                 UserVip userVipUps = this.getUserVipService().queryVipLog(ups, System.currentTimeMillis());
-                logger.info(String.format("userVipUps:[%s]",userVipUps.toString()));
-                if(userVipUps.getUid() ==ups && userVipUps.getLevel() >=2){
+                logger.info(String.format("userVipUps:[%s]", userVipUps.toString()));
+                if (userVipUps.getUid() == ups && userVipUps.getLevel() >= 2) {
                     int levelUps = userVipUps.getLevel();
                     UserRmbs rmbUps = new UserRmbs();
                     rmbUps.setSid(VeStr.getUSid());
@@ -195,7 +195,7 @@ public class OnUserVip extends Action {
                     } else if (levelUps == 3) {
                         adds = rmb.multiply(new BigDecimal("0.30"));
                     }
-                    logger.info("adds"+adds.toString());
+                    logger.info("adds" + adds.toString());
                     rmbUps.setAdds(adds);
                     rmbUps.setCost(sUps.getTotal());
                     rmbUps.setTotal(sUps.getTotal().add(adds));
@@ -203,10 +203,64 @@ public class OnUserVip extends Action {
                     rmbUps.setState(0);
                     rmbUps.setTime(System.currentTimeMillis());
                     this.getUserMoneyService().save(rmbUps);
-                }else {
-                    logger.info(String.format("[%s]不是会员,无法享受会员返现奖励",uid));
+                } else {
+                    logger.info(String.format("[%s]不是会员,无法享受会员返现奖励", uid));
                 }
             }
+
+            // 二级分销
+            UserInfo userInfo = this.getUserInfoService().findUserInfoByUid(us.getUPS());
+            if (userInfo.getUPS() > 100000) {
+                logger.info("最上级推荐人是" + userInfo.getUPS());
+                UserInfo userInfoUps = this.getUserInfoService().findUserInfoByUid(userInfo.getUPS());
+                if (userInfoUps.getVIP() < 2) {
+                    logger.info("最上级推荐人不是会员");
+                }
+
+                if (userInfoUps == null) {
+
+                    json.addError(this.getText("邀请人信息获取失败,ups:" + ups));
+                    logger.info("json:" + json.toString());
+                } else if (userInfoUps.getVIP() < 2) {
+                    logger.info("最上级推荐人不是会员");
+                }else {
+                    long time = System.currentTimeMillis();
+                    logger.info(String.format("查到最上级邀请人信息,ups[%s],time[%s]", userInfoUps.getUid(), time));
+                    UserVip userVipUps = this.getUserVipService().queryVipLog( userInfoUps.getUid(), time);
+                    logger.info(String.format("userVipUps:[%s]", userVipUps.toString()));
+                    if (userVipUps.getUid() == ups && userVipUps.getLevel() >= 2) {
+                        int levelUps = userVipUps.getLevel();
+                        UserRmbs rmbUps = new UserRmbs();
+                        rmbUps.setSid(VeStr.getUSid());
+                        rmbUps.setTid(5);//1,充值,2,提现,3,提现退回,4理财消费,5,理财回款
+                        rmbUps.setUid(ups);
+                        rmbUps.setFid(0);
+                        rmbUps.setWay("理财回款");
+                        String mobile = us.getMobile();
+//                    String mobile = "";
+                        mobile = mobile.substring(0, mobile.length() - 8) + "****" + mobile.substring(mobile.length() - 4);
+                        rmbUps.setEvent("间接邀请购买会员");
+                        BigDecimal adds = new BigDecimal("0.00");
+                        if (levelUps == 2) {
+                            adds = rmb.multiply(new BigDecimal("0.07"));
+                        } else if (levelUps == 3) {
+                            adds = rmb.multiply(new BigDecimal("0.10"));
+                        }
+                        logger.info("adds" + adds.toString());
+                        rmbUps.setAdds(adds);
+                        rmbUps.setCost(sUps.getTotal());
+                        rmbUps.setTotal(sUps.getTotal().add(adds));
+//                    rmbUps.add(adds.abs());
+                        rmbUps.setState(0);
+                        rmbUps.setTime(System.currentTimeMillis());
+                        this.getUserMoneyService().save(rmbUps);
+                    } else {
+                        logger.info(String.format("[%s]不是会员,无法享受会员返现奖励", uid));
+                    }
+                }
+            }
+
+
             //4.将变更后的会员信息入表，
             userVip.setLevel(level);
             userVip.setUid(uid);
@@ -236,16 +290,16 @@ public class OnUserVip extends Action {
                 json.addMessage("因猫舍中猫的数量已达上限,小猫无法出生.");
             } /*else if(catList.size() == 1){
                 logger.info("");
-            }*/else{
+            }*/ else {
                 //根据购买的会员等级，新增相对应的猫
                 Cat cat = new Cat();
                 cat.setUserName(String.valueOf(uid));
                 cat.setUid(uid);
                 cat.setCatLevel(level);
-                if(level == 2){
+                if (level == 2) {
                     cat.setImg(Constant.SILVER_CAT_IMG);
                     cat.setMaturity(new BigDecimal("1000.00"));
-                }else  if( level == 3){
+                } else if (level == 3) {
                     cat.setImg(Constant.GOLD_CAT_IMG);
                     cat.setMaturity(new BigDecimal("10000.00"));
                 }

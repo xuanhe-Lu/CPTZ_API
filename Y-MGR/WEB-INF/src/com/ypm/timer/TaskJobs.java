@@ -32,7 +32,7 @@ public class TaskJobs extends TimerTask {
 		try {
 			while (ls.size() > 0) {
 				SiteJobs job = ls.get(0);
-				time = GMTime.currentTimeMillis();
+				time = System.currentTimeMillis();
 				if (job.getNext() > time) break;
 				ls.remove(0); // 移除当前对象
 				switch(job.getType()) {

@@ -57,7 +57,7 @@ public class AdminInfoServiceImp extends AConfig implements AdminInfoService {
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;
 		try {
-			a.setTime(GMTime.currentTimeMillis());
+			a.setTime(System.currentTimeMillis());
 			if (a.getUserId() > 10) {
 				ps = conn.prepareStatement("UPDATE admin_info SET UserNo=?,UserName=?,RealName=?,Menu=?,Dept=?,Job=?,Org=?,Time=? WHERE UserId=?");
 				ps.setString(1, a.getUserNo());
@@ -99,7 +99,7 @@ public class AdminInfoServiceImp extends AConfig implements AdminInfoService {
 		try {
 			ps = conn.prepareStatement("UPDATE admin_info SET State=?,Time=? WHERE UserId=?");
 			ps.setInt(1, state);
-			ps.setLong(2, GMTime.currentTimeMillis());
+			ps.setLong(2, System.currentTimeMillis());
 			ps.setLong(3, uid);
 			ps.executeUpdate();
 		} finally {
@@ -125,7 +125,7 @@ public class AdminInfoServiceImp extends AConfig implements AdminInfoService {
 		try {
 			ps = conn.prepareStatement("UPDATE admin_info SET PassWord=?,Time=? WHERE UserId=?");
 			ps.setString(1, pwd);
-			ps.setLong(2, GMTime.currentTimeMillis());
+			ps.setLong(2, System.currentTimeMillis());
 			ps.setLong(3, uid);
 			ps.executeUpdate();
 		} finally {
@@ -134,7 +134,7 @@ public class AdminInfoServiceImp extends AConfig implements AdminInfoService {
 	}
 
 	public void delete(long uid, String ids) throws SQLException {
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		Set<Long> set = this.toLong(ids);
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;

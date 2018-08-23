@@ -137,7 +137,7 @@ public class NewsAction extends Action {
 					news.setPosition(position);
 					news.setDetail(detail);
 					news.setState(state);
-					news.setTime(GMTime.currentTimeMillis());
+					news.setTime(System.currentTimeMillis());
 				}
 			} else if (!fileInfo.image()) {// 非图片
 				json.addError(this.getText( "coo.error.023" ));
@@ -152,7 +152,7 @@ public class NewsAction extends Action {
 				news.setAuthor(this.getUserSession().getUserName());
 				news.setDetail(this.getString( "Detail" ));
 				news.setState(this.getInt( "State" ));
-				news.setTime(GMTime.currentTimeMillis());
+				news.setTime(System.currentTimeMillis());
 			}
 			
 			if (news != null) {

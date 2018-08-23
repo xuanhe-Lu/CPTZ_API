@@ -216,7 +216,7 @@ public class UserOrderServiceImp extends AConfig implements UserOrderService {
 					this.save(log);
 				} else {
 					log.setState(SALE_A4); // 已回款
-					log.setTime(GMTime.currentTimeMillis());
+					log.setTime(System.currentTimeMillis());
 					this.saveAuto(log); // 自动回款操作
 //					SyncMap.getAll().sender(SYS_A851, "saveAuto", log);
 
@@ -332,7 +332,7 @@ public class UserOrderServiceImp extends AConfig implements UserOrderService {
 				return json.close();
 			}
 			float f = 0f;
-			long out = (GMTime.currentTimeMillis() - 180000); // 3分钟超时
+			long out = (System.currentTimeMillis() - 180000); // 3分钟超时
 			Map<String, String> ms = this.getDictInfoBySSid(CFO_ORDER_BOOK);
 			sql.insert(0, "SELECT Sid,Uid,Cid,Tid,Name,Rate,Rday,Day,Way,Ads,TMA,TMB,TMC,TMD,TME,TMF,TMG,YMA,YMB,GmtA,GmtB,GmtC,Mobile,Nicer,State,Stext,Time ").append(" ORDER BY ").append(order);
 			ps = conn.prepareStatement(JPrepare.getQuery(sql.toString(), offset, max));

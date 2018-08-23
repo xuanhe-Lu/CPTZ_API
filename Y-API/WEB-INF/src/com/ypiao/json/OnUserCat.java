@@ -242,14 +242,14 @@ public class OnUserCat extends Action {
                                 json.append("msg", String.format("您尚未给猫喂食，请在喂食后2小时铲屎"));
                                 log.info("json:" + json.toString());
                                 return JSON;
-                            } else if ((time - savetime) < 7200000) {
+                            } else if ((time - savetime) < 14400000) {
                                 //如果时间差小于两小时，则表明有喂食，但是未达到铲屎时间
-                                log.info(String.format("[%s]会员已经给[%s]猫喂食，但是未达到两小时时间，请在喂食后2小时铲屎", uid, id));
+                                log.info(String.format("[%s]会员已经给[%s]猫喂食，但是未达到两小时时间，请在喂食后4小时铲屎", uid, id));
                                 json.success(API_OK);
                                 json.add("body");
                                 json.append("type", type);
                                 json.append("state", 0);
-                                json.append("msg", String.format("尚未达到铲屎时间，请在喂食后2小时铲屎"));
+                                json.append("msg", String.format("尚未达到铲屎时间，请在喂食后4小时铲屎"));
                                 log.info("json:" + json.toString());
                                 return JSON;
                             } else if (cat.getClearTime() > cat.getFeedTime()) {

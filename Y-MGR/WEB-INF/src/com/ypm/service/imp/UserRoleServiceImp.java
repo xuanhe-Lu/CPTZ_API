@@ -297,7 +297,7 @@ public class UserRoleServiceImp extends AConfig implements UserRoleService {
 			} else {
 				v.setState(STATE_DISABLE);
 			} // time
-			v.setTime(GMTime.currentTimeMillis());
+			v.setTime(System.currentTimeMillis());
 			this.save(conn, v);
 		} finally {
 			JPrepare.close(conn);

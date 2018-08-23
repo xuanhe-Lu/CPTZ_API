@@ -150,7 +150,7 @@ public class VersionAction extends Action {
 						version.setFilename(filesFileName);
 					}
 					version.setDescription(description);
-					version.setTime(GMTime.currentTimeMillis());
+					version.setTime(System.currentTimeMillis());
 				}
 			} else if (!fileInfo.isFile()) {// 非文件
 				json.addError(this.getText( "coo.error.033" ));
@@ -165,7 +165,7 @@ public class VersionAction extends Action {
 				version.setSize(size);
 				version.setFilename(filesFileName);
 				version.setDescription(this.getString( "Description" ));
-				version.setTime(GMTime.currentTimeMillis());
+				version.setTime(System.currentTimeMillis());
 			}
 			
 			if (version != null) {
@@ -210,7 +210,7 @@ public class VersionAction extends Action {
 					version.setNum(num);
 					version.setMid(mid);
 					version.setDescription(description);
-					version.setTime(GMTime.currentTimeMillis());
+					version.setTime(System.currentTimeMillis());
 				}
 			} else { // 新增保存
 				version = new Version();
@@ -219,7 +219,7 @@ public class VersionAction extends Action {
 				version.setNum(this.getString( "Num" ));
 				version.setMid(this.getInt( "Mid" ));
 				version.setDescription(this.getString( "Description" ));
-				version.setTime(GMTime.currentTimeMillis());
+				version.setTime(System.currentTimeMillis());
 			}
 			
 			if (version != null) {

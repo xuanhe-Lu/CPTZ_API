@@ -244,7 +244,7 @@ public class ConfigInfoServiceImp extends AConfig implements ConfigInfoService {
 	}
 
 	public void saveClient(SetClient sc) throws IOException, SQLException {
-		sc.setTime(GMTime.currentTimeMillis());
+		sc.setTime(System.currentTimeMillis());
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;
 		try {
@@ -288,7 +288,7 @@ public class ConfigInfoServiceImp extends AConfig implements ConfigInfoService {
 	}
 	
 	public void saveAndroidClient(SetClient sc) throws IOException, SQLException {
-		sc.setTime(GMTime.currentTimeMillis());
+		sc.setTime(System.currentTimeMillis());
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;
 		
@@ -332,7 +332,7 @@ public class ConfigInfoServiceImp extends AConfig implements ConfigInfoService {
 	}
 
 	public void updateClient(int type, String ids, int state) throws IOException, SQLException {
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		SyncMap sm = getSyncer(type);
 		sm.add("ids", ids).add("state", state).add("time", time);
 		sm.send(SYS_A112, "stateClient").successfully();
@@ -388,7 +388,7 @@ public class ConfigInfoServiceImp extends AConfig implements ConfigInfoService {
 		if (cfg.getSortid() <= 0) {
 			cfg.setSortid((int) (JPrepare.getTotal(TBL_COMM_CFG) + 1));
 		}
-		cfg.setTime(GMTime.currentTimeMillis());
+		cfg.setTime(System.currentTimeMillis());
 		this.save(cfg); 
 		// 同步保存数据信息
 		LOGGER.info( "同步保存系统参数配置信息前的对象为：" + cfg.toString() );

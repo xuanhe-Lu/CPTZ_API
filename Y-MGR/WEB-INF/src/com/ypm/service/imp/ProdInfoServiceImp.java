@@ -446,7 +446,7 @@ public class ProdInfoServiceImp extends AConfig implements ProdInfoService {
 	}
 
 	public void saveProd(ProdInfo info) throws SQLException {
-		info.setTime(GMTime.currentTimeMillis());
+		info.setTime(System.currentTimeMillis());
 		this.save(info); // 保存数据信息
 //		SyncMap.getAll().sender(SYS_A203, "save", info);
 		//修改发标时数据同步的处理方式 add by  luxh
@@ -469,7 +469,7 @@ public class ProdInfoServiceImp extends AConfig implements ProdInfoService {
 		PreparedStatement ps = null;
 		try {
 			conn.setAutoCommit(false);
-			long time = GMTime.currentTimeMillis();
+			long time = System.currentTimeMillis();
 			ps = conn.prepareStatement("UPDATE " + Table.TBL_PROD_INFO + " SET AU=?,Way=?,GmtC=?,State=?,Time=? WHERE Pid=? AND AU=?");
 			for (Long Pid : set) {
 				ps.setInt(1, SALE_A2);
@@ -515,7 +515,7 @@ public class ProdInfoServiceImp extends AConfig implements ProdInfoService {
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;
 		try {
-			long time = GMTime.currentTimeMillis();
+			long time = System.currentTimeMillis();
 			StringBuilder sb = new StringBuilder();
 			for (Long Pid : set) {
 				if (ps != null) {
@@ -566,7 +566,7 @@ public class ProdInfoServiceImp extends AConfig implements ProdInfoService {
 	}
 
 	public void removeProd(ProdInfo info) throws SQLException {
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		this.remove(info.getPid(), info.getRid(), time);
 		SyncMap.getAll().add("pid", info.getPid()).add("rid", info.getRid()).add("time", time).sender(SYS_A203, "remove");
 	}

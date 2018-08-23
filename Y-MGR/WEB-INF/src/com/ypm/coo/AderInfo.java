@@ -158,7 +158,7 @@ public class AderInfo extends Action {
 					ads.setUrl(getString("Url"));
 				}
 				ads.setState(getInt("State"));
-				ads.setTime(GMTime.currentTimeMillis());
+				ads.setTime(System.currentTimeMillis());
 				if (f.getSize() > 0) {
 					f.setPid(ads.getSid());
 					ads.setVer(ads.getVer() + 1);

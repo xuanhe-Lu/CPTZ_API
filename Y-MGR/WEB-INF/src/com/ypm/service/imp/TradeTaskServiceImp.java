@@ -52,7 +52,7 @@ public class TradeTaskServiceImp implements TradeTaskService {
 	/** 自动上架、起息处理 */
 	public void doProd() {
 		try {
-			long time = GMTime.currentTimeMillis();
+			long time = System.currentTimeMillis();
 			if (this.getProdInfoService().updateAuto(time) >= 1) {
 				this.getProdInfoService().saveOver();
 			}

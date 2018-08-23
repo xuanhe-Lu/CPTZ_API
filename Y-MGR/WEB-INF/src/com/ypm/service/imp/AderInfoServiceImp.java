@@ -154,7 +154,7 @@ public class AderInfoServiceImp extends AConfig implements AderInfoService {
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;
 		try {
-			long time = GMTime.currentTimeMillis();
+			long time = System.currentTimeMillis();
 			for (AdsInfo a : ads) {
 				if (ps != null) {
 					ps.close();
@@ -196,7 +196,7 @@ public class AderInfoServiceImp extends AConfig implements AderInfoService {
 			} else {
 				a.setDist(f.getDist());
 			}
-			a.setTime(GMTime.currentTimeMillis());
+			a.setTime(System.currentTimeMillis());
 			this.save(conn, a); // 保存数据
 		} finally {
 			JPrepare.close(conn);
@@ -231,7 +231,7 @@ public class AderInfoServiceImp extends AConfig implements AderInfoService {
 
 	public void orderInfo(String ids) throws SQLException {
 		String[] ts = this.toSplit(ids);
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		this.order(ts, time);
 		SyncMap.getAll().add("ids", ids).add("time", time).sender(SYS_A501, "order");
 	}
@@ -263,7 +263,7 @@ public class AderInfoServiceImp extends AConfig implements AderInfoService {
 		if (state != STATE_ENABLE) {
 			state = STATE_DISABLE;
 		} // sync to API
-		long time = GMTime.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		this.state(ts, state, time);
 		SyncMap.getAll().add("ids", ids).add("state", state).add("time", time).sender(SYS_A501, "state");
 	}
