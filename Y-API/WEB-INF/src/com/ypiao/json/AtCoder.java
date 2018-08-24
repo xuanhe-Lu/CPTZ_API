@@ -4,10 +4,13 @@ import java.sql.SQLException;
 import com.ypiao.bean.AjaxInfo;
 import com.ypiao.service.SendInfoService;
 import com.ypiao.util.VeStr;
+import org.apache.log4j.Logger;
 
 public class AtCoder extends Action {
 
 	private static final long serialVersionUID = 8958922066521328713L;
+
+	private static Logger logger = Logger.getLogger(AtCoder.class);
 
 	private static final int ALL = 0, NOT = 1, YES = 2;
 
@@ -74,7 +77,7 @@ public class AtCoder extends Action {
 		String fix = "+86-";
 		String mobile = this.getString("mobile");
 		try {
-			System.out.println(cache);
+			logger.info(cache);
 			if (mobile == null) {
 				json.addError(this.getText("user.error.010"));
 				logger.info("json:"+json.toString());

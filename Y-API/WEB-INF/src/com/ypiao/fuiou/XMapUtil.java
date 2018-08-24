@@ -133,7 +133,7 @@ public final class XMapUtil {
 		XMap xmap = new XMap();
 		xmap.register(bean.getClass());
 		String str = xmap.asXmlString(bean, charset, null);
-		System.out.println("返回xml："+str);
+		Logger.info("返回xml："+str);
 		return str;
 	}
 

@@ -192,7 +192,7 @@ public class SendInfoServiceImp extends AConfig implements SendInfoService {
 	}
 
 	public boolean isCode(String sm, String code) throws SQLException {
-		System.out.println(Constant.USE_DEBUG + "==" + sm + "====" + code);
+		Logger.info(Constant.USE_DEBUG + "==" + sm + "====" + code);
 		/*if (sm == null || code == null) {
 			return false;
 		} else if (Constant.USE_DEBUG) {

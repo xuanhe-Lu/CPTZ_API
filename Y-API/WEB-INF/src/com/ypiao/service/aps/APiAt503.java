@@ -31,7 +31,7 @@ public class APiAt503 extends Abstract {
 			AderNote aderNote = mgr.getObject(AderNote.class);
 			this.getAderNoteService().save(aderNote);
 		} catch (Exception e) {
-			System.out.println("async failed...");
+			Logger.info("async failed...");
 			// 同步保存数据失败
 			mgr.addError(DATA_SAVE_FAILED);
 		}

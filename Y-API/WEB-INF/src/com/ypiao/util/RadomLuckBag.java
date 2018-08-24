@@ -1,5 +1,7 @@
 package com.ypiao.util;
 
+import org.apache.log4j.Logger;
+
 import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -8,6 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+
 
 /**
  * @NAME:RadomLuckBag
@@ -20,6 +23,8 @@ public class RadomLuckBag {
 
     //每个红包的最小金额
     private static final double MIN = 0.01;
+
+    private static Logger logger = Logger.getLogger(RadomLuckBag.class);
 
     class HongBao{
         //红包总金额
@@ -164,9 +169,9 @@ public class RadomLuckBag {
                     double m = hb.assignHongBao();
                     total.add(new BigDecimal(m).setScale(2, BigDecimal.ROUND_HALF_UP));
 					if(m>0){
-						System.out.println(Thread.currentThread().getName()+"抢到:"+m);
+                        logger.info(Thread.currentThread().getName()+"抢到:"+m);
 					}else{
-						System.out.println(Thread.currentThread().getName()+"没抢到红包");
+                        logger.info(Thread.currentThread().getName()+"没抢到红包");
 					}
                     latch.countDown();
                 }
@@ -183,7 +188,7 @@ public class RadomLuckBag {
 //        amount = amount.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         //如果分配到的总金额和传入的总金额不相等
         if(amount.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()!=hbAmount.doubleValue()){
-            System.out.println("amount:"+amount);
+            logger.info("amount:"+amount);
         }
         total.add(lastEnvelopesNum);
         return total;
@@ -196,13 +201,13 @@ public class RadomLuckBag {
         BigDecimal amount = new BigDecimal( "20").setScale(2,BigDecimal.ROUND_HALF_UP);
 
         ConcurrentLinkedQueue<BigDecimal> asss = getBag(amount, 10,last);
-        System.out.println(asss.toString());
+        logger.info(asss.toString());
         BigDecimal sum = new BigDecimal("0.00");
         sum.setScale(2, BigDecimal.ROUND_HALF_UP);
         for (BigDecimal aDouble : asss) {
             sum = sum.add(aDouble.setScale(2, BigDecimal.ROUND_HALF_UP));
         }
-        System.out.println(sum);
-        System.out.println("用时："+(System.currentTimeMillis()-start)+"ms");
+        logger.info(sum);
+        logger.info("用时："+(System.currentTimeMillis()-start)+"ms");
     }
 }

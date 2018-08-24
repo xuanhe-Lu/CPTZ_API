@@ -135,11 +135,11 @@ public class ComDuplicateAt extends Action{
 					logger.info("查询是否存在的数据有多少条："+cdList.getIdfa());
 					if (cdList.getIdfa() != null) {//不是首次下载
 						
-						System.out.println("已存在的数据！");
+						Logger.info("已存在的数据！");
 					}else {//首次下载
 						logger.info("44444444444444"+cd.getIdfa());
 						boolean ig = this.getComDuplicateService().saveDuplicate(cd);
-						System.out.println("ig="+ig);
+						Logger.info("ig="+ig);
 						logger.info("ig:"+ig);
 					}
 					logger.info("aaaaaaaaaaaaaaaaaaaaaa");

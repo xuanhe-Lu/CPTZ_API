@@ -28,8 +28,8 @@ public class TestMain {
 //		data2 = "2018-07-13";
 //		dateFormat(data2,ts);
 //		long i = 1531324800000l - 1531238400000l;
-//		System.out.println(i/3600);
-//		System.out.println(i);
+//		Logger.info(i/3600);
+//		Logger.info(i);
 //		String driverName = "com.mysql.jdbc.Driver";
 //		String url = "jdbc:mysql://localhost:3306/ypiao?useUnicode=true&allowMultiQueries=true";
 //		String user = "root";
@@ -50,7 +50,7 @@ public class TestMain {
 //			ajaxInfo.append(rs.getLong(1));
 //
 //		}
-//		System.out.println(ajaxInfo);
+//		Logger.info(ajaxInfo);
 
 //		dateFormat("2018-07-19",1531641600000l);
 
@@ -67,15 +67,15 @@ public class TestMain {
 //		return ajaxInfo.toString();
 //		int i = 100;
 //		for (int i1 = 0; i1 < i; i1++) {
-//			System.out.println((int)(Math.random()*1000+1));
+//			Logger.info((int)(Math.random()*1000+1));
 //
 //		}
 //		"SELECT time,Monthcount  FROM USER_ATTEN  WHERE UID = ? and time > = ?
 
-//		System.out.println(MonthFound.getDataFormat(1533668948385L,"yyyy-MM-dd HH:mm:ss"));
+//		Logger.info(MonthFound.getDataFormat(1533668948385L,"yyyy-MM-dd HH:mm:ss"));
 //		Document res = Jsoup.connect("https://way.jd.com/idcard/idcard").data("name", "池慧滢".replace("·", "")).data("cardno", "350426199605293528").data("appkey", "65d4b4096b618e60ed3466030a88fc32").timeout(10000).ignoreContentType(true).post();
 //		String body = res.body().text();
-//		System.out.println("AUTH:\t" + body);
+//		Logger.info("AUTH:\t" + body);
 	}
 
 	private static void dateFormat(String data2,long ts1) throws ParseException {
@@ -83,12 +83,12 @@ public class TestMain {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date date = simpleDateFormat.parse(data2);
 		long ts = date.getTime();
-		System.out.println(ts);
+		Logger.info(ts);
 		//时间戳转换为时间
 		java.util.Date date1 = new java.util.Date(ts1);
 		SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String da = simpleDateFormat1.format(date1);
-		System.out.println(da);
+		Logger.info(da);
 	}
 
 	private static void testSql() throws ClassNotFoundException, SQLException {
@@ -107,11 +107,11 @@ public class TestMain {
 
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String str = df.format(Date.valueOf("2018-07-16"));
-		System.out.println(java.sql.Timestamp.valueOf(str));
+		Logger.info(java.sql.Timestamp.valueOf(str));
 		ps.setTimestamp(1, java.sql.Timestamp.valueOf(str));
 		ps.setString(2,"test2");
 		int b = ps.executeUpdate();
-		System.out.println(b);
+		Logger.info(b);
 
 
 		ps =conn.prepareStatement("select time  from user_atten where id =1");
@@ -119,7 +119,7 @@ public class TestMain {
 		while(rs.next()){
 			Timestamp time = rs.getTimestamp(1);
 			String str1 = time.toString();
-			System.out.println("!!!!!"+str1			);
+			Logger.info("!!!!!"+str1			);
 
 		}
 	}
@@ -127,7 +127,7 @@ public class TestMain {
 	private static void dateFormat() {
 		try {
 			Date regDate = (Date) new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" ).parse(GMTime.format(8797468456456L, GMTime.CHINA));
-			System.out.println(regDate.toString());
+			Logger.info(regDate.toString());
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

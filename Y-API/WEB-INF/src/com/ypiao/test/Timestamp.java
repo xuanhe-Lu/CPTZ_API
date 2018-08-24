@@ -13,7 +13,7 @@ public class Timestamp {
 		long timeStamp = 1530656610984L;
 		
 		String res = GMTime.format( timeStamp, GMTime.CHINA );
-		System.out.println(res);
+		Logger.info(res);
 	}
 
 }

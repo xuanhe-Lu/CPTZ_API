@@ -449,9 +449,9 @@ public class TradeInfoServiceImp extends AConfig implements TradeInfoService {
 			s.setGmtA(s.getTime());
 			s.setGmtD(s.getTime());
 		}
-		System.out.println("save!!!!!!!!!!");
+		Logger.info("save!!!!!!!!!!");
 		this.save(s); // 保存记录
-		System.out.println("save success!!!!!!!!!!");
+		Logger.info("save success!!!!!!!!!!");
 //		SyncMap.getAll().sender(SYS_A850, "order", s);
 	}
 

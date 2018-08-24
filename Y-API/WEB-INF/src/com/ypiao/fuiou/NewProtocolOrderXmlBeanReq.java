@@ -1,11 +1,14 @@
 package com.ypiao.fuiou;
 
+import org.apache.log4j.Logger;
 import org.nuxeo.common.xmap.annotation.XNode;
 import org.nuxeo.common.xmap.annotation.XObject;
 
 @XObject(value = "REQUEST")
 public class NewProtocolOrderXmlBeanReq {
-	
+
+	private static Logger logger = Logger.getLogger(NewProtocolOrderXmlBeanReq.class);
+
 	@XNode("VERSION")
 	private String version;//VERSION
 	@XNode("MCHNTCD")
@@ -176,7 +179,7 @@ public class NewProtocolOrderXmlBeanReq {
 				.append(userIp)
 				.append("|")
 				.append(key);
-				System.out.println("返回信息明文-----"+buffer.toString());
+		logger.info("返回信息明文-----"+buffer.toString());
 				return buffer.toString();
 	}
 	
@@ -202,7 +205,7 @@ public class NewProtocolOrderXmlBeanReq {
 				.append(userIp)
 				.append("|")
 				.append(key);
-				System.out.println("返回信息明文-----"+buffer.toString());
+		logger.info("返回信息明文-----"+buffer.toString());
 				return buffer.toString();
 	}
 	
@@ -217,7 +220,7 @@ public class NewProtocolOrderXmlBeanReq {
 		.append(protocolNo)
 		.append("|")
 		.append(key);
-		System.out.println("md5StrPay信息-----"+stringBuffer.toString());
+		logger.info("md5StrPay信息-----"+stringBuffer.toString());
 		return stringBuffer.toString();
 	}
 	

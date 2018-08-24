@@ -60,11 +60,11 @@ public class LogOrder implements Serializable {
 
 	/** 汇总收益信息 */
 	public boolean execute(int ah, int day) {
-		System.out.println("LogOrder.execute，ah:"+ah+"day:"+day);
+		Logger.info("LogOrder.execute，ah:"+ah+"day:"+day);
 		long eday = GMTime.valueOf(ah); // 到期时间
-		System.out.println("eday:"+eday);
+		Logger.info("eday:"+eday);
 		long tday = (eday - GState.USER_TODAY) / GMTime.MILLIS_PER_DAY;
-		System.out.println("tday:"+tday);
+		Logger.info("tday:"+tday);
 		int all = day; // 理财天数
 		if (Integer.MAX_VALUE >= tday) {
 			all = (int) tday;

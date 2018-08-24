@@ -8,7 +8,7 @@ public class Hanyu {
 	}
 
 	public static void main(String arg[]) {
-		System.out.println(toIndex("ige"));
-		System.out.println(toIndex("嬲"));
+		Logger.info(toIndex("ige"));
+		Logger.info(toIndex("嬲"));
 	}
 }

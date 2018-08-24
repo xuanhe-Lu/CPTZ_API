@@ -26,14 +26,14 @@ public class DownloadServiceImp implements DownloadService {
 
 	@Override
 	public boolean doGet(HttpServletRequest req, HttpServletResponse res, String uri) throws ServletException, IOException {
-		System.out.println("URI:"+uri);
+		Logger.info("URI:"+uri);
 		String URI = uri.toLowerCase();
 		Matcher m = Pattern.compile("^/img/(\\d{6})(\\w{7,9}).(jpg|png)$").matcher(URI);
 		if (m.find()) {
 			String dist = m.group(3);
 			StringBuilder sb = new StringBuilder(64);
 			sb.append(Constant.FILEPATH).append("img").append(File.separator).append(m.group(1)).append(File.separator).append(m.group(2));
-			System.out.println("sb:"+sb);
+			Logger.info("sb:"+sb);
 			File file = new File(sb.append('.').append(dist).toString());
 			if (dist.equalsIgnoreCase("png")) {
 				return this.toPNG(req, res, file);

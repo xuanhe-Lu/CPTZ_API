@@ -69,7 +69,7 @@ public class SenderServiceImp extends AConfig implements SenderService {
 				// Ignored
 			} else if (res.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				String body = EntityUtils.toString( entity, "UTF-8" );
-				System.out.println(body);
+				Logger.info(body);
 				LOGGER.info( "短信验证码发送成功，接口返回数据：" + body );
 				JSON j = new JSON(body);
 				return (j.getInt( "status" ) == 0);
@@ -137,7 +137,7 @@ public class SenderServiceImp extends AConfig implements SenderService {
 				// Ignored
 //			} else if (res.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 //				String body = EntityUtils.toString(entity, "UTF-8");
-//				System.out.println(body);
+//				Logger.info(body);
 //				LOGGER.info( "短信发送成功，接口返回数据：" + body );
 //				JSON j = new JSON(body);
 //				return (j.getInt("status") == 0);

@@ -18,7 +18,7 @@ public class APIAt990 extends Abstract {
 	}
 
 	public void remove(Manager mgr) {
-		System.out.println(mgr.getString("code"));
+		Logger.info(mgr.getString("code"));
 	}
 
 	public void sync(Manager mgr) {

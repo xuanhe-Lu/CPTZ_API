@@ -11,6 +11,7 @@ import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.httpclient.protocol.Protocol;
+import org.apache.log4j.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -28,6 +29,8 @@ import java.util.Set;
  *
  */
 public class HttpPoster {
+
+	private static  Logger logger = Logger.getLogger(HttpPoster.class);
 
 	public HttpPoster() {
 	}
@@ -90,8 +93,8 @@ public class HttpPoster {
 
 			@Override
 			public void doInPostMethod(PostMethod postMethod) {
-				System.out.println("发送URL==" + url);
-				System.out.println("发送参数==" + parameters);
+				logger.info("发送URL==" + url);
+				logger.info("发送参数==" + parameters);
 				NameValuePair[] nameValuePairs = new NameValuePair[parameters.size()];
 				Set<Entry<String, String>> set = parameters.entrySet();
 				int i = 0;
@@ -131,12 +134,12 @@ public class HttpPoster {
 	}
 	
 	public String postStr(final Map<String, String> parameters) {
-		System.out.println("发送url==" + url);
+		logger.info("发送url==" + url);
 		return postStr(new PostMethodCallback() {
 
 			@Override
 			public void doInPostMethod(PostMethod postMethod) {
-				System.out.println("发送参数==" + parameters);
+				logger.info("发送参数==" + parameters);
 				NameValuePair[] nameValuePairs = new NameValuePair[parameters.size()];
 				Set<Entry<String, String>> set = parameters.entrySet();
 				int i = 0;
@@ -202,14 +205,14 @@ public class HttpPoster {
 			for (int j = 0; j < byteList.size(); j++)
 				allb[j] = byteList.get(j);
 			String responseString = new String(allb, charset);
-			System.out.println("HTTP返回码=" + responseStatCode);
-			System.out.println("应答数据=" + responseString);
+			logger.info("HTTP返回码=" + responseStatCode);
+			logger.info("应答数据=" + responseString);
 			if (url.indexOf("https://") != -1)
 				Protocol.unregisterProtocol("https");
 			return responseStatCode;
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("报文发送到[" + url + "]失败:" + e.getMessage());
+			logger.info("报文发送到[" + url + "]失败:" + e.getMessage());
 			throw new IllegalArgumentException("通信异常");
 		} finally {
 			if (xmlpost != null){
@@ -247,8 +250,8 @@ public class HttpPoster {
 			for (int j = 0; j < byteList.size(); j++)
 				allb[j] = byteList.get(j);
 			String responseString = new String(allb, charset);
-			System.out.println("HTTP返回码=" + responseStatCode);
-			System.out.println("应答数据=" + responseString);
+			logger.info("HTTP返回码=" + responseStatCode);
+			logger.info("应答数据=" + responseString);
 			if (url.indexOf("https://") != -1)
 				Protocol.unregisterProtocol("https");
 			return responseString;

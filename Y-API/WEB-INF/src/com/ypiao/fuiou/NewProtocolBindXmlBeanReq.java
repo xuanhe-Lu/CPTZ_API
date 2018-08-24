@@ -1,11 +1,14 @@
 package com.ypiao.fuiou;
 
+import org.apache.log4j.Logger;
 import org.nuxeo.common.xmap.annotation.XNode;
 import org.nuxeo.common.xmap.annotation.XObject;
 
 @XObject(value = "REQUEST")
 public class NewProtocolBindXmlBeanReq {
-	
+
+
+	private static Logger logger = Logger.getLogger(NewProtocolBindXmlBeanReq.class);
 	@XNode("VERSION")
 	private String version;		
 	@XNode("TRADEDATE")
@@ -132,7 +135,7 @@ public class NewProtocolBindXmlBeanReq {
 		sb.append(protocolNo);
 		sb.append("|");
 		sb.append(key);
-		System.out.println("CardPro proUnBindSignStr:"+sb.toString());
+		logger.info("CardPro proUnBindSignStr:"+sb.toString());
 		return sb.toString();
 	}
 	
@@ -157,7 +160,7 @@ public class NewProtocolBindXmlBeanReq {
 		sb.append(mobileNo);
 		sb.append("|");
 		sb.append(key);
-		System.out.println("CardPro sendMsgSignStr:"+sb.toString());
+		logger.info("CardPro sendMsgSignStr:"+sb.toString());
 		return sb.toString();
 	}
 	
@@ -185,7 +188,7 @@ public class NewProtocolBindXmlBeanReq {
 		sb.append(msgCode);
 		sb.append("|");
 		sb.append(key);
-		System.out.println("CardPro proBindSignStr:"+sb.toString());
+		logger.info("CardPro proBindSignStr:"+sb.toString());
 		return sb.toString();
 	}
 	
@@ -198,7 +201,7 @@ public class NewProtocolBindXmlBeanReq {
 		sb.append(userId);
 		sb.append("|");
 		sb.append(key);
-		System.out.println("CardPro querySignStr:"+sb.toString());
+		logger.info("CardPro querySignStr:"+sb.toString());
 		return sb.toString();
 	}
 

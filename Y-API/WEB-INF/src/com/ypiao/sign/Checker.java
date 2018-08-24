@@ -18,9 +18,9 @@ public class Checker {
 			sb.append("&identityNo=").append(idCard);
 			sb.append("&mobileNo=").append(mobile.replace("+86-", ""));
 			sb.append("&appkey=").append(APPKEY);
-			System.out.println(URL + "\t=\t" + sb.toString());
+			Logger.info(URL + "\t=\t" + sb.toString());
 			String body = SendAtHttp.post(URL, sb.toString());
-			System.out.println(body);
+			Logger.info(body);
 			JSON json = new JSON(body);
 			BankResponse res = new BankResponse();
 			res.setCode(json.get("code"));

@@ -56,7 +56,7 @@ public class UserLoginInterceptor extends AbstractInterceptor {
 				if (us.isLogin()) {
 					// Ignroed
 				} else {
-					System.out.println(token + "=====" + us.getUid());
+					logger.info(token + "=====" + us.getUid());
 				}
 				ac.getSession().put(Constant.USE_SESSION_KEY, us);
 				return a.invoke();

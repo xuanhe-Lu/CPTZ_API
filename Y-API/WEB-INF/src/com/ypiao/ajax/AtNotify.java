@@ -12,6 +12,7 @@ import com.ypiao.sign.Fuiou;
 import com.ypiao.util.APState;
 import com.ypiao.util.AUtils;
 import com.ypiao.util.VeRule;
+import org.apache.log4j.Logger;
 
 public class AtNotify extends Action {
 
@@ -60,7 +61,7 @@ public class AtNotify extends Action {
 		Map<String, String> map = new HashMap<String, String>();
 		try {
 			this.addParameter(map);
-			System.out.println(this.getRequest().getRemoteAddr() + "\t" + map);
+			logger.info(this.getRequest().getRemoteAddr() + "\t" + map);
 			long sid = AUtils.toLong(map.get("MCHNTORDERID"));
 			LogCharge c = this.getUserChargeService().findChargeBySid(sid);
 			if (c == null) {

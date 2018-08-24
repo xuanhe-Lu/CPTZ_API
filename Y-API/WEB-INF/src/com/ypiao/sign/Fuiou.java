@@ -496,7 +496,7 @@ public class Fuiou {
             map.put("APIFMS", APIFMS);
             String result = new HttpPoster(Constant.ORDER).postStr(map);
             result = DESCoderFUIOU.desDecrypt(result, DESCoderFUIOU.getKeyLength8(key));
-            System.out.println(result);
+            Logger.info(result);
             logger.info(result.getBytes("utf8"));
             return XML.convert2Bean(result, FuiouPayResponse.class);*/
 
@@ -630,7 +630,7 @@ public class Fuiou {
         String s = Suncoder.decode("IlpHEVZFXTgWJnNZSQh2dzwLFBRhYAEFElkuBAs8RBU=");
         try {
             FuiouPayResponse fuiouPayResponse = sendSMS(fuiouPayRequest, s);
-            System.out.println("fuiouPayResponse:" + fuiouPayResponse);
+            Logger.info("fuiouPayResponse:" + fuiouPayResponse);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -650,7 +650,7 @@ public class Fuiou {
         map.put("MSGCODE","744902");
 //        FuiouPayResponse fuiouPayResponse = protoBind(map,Suncoder.decode("5old71wihg2tqjug9kkpxnhx9hiujoqj"));
         FuiouPayResponse fuiouPayResponse = protoBind(map,Suncoder.decode("IlpHEVZFXTgWJnNZSQh2dzwLFBRhYAEFElkuBAs8RBU="));
-        System.out.println("fuiouPayResponse:"+fuiouPayResponse);*/
+        Logger.info("fuiouPayResponse:"+fuiouPayResponse);*/
         // 协议解绑
         FuiouPayResponse fuiouPayResponse = new FuiouPayResponse();
         map.clear();

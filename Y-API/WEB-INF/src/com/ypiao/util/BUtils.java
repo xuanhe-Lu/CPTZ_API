@@ -136,8 +136,8 @@ public final class BUtils {
 
 	public static Map<String, String> parse(Map<String, String> map, HttpServletRequest request) throws IOException {
 		InputStream is = request.getInputStream();
-		System.out.println("QueryString:"+request.getQueryString());
-		System.out.println("RequestURI:"+request.getRequestURI());
+		Logger.info("QueryString:"+request.getQueryString());
+		Logger.info("RequestURI:"+request.getRequestURI());
 		try {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			try {
@@ -146,7 +146,7 @@ public final class BUtils {
 				while ((a = is.read(b)) != -1) {
 					bos.write(b, 0, a);
 				}
-				System.out.println("bos:"+bos.toString());
+				Logger.info("bos:"+bos.toString());
 				return parse(map, bos.toString("UTF-8"));
 			} finally {
 				bos.close();

@@ -26,7 +26,7 @@ public class UserVipServiceImp implements UserVipService {
      */
     @Override
     public UserVip queryVipLog(long uid,long endTime ) throws Exception {
-        System.out.println("queryVipLog.uid"+uid);
+        Logger.info("queryVipLog.uid"+uid);
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
         UserVip userVip = new UserVip();

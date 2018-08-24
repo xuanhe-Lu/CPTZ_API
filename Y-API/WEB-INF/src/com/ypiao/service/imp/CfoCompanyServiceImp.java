@@ -17,7 +17,7 @@ public class CfoCompanyServiceImp extends AConfig implements CfoCompanyService {
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;
 		try {
-			System.out.println(r.getRid() + "==" + r.getState());
+			Logger.info(r.getRid() + "==" + r.getState());
 			ps = conn.prepareStatement("UPDATE " + Table.TBL_ASSET_RAWS + " SET State=?,Time=?,adM=?,adN=? WHERE Rid=?");
 			ps.setInt(1, r.getState());
 			ps.setLong(2, r.getTime());

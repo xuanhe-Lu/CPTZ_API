@@ -19,7 +19,7 @@ public class AuthUtils {
 			if (body == null) {
 				Document res = Jsoup.connect("https://way.jd.com/idcard/idcard").data("name", name.replace("·", "")).data("cardno", idCard).data("appkey", "65d4b4096b618e60ed3466030a88fc32").timeout(10000).ignoreContentType(true).post();
 				body = res.body().text();
-				System.out.println("AUTH:\t" + body);
+				Logger.info("AUTH:\t" + body);
 				_rds.put(key, body); // 缓存数据
 			}
 			JSON obj = new JSON(body);
@@ -36,7 +36,7 @@ public class AuthUtils {
 					m.setBirthday(ds.getString("birthday"));
 					m.setSex(ds.getString("sex"));
 				} else if (cd2.equals("3")) {
-					System.out.println("AUTH=" + body);
+					Logger.info("AUTH=" + body);
 				} else {
 					m.setMsg("查询失败:" + cd2);
 				}

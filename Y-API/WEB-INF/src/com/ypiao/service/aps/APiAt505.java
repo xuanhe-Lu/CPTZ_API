@@ -35,7 +35,7 @@ public class APiAt505 extends Abstract {
 			// 同步保存数据失败
 			mgr.addError(DATA_SAVE_FAILED);
 			e.printStackTrace();
-			System.out.println("sync save help failed...");
+			Logger.info("sync save help failed...");
 		}
 	}
 	
@@ -52,7 +52,7 @@ public class APiAt505 extends Abstract {
 			// 同步删除数据失败
 			mgr.addError(DATA_DELETE_FAILED);
 			e.printStackTrace();
-			System.out.println("sync delete help failed...");
+			Logger.info("sync delete help failed...");
 		}
 	}
 		

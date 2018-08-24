@@ -14,6 +14,7 @@ import com.ypiao.bean.Manager;
 import com.ypiao.bean.Message;
 import com.ypiao.bean.UserSession;
 import com.ypiao.util.AUtils;
+import org.apache.log4j.Logger;
 
 public class NetManager extends Manager {
 
@@ -21,6 +22,7 @@ public class NetManager extends Manager {
 
 	private static final int MAX_SIZE = 50 * 1024;
 
+	private static Logger logger = Logger.getLogger(NetManager.class);
 	public static NetManager getBean(NetFuture future, IoSession session) {
 		NetManager mgr = NetNode.getManager();
 		mgr._hash = null;
@@ -298,7 +300,7 @@ public class NetManager extends Manager {
 	public void setBody(String body) {
 		this.body = body;
 		AUtils.toParameter(cache, body);
-		System.out.println(this.getRemoteAddress() + "\t" + att + "\tA\t" + action + "=" + cache);
+		logger.info(this.getRemoteAddress() + "\t" + att + "\tA\t" + action + "=" + cache);
 	}
 
 	/** 带头部主体信息解码 */
