@@ -47,16 +47,16 @@ public class SendSms {
 				// Ignored
 			} else if (res.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				String body = EntityUtils.toString(entity, "UTF-8");
-				Logger.info(body);
+				LOGGER.info(body);
 				LOGGER.info( "短信验证码发送成功，接口返回数据：" + body );
 				JSON j = new JSON(body);
-				Logger.info((j.getInt("status") == 0));
+				LOGGER.info((j.getInt("status") == 0));
 			} else {
 				EntityUtils.consume(entity);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			Logger.info("false");
+			LOGGER.info("false");
 		} finally {
 			post.abort();
 		}

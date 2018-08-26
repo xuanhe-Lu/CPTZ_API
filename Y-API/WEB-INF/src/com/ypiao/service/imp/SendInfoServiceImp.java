@@ -4,6 +4,8 @@ import java.sql.*;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.log4j.Logger;
 import org.commons.lang.LRUMap;
 import org.commons.lang.RandomUtils;
 import com.ypiao.bean.*;
@@ -51,7 +53,7 @@ public class SendInfoServiceImp extends AConfig implements SendInfoService {
 	public void setSenderService(SenderService senderService) {
 		this.senderService = senderService;
 	}
-
+private static Logger logger =Logger.getLogger(SendInfoServiceImp.class);
 	private SMSConfig findSMSConfig(String key, int tid) throws SQLException {
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;
@@ -192,7 +194,7 @@ public class SendInfoServiceImp extends AConfig implements SendInfoService {
 	}
 
 	public boolean isCode(String sm, String code) throws SQLException {
-		Logger.info(Constant.USE_DEBUG + "==" + sm + "====" + code);
+		logger.info(Constant.USE_DEBUG + "==" + sm + "====" + code);
 		/*if (sm == null || code == null) {
 			return false;
 		} else if (Constant.USE_DEBUG) {

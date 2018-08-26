@@ -37,7 +37,6 @@ public class TradeInfoServiceImp extends AConfig implements TradeInfoService {
 	private UserMoneyService userMoneyService;
 
 	private UserOrderService userOrderService;
-	
 	//private static final String TBL_USER_STATUS = "user_status";
 
 	protected void checkSQL() {
@@ -449,9 +448,9 @@ public class TradeInfoServiceImp extends AConfig implements TradeInfoService {
 			s.setGmtA(s.getTime());
 			s.setGmtD(s.getTime());
 		}
-		Logger.info("save!!!!!!!!!!");
+		logger.info("save!!!!!!!!!!");
 		this.save(s); // 保存记录
-		Logger.info("save success!!!!!!!!!!");
+		logger.info("save success!!!!!!!!!!");
 //		SyncMap.getAll().sender(SYS_A850, "order", s);
 	}
 

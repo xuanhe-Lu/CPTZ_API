@@ -6,7 +6,6 @@ import com.ypiao.service.*;
 import com.ypiao.util.Constant;
 import com.ypiao.util.MonthFound;
 import com.ypiao.util.VeStr;
-import org.apache.catalina.User;
 import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
@@ -203,6 +202,14 @@ public class OnUserVip extends Action {
                     rmbUps.setState(0);
                     rmbUps.setTime(System.currentTimeMillis());
                     this.getUserMoneyService().save(rmbUps);
+                    //购买会员增加邀请人的猫粮
+                    if(levelUps == 2){
+                        logger.info(String.format("该用户【%s】是白银会员", sUps.getUid()));
+                        this.getUserCatService().updateCatFood(sUps.getUid(),400,"邀请好友["+uid+"]购买会员得猫粮");
+                    }else if(levelUps == 3){
+                        logger.info(String.format("该用户【%s】是黄金会员", sUps.getUid()));
+                        this.getUserCatService().updateCatFood(sUps.getUid(),500,"邀请好友["+uid+"]购买会员得猫粮");
+                    }
                 } else {
                     logger.info(String.format("[%s]不是会员,无法享受会员返现奖励", uid));
                 }
@@ -224,14 +231,14 @@ public class OnUserVip extends Action {
                     logger.info("json:" + json.toString());
                 } else if (userInfoUps.getVIP() < 2) {
                     logger.info("最上级推荐人不是会员");
-                }else {
+                } else {
                     long time = System.currentTimeMillis();
                     logger.info(String.format("查到最上级邀请人信息,ups[%s],time[%s]", userInfoUps.getUid(), time));
-                    UserVip userVipUps = this.getUserVipService().queryVipLog( userInfoUps.getUid(), time);
+                    UserVip userVipUps = this.getUserVipService().queryVipLog(userInfoUps.getUid(), time);
 
                     logger.info(String.format("userVipUps:[%s]", userVipUps.toString()));
                     if (userVipUps.getUid() == ups && userVipUps.getLevel() >= 2) {
-                        sUps = this.getUserMoneyService().findMoneyByUid( userInfoUps.getUid());
+                        sUps = this.getUserMoneyService().findMoneyByUid(userInfoUps.getUid());
                         int levelUps = userVipUps.getLevel();
                         UserRmbs rmbUps = new UserRmbs();
                         rmbUps.setSid(VeStr.getUSid());
@@ -258,7 +265,7 @@ public class OnUserVip extends Action {
                         rmbUps.setTime(System.currentTimeMillis());
                         this.getUserMoneyService().save(rmbUps);
                     } else {
-                        logger.info(String.format("[%s]不是会员,无法享受会员返现奖励",  userInfoUps.getUid()));
+                        logger.info(String.format("[%s]不是会员,无法享受会员返现奖励", userInfoUps.getUid()));
                     }
                 }
             }

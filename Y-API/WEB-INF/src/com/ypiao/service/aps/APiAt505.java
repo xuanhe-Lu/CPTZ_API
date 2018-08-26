@@ -3,6 +3,7 @@ package com.ypiao.service.aps;
 import com.ypiao.bean.Help;
 import com.ypiao.bean.Manager;
 import com.ypiao.service.HelpInfoService;
+import org.apache.log4j.Logger;
 
 /**
  * Created by xk on 2018-05-10.
@@ -17,7 +18,7 @@ public class APiAt505 extends Abstract {
 	public HelpInfoService getHelpInfoService() {
 		return helpInfoService;
 	}
-
+	private static Logger logger = Logger.getLogger(APiAt505.class);
 	public void setHelpInfoService(HelpInfoService helpInfoService) {
 		this.helpInfoService = helpInfoService;
 	}
@@ -35,7 +36,7 @@ public class APiAt505 extends Abstract {
 			// 同步保存数据失败
 			mgr.addError(DATA_SAVE_FAILED);
 			e.printStackTrace();
-			Logger.info("sync save help failed...");
+			logger.info("sync save help failed...");
 		}
 	}
 	
@@ -52,7 +53,7 @@ public class APiAt505 extends Abstract {
 			// 同步删除数据失败
 			mgr.addError(DATA_DELETE_FAILED);
 			e.printStackTrace();
-			Logger.info("sync delete help failed...");
+			logger.info("sync delete help failed...");
 		}
 	}
 		

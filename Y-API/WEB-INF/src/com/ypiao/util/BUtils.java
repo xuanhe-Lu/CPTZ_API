@@ -1,5 +1,7 @@
 package com.ypiao.util;
 
+import org.apache.log4j.Logger;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +15,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 public final class BUtils {
-
+	private static Logger logger = Logger.getLogger(BUtils.class);
 	/** 参数转换成小写 */
 	public static Map<String, String> convert(HttpServletRequest request) {
 		Map<String, String> map = new HashMap<String, String>();
@@ -136,8 +138,8 @@ public final class BUtils {
 
 	public static Map<String, String> parse(Map<String, String> map, HttpServletRequest request) throws IOException {
 		InputStream is = request.getInputStream();
-		Logger.info("QueryString:"+request.getQueryString());
-		Logger.info("RequestURI:"+request.getRequestURI());
+		logger.info("QueryString:"+request.getQueryString());
+		logger.info("RequestURI:"+request.getRequestURI());
 		try {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			try {
@@ -146,7 +148,7 @@ public final class BUtils {
 				while ((a = is.read(b)) != -1) {
 					bos.write(b, 0, a);
 				}
-				Logger.info("bos:"+bos.toString());
+				logger.info("bos:"+bos.toString());
 				return parse(map, bos.toString("UTF-8"));
 			} finally {
 				bos.close();

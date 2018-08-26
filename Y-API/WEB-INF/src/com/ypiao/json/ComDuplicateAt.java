@@ -5,6 +5,7 @@ import java.util.List;
 import com.ypiao.bean.AjaxInfo;
 import com.ypiao.bean.ComDuplicate;
 import com.ypiao.service.ComDuplicateService;
+import org.apache.log4j.Logger;
 
 public class ComDuplicateAt extends Action{
 	
@@ -16,7 +17,7 @@ public class ComDuplicateAt extends Action{
 	 */
 	private static final long serialVersionUID = 6058010698613509150L;
 	private ComDuplicateService comDuplicateService;
-	
+	private static Logger logger = Logger.getLogger(ComDuplicateAt.class);
 	public ComDuplicateService getComDuplicateService() {
 		return comDuplicateService;
 	}
@@ -134,12 +135,12 @@ public class ComDuplicateAt extends Action{
 					}
 					logger.info("查询是否存在的数据有多少条："+cdList.getIdfa());
 					if (cdList.getIdfa() != null) {//不是首次下载
-						
-						Logger.info("已存在的数据！");
+
+						logger.info("已存在的数据！");
 					}else {//首次下载
 						logger.info("44444444444444"+cd.getIdfa());
 						boolean ig = this.getComDuplicateService().saveDuplicate(cd);
-						Logger.info("ig="+ig);
+						logger.info("ig="+ig);
 						logger.info("ig:"+ig);
 					}
 					logger.info("aaaaaaaaaaaaaaaaaaaaaa");

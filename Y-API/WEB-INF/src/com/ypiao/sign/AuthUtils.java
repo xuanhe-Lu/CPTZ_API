@@ -2,6 +2,8 @@ package com.ypiao.sign;
 
 import java.io.IOException;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
 import org.commons.lang.LRUMap;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -10,7 +12,7 @@ import com.ypiao.bean.IDModel;
 public class AuthUtils {
 
 	private static Map<String, String> _rds = new LRUMap<String, String>(64);
-
+	private static Logger logger = Logger.getLogger(AuthUtils.class);
 	public static IDModel realName(String name, String idCard) {
 		IDModel m = new IDModel();
 		String key = name + idCard;
@@ -19,7 +21,7 @@ public class AuthUtils {
 			if (body == null) {
 				Document res = Jsoup.connect("https://way.jd.com/idcard/idcard").data("name", name.replace("·", "")).data("cardno", idCard).data("appkey", "65d4b4096b618e60ed3466030a88fc32").timeout(10000).ignoreContentType(true).post();
 				body = res.body().text();
-				Logger.info("AUTH:\t" + body);
+				logger.info("AUTH:\t" + body);
 				_rds.put(key, body); // 缓存数据
 			}
 			JSON obj = new JSON(body);
@@ -36,7 +38,7 @@ public class AuthUtils {
 					m.setBirthday(ds.getString("birthday"));
 					m.setSex(ds.getString("sex"));
 				} else if (cd2.equals("3")) {
-					Logger.info("AUTH=" + body);
+					logger.info("AUTH=" + body);
 				} else {
 					m.setMsg("查询失败:" + cd2);
 				}

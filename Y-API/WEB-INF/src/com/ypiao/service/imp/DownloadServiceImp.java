@@ -13,11 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.ypiao.service.DownloadService;
 import com.ypiao.util.Constant;
 import com.ypiao.util.VeImage;
+import org.apache.log4j.Logger;
 
 public class DownloadServiceImp implements DownloadService {
 
 	private static File DEF_FACER;
 
+	private  static Logger logger = Logger.getLogger(DownloadServiceImp.class);
 	public DownloadServiceImp() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(Constant.ROOTPATH).append("img").append(File.separator).append("def_facer.png");
@@ -26,14 +28,14 @@ public class DownloadServiceImp implements DownloadService {
 
 	@Override
 	public boolean doGet(HttpServletRequest req, HttpServletResponse res, String uri) throws ServletException, IOException {
-		Logger.info("URI:"+uri);
+		logger.info("URI:"+uri);
 		String URI = uri.toLowerCase();
 		Matcher m = Pattern.compile("^/img/(\\d{6})(\\w{7,9}).(jpg|png)$").matcher(URI);
 		if (m.find()) {
 			String dist = m.group(3);
 			StringBuilder sb = new StringBuilder(64);
 			sb.append(Constant.FILEPATH).append("img").append(File.separator).append(m.group(1)).append(File.separator).append(m.group(2));
-			Logger.info("sb:"+sb);
+			logger.info("sb:"+sb);
 			File file = new File(sb.append('.').append(dist).toString());
 			if (dist.equalsIgnoreCase("png")) {
 				return this.toPNG(req, res, file);

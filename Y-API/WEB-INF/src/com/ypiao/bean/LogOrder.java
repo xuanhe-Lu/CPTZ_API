@@ -5,10 +5,13 @@ import java.math.BigDecimal;
 import com.ypiao.util.GMTime;
 import com.ypiao.util.GState;
 import com.ypiao.util.VeRule;
+import org.apache.log4j.Logger;
 
 public class LogOrder implements Serializable {
 
 	private static final long serialVersionUID = 8580510708297348992L;
+
+	private static Logger logger = Logger.getLogger(LogOrder.class);
 
 	private long sid = 0;
 
@@ -60,11 +63,11 @@ public class LogOrder implements Serializable {
 
 	/** 汇总收益信息 */
 	public boolean execute(int ah, int day) {
-		Logger.info("LogOrder.execute，ah:"+ah+"day:"+day);
+		logger.info("LogOrder.execute，ah:"+ah+"day:"+day);
 		long eday = GMTime.valueOf(ah); // 到期时间
-		Logger.info("eday:"+eday);
+		logger.info("eday:"+eday);
 		long tday = (eday - GState.USER_TODAY) / GMTime.MILLIS_PER_DAY;
-		Logger.info("tday:"+tday);
+		logger.info("tday:"+tday);
 		int all = day; // 理财天数
 		if (Integer.MAX_VALUE >= tday) {
 			all = (int) tday;

@@ -7,9 +7,11 @@ import com.ypiao.bean.ComRaws;
 import com.ypiao.data.JPrepare;
 import com.ypiao.service.CfoCompanyService;
 import com.ypiao.util.Table;
+import org.apache.log4j.Logger;
 
 public class CfoCompanyServiceImp extends AConfig implements CfoCompanyService {
 
+	private  static Logger logger = Logger.getLogger(CfoCompanyServiceImp.class);
 	protected void checkSQL() {
 	}
 
@@ -17,7 +19,7 @@ public class CfoCompanyServiceImp extends AConfig implements CfoCompanyService {
 		Connection conn = JPrepare.getConnection();
 		PreparedStatement ps = null;
 		try {
-			Logger.info(r.getRid() + "==" + r.getState());
+			logger.info(r.getRid() + "==" + r.getState());
 			ps = conn.prepareStatement("UPDATE " + Table.TBL_ASSET_RAWS + " SET State=?,Time=?,adM=?,adN=? WHERE Rid=?");
 			ps.setInt(1, r.getState());
 			ps.setLong(2, r.getTime());

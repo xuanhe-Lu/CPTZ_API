@@ -1,5 +1,6 @@
 package com.ypiao.fuiou;
 
+import org.apache.log4j.Logger;
 import org.nuxeo.common.xmap.XMap;
 
 import java.io.ByteArrayInputStream;
@@ -15,6 +16,8 @@ public final class XMapUtil {
 	private static final String xmlHead = xmlHeadStart + "version=\"1.0\" encoding=\"" + charset + "\"?>";
 
 	private static final String encodeStart = "encoding=\"";
+
+	private static Logger logger = Logger.getLogger(XMapUtil.class);
 
 	@SuppressWarnings("unchecked")
 	public static <T> T parseStr2Obj(Class<T> clazz, String spsDataStr) {
@@ -133,7 +136,7 @@ public final class XMapUtil {
 		XMap xmap = new XMap();
 		xmap.register(bean.getClass());
 		String str = xmap.asXmlString(bean, charset, null);
-		Logger.info("返回xml："+str);
+		logger.info("返回xml："+str);
 		return str;
 	}
 

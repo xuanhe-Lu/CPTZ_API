@@ -3,13 +3,14 @@ package com.ypiao.sign;
 import java.io.IOException;
 import com.ypiao.fuiou.BankResponse;
 import com.ypiao.server.SendAtHttp;
+import org.apache.log4j.Logger;
 
 public class Checker {
 
 	private static final String APPKEY = "65d4b4096b618e60ed3466030a88fc32";
 
 	private static final String URL = "https://way.jd.com/DetectionScience/bank4?";
-
+	private static Logger logger = Logger.getLogger(Checker.class);
 	public static final BankResponse bankcard4(String name, String idCard, String cardNo, String mobile) throws IOException {
 		StringBuilder sb = new StringBuilder();
 		try {
@@ -18,9 +19,9 @@ public class Checker {
 			sb.append("&identityNo=").append(idCard);
 			sb.append("&mobileNo=").append(mobile.replace("+86-", ""));
 			sb.append("&appkey=").append(APPKEY);
-			Logger.info(URL + "\t=\t" + sb.toString());
+			logger.info(URL + "\t=\t" + sb.toString());
 			String body = SendAtHttp.post(URL, sb.toString());
-			Logger.info(body);
+			logger.info(body);
 			JSON json = new JSON(body);
 			BankResponse res = new BankResponse();
 			res.setCode(json.get("code"));

@@ -3,6 +3,7 @@ package com.ypiao.service.aps;
 import com.ypiao.bean.AderNote;
 import com.ypiao.bean.Manager;
 import com.ypiao.service.AderNoteService;
+import org.apache.log4j.Logger;
 
 /**
  * Creat by xk on 2018-05-10.
@@ -18,6 +19,8 @@ public class APiAt503 extends Abstract {
 		return aderNoteService;
 	}
 
+	private static Logger logger = Logger.getLogger(APiAt503.class);
+
 	public void setAderNoteService(AderNoteService aderNoteService) {
 		this.aderNoteService = aderNoteService;
 	}
@@ -31,7 +34,7 @@ public class APiAt503 extends Abstract {
 			AderNote aderNote = mgr.getObject(AderNote.class);
 			this.getAderNoteService().save(aderNote);
 		} catch (Exception e) {
-			Logger.info("async failed...");
+			logger.info("async failed...");
 			// 同步保存数据失败
 			mgr.addError(DATA_SAVE_FAILED);
 		}

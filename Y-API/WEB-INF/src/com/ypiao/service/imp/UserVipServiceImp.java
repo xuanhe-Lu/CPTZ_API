@@ -11,12 +11,14 @@ package com.ypiao.service.imp;
 import com.ypiao.bean.UserVip;
 import com.ypiao.data.JPrepare;
 import com.ypiao.service.UserVipService;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class UserVipServiceImp implements UserVipService {
+    private static Logger logger = Logger.getLogger(UserVipServiceImp.class);
     /*
      * @NAME:queryVipLog
      * @DESCRIPTION:根据UID查询用户会员信息
@@ -26,7 +28,7 @@ public class UserVipServiceImp implements UserVipService {
      */
     @Override
     public UserVip queryVipLog(long uid,long endTime ) throws Exception {
-        Logger.info("queryVipLog.uid"+uid);
+        logger.info("queryVipLog.uid"+uid);
         Connection conn = JPrepare.getConnection();
         PreparedStatement ps = null;
         UserVip userVip = new UserVip();

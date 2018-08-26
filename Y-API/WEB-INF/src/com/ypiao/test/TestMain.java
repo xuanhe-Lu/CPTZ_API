@@ -12,10 +12,12 @@ import com.ypiao.sign.JSON;
 import com.ypiao.util.GMTime;
 import com.ypiao.util.MonthFound;
 import com.ypiao.util.VeStr;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 public class TestMain {
+private static Logger logger = Logger.getLogger(TestMain.class);
 
 	public static void main (String args[]) throws Exception {
 //		dateFormat();
@@ -83,12 +85,12 @@ public class TestMain {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date date = simpleDateFormat.parse(data2);
 		long ts = date.getTime();
-		Logger.info(ts);
+		logger.info(ts);
 		//时间戳转换为时间
 		java.util.Date date1 = new java.util.Date(ts1);
 		SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String da = simpleDateFormat1.format(date1);
-		Logger.info(da);
+		logger.info(da);
 	}
 
 	private static void testSql() throws ClassNotFoundException, SQLException {
@@ -107,11 +109,11 @@ public class TestMain {
 
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String str = df.format(Date.valueOf("2018-07-16"));
-		Logger.info(java.sql.Timestamp.valueOf(str));
+		logger.info(java.sql.Timestamp.valueOf(str));
 		ps.setTimestamp(1, java.sql.Timestamp.valueOf(str));
 		ps.setString(2,"test2");
 		int b = ps.executeUpdate();
-		Logger.info(b);
+		logger.info(b);
 
 
 		ps =conn.prepareStatement("select time  from user_atten where id =1");
@@ -119,7 +121,7 @@ public class TestMain {
 		while(rs.next()){
 			Timestamp time = rs.getTimestamp(1);
 			String str1 = time.toString();
-			Logger.info("!!!!!"+str1			);
+			logger.info("!!!!!"+str1			);
 
 		}
 	}
@@ -127,7 +129,7 @@ public class TestMain {
 	private static void dateFormat() {
 		try {
 			Date regDate = (Date) new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" ).parse(GMTime.format(8797468456456L, GMTime.CHINA));
-			Logger.info(regDate.toString());
+			logger.info(regDate.toString());
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

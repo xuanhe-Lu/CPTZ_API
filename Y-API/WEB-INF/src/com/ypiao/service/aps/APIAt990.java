@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import com.ypiao.bean.Manager;
 import com.ypiao.bean.RegionInfo;
 import com.ypiao.service.SiteAreaService;
+import org.apache.log4j.Logger;
 
 public class APIAt990 extends Abstract {
 
@@ -12,13 +13,13 @@ public class APIAt990 extends Abstract {
 	public SiteAreaService getSiteAreaService() {
 		return siteAreaService;
 	}
-
+	private static Logger logger = Logger.getLogger(APIAt990.class);
 	public void setSiteAreaService(SiteAreaService siteAreaService) {
 		this.siteAreaService = siteAreaService;
 	}
 
 	public void remove(Manager mgr) {
-		Logger.info(mgr.getString("code"));
+		logger.info(mgr.getString("code"));
 	}
 
 	public void sync(Manager mgr) {

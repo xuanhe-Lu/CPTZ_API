@@ -265,7 +265,7 @@ public class OnRecharge extends Action {
         BigDecimal rmb = this.getBigDecimal("rmb");
         try {
             UserSession us = this.getUserSession();
-            Logger.info(us.getBinds() + "\t" + us.getReals() + "==" + rmb);
+            logger.info(us.getBinds() + "\t" + us.getReals() + "==" + rmb);
             if (us.getBinds() != STATE_DISABLE) {
                 json.addError(this.getText("user.error.070"));
                 logger.info("json:" + json.toString());
