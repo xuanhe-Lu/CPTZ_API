@@ -203,12 +203,12 @@ public class OnUserVip extends Action {
                     rmbUps.setTime(System.currentTimeMillis());
                     this.getUserMoneyService().save(rmbUps);
                     //购买会员增加邀请人的猫粮
-                    if(levelUps == 2){
-                        logger.info(String.format("该用户【%s】是白银会员", sUps.getUid()));
-                        this.getUserCatService().updateCatFood(sUps.getUid(),400,"邀请好友["+uid+"]购买会员得猫粮");
-                    }else if(levelUps == 3){
-                        logger.info(String.format("该用户【%s】是黄金会员", sUps.getUid()));
-                        this.getUserCatService().updateCatFood(sUps.getUid(),500,"邀请好友["+uid+"]购买会员得猫粮");
+                    if(level == 2){
+                        logger.info(String.format("该用户【%s】购买的是白银会员", uid));
+                        this.getUserCatService().updateCatFood(sUps.getUid(),4500,"邀请好友["+uid+"]购买会员得猫粮");
+                    }else if(level == 3){
+                        logger.info(String.format("该用户【%s】购买的是是黄金会员", uid));
+                        this.getUserCatService().updateCatFood(sUps.getUid(),45000,"邀请好友["+uid+"]购买会员得猫粮");
                     }
                 } else {
                     logger.info(String.format("[%s]不是会员,无法享受会员返现奖励", uid));
